@@ -1,0 +1,18 @@
+.HamburgerMenu {
+  width: 28px;
+  height: 4px;
+  background-color: $text-light;
+  left: -3rem;
+  position: absolute;
+  // margin-left: auto;
+  /* right: -25px; */
+  /* display: none; */
+  opacity: 1;
+  transition-delay: 1s;
+  transition: all 0.3s ease-in-out;
+  font-size: 2rem;
+}
+
+.HamburgerMenu:hover {
+  cursor: pointer;
+}

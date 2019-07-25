@@ -1,0 +1,202 @@
+body {
+  margin: 0; }
+
+.Home .Home-top-segment {
+  background: #1b1c1d;
+  min-height: 700px;
+  padding: 1em 0;
+  color: rgba(255, 255, 255, 0.9);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .Home .Home-top-segment .icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: auto; }
+    .Home .Home-top-segment .icon-container .icon-full {
+      width: 10rem;
+      height: auto;
+      display: block; }
+    .Home .Home-top-segment .icon-container .motto {
+      text-transform: uppercase;
+      margin-top: 1rem;
+      line-height: 0.9; }
+      .Home .Home-top-segment .icon-container .motto span {
+        display: block;
+        font-family: "Poppins", sans-serif; }
+      .Home .Home-top-segment .icon-container .motto .line1 {
+        font-weight: 600;
+        font-size: 4rem; }
+      .Home .Home-top-segment .icon-container .motto .line2 {
+        font-weight: 600;
+        font-size: 4.5rem;
+        margin-bottom: 0.7rem; }
+      .Home .Home-top-segment .icon-container .motto .line3 {
+        font-size: 1rem;
+        font-weight: 300;
+        text-align: center;
+        letter-spacing: 0.8px; }
+
+.Navbar {
+  font-size: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #1b1c1d;
+  padding-left: 1rem;
+  width: 100%;
+  top: 0;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  position: relative; }
+  .Navbar .Navbar-icon-container {
+    width: 3rem;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    margin-right: 1rem; }
+    .Navbar .Navbar-icon-container .icon2 {
+      width: 2rem;
+      height: auto;
+      display: block; }
+
+.Navbar-header {
+  display: inline-block; }
+
+/* .Navbar * {
+    display: inline-block;
+  } */
+.Navbar-links-container {
+  display: inline-block;
+  position: absolute;
+  left: 3rem;
+  transition: all 0.3s ease-in-out; }
+
+.Navbar-burger {
+  left: -3rem;
+  position: absolute;
+  /* right: -25px; */
+  color: rgba(255, 255, 255, 0.9);
+  /* display: none; */
+  opacity: 1;
+  transition-delay: 1s;
+  transition: all 0.3s ease-in-out;
+  font-size: 2rem; }
+
+.Navbar-burger:hover {
+  cursor: pointer; }
+
+.Navbar h1 {
+  font-size: 1.75rem;
+  margin-right: 2rem;
+  color: #f8f8f0;
+  display: inline-block; }
+
+.Navbar-link {
+  text-decoration: none;
+  padding-bottom: 0.45714286em;
+  margin-right: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.1s ease-in-out; }
+
+.Navbar-link:hover {
+  color: #f8f8f0; }
+
+.NavLink-active {
+  /* border-bottom: 1px solid aliceblue; */
+  color: #f8f8f0;
+  border-bottom: 2px #fff solid; }
+
+.Navbutton-container {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 3rem; }
+
+@media screen and (max-width: 700px) {
+  .Navbar-links-container {
+    /* display: none; */
+    left: -800px;
+    /* opacity: 0; */ }
+  .Navbar-burger {
+    left: 3rem;
+    opacity: 1; } }
+
+.Dropdown-nav-hide {
+  display: none; }
+
+.DropdownNav {
+  z-index: 100;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: 3rem;
+  bottom: -9rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: -1px 0 0 0 #d4d4d5;
+  border-radius: 0.3rem; }
+
+.DropdownNav-close {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 1rem;
+  color: #efefef;
+  font-size: 0.8rem; }
+
+.DropdownNav:hover {
+  cursor: pointer; }
+
+.DropdownLink {
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  /* margin-right: 0.75rem; */
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.87);
+  transition: all 0.3s ease-in-out; }
+  .DropdownLink:hover {
+    background: rgba(0, 0, 0, 0.05); }
+  .DropdownLink-last {
+    margin-bottom: 0; }
+
+.DropdownLink-active {
+  border-bottom: rgba(0, 0, 0, 0.87); }
+
+.NavButton {
+  font-family: "Lato", sans-serif;
+  border: 2px solid white;
+  padding: 0.4rem 0.9rem;
+  background: transparent none;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.28571429rem;
+  margin-right: 0.4rem;
+  transition: all 0.2s ease; }
+  .NavButton:hover {
+    color: #1b1c1d;
+    background-color: rgba(255, 255, 255, 0.9); }
+
+.HamburgerMenu {
+  width: 28px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.9);
+  left: -3rem;
+  position: absolute;
+  /* right: -25px; */
+  /* display: none; */
+  opacity: 1;
+  transition-delay: 1s;
+  transition: all 0.3s ease-in-out;
+  font-size: 2rem; }
+
+.HamburgerMenu:hover {
+  cursor: pointer; }

@@ -1,0 +1,18 @@
+.NavButton {
+  font-family: $font-lato;
+  border: 2px solid white;
+  padding: 0.4rem 0.9rem;
+  background: transparent none;
+  color: $text-light;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.28571429rem;
+  margin-right: 0.4rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: $bg-dark;
+    background-color: $text-light;
+  }
+}

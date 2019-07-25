@@ -1,0 +1,60 @@
+.Home {
+  .Home-top-segment {
+    background: $bg-dark;
+    min-height: 700px;
+    padding: 1em 0;
+    color: $text-light;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon-container {
+      // border: 1px solid red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 400px;
+      height: auto;
+
+      .icon-full {
+        width: 10rem;
+        height: auto;
+        // border: 1px solid blue;
+        display: block;
+      }
+
+      .motto {
+        text-transform: uppercase;
+        // border: 1px solid green;
+        margin-top: 1rem;
+        line-height: 0.9;
+        // border: 1px solid red;
+        // text-align: justify;
+        // text-justify: inter-word;
+
+        & span {
+          display: block;
+          font-family: $font-poppins;
+        }
+        .line1 {
+          font-weight: $poppins-semi-bold;
+          font-size: 4rem;
+        }
+        .line2 {
+          font-weight: $poppins-semi-bold;
+          font-size: 4.5rem;
+          margin-bottom: 0.7rem;
+        }
+
+        .line3 {
+          font-size: 1rem;
+          font-weight: 300;
+          text-align: center;
+          // text-justify: inter-word;
+          letter-spacing: 0.8px;
+        }
+      }
+    }
+  }
+}
