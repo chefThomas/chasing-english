@@ -1,18 +1,68 @@
-.HamburgerMenu {
-  width: 28px;
-  height: 4px;
-  background-color: $text-light;
-  left: -3rem;
-  position: absolute;
-  // margin-left: auto;
-  /* right: -25px; */
-  /* display: none; */
-  opacity: 1;
-  transition-delay: 1s;
-  transition: all 0.3s ease-in-out;
-  font-size: 2rem;
+.Hamburger-container {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  left: -4rem;
+  transition: 0.5s;
+  cursor: pointer;
+
+  .top {
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: $text-light;
+    top: 15%;
+    transition: all 0.5s ease-in-out;
+
+    &-transparent {
+      opacity: 0;
+    }
+  }
+  .center1 {
+    @include hamburger-rotate();
+  }
+
+  .center1-rotate {
+    @include hamburger-rotate(-45deg);
+  }
+
+  .center2 {
+    @include hamburger-rotate();
+  }
+
+  .center2-rotate {
+    @include hamburger-rotate(45deg);
+  }
+
+  .bottom {
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: $text-light;
+    bottom: 15%;
+    transition: all 0.5s;
+  }
 }
 
-.HamburgerMenu:hover {
-  cursor: pointer;
+// .Hamburger-container:hover .center1 {
+//   transform: rotate(45deg);
+//   background: green;
+// }
+// .Hamburger-container:hover .center2 {
+//   transform: rotate(-45deg);
+//   background: green;
+// }
+
+// .Hamburger-container:hover .top {
+//   opacity: 0;
+// }
+
+// .Hamburger-container:hover .bottom {
+//   opacity: 0;
+// }
+
+@media screen and (max-width: 700px) {
+  .Hamburger-container {
+    left: 1rem;
+  }
 }

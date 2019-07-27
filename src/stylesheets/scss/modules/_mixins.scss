@@ -1,0 +1,9 @@
+@mixin hamburger-rotate($degrees: 0deg) {
+  position: absolute;
+  width: 30px;
+  height: 3px;
+  background: $text-light;
+  top: 50%;
+  transform: translateY(-1.5px) rotate($degrees);
+  transition: all 0.5s;
+}

@@ -7,14 +7,12 @@
   width: 100%;
   top: 0;
   height: 5rem;
-  // border: 1px solid green;
   display: flex;
   align-items: center;
   position: relative;
 
   .Navbar-icon-container {
     width: 3rem;
-    // border: 1px solid red;
     height: auto;
     display: flex;
     justify-content: center;
@@ -30,25 +28,18 @@
 .Navbar-header {
   display: inline-block;
 }
-/* .Navbar * {
-    display: inline-block;
-  } */
 
 .Navbar-links-container {
   display: inline-block;
   position: absolute;
   left: 3rem;
-  // margin-left: auto;
   transition: all 0.3s ease-in-out;
 }
 
 .Navbar-burger {
   left: -3rem;
   position: absolute;
-  // margin-left: auto;
-  /* right: -25px; */
   color: $text-light;
-  /* display: none; */
   opacity: 1;
   transition-delay: 1s;
   transition: all 0.3s ease-in-out;
@@ -85,7 +76,6 @@
 }
 
 .Navbutton-container {
-  // border: 1px solid purple;
   width: 200px;
   display: flex;
   justify-content: center;
@@ -96,13 +86,6 @@
 
 @media screen and (max-width: 700px) {
   .Navbar-links-container {
-    /* display: none; */
     left: -800px;
-    /* opacity: 0; */
-  }
-
-  .Navbar-burger {
-    left: 3rem;
-    opacity: 1;
   }
 }
