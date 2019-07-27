@@ -12,11 +12,11 @@
     height: 3px;
     background: $text-light;
     top: 15%;
-    transition: all 0.5s ease-in-out;
+    transition: all 1s;
+  }
 
-    &-transparent {
-      opacity: 0;
-    }
+  .transparent-bar {
+    opacity: 0;
   }
   .center1 {
     @include hamburger-rotate();
@@ -40,7 +40,7 @@
     height: 3px;
     background: $text-light;
     bottom: 15%;
-    transition: all 0.5s;
+    transition: all 1s;
   }
 }
 

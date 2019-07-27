@@ -21,9 +21,9 @@ class Navbar extends Component {
     this.setState({ showDropdownNav: !this.state.showDropdownNav });
   };
 
-  // closes on screen resize
+  // closes when screen width increased greater than 700px from less.
   closeDropdown = e => {
-    this.setState({ showNav: false });
+    this.setState({ showDropdownNav: false });
   };
 
   render() {

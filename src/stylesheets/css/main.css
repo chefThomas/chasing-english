@@ -188,9 +188,9 @@ body {
     height: 3px;
     background: rgba(255, 255, 255, 0.9);
     top: 15%;
-    transition: all 0.5s ease-in-out; }
-    .Hamburger-container .top-transparent {
-      opacity: 0; }
+    transition: all 1s; }
+  .Hamburger-container .transparent-bar {
+    opacity: 0; }
   .Hamburger-container .center1 {
     position: absolute;
     width: 30px;
@@ -229,7 +229,7 @@ body {
     height: 3px;
     background: rgba(255, 255, 255, 0.9);
     bottom: 15%;
-    transition: all 0.5s; }
+    transition: all 1s; }
 
 @media screen and (max-width: 700px) {
   .Hamburger-container {
