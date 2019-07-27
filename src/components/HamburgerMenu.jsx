@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import "../stylesheets/css/main.css";
 
-export default class HamburgerMenu extends Component {
+class HamburgerMenu extends Component {
   handleClick = e => {
     this.props.toggleDropdown();
   };
 
   render() {
     const { showDropdownNav } = this.props;
-    console.log(showDropdownNav);
-
     return (
       <div className="Hamburger-container" onClick={this.handleClick}>
         <div className={showDropdownNav ? "transparent-bar" : "top"} />
@@ -20,3 +18,5 @@ export default class HamburgerMenu extends Component {
     );
   }
 }
+
+export default HamburgerMenu;

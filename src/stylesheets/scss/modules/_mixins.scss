@@ -7,3 +7,7 @@
   transform: translateY(-1.5px) rotate($degrees);
   transition: all 0.5s;
 }
+
+@mixin thin-bottom-border() {
+  border-bottom: 1px solid $border-thin-dark;
+}

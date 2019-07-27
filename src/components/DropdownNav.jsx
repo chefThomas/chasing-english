@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
+
 import "../stylesheets/css/main.css";
 
-export default class DropdownNav extends Component {
+class DropdownNav extends Component {
   handleCloseDropdown = e => {
     if (window.innerWidth > 700) {
       this.props.closeDropdown();
@@ -21,6 +22,7 @@ export default class DropdownNav extends Component {
     return (
       <div className={this.props.display}>
         <NavLink
+          onClick={this.handleClick}
           exact
           className="DropdownLink home-link"
           activeClassName="DropdownLink-active"
@@ -29,6 +31,7 @@ export default class DropdownNav extends Component {
           Home
         </NavLink>
         <NavLink
+          onClick={this.handleClick}
           exact
           className="DropdownLink info-link"
           activeClassName="DropdownLink-active"
@@ -37,6 +40,7 @@ export default class DropdownNav extends Component {
           Services
         </NavLink>
         <NavLink
+          onClick={this.handleClick}
           exact
           className="DropdownLink schedule-link"
           activeClassName="DropdownLink-active"
@@ -45,6 +49,7 @@ export default class DropdownNav extends Component {
           Book
         </NavLink>
         <NavLink
+          onClick={this.handleClick}
           exact
           className="DropdownLink abour-link"
           activeClassName="DropdownLink-active"
@@ -56,3 +61,5 @@ export default class DropdownNav extends Component {
     );
   }
 }
+
+export default withRouter(DropdownNav);
