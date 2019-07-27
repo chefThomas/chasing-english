@@ -41,6 +41,7 @@ body {
         letter-spacing: 0.8px; }
 
 .Navbar {
+  z-index: 1000;
   font-size: 1rem;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #1b1c1d;
@@ -117,47 +118,57 @@ body {
     left: -800px; } }
 
 .Dropdown-nav-hide {
-  display: none; }
-
-.DropdownNav {
-  z-index: 100;
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  left: 3rem;
+  align-items: flex-start;
+  width: 50%;
   bottom: -9rem;
-  padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: -1px 0 0 0 #d4d4d5;
-  border-radius: 0.3rem; }
+  left: -9rem;
+  padding-left: 1rem;
+  background-color: #1b1c1d;
+  opacity: 0;
+  transition: all 0.5s; }
 
-.DropdownNav-close {
+.DropdownNav {
   position: absolute;
-  bottom: 0.75rem;
-  right: 1rem;
-  color: #efefef;
-  font-size: 0.8rem; }
-
-.DropdownNav:hover {
-  cursor: pointer; }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  bottom: -9rem;
+  left: 1rem;
+  padding-left: 1rem;
+  background-color: #1b1c1d;
+  transition: all 0.5s; }
 
 .DropdownLink {
+  position: relative;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 2px;
-  /* margin-right: 0.75rem; */
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.87);
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
   transition: all 0.3s ease-in-out; }
-  .DropdownLink:hover {
-    background: rgba(0, 0, 0, 0.05); }
-  .DropdownLink-last {
-    margin-bottom: 0; }
 
-.DropdownLink-active {
-  border-bottom: rgba(0, 0, 0, 0.87); }
+.DropdownLink:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -6px;
+  left: 0;
+  background: rgba(255, 255, 255, 0.9);
+  visibility: hidden;
+  border-radius: 1px;
+  transform: scaleX(0);
+  transition: 0.25s linear; }
+
+.DropdownLink:hover:before,
+.DropdownLink:focus:before {
+  visibility: visible;
+  transform: scaleX(1); }
 
 .NavButton {
   font-family: "Lato", sans-serif;

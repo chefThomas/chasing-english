@@ -19,14 +19,10 @@ export default class DropdownNav extends Component {
 
   render() {
     return (
-      <div className={this.props.class}>
-        <i
-          onClick={this.handleClick}
-          className="DropdownNav-close fas fa-times"
-        />
+      <div className={this.props.display}>
         <NavLink
           exact
-          className="DropdownLink"
+          className="DropdownLink home-link"
           activeClassName="DropdownLink-active"
           to="/"
         >
@@ -34,7 +30,7 @@ export default class DropdownNav extends Component {
         </NavLink>
         <NavLink
           exact
-          className="DropdownLink"
+          className="DropdownLink info-link"
           activeClassName="DropdownLink-active"
           to="/info"
         >
@@ -42,7 +38,7 @@ export default class DropdownNav extends Component {
         </NavLink>
         <NavLink
           exact
-          className="DropdownLink"
+          className="DropdownLink schedule-link"
           activeClassName="DropdownLink-active"
           to="/schedule"
         >
@@ -50,7 +46,7 @@ export default class DropdownNav extends Component {
         </NavLink>
         <NavLink
           exact
-          className="DropdownLink DropdownLink-last"
+          className="DropdownLink abour-link"
           activeClassName="DropdownLink-active"
           to="/about"
         >

@@ -1,9 +1,9 @@
 .Navbar {
+  z-index: 1000;
   font-size: 1rem;
   font-family: Arial, Helvetica, sans-serif;
   background-color: $bg-dark;
   padding-left: 1rem;
-
   width: 100%;
   top: 0;
   height: 5rem;

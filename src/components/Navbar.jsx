@@ -31,13 +31,13 @@ class Navbar extends Component {
     return (
       <div className="Navbar">
         <DropdownNav
-          class={showDropdownNav ? "DropdownNav" : "Dropdown-nav-hide"}
+          display={showDropdownNav ? "DropdownNav" : "Dropdown-nav-hide"}
           closeDropdown={this.closeDropdown}
         />
         <div className="Navbar-links-container">
           <NavLink
             exact
-            className="Navbar-link"
+            className="Navbar-link "
             activeClassName="NavLink-active"
             to="/"
           >
@@ -69,7 +69,7 @@ class Navbar extends Component {
           </NavLink>
         </div>
         <HamburgerMenu
-          showDropdownNav={this.state.showDropdownNav}
+          showDropdownNav={showDropdownNav}
           toggleDropdown={this.toggleDropdown}
         />
         <div className="Navbutton-container">
