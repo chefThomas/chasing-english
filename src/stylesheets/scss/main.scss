@@ -5,3 +5,27 @@
 @import "./partials/DropdownNav";
 @import "./partials/NavButton";
 @import "./partials/HamburgerMenu";
+@import "./partials/TextBlock";
+@import "./partials/Testimonial";
+@import "./partials/Image";
+
+// paste back into _Home.scss
+
+// .Home-mid-segment {
+//   border: 1px solid green;
+//   .what-we-do-container {
+//     border: 1px solid red;
+//     .text-and-image-container {
+//       border: 1px solid blue;
+//       display: grid;
+//       width: 90%;
+//       margin-left: auto;
+//       margin-right: auto;
+//       grid-template-columns: repeat(12, 1fr);
+//       grid-column-gap: 0.5rem;
+//       .col-8-lg {
+//         grid-column: 1/13;
+//       }
+//     }
+//   }
+// }

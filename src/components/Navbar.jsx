@@ -73,8 +73,16 @@ class Navbar extends Component {
           toggleDropdown={this.toggleDropdown}
         />
         <div className="Navbutton-container">
-          <NavButton label="Log in" to="/schedule" />
-          <NavButton label="Sign up" to="/schedule" />
+          <NavButton
+            class="NavButton dark-on-dark navbar"
+            label="Log in"
+            to="/schedule"
+          />
+          <NavButton
+            class="NavButton dark-on-dark navbar"
+            label="Sign up"
+            to="/schedule"
+          />
         </div>
       </div>
     );

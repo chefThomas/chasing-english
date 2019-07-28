@@ -10,7 +10,7 @@ class NavButton extends Component {
 
   render() {
     return (
-      <button className="NavButton" onClick={this.onClick}>
+      <button className={this.props.class} onClick={this.onClick}>
         {this.props.label}
       </button>
     );

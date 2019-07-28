@@ -1,0 +1,22 @@
+.TextBlock {
+  //   margin-left: auto;
+  //   margin-right: auto;
+  //   border: 1px solid red;
+  //   text-align: center;
+  color: $text-dark;
+  padding: 0 1rem;
+
+  &-header {
+    font-size: $text-block-header;
+    font-family: $font-lato;
+    margin-bottom: 0.5rem;
+    // text-align: left;
+  }
+
+  &-body {
+    // font-size: $text-block-header;
+    font-family: $font-lato;
+    font-size: $text-paragraph-body;
+    text-align: justify;
+  }
+}

@@ -1,18 +1,47 @@
 .NavButton {
   font-family: $font-lato;
-  border: 2px solid white;
-  padding: 0.4rem 0.9rem;
-  background: transparent none;
-  color: $text-light;
   font-size: 1rem;
+  padding: 0.4rem 0.9rem;
   cursor: pointer;
   font-weight: 700;
   border-radius: 0.28571429rem;
-  margin-right: 0.4rem;
   transition: all 0.2s ease;
+}
+
+.dark-on-dark {
+  border: 2px solid white;
+  background: transparent none;
+  color: $text-light;
 
   &:hover {
     color: $bg-dark;
     background-color: $text-light;
+  }
+}
+
+.navbar {
+  margin-right: 0.4rem;
+}
+
+.light-on-light {
+  background: #e0e1e2 none;
+  border: none;
+  padding: 0.78571429em 1.5em 0.78571429em;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: #cacbcd;
+    color: $text-dark;
+  }
+}
+
+.button-mid-segment {
+  color: $text-medium;
+  width: 12rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  &:hover {
+    color: $text-dark;
   }
 }

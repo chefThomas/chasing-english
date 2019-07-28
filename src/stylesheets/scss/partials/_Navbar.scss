@@ -59,10 +59,11 @@
 
 .Navbar-link {
   text-decoration: none;
-  padding-bottom: 0.45714286em;
-  margin-right: 2rem;
+  padding-bottom: 0.1em;
+  margin-right: 1rem;
   color: rgba(255, 255, 255, 0.7);
   transition: all 0.1s ease-in-out;
+  font-size: 1.1rem;
 }
 
 .Navbar-link:hover {
@@ -70,7 +71,6 @@
 }
 
 .NavLink-active {
-  /* border-bottom: 1px solid aliceblue; */
   color: rgba(248, 248, 240, 1);
   border-bottom: 2px #fff solid;
 }
