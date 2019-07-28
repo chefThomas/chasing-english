@@ -44,7 +44,7 @@ class Home extends Component {
               </div>
             </div>
             <NavButton
-              class="NavButton light-on-light button-mid-segment"
+              class="NavButton light-on-light center"
               label="Find Out More"
               to="/info"
             />
@@ -63,6 +63,11 @@ class Home extends Component {
               type="Student"
             />
           </div>
+          <NavButton
+            class="NavButton light-on-light fixed-width center"
+            label="View Services"
+            to="/info"
+          />
         </section>
         <footer>footer</footer>
       </div>

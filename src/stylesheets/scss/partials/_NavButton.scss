@@ -23,11 +23,16 @@
   margin-right: 0.4rem;
 }
 
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .light-on-light {
   background: #e0e1e2 none;
   border: none;
   padding: 0.78571429em 1.5em 0.78571429em;
-  transition: all 0.3s;
+  color: $text-medium;
 
   &:hover {
     background-color: #cacbcd;
@@ -35,13 +40,6 @@
   }
 }
 
-.button-mid-segment {
-  color: $text-medium;
-  width: 12rem;
-  margin-left: auto;
-  margin-right: auto;
-
-  &:hover {
-    color: $text-dark;
-  }
+.fixed-width {
+  width: 10rem;
 }

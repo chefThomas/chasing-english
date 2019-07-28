@@ -71,7 +71,7 @@
 
       .text-and-image-container {
         @include grid;
-        margin: 5rem auto 2rem auto;
+        margin: 5rem auto 5rem auto;
 
         .text-container {
           display: flex;
@@ -101,13 +101,15 @@
   }
 
   .testimonials {
+    display: flex;
+    flex-direction: column;
     .header {
       @include section-header-light-bg;
-      margin: 2rem 2rem;
+      margin: 3rem 2rem;
     }
     .testimonials-grid-container {
       @include grid;
-      margin: 3rem auto 2rem auto;
+      margin: 0rem auto 5rem auto;
 
       .Testimonial {
         grid-column: span 12;
