@@ -1,0 +1,33 @@
+.ContactForm {
+  display: flex;
+  flex-direction: column;
+  // max-width: 400px;
+  //   border: 1px solid red;
+
+  .text-input {
+    margin-bottom: 1rem;
+    font-family: $font-lato;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.2rem;
+  }
+
+  .text-field {
+    margin-bottom: 3rem;
+  }
+
+  & > label {
+    margin-bottom: 0.3rem;
+  }
+
+  .ContactForm-header {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .ContactForm-submit {
+    margin-left: auto;
+    margin-right: auto;
+    width: 130px;
+  }
+}
