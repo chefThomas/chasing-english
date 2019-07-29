@@ -1,8 +1,4 @@
 .TextBlock {
-  //   margin-left: auto;
-  //   margin-right: auto;
-  //   border: 1px solid red;
-  //   text-align: center;
   color: $text-dark;
   padding: 0 1rem;
 
@@ -10,6 +6,7 @@
     font-size: $text-block-header;
     font-family: $font-lato;
     margin-bottom: 0.5rem;
+    margin-top: 0;
     // text-align: left;
   }
 

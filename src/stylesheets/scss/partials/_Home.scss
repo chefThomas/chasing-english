@@ -7,6 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 5rem;
 
     .icon-container {
       display: flex;
@@ -52,6 +53,11 @@
 
   .Home-mid-segment {
     background: $bg-light;
+
+    .section-header {
+      @include section-header-light-bg;
+      margin: 0 0 0 1em;
+    }
     .what-we-do-container {
       padding-bottom: 7rem;
       display: flex;
@@ -61,7 +67,7 @@
 
       .text-and-image-container {
         @include grid;
-        margin: 5rem auto 5rem auto;
+        margin: 0 auto 5rem auto;
 
         .text-container {
           display: flex;
@@ -95,7 +101,7 @@
     flex-direction: column;
     padding-bottom: 7rem;
 
-    .header {
+    .section-header {
       @include section-header-light-bg;
       margin: 3rem 2rem;
     }

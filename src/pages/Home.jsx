@@ -29,15 +29,16 @@ class Home extends Component {
           </div>
         </section>
         <section id="mission-section" className="Home-mid-segment">
+          <h2 className="section-header">mission</h2>
           <div className="what-we-do-container">
             <div className="text-and-image-container">
               <div className="text-container">
                 <TextBlock
-                  header={"Helping students grow"}
+                  header={"Help students grow"}
                   text={body.body + body.body}
                 />
                 <TextBlock
-                  header={"Helping students succeed"}
+                  header={"Help students succeed"}
                   text={body.body + body.body}
                 />
               </div>
@@ -53,7 +54,7 @@ class Home extends Component {
           </div>
         </section>
         <section id="testimonials-section" className="testimonials">
-          <h2 className="header">testimonials</h2>
+          <h2 className="section-header">testimonials</h2>
           <div className="testimonials-grid-container">
             <Testimonial name="Jill Withers" body={body.body} type="Parent" />
             <Testimonial name="Jane Thompson" body={body.body} type="Student" />
