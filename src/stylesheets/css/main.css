@@ -68,6 +68,10 @@ body {
         text-align: center;
         letter-spacing: 0.8px; }
 
+@media screen and (max-width: 900px) {
+  .Home .Home-mid-segment .section-header {
+    margin-bottom: 0; } }
+
 .Home .Home-mid-segment .what-we-do-container {
   display: flex;
   flex-direction: column;
@@ -119,6 +123,8 @@ body {
         justify-content: center; }
         .Home .services .service-card-container .img-container {
           width: 35%; } }
+  .Home .services .NavButton {
+    margin-top: 2.5rem; }
 
 .Home .testimonials {
   display: flex;
@@ -134,6 +140,10 @@ body {
     @media screen and (min-width: 1100px) {
       .Home .testimonials .testimonials-grid-container .Testimonial {
         grid-column: span 4; } }
+
+.Home .footer-section {
+  margin-bottom: 0;
+  padding-bottom: 0; }
 
 .Home .footer {
   background: #1b1c1d;

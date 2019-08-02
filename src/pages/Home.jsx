@@ -116,7 +116,7 @@ class Home extends Component {
           </div>
         </section>
         {/* FOOTER */}
-        <section id="footer-section">
+        <section id="footer-section" className="footer-section">
           <footer className="footer">
             <div className="site-map-grid">
               <div className="home-page-map footer-col">
