@@ -10,9 +10,14 @@
   transition: all 0.5s;
 }
 
-// borders
+// borders and shadows
 @mixin thin-bottom-border() {
   border-bottom: 1px solid $border-thin-dark;
+}
+
+@mixin card-border() {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #efefef;
 }
 
 // headers
@@ -29,6 +34,6 @@
   width: 100%;
   grid-template-columns: repeat(12, 1fr);
   grid-column-gap: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 3rem;
+  padding-right: 2rem;
 }

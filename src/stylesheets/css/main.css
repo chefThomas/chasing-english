@@ -4,15 +4,40 @@
 body {
   margin: 0; }
 
+.center {
+  margin-left: auto;
+  margin-right: auto; }
+
+body {
+  font-family: "Lato", sans-serif; }
+
+.Home .section-header {
+  font-size: 2.25rem;
+  font-family: "Lato", sans-serif;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.87);
+  margin: 0 0 3rem 1em; }
+
+.Home section {
+  margin-bottom: 5rem;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+  padding-bottom: 7rem;
+  width: 100%; }
+
+.Home section.dark {
+  background-color: #1b1c1d;
+  color: rgba(255, 255, 255, 0.9); }
+
+.Home section.light {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87); }
+
 .Home .Home-top-segment {
-  background: #1b1c1d;
   min-height: 700px;
-  color: rgba(255, 255, 255, 0.9);
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 5rem; }
+  align-items: center; }
   .Home .Home-top-segment .icon-container {
     display: flex;
     flex-direction: column;
@@ -43,66 +68,67 @@ body {
         text-align: center;
         letter-spacing: 0.8px; }
 
-.Home .Home-mid-segment {
-  background: #fff; }
-  .Home .Home-mid-segment .section-header {
-    font-size: 2.25rem;
-    font-family: "Lato", sans-serif;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.87);
-    margin: 0 0 3rem 1em; }
-  .Home .Home-mid-segment .what-we-do-container {
-    padding-bottom: 7rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-bottom: 1px solid rgba(34, 36, 38, 0.15); }
-    .Home .Home-mid-segment .what-we-do-container .text-and-image-container {
-      display: grid;
-      width: 100%;
-      grid-template-columns: repeat(12, 1fr);
-      grid-column-gap: 1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      margin: 0 auto 5rem auto; }
+.Home .Home-mid-segment .what-we-do-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid 1px solid rgba(34, 36, 38, 0.15); }
+  .Home .Home-mid-segment .what-we-do-container .text-and-image-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: 1rem;
+    padding-left: 3rem;
+    padding-right: 2rem;
+    margin: 0 auto 5rem auto; }
+    .Home .Home-mid-segment .what-we-do-container .text-and-image-container .text-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      grid-column: 1/7; }
+    .Home .Home-mid-segment .what-we-do-container .text-and-image-container .img-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      grid-column: 8/13; }
+    @media screen and (max-width: 900px) {
       .Home .Home-mid-segment .what-we-do-container .text-and-image-container .text-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        grid-column: 1/7; }
+        grid-column: 1/13;
+        margin: 5rem auto 2rem auto; }
       .Home .Home-mid-segment .what-we-do-container .text-and-image-container .img-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        grid-column: 8/13; }
-      @media screen and (max-width: 900px) {
-        .Home .Home-mid-segment .what-we-do-container .text-and-image-container .text-container {
-          grid-column: 1/13;
-          margin: 5rem auto 2rem auto; }
-        .Home .Home-mid-segment .what-we-do-container .text-and-image-container .img-container {
-          grid-column: 1/13; } }
+        grid-column: 1/13; } }
+
+.Home .services {
+  padding-right: 1rem;
+  margin-bottom: 0; }
+  .Home .services .service-card-container {
+    padding-left: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center; }
+    .Home .services .service-card-container .img-container {
+      width: 90%;
+      margin-bottom: 5rem;
+      margin-right: 2rem; }
+      .Home .services .service-card-container .img-container .service-image {
+        width: 100%;
+        height: auto; }
+    @media screen and (min-width: 915px) {
+      .Home .services .service-card-container {
+        justify-content: center; }
+        .Home .services .service-card-container .img-container {
+          width: 35%; } }
 
 .Home .testimonials {
   display: flex;
   flex-direction: column;
   padding-bottom: 7rem; }
-  .Home .testimonials .section-header {
-    font-size: 2.25rem;
-    font-family: "Lato", sans-serif;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.87);
-    margin: 3rem 2rem; }
   .Home .testimonials .testimonials-grid-container {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(12, 1fr);
-    grid-column-gap: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    margin: 0rem auto 5rem auto; }
+    margin: 0 auto 5rem auto; }
     .Home .testimonials .testimonials-grid-container .Testimonial {
       grid-column: span 12; }
-    @media screen and (min-width: 650px) {
+    @media screen and (min-width: 725px) {
       .Home .testimonials .testimonials-grid-container .Testimonial {
         grid-column: span 6; } }
     @media screen and (min-width: 1100px) {
@@ -114,7 +140,7 @@ body {
   color: rgba(255, 255, 255, 0.9);
   font-family: "Lato", sans-serif;
   padding-bottom: 5rem;
-  border-bottom: rgba(34, 36, 38, 0.15); }
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15); }
   .Home .footer .site-map-grid {
     display: flex;
     flex-wrap: wrap;
@@ -415,15 +441,17 @@ body {
     text-align: justify; }
 
 .Testimonial {
-  position: relative;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   border: 1px solid #efefef;
+  position: relative;
   font-family: "Lato", sans-serif;
-  padding: 1rem 1rem 1rem 1rem;
+  padding: 1.5rem 1rem 1rem 1rem;
   margin-bottom: 1rem;
-  height: 13rem;
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2); }
-  .Testimonial-body {
-    margin-top: 0; }
+  height: 17rem; }
+  .Testimonial .Testimonial-body {
+    margin-top: 0;
+    font-size: 1.2rem;
+    text-align: justify; }
   .Testimonial .name-type {
     position: absolute;
     bottom: 0.25rem;
@@ -469,3 +497,116 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 130px; }
+
+.Grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(12, 1fr);
+  grid-column-gap: 1rem;
+  padding-left: 3rem;
+  padding-right: 2rem; }
+
+.ServiceCard {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #efefef;
+  width: 100%;
+  margin-bottom: 4rem;
+  margin-right: 3rem;
+  position: relative;
+  padding: 2rem 1rem; }
+  @media screen and (min-width: 915px) {
+    .ServiceCard {
+      width: 50%; } }
+  .ServiceCard .ServiceCard-sub-header {
+    color: #738f93;
+    text-transform: uppercase;
+    position: relative;
+    font-weight: 300;
+    top: 0;
+    margin-top: 0;
+    margin-bottom: 4rem;
+    font-size: 1.5rem; }
+    @media screen and (max-width: 505px) {
+      .ServiceCard .ServiceCard-sub-header {
+        width: 50%; } }
+  .ServiceCard .ServiceCard-clip-container {
+    width: 9rem;
+    height: 9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: rotate(8deg); }
+    @media screen and (max-width: 550px) {
+      .ServiceCard .ServiceCard-clip-container {
+        width: 6rem;
+        height: 6rem; } }
+    .ServiceCard .ServiceCard-clip-container .ServiceCard-clip-icon {
+      z-index: 1;
+      width: 2.7rem;
+      height: auto;
+      display: block;
+      left: 45px;
+      right: 5px;
+      top: -5px;
+      position: absolute; }
+      @media screen and (max-width: 550px) {
+        .ServiceCard .ServiceCard-clip-container .ServiceCard-clip-icon {
+          width: 1.8rem; } }
+    .ServiceCard .ServiceCard-clip-container .ServiceCard-header {
+      font-size: 1.5rem;
+      font-family: "Lato", sans-serif;
+      margin-bottom: 0.5rem;
+      margin-top: 0;
+      position: absolute;
+      top: 3.5rem; }
+    .ServiceCard .ServiceCard-clip-container .post-it {
+      font-family: "Nothing You Could Do", cursive, Arial, Helvetica, sans-serif;
+      font-size: 1.2rem;
+      z-index: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 9rem;
+      height: 9rem;
+      padding: 0.5rem;
+      background-color: #c5e2f5;
+      position: absolute;
+      -webkit-box-shadow: 0 0 4px -4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+      -moz-box-shadow: 0 0 4px -4pxrgba 0, 0, 0, 0.2, inset 0 0 50px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 5px -5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1); }
+      @media screen and (max-width: 550px) {
+        .ServiceCard .ServiceCard-clip-container .post-it {
+          width: 6rem;
+          height: 6rem;
+          font-size: 0.8rem; } }
+    .ServiceCard .ServiceCard-clip-container .shadow-left {
+      z-index: -20;
+      position: absolute;
+      width: 50%;
+      height: 10px;
+      content: " ";
+      bottom: 5px;
+      left: 1px;
+      background: transparent;
+      -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); }
+    .ServiceCard .ServiceCard-clip-container .shadow-left {
+      -webkit-transform: skew(-5deg) rotate(-5deg);
+      -moz-transform: skew(-5deg) rotate(-5deg);
+      -ms-transform: skew(-5deg) rotate(-5deg);
+      -o-transform: skew(-5deg) rotate(-5deg);
+      transform: skew(-5deg) rotate(-5deg); }
+    @media screen and (max-width: 550px) {
+      .ServiceCard .ServiceCard-clip-container {
+        justify-content: center; }
+        .ServiceCard .ServiceCard-clip-container .shadow-left,
+        .ServiceCard .ServiceCard-clip-container .shadow-right {
+          display: none; } }
+  .ServiceCard .ServiceCard-main-content .Service-body {
+    font-size: 1.4rem; }
+  .ServiceCard .ServiceCard-main-content .Service-header {
+    margin-bottom: 0.5rem; }

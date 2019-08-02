@@ -5,20 +5,32 @@ import NavButton from "../components/NavButton";
 import TextBlock from "../components/TextBlock";
 import Image from "../components/Image";
 import ContactForm from "../components/ContactForm";
+import Grid from "../components/Grid";
+import Testimonial from "../components/Testimonial";
+import ServiceCard from "../components/ServiceCard";
 
 import icon from "../static/logo.svg";
 
-import body from "../mock-data/paragraph";
-import img1 from "../mock-data/img1.jpg";
+import textData from "../text/paragraph";
+import books from "../static/group-read.jpg";
+import personal from "../static/personal.jpg";
+import group from "../static/kendrasLovesThisPic.jpg";
 
 import "../stylesheets/css/main.css";
-import Testimonial from "../components/Testimonial";
 
 class Home extends Component {
+  testimonials = [
+    <Testimonial name="Jill Withers" body={textData.body} type="Parent" />,
+    <Testimonial name="Jane Thompson" body={textData.body} type="Student" />,
+    <Testimonial name="Laura Parsons" body={textData.body} type="Parent" />,
+    <Testimonial name="John Smith" body={textData.body} type="Student" />,
+    <Testimonial name="Olivia Bellevue" body={textData.body} type="Student" />
+  ];
+
   render() {
     return (
       <div className="Home">
-        <section id="title-section" className="Home-top-segment">
+        <section id="title-section" className="Home-top-segment dark">
           <div className="icon-container">
             <img className="icon-full" src={icon} alt="icon" />
             <h1 className="motto">
@@ -28,22 +40,24 @@ class Home extends Component {
             </h1>
           </div>
         </section>
-        <section id="mission-section" className="Home-mid-segment">
+        <section id="mission-section" className="Home-mid-segment light">
           <h2 className="section-header">mission</h2>
           <div className="what-we-do-container">
             <div className="text-and-image-container">
               <div className="text-container">
                 <TextBlock
                   header={"Help students grow"}
-                  text={body.body + body.body}
+                  text={textData.body + textData.body}
                 />
                 <TextBlock
                   header={"Help students succeed"}
-                  text={body.body + body.body}
+                  text={textData.body + textData.body}
                 />
               </div>
               <div className="col-4-lg img-container">
-                <Image class="Image" source={img1} alt="trumptopod" />
+                <div className="img-container">
+                  <Image class="Image" source={group} alt="smiling students" />
+                </div>
               </div>
             </div>
             <NavButton
@@ -55,23 +69,53 @@ class Home extends Component {
         </section>
         <section id="testimonials-section" className="testimonials">
           <h2 className="section-header">testimonials</h2>
-          <div className="testimonials-grid-container">
-            <Testimonial name="Jill Withers" body={body.body} type="Parent" />
-            <Testimonial name="Jane Thompson" body={body.body} type="Student" />
-            <Testimonial name="Laura Parsons" body={body.body} type="Parent" />
-            <Testimonial name="John Smith" body={body.body} type="Student" />
-            <Testimonial
-              name="Olivia Bellevue"
-              body={body.body}
-              type="Student"
-            />
-          </div>
+          <Grid
+            class="testimonials-grid-container"
+            gridItems={this.testimonials}
+          />
           <NavButton
             class="NavButton light-on-light fixed-width center"
             label="View Services"
             to="/info"
           />
         </section>
+        <section id="services-section" className="services">
+          <h2 className="section-header">services</h2>
+          <div className="service-card-container">
+            <ServiceCard
+              mainHeader="Group"
+              subHeader="social learning"
+              body={textData.group}
+              noteText="peer to peer"
+              alt="group course"
+            />
+            <div className="img-container">
+              <Image class="service-image" source={books} alt="group reading" />
+            </div>
+            <ServiceCard
+              mainHeader="Personal"
+              subHeader="individual learning"
+              body={textData.personal}
+              noteText="one-on-one"
+              alt="g"
+            />{" "}
+            <div className="img-container">
+              <Image
+                class="service-image"
+                source={personal}
+                alt="student studying"
+              />
+            </div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <NavButton
+              class="NavButton light-on-light fixed-width center"
+              label="Learn More"
+              to="/info"
+            />
+          </div>
+        </section>
+        {/* FOOTER */}
         <section id="footer-section">
           <footer className="footer">
             <div className="site-map-grid">

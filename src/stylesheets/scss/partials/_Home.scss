@@ -1,13 +1,32 @@
 .Home {
-  .Home-top-segment {
-    background: $bg-dark;
-    min-height: 700px;
+  .section-header {
+    @include section-header-light-bg;
+    margin: 0 0 3rem 1em;
+  }
+
+  section {
+    margin-bottom: 5rem;
+    border-bottom: $border-thin-dark;
+    padding-bottom: 7rem;
+    width: 100%;
+  }
+
+  section.dark {
+    background-color: $bg-dark;
     color: $text-light;
+  }
+
+  section.light {
+    background-color: $bg-light;
+    color: $text-dark;
+  }
+
+  .Home-top-segment {
+    min-height: 700px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 5rem;
 
     .icon-container {
       display: flex;
@@ -52,14 +71,7 @@
   }
 
   .Home-mid-segment {
-    background: $bg-light;
-
-    .section-header {
-      @include section-header-light-bg;
-      margin: 0 0 3rem 1em;
-    }
     .what-we-do-container {
-      padding-bottom: 7rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -96,24 +108,56 @@
     }
   }
 
+  .services {
+    // padding-left: 1rem;
+    padding-right: 1rem;
+    margin-bottom: 0;
+
+    .service-card-container {
+      padding-left: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      .img-container {
+        width: 90%;
+        margin-bottom: 5rem;
+        margin-right: 2rem;
+        .service-image {
+          width: 100%;
+          height: auto;
+        }
+      }
+      @media screen and (min-width: 915px) {
+        justify-content: center;
+        // .service-card-container {
+        //   width: 50%;
+        // }
+        .img-container {
+          width: 35%;
+        }
+      }
+      // @media screen and (min-width: 1100px) {
+      //   .Testimonial {
+      //     grid-column: span 4;
+      //   }
+      // }
+    }
+  }
+
   .testimonials {
     display: flex;
     flex-direction: column;
     padding-bottom: 7rem;
 
-    .section-header {
-      @include section-header-light-bg;
-      margin: 3rem 2rem;
-    }
     .testimonials-grid-container {
-      @include grid;
-      margin: 0rem auto 5rem auto;
+      margin: 0 auto 5rem auto;
 
       .Testimonial {
         grid-column: span 12;
       }
 
-      @media screen and (min-width: 650px) {
+      @media screen and (min-width: 725px) {
         .Testimonial {
           grid-column: span 6;
         }

@@ -24,7 +24,7 @@ export default class Form extends Component {
     return (
       <>
         <form className="ContactForm" onSubmit={this.handleSubmit}>
-          <h3 className="ContactForm-header">Contact Us</h3>
+          <h3 className="ContactForm-header">Contact</h3>
           <label htmlFor="name">Name</label>
           <input
             className="text-input"
