@@ -1,112 +1,99 @@
-// .SignupForm {
-//     position: fixed;
-//     background: #ffffff;
-//     height: 80vh;
-//     width: 34vw;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: flex-start;
-//     transform: translate3d(0, 0, 0);
-//     padding-left: 2.25rem;
-//     padding-top: 2rem;
-//     transition: all 0.3s ease;
+.LoginForm,
+.offscreen-login {
+  // border: 1px solid red;
+  position: fixed;
+  background: #ffffff;
+  height: 80vh;
+  width: 34vw;
 
-//     @media screen and (max-width: 650px) {
-//       width: 80vw;
-//     }
+  // display: flex;
+  flex-direction: column;
+  align-items: center;
 
-//     label {
-//       margin-bottom: 0.5rem;
-//       font-size: 1.2rem;
-//     }
+  .email-input,
+  .password-input {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    // border: 1px solid pink;
+  }
 
-//     input[type="text"],
-//     input[type="email"] {
-//       margin-bottom: 1rem;
-//       padding: 0.3rem 0.5rem;
-//       width: 70%;
-//       height: 2rem;
-//       font-size: 0.9rem;
-//       border: 1px solid #ced4da;
-//       border-radius: 0.25rem;
-//       outline: none;
-//       transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  // padding-left: 2.25rem;
+  padding-top: 2rem;
+  transition: all 0.3s ease;
 
-//       @media screen and (max-width: 750px) {
-//         width: 60%;
-//       }
-//     }
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    // margin-left: -50%;
+  }
 
-//     input:focus {
-//       border-color: #80bdff;
-//       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-//     }
+  input[type="text"],
+  input[type="password"] {
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.5rem;
+    // width: 70%;
+    height: 2rem;
+    font-size: 0.9rem;
+    border: 1px solid #ced4da;
 
-//     .radio-choice {
-//       font-size: 1.25rem;
-//       // border: 1px solid red;
-//       margin-bottom: 0.5rem;
-//       display: flex;
-//       align-items: center;
-//     }
+    border-radius: 0.25rem;
+    outline: none;
+    transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-//     .bottom {
-//       margin-bottom: 2.5rem;
-//     }
+    @media screen and (max-width: 750px) {
+      width: 60%;
+    }
+  }
 
-//     .dark-on-light {
-//       margin-left: 20%;
-//       border: 2px solid $text-dark;
-//       background-color: $bg-light;
+  .link {
+    text-decoration: none;
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+  }
 
-//       &:hover {
-//         background-color: $text-dark;
-//         color: $text-light;
-//       }
-//     }
-//   }
+  .register {
+    margin-bottom: 2rem;
+  }
 
-//   .offscreen {
-//     position: fixed;
-//     background: #ffffff;
-//     height: 80vh;
-//     width: 39vw;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: flex-start;
-//     transform: translate3d(-100%, 0, 0);
-//     padding-left: 2.25rem;
-//     padding-top: 2rem;
-//     transition: all 0.3s ease;
-//     // display: none;
-//     // transition-property: transform 0.3s ease, opacity 1s ease;
+  .dark-on-light {
+    margin-left: 18%;
+    // margin-right: auto;
+    display: block;
+    border: 2px solid $text-dark;
+    background-color: $bg-light;
+    // transform: translate3d(50%, 0, 0);
 
-//     label {
-//       margin-bottom: 0.5rem;
-//       font-size: 1.2rem;
-//     }
+    &:hover {
+      background-color: $text-dark;
+      color: $text-light;
+    }
+  }
+}
 
-//     input[type="text"],
-//     input[type="email"] {
-//       margin-bottom: 1rem;
-//       padding: 0.3rem 0.5rem;
-//       width: 60%;
-//       height: 2rem;
-//       font-size: 0.9rem;
-//       border: 1px solid #ced4da;
-//       border-radius: 0.25rem;
-//       outline: none;
-//       transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+.LoginForm {
+  transform: translate3d(0, 0, 0);
+  @media screen and (max-width: 650px) {
+    width: 80vw;
+  }
 
-//       @media screen and (max-width: 750px) {
-//         width: 60%;
-//       }
-//     }
-//     .radio-choice {
-//       font-size: 1.25rem;
-//       // border: 1px solid red;
-//       margin-bottom: 0.5rem;
-//       display: flex;
-//       align-items: center;
-//     }
-//   }
+  .LoginForm-header {
+    // border: 1px solid red;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+}
+
+.offscreen-login {
+  transform: translate3d(-200%, 0, 0);
+}

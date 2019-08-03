@@ -262,6 +262,7 @@ body {
       transform: translate3d(100%, 0, 0); } }
 
 .Navbar {
+  position: sticky;
   z-index: 1000;
   font-size: 1rem;
   font-family: Arial, Helvetica, sans-serif;
@@ -271,8 +272,7 @@ body {
   top: 0;
   height: 5rem;
   display: flex;
-  align-items: center;
-  position: relative; }
+  align-items: center; }
   .Navbar .Navbar-icon-container {
     width: 3rem;
     height: auto;
@@ -670,7 +670,8 @@ body {
   .ServiceCard .ServiceCard-main-content .Service-header {
     margin-bottom: 0.5rem; }
 
-.SignupForm {
+.SignupForm,
+.offscreen {
   position: fixed;
   background: #ffffff;
   height: 80vh;
@@ -678,18 +679,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  transform: translate3d(0, 0, 0);
   padding-left: 2.25rem;
   padding-top: 2rem;
   transition: all 0.3s ease; }
-  @media screen and (max-width: 650px) {
-    .SignupForm {
-      width: 80vw; } }
-  .SignupForm label {
+  .SignupForm label,
+  .offscreen label {
     margin-bottom: 0.5rem;
     font-size: 1.2rem; }
   .SignupForm input[type="text"],
-  .SignupForm input[type="email"] {
+  .SignupForm input[type="email"],
+  .offscreen input[type="text"],
+  .offscreen input[type="email"] {
     margin-bottom: 1rem;
     padding: 0.3rem 0.5rem;
     width: 70%;
@@ -701,46 +701,69 @@ body {
     transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
     @media screen and (max-width: 750px) {
       .SignupForm input[type="text"],
-      .SignupForm input[type="email"] {
+      .SignupForm input[type="email"],
+      .offscreen input[type="text"],
+      .offscreen input[type="email"] {
         width: 60%; } }
-  .SignupForm input:focus {
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
-  .SignupForm .radio-choice {
+  .SignupForm .radio-choice,
+  .offscreen .radio-choice {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center; }
-  .SignupForm .bottom {
+  .SignupForm .bottom,
+  .offscreen .bottom {
     margin-bottom: 2.5rem; }
-  .SignupForm .dark-on-light {
+  .SignupForm .dark-on-light,
+  .offscreen .dark-on-light {
     margin-left: 20%;
     border: 2px solid rgba(0, 0, 0, 0.87);
     background-color: #fff; }
-    .SignupForm .dark-on-light:hover {
+    .SignupForm .dark-on-light:hover,
+    .offscreen .dark-on-light:hover {
       background-color: rgba(0, 0, 0, 0.87);
       color: rgba(255, 255, 255, 0.9); }
 
+.SignupForm {
+  transform: translate3d(0, 0, 0); }
+  @media screen and (max-width: 650px) {
+    .SignupForm {
+      width: 80vw; } }
+  .SignupForm input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
+
 .offscreen {
+  transform: translate3d(-200%, 0, 0); }
+
+.LoginForm,
+.offscreen-login {
   position: fixed;
   background: #ffffff;
   height: 80vh;
-  width: 39vw;
-  display: flex;
+  width: 34vw;
   flex-direction: column;
-  align-items: flex-start;
-  transform: translate3d(-100%, 0, 0);
-  padding-left: 2.25rem;
+  align-items: center;
   padding-top: 2rem;
   transition: all 0.3s ease; }
-  .offscreen label {
+  .LoginForm .email-input,
+  .LoginForm .password-input,
+  .offscreen-login .email-input,
+  .offscreen-login .password-input {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto; }
+  .LoginForm label,
+  .offscreen-login label {
+    display: block;
     margin-bottom: 0.5rem;
     font-size: 1.2rem; }
-  .offscreen input[type="text"],
-  .offscreen input[type="email"] {
+  .LoginForm input[type="text"],
+  .LoginForm input[type="password"],
+  .offscreen-login input[type="text"],
+  .offscreen-login input[type="password"] {
     margin-bottom: 1rem;
     padding: 0.3rem 0.5rem;
-    width: 60%;
     height: 2rem;
     font-size: 0.9rem;
     border: 1px solid #ced4da;
@@ -748,14 +771,48 @@ body {
     outline: none;
     transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
     @media screen and (max-width: 750px) {
-      .offscreen input[type="text"],
-      .offscreen input[type="email"] {
+      .LoginForm input[type="text"],
+      .LoginForm input[type="password"],
+      .offscreen-login input[type="text"],
+      .offscreen-login input[type="password"] {
         width: 60%; } }
-  .offscreen .radio-choice {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center; }
+  .LoginForm .link,
+  .offscreen-login .link {
+    text-decoration: none;
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem; }
+  .LoginForm .register,
+  .offscreen-login .register {
+    margin-bottom: 2rem; }
+  .LoginForm .dark-on-light,
+  .offscreen-login .dark-on-light {
+    margin-left: 18%;
+    display: block;
+    border: 2px solid rgba(0, 0, 0, 0.87);
+    background-color: #fff; }
+    .LoginForm .dark-on-light:hover,
+    .offscreen-login .dark-on-light:hover {
+      background-color: rgba(0, 0, 0, 0.87);
+      color: rgba(255, 255, 255, 0.9); }
+
+.LoginForm {
+  transform: translate3d(0, 0, 0); }
+  @media screen and (max-width: 650px) {
+    .LoginForm {
+      width: 80vw; } }
+  .LoginForm .LoginForm-header {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto; }
+  .LoginForm input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
+
+.offscreen-login {
+  transform: translate3d(-200%, 0, 0); }
 
 .Root {
   position: relative;

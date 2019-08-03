@@ -33,14 +33,9 @@ export default class SignupForm extends Component {
     });
   };
 
-  text = e => {
-    console.log("test fired");
-  };
-
   render() {
     return (
       <form className={this.props.className} onSubmit={this.handleSubmit}>
-        {/* <i class="fa fa-times" aria-hidden="true" onClick={this.handleToggle} /> */}
         <h2 className="SignupForm-header">Request Free Consultation</h2>
         <label htmlFor="parentFirstName">First Name</label>
         <input
@@ -62,6 +57,16 @@ export default class SignupForm extends Component {
           value={this.state.parentLastName}
           onChange={this.handleChange}
         />
+        <label htmlFor="email">Email</label>
+        <input
+          required
+          className="text-input"
+          name="parentEmail"
+          id="email"
+          type="email"
+          value={this.state.parentEmail}
+          onChange={this.handleChange}
+        />
         <label htmlFor="parentLastName">Student's Name</label>
         <input
           required
@@ -73,16 +78,6 @@ export default class SignupForm extends Component {
           onChange={this.handleChange}
         />
 
-        <label htmlFor="email">Email</label>
-        <input
-          required
-          className="text-input"
-          name="parentEmail"
-          id="email"
-          type="email"
-          value={this.state.parentEmail}
-          onChange={this.handleChange}
-        />
         <label className="radio-group-label" htmlFor="course">
           Course of interest?
         </label>
@@ -108,12 +103,7 @@ export default class SignupForm extends Component {
             className="group-radio"
           />
         </div>
-
-        <input
-          className="NavButton dark-on-light"
-          type="submit"
-          onClick={this.test}
-        />
+        <input className="NavButton dark-on-light" type="submit" />
       </form>
     );
   }

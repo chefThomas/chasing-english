@@ -33,7 +33,11 @@ class Home extends Component {
   render() {
     console.log(this.props);
     return (
-      <div className={this.props.showSignup ? "shift-left" : "Home"}>
+      <div
+        className={
+          this.props.showSignup || this.props.showLogin ? "shift-left" : "Home"
+        }
+      >
         <section id="title-section" className="Home-top-segment dark">
           <div className="icon-container">
             <img className="icon-full" src={icon} alt="icon" />

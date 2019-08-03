@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "../stylesheets/css/main.css";
 
 export default class LoginForm extends Component {
@@ -14,6 +15,10 @@ export default class LoginForm extends Component {
 
   handleToggle = e => {
     this.props.toggle();
+  };
+
+  handleToggleSignup = e => {
+    this.props.toggleSignup();
   };
 
   handleSubmit = e => {
@@ -35,74 +40,35 @@ export default class LoginForm extends Component {
     return (
       <form className={this.props.className} onSubmit={this.handleSubmit}>
         {/* <i class="fa fa-times" aria-hidden="true" onClick={this.handleToggle} /> */}
-        <h2 className="SignupForm-header">Request Free Consultation</h2>
-        <label htmlFor="parentFirstName">First Name</label>
-        <input
-          required
-          className="text-input"
-          name="parentFirstName"
-          id="parentFirstName"
-          type="text"
-          value={this.state.parentFirstName}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="parentLastName">Last Name</label>
-        <input
-          required
-          className="text-input"
-          name="parentLastName"
-          id="parentLastName"
-          type="text"
-          value={this.state.parentLastName}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="parentLastName">Student's Name</label>
-        <input
-          required
-          className="text-input"
-          name="studentName"
-          id="studentName"
-          type="text"
-          value={this.state.studentName}
-          onChange={this.handleChange}
-        />
-
-        <label htmlFor="email">Email</label>
-        <input
-          required
-          className="text-input"
-          name="parentEmail"
-          id="email"
-          type="email"
-          value={this.state.parentEmail}
-          onChange={this.handleChange}
-        />
-        <label className="radio-group-label" htmlFor="course">
-          Course of interest?
-        </label>
-        <div className="radio-choice">
-          Group
+        <h2 className="LoginForm-header">Login</h2>
+        <div className="email-input">
+          <label htmlFor="email">Email</label>
           <input
-            onClick={this.handleChange}
-            type="radio"
-            name="coursePreference"
-            value="group"
-            checked={this.state.coursePreference === "group"}
-            className="group-radio"
+            required
+            className="text-input"
+            name="email"
+            id="email"
+            type="text"
+            value={this.state.email}
+            onChange={this.handleChange}
           />
         </div>
-        <div className="radio-choice bottom">
-          Individual
+        <div className="password-input">
+          <label htmlFor="password">Password</label>
           <input
-            onClick={this.handleChange}
-            type="radio"
-            name="coursePreference"
-            value="individual"
-            checked={this.state.coursePreference === "individual"}
-            className="group-radio"
+            required
+            className="text-input bottom"
+            name="password"
+            id="password"
+            type="password"
+            value={this.state.password}
+            onChange={this.handleChange}
           />
         </div>
-
+        <Link className="link">Forgot password ? </Link>
+        <Link className="link register" onClick={this.handleToggleSignup}>
+          Register
+        </Link>
         <input
           className="NavButton dark-on-light"
           type="submit"

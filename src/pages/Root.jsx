@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import SignupForm from "../components/SignupForm";
+import LoginForm from "../components/LoginForm";
 import Home from "./Home";
 import Book from "./Book";
 import About from "./About";
@@ -16,7 +17,11 @@ export default class Root extends Component {
   };
 
   toggleSignup = () => {
-    this.setState({ showSignup: !this.state.showSignup });
+    this.setState({ showSignup: !this.state.showSignup, showLogin: false });
+  };
+
+  toggleLogin = () => {
+    this.setState({ showLogin: !this.state.showLogin, showSignup: false });
   };
   render() {
     // const {showSignup} = this.props.showSignUp;
@@ -24,22 +29,25 @@ export default class Root extends Component {
 
     return (
       <div className="Root">
-        <Navbar {...this.state} toggleForm={this.toggleSignup} />
+        <Navbar
+          {...this.state}
+          toggleSignup={this.toggleSignup}
+          toggleLogin={this.toggleLogin}
+        />
         <SignupForm
-          toggle={this.props.showSignup}
+          toggle={this.showSignup}
           className={this.state.showSignup ? "SignupForm" : "offscreen"}
+        />
+        <LoginForm
+          toggle={this.toggleLogin}
+          toggleSignup={this.toggleSignup}
+          className={this.state.showLogin ? "LoginForm" : "offscreen-login"}
         />
         <Switch>
           <Route
             exact
             path="/"
-            render={routeProps => (
-              <Home
-                {...this.state}
-                {...routeProps}
-                toggleForm={this.toggleSignup}
-              />
-            )}
+            render={routeProps => <Home {...this.state} {...routeProps} />}
           />
           <Route
             exact
