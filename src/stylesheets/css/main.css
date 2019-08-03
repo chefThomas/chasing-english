@@ -255,7 +255,7 @@ body {
           color: white; }
 
 .shift-left {
-  transform: translate3d(30%, 0, 0);
+  transform: translate3d(35%, 0, 0);
   position: absolute; }
   @media screen and (max-width: 650px) {
     .shift-left {
@@ -674,7 +674,7 @@ body {
   position: fixed;
   background: #ffffff;
   height: 80vh;
-  width: 39vw;
+  width: 34vw;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -692,7 +692,7 @@ body {
   .SignupForm input[type="email"] {
     margin-bottom: 1rem;
     padding: 0.3rem 0.5rem;
-    width: 60%;
+    width: 70%;
     height: 2rem;
     font-size: 0.9rem;
     border: 1px solid #ced4da;
@@ -711,6 +711,15 @@ body {
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center; }
+  .SignupForm .bottom {
+    margin-bottom: 2.5rem; }
+  .SignupForm .dark-on-light {
+    margin-left: 20%;
+    border: 2px solid rgba(0, 0, 0, 0.87);
+    background-color: #fff; }
+    .SignupForm .dark-on-light:hover {
+      background-color: rgba(0, 0, 0, 0.87);
+      color: rgba(255, 255, 255, 0.9); }
 
 .offscreen {
   position: fixed;
@@ -997,7 +1006,7 @@ body {
           color: white; }
 
 .shift-left {
-  transform: translate3d(30%, 0, 0);
+  transform: translate3d(35%, 0, 0);
   position: absolute; }
   @media screen and (max-width: 650px) {
     .shift-left {

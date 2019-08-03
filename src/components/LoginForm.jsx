@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import "../stylesheets/css/main.css";
 
-export default class SignupForm extends Component {
+export default class LoginForm extends Component {
   state = {
-    parentFirstName: "",
-    parentLastName: "",
-    parentEmail: "",
-    studentName: "",
-    coursePreference: "group"
+    email: "",
+    password: ""
   };
 
   handleChange = e => {
@@ -25,11 +22,8 @@ export default class SignupForm extends Component {
 
     // reset state
     this.setState({
-      parentFirstName: "",
-      parentLastName: "",
-      parentEmail: "",
-      studentName: "",
-      coursePreference: ""
+      email: "",
+      password: ""
     });
   };
 
