@@ -138,18 +138,11 @@
       }
       @media screen and (min-width: 915px) {
         justify-content: center;
-        // .service-card-container {
-        //   width: 50%;
-        // }
+
         .img-container {
           width: 35%;
         }
       }
-      // @media screen and (min-width: 1100px) {
-      //   .Testimonial {
-      //     grid-column: span 4;
-      //   }
-      // }
     }
 
     .NavButton {
@@ -288,7 +281,8 @@
 }
 
 .shift-left {
-  transform: translate3d(40%, 0, 0);
+  transform: translate3d(30%, 0, 0);
+  position: absolute;
 
   @media screen and (max-width: 650px) {
     transform: translate3d(100%, 0, 0);

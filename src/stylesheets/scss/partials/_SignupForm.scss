@@ -13,14 +13,13 @@
 
   @media screen and (max-width: 650px) {
     width: 80vw;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   label {
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
   }
+
   input[type="text"],
   input[type="email"] {
     margin-bottom: 1rem;
@@ -56,35 +55,43 @@
   position: fixed;
   background: #ffffff;
   height: 80vh;
-  width: 50vw;
+  width: 39vw;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   transform: translate3d(-100%, 0, 0);
-  padding-left: 2rem;
+  padding-left: 2.25rem;
   padding-top: 2rem;
-
+  transition: all 0.3s ease;
+  // display: none;
   // transition-property: transform 0.3s ease, opacity 1s ease;
 
   label {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
     font-size: 1.2rem;
   }
-  input {
+
+  input[type="text"],
+  input[type="email"] {
     margin-bottom: 1rem;
     padding: 0.3rem 0.5rem;
-    width: 50%;
+    width: 60%;
     height: 2rem;
     font-size: 0.9rem;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     outline: none;
-  }
+    transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
-  // .fa-times {
-  //   font-size: 1.25rem;
-  //   position: absolute;
-  //   right: 3rem;
-  //   top: 2rem;
-  // }
+    @media screen and (max-width: 750px) {
+      width: 60%;
+    }
+  }
+  .radio-choice {
+    font-size: 1.25rem;
+    // border: 1px solid red;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
 }
