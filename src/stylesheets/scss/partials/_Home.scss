@@ -1,4 +1,7 @@
-.Home {
+.Home,
+.shift-left {
+  transition: all 0.5s ease;
+  transform: translate3d(0, 0, 0);
   .section-header {
     @include section-header-light-bg;
     margin: 0 0 3rem 1em;
@@ -281,5 +284,13 @@
         }
       }
     }
+  }
+}
+
+.shift-left {
+  transform: translate3d(40%, 0, 0);
+
+  @media screen and (max-width: 650px) {
+    transform: translate3d(100%, 0, 0);
   }
 }

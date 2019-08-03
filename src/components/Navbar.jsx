@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "../stylesheets/css/main.css";
 
-import DropdownNav from "./DropdownNav";
+// import DropdownNav from "./DropdownNav";
 import NavButton from "./NavButton";
 import HamburgerMenu from "./HamburgerMenu";
 // import HamburgerMenu from "./HamburgerMenu";
@@ -12,9 +12,9 @@ class Navbar extends Component {
     showDropDownNav: false
   };
 
-  handleClick = e => {
-    console.log("click burger");
-  };
+  // handleClick = e => {
+  //   console.log("click burger");
+  // };
 
   // toggles visibility on click
   toggleDropdown = e => {
@@ -26,14 +26,19 @@ class Navbar extends Component {
     this.setState({ showDropdownNav: false });
   };
 
+  handleSignupClick = e => {
+    this.props.toggleForm();
+    // push sign up form into v
+  };
+
   render() {
     const { showDropdownNav } = this.state;
     return (
       <div className="Navbar">
-        <DropdownNav
+        {/* <DropdownNav
           display={showDropdownNav ? "DropdownNav" : "Dropdown-nav-hide"}
           closeDropdown={this.closeDropdown}
-        />
+        /> */}
         <div className="Navbar-links-container">
           <NavLink
             exact
@@ -78,11 +83,14 @@ class Navbar extends Component {
             label="Log in"
             to="/schedule"
           />
-          <NavButton
+          {/* toggle signup form */}
+          <button
             class="NavButton dark-on-dark navbar"
             label="Sign up"
-            to="/schedule"
-          />
+            onClick={this.handleSignupClick}
+          >
+            Click me
+          </button>
         </div>
       </div>
     );

@@ -1,0 +1,90 @@
+.SignupForm {
+  position: fixed;
+  background: #ffffff;
+  height: 80vh;
+  width: 39vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transform: translate3d(0, 0, 0);
+  padding-left: 2.25rem;
+  padding-top: 2rem;
+  transition: all 0.3s ease;
+
+  @media screen and (max-width: 650px) {
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+  input[type="text"],
+  input[type="email"] {
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.5rem;
+    width: 60%;
+    height: 2rem;
+    font-size: 0.9rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    outline: none;
+    transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    @media screen and (max-width: 750px) {
+      width: 60%;
+    }
+  }
+
+  input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .radio-choice {
+    font-size: 1.25rem;
+    // border: 1px solid red;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.offscreen {
+  position: fixed;
+  background: #ffffff;
+  height: 80vh;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transform: translate3d(-100%, 0, 0);
+  padding-left: 2rem;
+  padding-top: 2rem;
+
+  // transition-property: transform 0.3s ease, opacity 1s ease;
+
+  label {
+    margin-bottom: 0.2rem;
+    font-size: 1.2rem;
+  }
+  input {
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.5rem;
+    width: 50%;
+    height: 2rem;
+    font-size: 0.9rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    outline: none;
+  }
+
+  // .fa-times {
+  //   font-size: 1.25rem;
+  //   position: absolute;
+  //   right: 3rem;
+  //   top: 2rem;
+  // }
+}

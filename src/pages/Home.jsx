@@ -27,9 +27,13 @@ class Home extends Component {
     <Testimonial name="Olivia Bellevue" body={textData.body} type="Student" />
   ];
 
+  state = {
+    showForm: false
+  };
   render() {
+    console.log(this.props);
     return (
-      <div className="Home">
+      <div className={this.props.showSignup ? "shift-left" : "Home"}>
         <section id="title-section" className="Home-top-segment dark">
           <div className="icon-container">
             <img className="icon-full" src={icon} alt="icon" />
@@ -171,7 +175,7 @@ class Home extends Component {
               </div>
             </div>
             <div className="social-media">
-              <div className>©Chasing English 2019</div>
+              <div>©Chasing English 2019</div>
               <div className="social-icons">
                 <h4 className="social-media-header">Follow Us</h4>
                 <i class="fab fa-twitter-square" />
