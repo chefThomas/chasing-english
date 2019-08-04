@@ -11,6 +11,7 @@ export default class SignupForm extends Component {
   };
 
   handleChange = e => {
+    console.log();
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -28,14 +29,13 @@ export default class SignupForm extends Component {
       parentLastName: "",
       parentEmail: "",
       studentName: "",
-      coursePreference: "group"
+      coursePreference: ""
     });
   };
 
   render() {
     return (
       <form className={this.props.className} onSubmit={this.handleSubmit}>
-        {/* <i class="fa fa-times" aria-hidden="true" onClick={this.handleToggle} /> */}
         <h2 className="SignupForm-header">Request Free Consultation</h2>
         <label htmlFor="parentFirstName">First Name</label>
         <input
@@ -57,6 +57,16 @@ export default class SignupForm extends Component {
           value={this.state.parentLastName}
           onChange={this.handleChange}
         />
+        <label htmlFor="email">Email</label>
+        <input
+          required
+          className="text-input"
+          name="parentEmail"
+          id="email"
+          type="email"
+          value={this.state.parentEmail}
+          onChange={this.handleChange}
+        />
         <label htmlFor="parentLastName">Student's Name</label>
         <input
           required
@@ -68,45 +78,32 @@ export default class SignupForm extends Component {
           onChange={this.handleChange}
         />
 
-        <label htmlFor="email">Email</label>
-        <input
-          required
-          className="text-input"
-          name="parentEmail"
-          id="email"
-          type="email"
-          value={this.state.email}
-          onChange={this.handleChange}
-        />
         <label className="radio-group-label" htmlFor="course">
           Course of interest?
         </label>
         <div className="radio-choice">
           Group
           <input
+            onClick={this.handleChange}
             type="radio"
-            name="course"
-            value="groupPreference"
+            name="coursePreference"
+            value="group"
             checked={this.state.coursePreference === "group"}
             className="group-radio"
           />
         </div>
-        <div className="radio-choice">
+        <div className="radio-choice bottom">
           Individual
           <input
+            onClick={this.handleChange}
             type="radio"
-            name="course"
+            name="coursePreference"
             value="individual"
             checked={this.state.coursePreference === "individual"}
             className="group-radio"
           />
         </div>
-
-        {/* <label htmlFor="message">Message</label> */}
-        <input
-          // className="ContactForm-submit NavButton dark-on-dark"
-          type="submit"
-        />
+        <input className="NavButton dark-on-light" type="submit" />
       </form>
     );
   }

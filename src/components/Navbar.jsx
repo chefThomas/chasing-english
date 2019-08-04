@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../stylesheets/css/main.css";
 
 // import DropdownNav from "./DropdownNav";
-import NavButton from "./NavButton";
+// import NavButton from "./NavButton";
 import HamburgerMenu from "./HamburgerMenu";
 // import HamburgerMenu from "./HamburgerMenu";
 
@@ -26,8 +26,12 @@ class Navbar extends Component {
     this.setState({ showDropdownNav: false });
   };
 
+  handleLoginClick = e => {
+    this.props.toggleLogin();
+  };
+
   handleSignupClick = e => {
-    this.props.toggleForm();
+    this.props.toggleSignup();
     // push sign up form into v
   };
 
@@ -78,18 +82,20 @@ class Navbar extends Component {
           toggleDropdown={this.toggleDropdown}
         />
         <div className="Navbutton-container">
-          <NavButton
+          <button
             class="NavButton dark-on-dark navbar"
             label="Log in"
-            to="/schedule"
-          />
+            onClick={this.handleLoginClick}
+          >
+            Log In
+          </button>
           {/* toggle signup form */}
           <button
             class="NavButton dark-on-dark navbar"
             label="Sign up"
             onClick={this.handleSignupClick}
           >
-            Click me
+            Sign Up
           </button>
         </div>
       </div>

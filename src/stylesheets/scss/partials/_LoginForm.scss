@@ -1,29 +1,43 @@
-.SignupForm,
-.offscreen {
+.LoginForm,
+.offscreen-login {
+  // border: 1px solid red;
   position: fixed;
   background: #ffffff;
   height: 80vh;
   width: 34vw;
-  display: flex;
+
+  // display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding-left: 2.25rem;
+  align-items: center;
+
+  .email-input,
+  .password-input {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    // border: 1px solid pink;
+  }
+
+  // padding-left: 2.25rem;
   padding-top: 2rem;
   transition: all 0.3s ease;
 
   label {
+    display: block;
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
+    // margin-left: -50%;
   }
 
   input[type="text"],
-  input[type="email"] {
+  input[type="password"] {
     margin-bottom: 1rem;
     padding: 0.3rem 0.5rem;
-    width: 70%;
+    // width: 70%;
     height: 2rem;
     font-size: 0.9rem;
     border: 1px solid #ced4da;
+
     border-radius: 0.25rem;
     outline: none;
     transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -33,21 +47,26 @@
     }
   }
 
-  .radio-choice {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
+  .link {
+    text-decoration: none;
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
   }
 
-  .bottom {
-    margin-bottom: 2.5rem;
+  .register {
+    margin-bottom: 2rem;
   }
 
   .dark-on-light {
-    margin-left: 20%;
+    margin-left: 18%;
+    // margin-right: auto;
+    display: block;
     border: 2px solid $text-dark;
     background-color: $bg-light;
+    // transform: translate3d(50%, 0, 0);
 
     &:hover {
       background-color: $text-dark;
@@ -56,10 +75,17 @@
   }
 }
 
-.SignupForm {
+.LoginForm {
   transform: translate3d(0, 0, 0);
   @media screen and (max-width: 650px) {
     width: 80vw;
+  }
+
+  .LoginForm-header {
+    // border: 1px solid red;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   input:focus {
@@ -68,6 +94,6 @@
   }
 }
 
-.offscreen {
+.offscreen-login {
   transform: translate3d(-200%, 0, 0);
 }
