@@ -45,6 +45,7 @@
       }
 
       .motto {
+        color: $text-light;
         text-transform: uppercase;
         margin-top: 1rem;
         line-height: 0.9;
@@ -265,6 +266,10 @@
     }
 
     .social-icons {
+      .social-media-header {
+        color: $text-light;
+      }
+
       display: flex;
       align-items: center;
       margin-left: auto;

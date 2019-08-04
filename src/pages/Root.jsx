@@ -7,6 +7,7 @@ import LoginForm from "../components/LoginForm";
 import Home from "./Home";
 import Book from "./Book";
 import About from "./About";
+import Admin from "./Admin";
 
 import "../stylesheets/css/main.css";
 
@@ -58,6 +59,11 @@ export default class Root extends Component {
             exact
             path="/about"
             render={routeProps => <About {...routeProps} />}
+          />
+          <Route
+            exact
+            path="/admin"
+            render={routeProps => <Admin {...routeProps} />}
           />
         </Switch>
       </div>
