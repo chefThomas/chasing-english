@@ -1,36 +1,30 @@
 import React, { Component } from "react";
 import { Form, DatePicker, Radio, Button } from "antd";
-import "../stylesheets/css/main.css";
 
 class AddSessionFormAdmin extends Component {
   state = {
-    month: 0,
-    date: 0,
-    year: 0,
-    hour: 0,
-    minute: 0,
-    sessionType: "group"
+    when: "",
+    sessionType: "Group"
   };
 
   onChange = e => {
+    // adds tutoring session type to state
     console.log(e.target.value);
     this.setState({ sessionType: e.target.value });
   };
 
   onOk = value => {
-    const date = value.date();
-    const month = value.month();
-    const year = value.year();
-    const hour = value.hour();
-    const minute = value.minute();
-    this.setState({ date, month, year, hour, minute });
+    console.log("in formAdmin: ", value.format("h:mm a"));
+    const when = `${value.format("dddd, MMMM Do YYYY, h:mm a")}`;
+    this.setState({ when });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     try {
-      console.log("submitted");
+      console.log("handling submit", this.state.moment);
       this.props.addSession(this.state);
+      this.setState({ when: "", sessionType: "Group" });
     } catch (err) {
       console.error(err);
     }
@@ -58,10 +52,9 @@ class AddSessionFormAdmin extends Component {
         <Form.Item label="Date and Time to Start Session">
           {getFieldDecorator("date-time-picker", config)(
             <DatePicker
-              //   onChange={this.onChange}
+              showTime={{ use12hours: true, format: "HH:mm" }}
               onOk={this.onOk}
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
+              format="MMMM Do YY, h:mm a"
             />
           )}
         </Form.Item>
@@ -73,8 +66,8 @@ class AddSessionFormAdmin extends Component {
         >
           <div>
             <Radio.Group required onChange={this.onChange} defaultValue="group">
-              <Radio.Button value="group">Group</Radio.Button>
-              <Radio.Button value="individual">Individual</Radio.Button>
+              <Radio.Button value="Group">Group</Radio.Button>
+              <Radio.Button value="Single">Individual</Radio.Button>
             </Radio.Group>
           </div>
           <Button type="primary" htmlType="submit">

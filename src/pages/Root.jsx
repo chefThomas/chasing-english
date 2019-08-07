@@ -14,7 +14,8 @@ import "../stylesheets/css/main.css";
 export default class Root extends Component {
   state = {
     showSignup: false,
-    showLogin: false
+    showLogin: false,
+    sessions: []
   };
 
   toggleSignup = () => {
@@ -24,10 +25,14 @@ export default class Root extends Component {
   toggleLogin = () => {
     this.setState({ showLogin: !this.state.showLogin, showSignup: false });
   };
-  render() {
-    // const {showSignup} = this.props.showSignUp;
-    // const {showlogin} = this.props.showLogin;
 
+  addSession = session => {
+    console.log("in addsession", session);
+    this.setState(st => ({
+      sessions: [...st.sessions, session]
+    }));
+  };
+  render() {
     return (
       <div className="Root">
         <Navbar
@@ -53,7 +58,9 @@ export default class Root extends Component {
           <Route
             exact
             path="/schedule"
-            render={routeProps => <Book {...routeProps} />}
+            render={routeProps => (
+              <Book {...routeProps} sessions={this.state.sessions} />
+            )}
           />
           <Route
             exact
@@ -63,7 +70,9 @@ export default class Root extends Component {
           <Route
             exact
             path="/admin"
-            render={routeProps => <Admin {...routeProps} />}
+            render={routeProps => (
+              <Admin {...routeProps} addSession={this.addSession} />
+            )}
           />
         </Switch>
       </div>
