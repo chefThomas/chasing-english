@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, DatePicker, Radio, Button } from "antd";
+import moment from "moment";
 
 class AddSessionFormAdmin extends Component {
   state = {
@@ -21,17 +22,16 @@ class AddSessionFormAdmin extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    try {
-      console.log("handling submit", this.state.moment);
-      this.props.addSession(this.state);
-      this.setState({ when: "", sessionType: "Group" });
-    } catch (err) {
-      console.error(err);
+    // console.log("handling submit", this.state.moment);
+    if (this.state.when.length === 0) {
+      //
     }
+    this.props.addSession(this.state);
+    this.setState({ when: "", sessionType: "Group" });
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    console.log(this.props.form);
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -42,21 +42,16 @@ class AddSessionFormAdmin extends Component {
         sm: { span: 16 }
       }
     };
-    const config = {
-      rules: [
-        { type: "object", required: true, message: "Please select time!" }
-      ]
-    };
+
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item label="Date and Time to Start Session">
-          {getFieldDecorator("date-time-picker", config)(
-            <DatePicker
-              showTime={{ use12hours: true, format: "HH:mm" }}
-              onOk={this.onOk}
-              format="MMMM Do YY, h:mm a"
-            />
-          )}
+          <DatePicker
+            defaultValue={moment()}
+            showTime={{ use12hours: true, format: "HH:mm" }}
+            onOk={this.onOk}
+            format="MMMM Do YY, h:mm a"
+          />
         </Form.Item>
         <Form.Item
           wrapperCol={{
@@ -65,9 +60,9 @@ class AddSessionFormAdmin extends Component {
           }}
         >
           <div>
-            <Radio.Group required onChange={this.onChange} defaultValue="group">
+            <Radio.Group onChange={this.onChange} defaultValue="Group">
               <Radio.Button value="Group">Group</Radio.Button>
-              <Radio.Button value="Single">Individual</Radio.Button>
+              <Radio.Button value="Individual">Individual</Radio.Button>
             </Radio.Group>
           </div>
           <Button type="primary" htmlType="submit">
