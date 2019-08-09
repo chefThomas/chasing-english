@@ -71,7 +71,11 @@ export default class Root extends Component {
             exact
             path="/admin"
             render={routeProps => (
-              <Admin {...routeProps} addSession={this.addSession} />
+              <Admin
+                {...routeProps}
+                addSession={this.addSession}
+                sessions={this.state.sessions}
+              />
             )}
           />
         </Switch>

@@ -22,13 +22,18 @@ class AddSessionFormAdmin extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // console.log("handling submit", this.state.moment);
     if (this.state.when.length === 0) {
       //
     }
     this.props.addSession(this.state);
     this.setState({ when: "", sessionType: "Group" });
   };
+
+  componentDidMount() {
+    //sets state.when to current date-time
+    const now = moment();
+    this.onOk(now);
+  }
 
   render() {
     console.log(this.props.form);

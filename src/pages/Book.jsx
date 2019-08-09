@@ -36,7 +36,7 @@ export default class Book extends Component {
 
   render() {
     return (
-      <div style={{ padding: "1rem" }} className="Page">
+      <div style={{ padding: "2rem" }} className="Page">
         <h1 className="Page-header">Scheduling</h1>
         <section className="section">
           <h3 className="section-header">My Sessions</h3>
@@ -44,7 +44,7 @@ export default class Book extends Component {
         <section className="Book-available-sessions section">
           <h3 className="">Available Sessions</h3>
           <Table
-            dataSource={this.availableSessionsData()}
+            dataSource={this.props.sessions}
             columns={this.availableSessionsCols}
           />
         </section>
