@@ -76,6 +76,14 @@ class Navbar extends Component {
           >
             About
           </NavLink>
+          <NavLink
+            exact
+            className="Navbar-link"
+            activeClassName="NavLink-active"
+            to="/admin"
+          >
+            Admin
+          </NavLink>
         </div>
         <HamburgerMenu
           showDropdownNav={showDropdownNav}

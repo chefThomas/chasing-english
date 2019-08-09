@@ -57,6 +57,7 @@ body {
         display: block; }
       .Home .Home-top-segment .icon-container .motto,
       .shift-left .Home-top-segment .icon-container .motto {
+        color: rgba(255, 255, 255, 0.9);
         text-transform: uppercase;
         margin-top: 1rem;
         line-height: 0.9; }
@@ -247,6 +248,9 @@ body {
       display: flex;
       align-items: center;
       margin-left: auto; }
+      .Home .social-media .social-icons .social-media-header,
+      .shift-left .social-media .social-icons .social-media-header {
+        color: rgba(255, 255, 255, 0.9); }
       .Home .social-media .social-icons .fab,
       .shift-left .social-media .social-icons .fab {
         font-size: 1.75rem; }
@@ -550,6 +554,7 @@ body {
   .ContactForm > label {
     margin-bottom: 0.3rem; }
   .ContactForm .ContactForm-header {
+    color: rgba(255, 255, 255, 0.9);
     margin-top: 0;
     margin-bottom: 0.5rem; }
   .ContactForm .ContactForm-submit {
@@ -865,6 +870,7 @@ body {
         display: block; }
       .Home .Home-top-segment .icon-container .motto,
       .shift-left .Home-top-segment .icon-container .motto {
+        color: rgba(255, 255, 255, 0.9);
         text-transform: uppercase;
         margin-top: 1rem;
         line-height: 0.9; }
@@ -1055,6 +1061,9 @@ body {
       display: flex;
       align-items: center;
       margin-left: auto; }
+      .Home .social-media .social-icons .social-media-header,
+      .shift-left .social-media .social-icons .social-media-header {
+        color: rgba(255, 255, 255, 0.9); }
       .Home .social-media .social-icons .fab,
       .shift-left .social-media .social-icons .fab {
         font-size: 1.75rem; }
