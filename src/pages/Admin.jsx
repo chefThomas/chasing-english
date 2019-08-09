@@ -33,7 +33,7 @@ export default class Admin extends Component {
 
   availableSessionsData = () => {
     return this.props.sessions.map((el, index) => {
-      return { key: index, when: el.when, type: el.sessionType };
+      return { key: index, when: el.when, type: el.type };
     });
   };
 

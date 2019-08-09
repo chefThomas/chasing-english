@@ -23,7 +23,7 @@ export default class Book extends Component {
 
   availableSessionsData = () => {
     return this.props.sessions.map((el, index) => {
-      return { key: index, when: el.when, type: el.sessionType };
+      return { key: index, when: el.when, type: el.type };
     });
   };
 
@@ -35,6 +35,7 @@ export default class Book extends Component {
   }
 
   render() {
+    console.log("book render: ", this.props.sessions);
     return (
       <div style={{ padding: "2rem" }} className="Page">
         <h1 className="Page-header">Scheduling</h1>

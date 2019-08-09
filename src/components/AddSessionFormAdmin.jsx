@@ -5,7 +5,7 @@ import moment from "moment";
 class AddSessionFormAdmin extends Component {
   state = {
     when: "",
-    sessionType: "Group"
+    type: "Group"
   };
 
   onChange = e => {
@@ -26,7 +26,7 @@ class AddSessionFormAdmin extends Component {
       //
     }
     this.props.addSession(this.state);
-    this.setState({ when: "", sessionType: "Group" });
+    this.setState({ when: "", type: "Group" });
   };
 
   componentDidMount() {
