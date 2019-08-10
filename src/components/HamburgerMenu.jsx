@@ -3,17 +3,19 @@ import "../stylesheets/css/main.css";
 
 class HamburgerMenu extends Component {
   handleClick = e => {
-    this.props.toggleDropdown();
+    this.props.toggleSideNav();
+    // console.log("burger click");
+    // push page over
   };
 
   render() {
-    const { showDropdownNav } = this.props;
+    const { showSideNav } = this.props;
     return (
       <div className="Hamburger-container" onClick={this.handleClick}>
-        <div className={showDropdownNav ? "transparent-bar" : "top"} />
-        <div className={showDropdownNav ? "center1-rotate" : "center1"} />
-        <div className={showDropdownNav ? "center2-rotate" : "center2"} />
-        <div className={showDropdownNav ? "transparent-bar" : "bottom"} />
+        <div className={showSideNav ? "transparent-bar" : "top"} />
+        <div className={showSideNav ? "center1-rotate" : "center1"} />
+        <div className={showSideNav ? "center2-rotate" : "center2"} />
+        <div className={showSideNav ? "transparent-bar" : "bottom"} />
       </div>
     );
   }

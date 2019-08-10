@@ -1,0 +1,14 @@
+.SideNav,
+.offscreen-sidenav {
+  color: $text-dark;
+  font-size: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  transition: all 0.3s ease;
+  padding: 1rem;
+}
+
+.offscreen-sidenav {
+  transform: translate3d(-100%, 0, 0);
+}

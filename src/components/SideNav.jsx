@@ -3,7 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 
 import "../stylesheets/css/main.css";
 
-class DropdownNav extends Component {
+class SideNav extends Component {
   handleCloseDropdown = e => {
     if (window.innerWidth > 700) {
       this.props.closeSideNav();
@@ -20,7 +20,7 @@ class DropdownNav extends Component {
 
   render() {
     return (
-      <div className={this.props.display}>
+      <div className={this.props.className}>
         <NavLink
           onClick={this.handleClick}
           exact
@@ -62,4 +62,4 @@ class DropdownNav extends Component {
   }
 }
 
-export default withRouter(DropdownNav);
+export default withRouter(SideNav);

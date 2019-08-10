@@ -342,58 +342,6 @@ body {
   .Navbar-links-container {
     left: -800px; } }
 
-.Dropdown-nav-hide {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 40%;
-  bottom: -11rem;
-  left: -11rem;
-  padding: 0.5rem;
-  border-top: 2px solid rgba(255, 255, 255, 0.9);
-  border-right: 2px solid rgba(255, 255, 255, 0.9);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
-  background-color: #1b1c1d;
-  opacity: 0;
-  transition: all 0.5s; }
-
-.DropdownNav {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 40%;
-  bottom: -11rem;
-  left: 0rem;
-  padding: 0.5rem;
-  background-color: #1b1c1d;
-  transition: all 0.5s;
-  border-radius: 5px;
-  border-top: 2px solid rgba(255, 255, 255, 0.9);
-  border-right: 2px solid rgba(255, 255, 255, 0.9);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.9); }
-
-.DropdownLink {
-  position: relative;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-top: 0.5rem;
-  margin-left: 1.25rem;
-  font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.9);
-  transition: all 0.3s ease-in-out;
-  color: rgba(255, 255, 255, 0.5);
-  padding: 2px; }
-  .DropdownLink:hover, .DropdownLink:focus {
-    color: rgba(255, 255, 255, 0.9); }
-
-.DropdownLink-active {
-  font-weight: bolder;
-  color: rgba(255, 255, 255, 0.9); }
-
 .NavButton {
   font-family: "Lato", sans-serif;
   font-size: 1rem;
@@ -684,7 +632,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: 2.25rem;
+  padding-left: 1rem;
   padding-top: 2rem;
   transition: all 0.3s ease; }
   .SignupForm label,
@@ -1077,3 +1025,16 @@ body {
   @media screen and (max-width: 650px) {
     .shift-left {
       transform: translate3d(100%, 0, 0); } }
+
+.SideNav,
+.offscreen-sidenav {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  transition: all 0.3s ease;
+  padding: 1rem; }
+
+.offscreen-sidenav {
+  transform: translate3d(-100%, 0, 0); }

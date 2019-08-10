@@ -5,20 +5,21 @@ import "../stylesheets/css/main.css";
 // import DropdownNav from "./DropdownNav";
 // import NavButton from "./NavButton";
 import HamburgerMenu from "./HamburgerMenu";
-// import HamburgerMenu from "./HamburgerMenu";
 
 class Navbar extends Component {
   state = {
-    showDropDownNav: false
+    showDropdownNav: false
   };
 
-  // handleClick = e => {
-  //   console.log("click burger");
-  // };
+  handleClick = e => {
+    console.log("click burger");
+  };
 
   // toggles visibility on click
-  toggleDropdown = e => {
-    this.setState({ showDropdownNav: !this.state.showDropdownNav });
+  toggleSideNav = () => {
+    // this.setState({ showDropdownNav: !this.state.showDropdownNav });
+    // console.log("in nav");
+    this.props.toggleSideNav();
   };
 
   // closes when screen width increased greater than 700px from less.
@@ -36,13 +37,9 @@ class Navbar extends Component {
   };
 
   render() {
-    const { showDropdownNav } = this.state;
+    // const { showDropdownNav } = this.state;
     return (
       <div className="Navbar">
-        {/* <DropdownNav
-          display={showDropdownNav ? "DropdownNav" : "Dropdown-nav-hide"}
-          closeDropdown={this.closeDropdown}
-        /> */}
         <div className="Navbar-links-container">
           <NavLink
             exact
@@ -51,14 +48,6 @@ class Navbar extends Component {
             to="/"
           >
             Home
-          </NavLink>
-          <NavLink
-            exact
-            className="Navbar-link"
-            activeClassName="NavLink-active"
-            to="/info"
-          >
-            Services
           </NavLink>
           <NavLink
             exact
@@ -86,8 +75,8 @@ class Navbar extends Component {
           </NavLink>
         </div>
         <HamburgerMenu
-          showDropdownNav={showDropdownNav}
-          toggleDropdown={this.toggleDropdown}
+          toggleSideNav={this.toggleSideNav}
+          showSideNav={this.props.showSideNav}
         />
         <div className="Navbutton-container">
           <button

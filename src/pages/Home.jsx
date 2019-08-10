@@ -35,7 +35,11 @@ class Home extends Component {
     return (
       <div
         className={
-          this.props.showSignup || this.props.showLogin ? "shift-left" : "Home"
+          this.props.showSignup ||
+          this.props.showLogin ||
+          this.props.showSideNav
+            ? "shift-left"
+            : "Home"
         }
       >
         <section id="title-section" className="Home-top-segment dark">

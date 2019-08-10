@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SignupForm from "../components/SignupForm";
 import LoginForm from "../components/LoginForm";
+import SideNav from "../components/SideNav";
 import Home from "./Home";
 import Book from "./Book";
 import About from "./About";
@@ -15,15 +16,38 @@ export default class Root extends Component {
   state = {
     showSignup: false,
     showLogin: false,
+    showSideNav: false,
     sessions: []
   };
 
   toggleSignup = () => {
-    this.setState({ showSignup: !this.state.showSignup, showLogin: false });
+    this.setState({
+      showSignup: !this.state.showSignup,
+      showLogin: false,
+      showSideNav: false
+    });
   };
 
   toggleLogin = () => {
-    this.setState({ showLogin: !this.state.showLogin, showSignup: false });
+    this.setState({
+      showLogin: !this.state.showLogin,
+      showSignup: false,
+      showSideNav: false
+    });
+  };
+
+  toggleSideNav = () => {
+    this.setState({
+      showSideNav: !this.state.showSideNav,
+      showSignup: false,
+      showLogin: false
+    });
+  };
+
+  closeSideNav = () => {
+    this.setState({
+      showSideNav: false
+    });
   };
 
   addSession = session => {
@@ -39,6 +63,8 @@ export default class Root extends Component {
           {...this.state}
           toggleSignup={this.toggleSignup}
           toggleLogin={this.toggleLogin}
+          toggleSideNav={this.toggleSideNav}
+          showSideNav={this.state.showSideNav}
         />
         <SignupForm
           toggle={this.showSignup}
@@ -48,6 +74,10 @@ export default class Root extends Component {
           toggle={this.toggleLogin}
           toggleSignup={this.toggleSignup}
           className={this.state.showLogin ? "LoginForm" : "offscreen-login"}
+        />
+        <SideNav
+          closeSideNav={this.closeSideNav}
+          className={this.state.showSideNav ? "SideNav" : "offscreen-sidenav"}
         />
         <Switch>
           <Route
