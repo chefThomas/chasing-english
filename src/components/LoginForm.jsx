@@ -42,12 +42,12 @@ export default class LoginForm extends Component {
         {/* <i class="fa fa-times" aria-hidden="true" onClick={this.handleToggle} /> */}
         <h2 className="LoginForm-header">Login</h2>
         <div className="email-input">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="loginEmail">Email</label>
           <input
             required
             className="text-input"
             name="email"
-            id="email"
+            id="loginEmail"
             type="text"
             value={this.state.email}
             onChange={this.handleChange}

@@ -57,12 +57,12 @@ export default class SignupForm extends Component {
           value={this.state.parentLastName}
           onChange={this.handleChange}
         />
-        <label htmlFor="email">Email</label>
+        <label htmlFor="parentEmail">Email</label>
         <input
           required
           className="text-input"
           name="parentEmail"
-          id="email"
+          id="parentEmail"
           type="email"
           value={this.state.parentEmail}
           onChange={this.handleChange}
@@ -84,22 +84,21 @@ export default class SignupForm extends Component {
         <div className="radio-choice">
           Group
           <input
-            onClick={this.handleChange}
+            onChange={this.handleChange}
             type="radio"
             name="coursePreference"
             value="group"
-            checked={this.state.coursePreference === "group"}
+            defaultChecked={this.state.coursePreference === "group"}
             className="group-radio"
           />
         </div>
         <div className="radio-choice bottom">
           Individual
           <input
-            onClick={this.handleChange}
+            onChange={this.handleChange}
             type="radio"
             name="coursePreference"
             value="individual"
-            checked={this.state.coursePreference === "individual"}
             className="group-radio"
           />
         </div>

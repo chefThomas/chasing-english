@@ -39,8 +39,6 @@ export default class Admin extends Component {
 
   componentDidMount() {
     //construct table data list
-    console.log("Book componentdidmount1", this.props.sessions);
-    console.log("Book componentdidmount2", this.availableSessionsData());
     this.availableSessionsData();
   }
 

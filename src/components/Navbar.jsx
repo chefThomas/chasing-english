@@ -80,7 +80,7 @@ class Navbar extends Component {
         />
         <div className="Navbutton-container">
           <button
-            class="NavButton dark-on-dark navbar"
+            className="NavButton dark-on-dark navbar"
             label="Log in"
             onClick={this.handleLoginClick}
           >
@@ -88,7 +88,7 @@ class Navbar extends Component {
           </button>
           {/* toggle signup form */}
           <button
-            class="NavButton dark-on-dark navbar"
+            className="NavButton dark-on-dark navbar"
             label="Sign up"
             onClick={this.handleSignupClick}
           >

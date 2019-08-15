@@ -51,7 +51,6 @@ export default class Root extends Component {
   };
 
   addSession = session => {
-    console.log("in addsession", session);
     this.setState(st => ({
       sessions: [...st.sessions, session]
     }));

@@ -31,7 +31,6 @@ class Home extends Component {
     showForm: false
   };
   render() {
-    console.log(this.props);
     return (
       <div
         className={
@@ -186,9 +185,9 @@ class Home extends Component {
               <div>©Chasing English 2019</div>
               <div className="social-icons">
                 <h4 className="social-media-header">Follow Us</h4>
-                <i class="fab fa-twitter-square" />
-                <i class="fab fa-linkedin" />
-                <i class="fab fa-instagram" />
+                <i className="fab fa-twitter-square" />
+                <i className="fab fa-linkedin" />
+                <i className="fab fa-instagram" />
               </div>
             </div>
           </footer>

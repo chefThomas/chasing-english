@@ -10,23 +10,18 @@ class AddSessionFormAdmin extends Component {
 
   onChange = e => {
     // adds tutoring session type to state
-    console.log(e.target.value);
-    this.setState({ sessionType: e.target.value });
+    console.log("in type change", e.target.value);
+    this.setState({ ...this.state, type: e.target.value });
   };
 
   onOk = value => {
-    console.log("in formAdmin: ", value.format("h:mm a"));
     const when = `${value.format("dddd, MMMM Do YYYY, h:mm a")}`;
     this.setState({ when });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.state.when.length === 0) {
-      //
-    }
     this.props.addSession(this.state);
-    this.setState({ when: "", type: "Group" });
   };
 
   componentDidMount() {
@@ -36,7 +31,6 @@ class AddSessionFormAdmin extends Component {
   }
 
   render() {
-    console.log(this.props.form);
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -52,10 +46,12 @@ class AddSessionFormAdmin extends Component {
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item label="Date and Time to Start Session">
           <DatePicker
+            // onChange={this.handleDatePickerChange}
             defaultValue={moment()}
             showTime={{ use12hours: true, format: "HH:mm" }}
             onOk={this.onOk}
             format="MMMM Do YY, h:mm a"
+            selectedValue={this.state.when}
           />
         </Form.Item>
         <Form.Item

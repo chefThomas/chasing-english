@@ -29,13 +29,10 @@ export default class Book extends Component {
 
   componentDidMount() {
     //construct table data list
-    console.log("Book componentdidmount1", this.props.sessions);
-    console.log("Book componentdidmount2", this.availableSessionsData());
     this.availableSessionsData();
   }
 
   render() {
-    console.log("book render: ", this.props.sessions);
     return (
       <div style={{ padding: "2rem" }} className="Page">
         <h1 className="Page-header">Scheduling</h1>
