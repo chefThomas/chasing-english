@@ -15,7 +15,7 @@ class SideNav extends Component {
   }
 
   handleClick = e => {
-    this.props.closeDropdown();
+    this.props.closeSideNav();
   };
 
   render() {

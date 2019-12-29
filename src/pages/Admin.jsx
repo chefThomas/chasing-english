@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Divider, Button, Table } from "antd";
-import AddSessionFormAdmin from "../components/AddSessionFormAdmin";
+// import AddSessionFormAdmin from "../components/AddSessionFormAdmin";
+import GroupCourseForm from "../components/GroupCourseForm";
+
 // import SessionCalendar from "../components/SessionCalendar";
 const styles = {
   Admin: {
@@ -45,10 +47,11 @@ export default class Admin extends Component {
   render() {
     return (
       <div style={styles.Admin} className="Admin">
-        <h1>Add Session to Booking List</h1>
-        <AddSessionFormAdmin addSession={this.props.addSession} />
+        <h1>Add Group Course</h1>
+        {/* <AddSessionFormAdmin addSession={this.props.addSession} /> */}
+        <WrappedTimeRelatedForm addSession={this.props.addSession} />
         <Divider />
-        <h1>Scheduled Sessions</h1>
+        <h1>Available Sessions</h1>
         <Table
           dataSource={this.availableSessionsData()}
           columns={this.availableSessionsCols}
