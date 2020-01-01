@@ -53,9 +53,9 @@ class Navbar extends Component {
             exact
             className="Navbar-link"
             activeClassName="NavLink-active"
-            to="/schedule"
+            to="/register"
           >
-            Book
+            Register
           </NavLink>
           <NavLink
             exact

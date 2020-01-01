@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Tabs, Button, Table, Typography } from "antd";
-import ProgramForm from "../components/ProgramForm";
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
-const marginSm = { margin: "10px" };
+// const marginSm = { margin: "10px" };
 
 export default class Admin extends Component {
   groupProgramsCols = [
@@ -43,7 +42,7 @@ export default class Admin extends Component {
       key: "action",
       render: () => (
         <span>
-          <Button type="danger">Delete</Button>
+          <Button type="primary">Reserve</Button>
         </span>
       )
     }
@@ -80,7 +79,7 @@ export default class Admin extends Component {
       key: "action",
       render: () => (
         <span>
-          <Button type="danger">Delete</Button>
+          <Button type="primary">Reserve</Button>
         </span>
       )
     }
@@ -132,27 +131,30 @@ export default class Admin extends Component {
   render() {
     return (
       <Tabs type="card">
-        <TabPane style={marginSm} tab="Add Program" key="1">
-          <ProgramForm addSession={this.props.addSession} />
-        </TabPane>
-        <TabPane tab="View/Edit Programs" key="2">
-          <Title style={marginSm} level={3}>
-            Individual
-          </Title>
+        <TabPane tab="Courses" key="1">
+          <Title level={3}>Individual</Title>
           <Table
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
           />
-          <Title style={marginSm} level={3}>
-            Group
-          </Title>
+          <Title level={3}>Group</Title>
           <Table
             dataSource={this.getGroupSessionData()}
             columns={this.groupProgramsCols}
           />
         </TabPane>
-        <TabPane tab="Info Requests" key="3">
-          Content of Tab Pane 3
+        <TabPane tab="My Schedule" key="2">
+          <Title level={3}>Individual</Title>
+          <Table
+            dataSource={this.getIndividualSessionData()}
+            columns={this.individualProgramsCols}
+          />
+          <Title level={3}>Group</Title>
+
+          <Table
+            dataSource={this.getGroupSessionData()}
+            columns={this.groupProgramsCols}
+          />
         </TabPane>
       </Tabs>
     );

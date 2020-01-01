@@ -18,7 +18,7 @@ const initialState = {
   endDate: "",
   meetingTime: "",
   meetingDay: [],
-  groupSeats: 6,
+  groupSeats: 1,
   type: null
 };
 
@@ -29,7 +29,7 @@ class TimeRelatedForm extends Component {
     endDate: "",
     meetingTime: "",
     meetingDay: [],
-    groupSeats: 6,
+    groupSeats: 1,
     type: null
   };
 
@@ -68,7 +68,6 @@ class TimeRelatedForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log("click submit");
     this.props.addSession(this.state);
   };
 
@@ -135,18 +134,15 @@ class TimeRelatedForm extends Component {
             <Option key="Sunday ">Sun</Option>
           </Select>
         </Form.Item>
-        <Form.Item
-          label="Seats"
-          style={this.state.type !== "group" ? { display: "none" } : {}}
-        >
-          <InputNumber
-            defaultValue={6}
-            min={0}
-            onChange={this.handleSizeChange}
-            placeHolder="seats"
-            value={this.state.groupSeats}
-          />
-        </Form.Item>
+        {this.state.type === "group" ? (
+          <Form.Item label="Seats">
+            <InputNumber
+              min={0}
+              onChange={this.handleSizeChange}
+              value={this.state.groupSeats}
+            />
+          </Form.Item>
+        ) : null}
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit

@@ -6,7 +6,7 @@ import SignupForm from "../components/SignupForm";
 import LoginForm from "../components/LoginForm";
 import SideNav from "../components/SideNav";
 import Home from "./Home";
-import Book from "./Book";
+import Register from "./Register";
 import About from "./About";
 import Admin from "./Admin";
 
@@ -88,9 +88,9 @@ export default class Root extends Component {
           />
           <Route
             exact
-            path="/schedule"
+            path="/register"
             render={routeProps => (
-              <Book {...routeProps} sessions={this.state.sessions} />
+              <Register {...routeProps} sessions={this.state.sessions} />
             )}
           />
           <Route
