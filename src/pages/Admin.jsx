@@ -1,63 +1,155 @@
 import React, { Component } from "react";
-import { Divider, Button, Table } from "antd";
-// import AddSessionFormAdmin from "../components/AddSessionFormAdmin";
-import GroupCourseForm from "../components/GroupCourseForm";
+import { Tabs, Button, Table, Typography } from "antd";
+import ProgramForm from "../components/ProgramForm";
 
-// import SessionCalendar from "../components/SessionCalendar";
-const styles = {
-  Admin: {
-    padding: "2rem"
-  }
-};
+const { Title } = Typography;
+const { TabPane } = Tabs;
+const marginSm = { margin: "10px" };
+
 export default class Admin extends Component {
-  availableSessionsCols = [
+  groupProgramsCols = [
     {
-      title: "When",
-      dataIndex: "when",
-      key: "when"
+      title: "Title",
+      dataIndex: "groupTitle",
+      key: "groupTitle"
     },
     {
-      title: "Type",
-      dataIndex: "type",
-      key: "type"
+      title: "Start",
+      dataIndex: "startDate",
+      key: "startDate"
     },
     {
-      title: "Action",
+      title: "End",
+      dataIndex: "endDate",
+      key: "startDate"
+    },
+    {
+      title: "Time",
+      dataIndex: "meetingTime",
+      key: "meetingTime"
+    },
+    {
+      title: "Day",
+      dataIndex: "meetingDay",
+      key: "meetingDay"
+    },
+    {
+      title: "Seats",
+      dataIndex: "groupSeats",
+      key: "groupSeats"
+    },
+    {
+      title: "",
       key: "action",
       render: () => (
         <span>
-          <Button>Edit</Button>
           <Button>Delete</Button>
         </span>
       )
     }
   ];
 
-  availableSessionsData = () => {
-    return this.props.sessions.map((el, index) => {
-      return { key: index, when: el.when, type: el.type };
+  individualProgramsCols = [
+    {
+      title: "Start",
+      dataIndex: "startDate",
+      key: "startDate"
+    },
+    {
+      title: "End",
+      dataIndex: "endDate",
+      key: "startDate"
+    },
+    {
+      title: "Time",
+      dataIndex: "meetingTime",
+      key: "meetingTime"
+    },
+    {
+      title: "Day",
+      dataIndex: "meetingDay",
+      key: "meetingDay"
+    },
+    {
+      title: "",
+      key: "action",
+      render: () => (
+        <span>
+          <Button>Delete</Button>
+        </span>
+      )
+    }
+  ];
+
+  getGroupSessionData = () => {
+    const groupPrograms = this.props.sessions.filter(program => {
+      return program.type === "group";
+    });
+
+    return groupPrograms.map((program, index) => {
+      return {
+        key: index,
+        groupTitle: program.groupTitle,
+        startDate: program.startDate,
+        endDate: program.endDate,
+        meetingTime: program.meetingTime,
+        meetingDay: program.meetingDay,
+        groupSeats: program.groupSeats,
+        type: program.type
+      };
+    });
+  };
+
+  getIndividualSessionData = () => {
+    const groupPrograms = this.props.sessions.filter(program => {
+      return program.type === "individual";
+    });
+
+    return groupPrograms.map((program, index) => {
+      return {
+        key: index,
+        startDate: program.startDate,
+        endDate: program.endDate,
+        meetingTime: program.meetingTime,
+        meetingDay: program.meetingDay,
+        type: program.type
+      };
     });
   };
 
   componentDidMount() {
-    //construct table data list
-    this.availableSessionsData();
+    //retrieve program data on page load
+    this.getIndividualSessionData();
+    this.getGroupSessionData();
   }
 
   render() {
     return (
-      <div style={styles.Admin} className="Admin">
-        <h1>Add Group Course</h1>
-        {/* <AddSessionFormAdmin addSession={this.props.addSession} /> */}
-        <WrappedTimeRelatedForm addSession={this.props.addSession} />
-        <Divider />
-        <h1>Available Sessions</h1>
-        <Table
-          dataSource={this.availableSessionsData()}
-          columns={this.availableSessionsCols}
-        />
-        <h1>User Access Requests</h1>
-      </div>
+      <Tabs type="card">
+        <TabPane style={marginSm} tab="Add Program" key="1">
+          <ProgramForm addSession={this.props.addSession} />
+        </TabPane>
+        <TabPane tab="View/Edit Programs" key="2">
+          <Title style={marginSm} level={3}>
+            Individual
+          </Title>
+          <Table
+            dataSource={this.getIndividualSessionData()}
+            columns={this.individualProgramsCols}
+          />
+          <Title style={marginSm} level={3}>
+            Group
+          </Title>
+
+          <Table
+            dataSource={this.getGroupSessionData()}
+            columns={this.groupProgramsCols}
+          />
+        </TabPane>
+        <TabPane tab="Info Requests" key="3">
+          Content of Tab Pane 3
+        </TabPane>
+      </Tabs>
     );
   }
 }

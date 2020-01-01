@@ -22,8 +22,8 @@ export default class Book extends Component {
   ];
 
   availableSessionsData = () => {
-    return this.props.sessions.map((el, index) => {
-      return { key: index, when: el.when, type: el.type };
+    return this.props.sessions.map((program, index) => {
+      return { when: program.when, type: program.type };
     });
   };
 

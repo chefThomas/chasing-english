@@ -51,10 +51,12 @@ export default class Root extends Component {
   };
 
   addSession = session => {
+    console.log("addSession called");
     this.setState(st => ({
       sessions: [...st.sessions, session]
     }));
   };
+
   render() {
     return (
       <div className="Root">
