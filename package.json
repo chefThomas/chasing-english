@@ -4,16 +4,18 @@
   "private": true,
   "dependencies": {
     "antd": "^3.20.7",
+    "axios": "^0.19.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "^3.3.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
+    "fake-server": "json-server --port 3001 --watch db.json",
     "sass-css": "node-sass --watch src/stylesheets/scss -o src/stylesheets/css",
     "commit": "git-cz"
   },
@@ -37,6 +39,7 @@
     "css-loader": "^3.2.0",
     "customize-cra": "^0.4.1",
     "cz-conventional-changelog": "^3.0.2",
+    "json-server": "^0.15.1",
     "less": "^3.9.0",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",

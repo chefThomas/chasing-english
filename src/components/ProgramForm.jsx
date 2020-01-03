@@ -27,7 +27,7 @@ class TimeRelatedForm extends Component {
     groupTitle: "",
     startDate: "",
     endDate: "",
-    meetingTime: "",
+    meetingTime: null,
     meetingDay: [],
     groupSeats: 1,
     type: null
@@ -57,7 +57,8 @@ class TimeRelatedForm extends Component {
     this.setState({ endDate: dateString });
   };
 
-  handleGroupTimeChange = (time, timeString) => {
+  handleGroupTimeChange = (moment, timeString) => {
+    console.log("time: ", moment);
     this.setState({ meetingTime: timeString });
   };
 
@@ -74,7 +75,7 @@ class TimeRelatedForm extends Component {
   render() {
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
-        <Form.Item>
+        <Form.Item required={true}>
           <Radio.Group value={this.state.type} onChange={this.handleTypeChange}>
             <Radio.Button value="individual">Individual</Radio.Button>
             <Radio.Button value="group">Group</Radio.Button>
@@ -112,26 +113,25 @@ class TimeRelatedForm extends Component {
           <TimePicker
             use12Hours
             minuteStep={15}
-            placeHoleder="Meeting Time"
             format="h:mm a"
             onChange={this.handleGroupTimeChange}
             defaultOpenValue={moment("08:00:00", "HH:mm:ss")}
           />
         </Form.Item>
-        <Form.Item label="Meeting Day(s)">
+        <Form.Item required={true} label="Meeting Day(s)">
           <Select
             mode="multiple"
             style={{ width: "40%" }}
             placeholder="Please select"
             onChange={this.handleDayChange}
           >
-            <Option key="Monday ">Mon</Option>
-            <Option key="Tuesday ">Tue</Option>
-            <Option key="Wednesday ">Wed</Option>
-            <Option key="Thursday ">Thu</Option>
-            <Option key="Friday ">Fri</Option>
-            <Option key="Saturday ">Sat</Option>
-            <Option key="Sunday ">Sun</Option>
+            <Option key="Mon ">Mon</Option>
+            <Option key="Tue ">Tue</Option>
+            <Option key="Wed ">Wed</Option>
+            <Option key="Thu ">Thu</Option>
+            <Option key="Fri ">Fri</Option>
+            <Option key="Sat ">Sat</Option>
+            <Option key="Sun ">Sun</Option>
           </Select>
         </Form.Item>
         {this.state.type === "group" ? (

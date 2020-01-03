@@ -91,9 +91,8 @@ export default class Admin extends Component {
       return program.type === "group";
     });
 
-    return groupPrograms.map((program, index) => {
+    return groupPrograms.map(program => {
       return {
-        key: index,
         groupTitle: program.groupTitle,
         startDate: program.startDate,
         endDate: program.endDate,
@@ -112,7 +111,6 @@ export default class Admin extends Component {
 
     return indyPrograms.map((program, index) => {
       return {
-        key: index,
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,

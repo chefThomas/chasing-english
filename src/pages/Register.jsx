@@ -33,16 +33,20 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "Seats",
+      title: "seats avail.",
       dataIndex: "groupSeats",
       key: "groupSeats"
     },
     {
       title: "",
       key: "action",
-      render: () => (
+      render: (text, record) => (
         <span>
-          <Button type="primary">Reserve</Button>
+          {record.groupSeats === 0 ? (
+            <Button>Waitlist</Button>
+          ) : (
+            <Button type="primary">Register</Button>
+          )}
         </span>
       )
     }
@@ -70,16 +74,20 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "Seats",
+      title: "seats avail.",
       dataIndex: "groupSeats",
       key: "groupSeats"
     },
     {
       title: "",
       key: "action",
-      render: () => (
+      render: (text, record) => (
         <span>
-          <Button type="primary">Reserve</Button>
+          {record.groupSeats === 0 ? (
+            <Button>Add to Waitlist</Button>
+          ) : (
+            <Button type="primary">Register</Button>
+          )}
         </span>
       )
     }

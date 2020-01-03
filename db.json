@@ -1,0 +1,32 @@
+{
+  "programs": [
+    {
+      "id": 1,
+      "groupTitle": "writing for angsty teens",
+      "type": "group",
+      "startDate": "08-21-20",
+      "endDate": "09-21-20",
+      "time": "08:00 am",
+      "meetingDay": ["mon, wed, fri"],
+      "capacity": 6,
+      "enrolled": 5,
+      "availableSeats": 1,
+      "status": "active",
+      "students": [""]
+    },
+    {
+      "id": 2,
+      "groupTitle": "",
+      "type": "individual",
+      "startDate": "08-21-20",
+      "endDate": "09-21-20",
+      "time": "08:00 am",
+      "meetingDay": ["sat"],
+      "capacity": 1,
+      "enrolled": 1,
+      "availableSeats": 0,
+      "status": "archived",
+      "students": [""]
+    }
+  ]
+}
