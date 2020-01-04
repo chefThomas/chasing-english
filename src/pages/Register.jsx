@@ -33,9 +33,14 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "seats avail.",
-      dataIndex: "groupSeats",
-      key: "groupSeats"
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity"
+    },
+    {
+      title: "Enrolled",
+      dataIndex: "enrolled",
+      key: "enrolled"
     },
     {
       title: "",
@@ -74,16 +79,21 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "seats avail.",
-      dataIndex: "groupSeats",
-      key: "groupSeats"
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity"
+    },
+    {
+      title: "Enrolled",
+      dataIndex: "enrolled",
+      key: "enrolled"
     },
     {
       title: "",
       key: "action",
       render: (text, record) => (
         <span>
-          {record.groupSeats === 0 ? (
+          {record.enrolled === record.capacity ? (
             <Button>Add to Waitlist</Button>
           ) : (
             <Button type="primary">Register</Button>
@@ -100,14 +110,13 @@ export default class Admin extends Component {
 
     return groupPrograms.map((program, index) => {
       return {
-        key: index,
         groupTitle: program.groupTitle,
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
-        groupSeats: program.groupSeats,
-        type: program.type
+        capacity: program.capacity,
+        enrolled: program.enrolled
       };
     });
   };
@@ -119,13 +128,12 @@ export default class Admin extends Component {
 
     return indyPrograms.map((program, index) => {
       return {
-        key: index,
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
-        groupSeats: program.groupSeats,
-        type: program.type
+        capacity: program.capacity,
+        enrolled: program.enrolled
       };
     });
   };

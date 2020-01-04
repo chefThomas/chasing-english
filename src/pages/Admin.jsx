@@ -34,9 +34,14 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "Seats",
-      dataIndex: "groupSeats",
-      key: "groupSeats"
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity"
+    },
+    {
+      title: "Enrolled",
+      dataIndex: "enrolled",
+      key: "enrolled"
     },
     {
       title: "",
@@ -71,9 +76,14 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "Seats",
-      dataIndex: "groupSeats",
-      key: "groupSeats"
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity"
+    },
+    {
+      title: "Enrolled",
+      dataIndex: "enrolled",
+      key: "enrolled"
     },
     {
       title: "",
@@ -98,8 +108,8 @@ export default class Admin extends Component {
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
-        groupSeats: program.groupSeats,
-        type: program.type
+        capacity: program.capacity,
+        enrolled: program.enrolled
       };
     });
   };
@@ -109,14 +119,14 @@ export default class Admin extends Component {
       return program.type === "individual";
     });
 
-    return indyPrograms.map((program, index) => {
+    return indyPrograms.map(program => {
       return {
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
-        groupSeats: program.groupSeats,
-        type: program.type
+        capacity: program.capacity,
+        enrolled: program.enrolled
       };
     });
   };

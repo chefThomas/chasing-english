@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
+import axios from "axios";
 
 import Navbar from "../components/Navbar";
 import SignupForm from "../components/SignupForm";
@@ -55,7 +56,17 @@ export default class Root extends Component {
     this.setState(st => ({
       sessions: [...st.sessions, session]
     }));
+
+    axios
+      .post("http://localhost:3001/programs", session)
+      .then(res => console.log(res));
   };
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:3001/programs")
+      .then(res => this.setState({ sessions: res.data }));
+  }
 
   render() {
     return (

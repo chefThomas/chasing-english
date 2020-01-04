@@ -18,7 +18,7 @@ const initialState = {
   endDate: "",
   meetingTime: "",
   meetingDay: [],
-  groupSeats: 1,
+  capacity: 1,
   type: null
 };
 
@@ -29,7 +29,7 @@ class TimeRelatedForm extends Component {
     endDate: "",
     meetingTime: null,
     meetingDay: [],
-    groupSeats: 1,
+    capacity: 1,
     type: null
   };
 
@@ -139,7 +139,7 @@ class TimeRelatedForm extends Component {
             <InputNumber
               min={0}
               onChange={this.handleSizeChange}
-              value={this.state.groupSeats}
+              value={this.state.capacity}
             />
           </Form.Item>
         ) : null}
