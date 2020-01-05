@@ -57,9 +57,9 @@ export default class Root extends Component {
       sessions: [...st.sessions, session]
     }));
 
-    axios
-      .post("http://localhost:3001/programs", session)
-      .then(res => console.log(res));
+    axios.post("http://localhost:3001/programs", session).then(res => {
+      console.log(res);
+    });
   };
 
   componentDidMount() {

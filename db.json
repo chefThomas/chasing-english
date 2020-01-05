@@ -7,16 +7,12 @@
       "startDate": "08-21-20",
       "endDate": "09-21-20",
       "meetingTime": "08:00 am",
-      "meetingDay": [
-        "Mon, Wed, Fri"
-      ],
+      "meetingDay": ["Mon, Wed, Fri"],
       "capacity": 6,
       "enrolled": 5,
       "availableSeats": 1,
       "status": "active",
-      "students": [
-        ""
-      ]
+      "students": [""]
     },
     {
       "id": 2,
@@ -25,66 +21,38 @@
       "startDate": "08-21-20",
       "endDate": "09-21-20",
       "meetingTime": "08:00 am",
-      "meetingDay": [
-        "Sat"
-      ],
+      "meetingDay": ["Sat"],
       "capacity": 1,
       "enrolled": 1,
       "availableSeats": 0,
       "status": "archived",
-      "students": [
-        ""
-      ]
+      "students": [""]
     },
     {
-      "groupTitle": "",
-      "startDate": "01-01-2020",
-      "endDate": "01-09-2020",
-      "meetingTime": "8:00 am",
-      "meetingDay": [
-        "Tue ",
-        "Thu "
-      ],
-      "capacity": 1,
-      "type": "individual",
+      "groupTitle": "HS Admissions Essay",
+      "startDate": "01-04-2020",
+      "endDate": "01-11-2020",
+      "meetingTime": "12:00 pm",
+      "meetingDay": ["Mon ", "Wed ", "Fri "],
+      "capacity": 8,
+      "type": "group",
       "id": 3
     },
     {
       "groupTitle": "",
-      "startDate": "01-01-2020",
-      "endDate": "01-08-2020",
-      "meetingTime": "8:00 am",
-      "meetingDay": [
-        "Tue ",
-        "Thu "
-      ],
+      "startDate": "01-11-2020",
+      "endDate": "01-18-2020",
+      "meetingTime": "7:30 pm",
+      "meetingDay": ["Sat "],
       "capacity": 1,
       "type": "individual",
       "id": 4
-    },
+    }
+  ],
+  "users": [
     {
-      "groupTitle": "",
-      "startDate": "01-01-2020",
-      "endDate": "01-08-2020",
-      "meetingTime": "8:00 am",
-      "meetingDay": [
-        "Mon "
-      ],
-      "capacity": 1,
-      "type": "individual",
-      "id": 5
-    },
-    {
-      "groupTitle": "",
-      "startDate": "01-01-2020",
-      "endDate": "01-08-2020",
-      "meetingTime": "8:00 am",
-      "meetingDay": [
-        "Mon "
-      ],
-      "capacity": 1,
-      "type": "individual",
-      "id": 6
+      "email": "thomcdixon@gmail.com",
+      "courses": [1, 4]
     }
   ]
 }

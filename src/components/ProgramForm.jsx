@@ -12,28 +12,27 @@ import {
 import moment from "moment";
 
 const { Option } = Select;
-const initialState = {
-  groupTitle: "",
-  startDate: "",
-  endDate: "",
-  meetingTime: "",
-  meetingDay: [],
-  capacity: 1,
-  type: null
-};
 
 class TimeRelatedForm extends Component {
   state = {
     groupTitle: "",
-    startDate: "",
-    endDate: "",
-    meetingTime: null,
+    startDate: moment().format("MM-DD-YYYY"),
+    endDate: moment().format("MM-DD-YYYY"),
+    meetingTime: moment().format("h:mm a"),
     meetingDay: [],
     capacity: 1,
     type: null
   };
 
-  resetState = () => this.setState(initialState);
+  initialState = {
+    groupTitle: "",
+    startDate: moment().format("MM-DD-YYYY"),
+    endDate: moment().format("MM-DD-YYYY"),
+    meetingTime: moment().format("h:mm a"),
+    meetingDay: [],
+    capacity: 1,
+    type: null
+  };
 
   handleTypeChange = e => {
     const { value } = e.target;
@@ -41,7 +40,7 @@ class TimeRelatedForm extends Component {
   };
   handleSizeChange = value => {
     console.log(value);
-    this.setState({ groupSeats: value });
+    this.setState({ capacity: value });
   };
 
   handleGroupTitleChange = e => {
@@ -50,6 +49,7 @@ class TimeRelatedForm extends Component {
   };
 
   handleGroupStartChange = (date, dateString) => {
+    console.log("date start: ", dateString);
     this.setState({ startDate: dateString });
   };
 
@@ -57,8 +57,8 @@ class TimeRelatedForm extends Component {
     this.setState({ endDate: dateString });
   };
 
-  handleGroupTimeChange = (moment, timeString) => {
-    console.log("time: ", moment);
+  handleGroupTimeChange = (time, timeString) => {
+    console.log("timeString: ", timeString);
     this.setState({ meetingTime: timeString });
   };
 
@@ -69,20 +69,23 @@ class TimeRelatedForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log(e.target);
+
     this.props.addSession(this.state);
+    this.setState(this.initialState);
   };
 
   render() {
     return (
       <Form layout="vertical" onSubmit={this.handleSubmit}>
-        <Form.Item required={true}>
+        <Form.Item>
           <Radio.Group value={this.state.type} onChange={this.handleTypeChange}>
             <Radio.Button value="individual">Individual</Radio.Button>
             <Radio.Button value="group">Group</Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item
-          style={this.state.type !== "group" ? { display: "none" } : {}}
+          style={this.state.type !== "group" ? { display: "none" } : null}
           label="Title"
         >
           <Input
@@ -101,21 +104,22 @@ class TimeRelatedForm extends Component {
             format="MM-DD-YYYY"
             placeholder="Start Date"
             onChange={this.handleGroupStartChange}
+            value={moment(this.state.startDate)}
           />
           <br></br>
           <DatePicker
             format="MM-DD-YYYY"
             placeholder="End Date"
             onChange={this.handleGroupEndChange}
+            value={moment(this.state.endDate)}
           />
         </Form.Item>
         <Form.Item label="Meeting Time">
           <TimePicker
-            use12Hours
             minuteStep={15}
             format="h:mm a"
+            use12Hours
             onChange={this.handleGroupTimeChange}
-            defaultOpenValue={moment("08:00:00", "HH:mm:ss")}
           />
         </Form.Item>
         <Form.Item required={true} label="Meeting Day(s)">
@@ -124,6 +128,7 @@ class TimeRelatedForm extends Component {
             style={{ width: "40%" }}
             placeholder="Please select"
             onChange={this.handleDayChange}
+            value={this.state.meetingDay}
           >
             <Option key="Mon ">Mon</Option>
             <Option key="Tue ">Tue</Option>
@@ -144,7 +149,7 @@ class TimeRelatedForm extends Component {
           </Form.Item>
         ) : null}
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={this.props.remove}>
             Submit
           </Button>
         </Form.Item>

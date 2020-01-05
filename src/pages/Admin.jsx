@@ -21,7 +21,51 @@ export default class Admin extends Component {
     {
       title: "End",
       dataIndex: "endDate",
+      key: "endDate"
+    },
+    {
+      title: "Time",
+      dataIndex: "meetingTime",
+      key: "meetingTime"
+    },
+    {
+      title: "Day",
+      dataIndex: "meetingDay",
+      key: "meetingDay"
+    },
+    {
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity"
+    },
+    {
+      title: "Enrolled",
+      dataIndex: "enrolled",
+      key: "enrolled"
+    },
+    {
+      title: "",
+      key: "action",
+      render: () => (
+        <span>
+          <Button onClick={this.handleDeleteProgram} type="danger">
+            Delete
+          </Button>
+        </span>
+      )
+    }
+  ];
+
+  individualProgramsCols = [
+    {
+      title: "Start",
+      dataIndex: "startDate",
       key: "startDate"
+    },
+    {
+      title: "End",
+      dataIndex: "endDate",
+      key: "endDate"
     },
     {
       title: "Time",
@@ -54,47 +98,9 @@ export default class Admin extends Component {
     }
   ];
 
-  individualProgramsCols = [
-    {
-      title: "Start",
-      dataIndex: "startDate",
-      key: "startDate"
-    },
-    {
-      title: "End",
-      dataIndex: "endDate",
-      key: "startDate"
-    },
-    {
-      title: "Time",
-      dataIndex: "meetingTime",
-      key: "meetingTime"
-    },
-    {
-      title: "Day",
-      dataIndex: "meetingDay",
-      key: "meetingDay"
-    },
-    {
-      title: "Capacity",
-      dataIndex: "capacity",
-      key: "capacity"
-    },
-    {
-      title: "Enrolled",
-      dataIndex: "enrolled",
-      key: "enrolled"
-    },
-    {
-      title: "",
-      key: "action",
-      render: () => (
-        <span>
-          <Button type="danger">Delete</Button>
-        </span>
-      )
-    }
-  ];
+  handleDeleteProgram = e => {
+    console.log(e.target.parentNode);
+  };
 
   getGroupSessionData = () => {
     const groupPrograms = this.props.sessions.filter(program => {
