@@ -52,32 +52,22 @@ export default class Root extends Component {
   };
 
   addSession = session => {
-    console.log("addSession called");
-    // this.setState(st => ({
-    //   sessions: [...st.sessions, session]
-    // }));
-
     axios.post("http://localhost:3001/programs", session).then(res => {
-      console.log("added session: ", res.data);
       this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
     });
   };
 
   removeSession = sessionId => {
-    console.log("remove session called on id: ", sessionId);
     axios.delete(`http://localhost:3001/programs/${sessionId}`).then(res => {
-      console.log("response object in axios delete: ", res);
       const filteredSessions = this.state.sessions.filter(
         session => session.id !== sessionId
       );
-      console.log("filtered sessions: ", filteredSessions);
       this.setState({ sessions: filteredSessions });
     });
   };
 
   componentDidMount() {
     axios.get("http://localhost:3001/programs").then(res => {
-      console.log("component mounted: ", res);
       this.setState(st => ({
         sessions: st.sessions.concat(res.data)
       }));
