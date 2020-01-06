@@ -21,6 +21,7 @@ class TimeRelatedForm extends Component {
     meetingTime: moment().format("h:mm a"),
     meetingDay: [],
     capacity: 1,
+    enrolled: 0,
     type: null
   };
 
@@ -31,6 +32,7 @@ class TimeRelatedForm extends Component {
     meetingTime: moment().format("h:mm a"),
     meetingDay: [],
     capacity: 1,
+    enrolled: 0,
     type: null
   };
 

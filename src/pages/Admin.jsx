@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Tabs, Button, Table, Typography } from "antd";
+import { Tabs, Button, Table, Popconfirm, message, Icon } from "antd";
 import ProgramForm from "../components/ProgramForm";
 
-const { Title } = Typography;
 const { TabPane } = Tabs;
-const marginSm = { margin: "10px" };
+// const marginSm = { margin: "10px" };
 
 export default class Admin extends Component {
   groupProgramsCols = [
@@ -46,11 +45,19 @@ export default class Admin extends Component {
     {
       title: "",
       key: "action",
-      render: () => (
+      render: (text, record) => (
         <span>
-          <Button onClick={this.handleDeleteProgram} type="danger">
-            Delete
-          </Button>
+          <Popconfirm
+            title="Are you sure?"
+            onConfirm={() => this.confirmDelete(record.id)}
+            onCancel={() => null}
+            okText="Yes"
+            cancelText="Cancel"
+            placement="left"
+            icon={<Icon type="question-circle-o" style={{ color: "red" }} />}
+          >
+            <Button type="danger">Delete</Button>
+          </Popconfirm>
         </span>
       )
     }
@@ -90,16 +97,34 @@ export default class Admin extends Component {
     {
       title: "",
       key: "action",
-      render: () => (
+      render: (text, record) => (
         <span>
-          <Button type="danger">Delete</Button>
+          <Popconfirm
+            title="Are you sure?"
+            onConfirm={() => this.confirmDelete(record.id)}
+            onCancel={() => null}
+            okText="Yes"
+            cancelText="Cancel"
+            placement="left"
+            icon={<Icon type="question-circle-o" style={{ color: "red" }} />}
+          >
+            <Button type="danger">Delete</Button>
+          </Popconfirm>
         </span>
       )
     }
   ];
 
-  handleDeleteProgram = e => {
-    console.log(e.target.parentNode);
+  setDeleteId = e => {
+    const { id } = e.target;
+    console.log("set delete id", id);
+    this.setState({ deleteId: id });
+  };
+
+  confirmDelete = id => {
+    // console.log(e);
+    this.props.removeSession(id);
+    message.success("Program deleted");
   };
 
   getGroupSessionData = () => {
@@ -109,6 +134,8 @@ export default class Admin extends Component {
 
     return groupPrograms.map(program => {
       return {
+        key: program.id,
+        id: program.id,
         groupTitle: program.groupTitle,
         startDate: program.startDate,
         endDate: program.endDate,
@@ -127,6 +154,8 @@ export default class Admin extends Component {
 
     return indyPrograms.map(program => {
       return {
+        key: program.id,
+        id: program.id,
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
@@ -138,7 +167,6 @@ export default class Admin extends Component {
   };
 
   componentDidMount() {
-    //retrieve program data on page load
     this.getIndividualSessionData();
     this.getGroupSessionData();
   }
@@ -146,21 +174,23 @@ export default class Admin extends Component {
   render() {
     return (
       <Tabs type="card">
-        <TabPane style={marginSm} tab="Add Program" key="1">
+        <TabPane tab="Add Program" key="1">
           <ProgramForm addSession={this.props.addSession} />
         </TabPane>
         <TabPane tab="View/Edit Programs" key="2">
-          <Title style={marginSm} level={3}>
-            Individual
-          </Title>
+          {/* <Title level={3}>Individual</Title> */}
           <Table
+            size="medium"
+            bordered
+            title={() => "Individual"}
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
           />
-          <Title style={marginSm} level={3}>
-            Group
-          </Title>
+          {/* <Title level={3}>Group</Title> */}
           <Table
+            size="medium"
+            bordered
+            title={() => "Group"}
             dataSource={this.getGroupSessionData()}
             columns={this.groupProgramsCols}
           />
