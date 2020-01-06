@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
+import axios from "axios";
 
 import Navbar from "../components/Navbar";
 import SignupForm from "../components/SignupForm";
@@ -51,11 +52,27 @@ export default class Root extends Component {
   };
 
   addSession = session => {
-    console.log("addSession called");
-    this.setState(st => ({
-      sessions: [...st.sessions, session]
-    }));
+    axios.post("http://localhost:3001/programs", session).then(res => {
+      this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
+    });
   };
+
+  removeSession = sessionId => {
+    axios.delete(`http://localhost:3001/programs/${sessionId}`).then(res => {
+      const filteredSessions = this.state.sessions.filter(
+        session => session.id !== sessionId
+      );
+      this.setState({ sessions: filteredSessions });
+    });
+  };
+
+  componentDidMount() {
+    axios.get("http://localhost:3001/programs").then(res => {
+      this.setState(st => ({
+        sessions: st.sessions.concat(res.data)
+      }));
+    });
+  }
 
   render() {
     return (
@@ -106,6 +123,7 @@ export default class Root extends Component {
                 {...routeProps}
                 addSession={this.addSession}
                 sessions={this.state.sessions}
+                removeSession={this.removeSession}
               />
             )}
           />

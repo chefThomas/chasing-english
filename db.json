@@ -1,32 +1,45 @@
 {
   "programs": [
     {
-      "id": 1,
-      "groupTitle": "writing for angsty teens",
+      "groupTitle": "klklklk",
+      "startDate": "01-06-2020",
+      "endDate": "01-06-2020",
+      "meetingTime": "9:19 am",
+      "meetingDay": [
+        "Mon ",
+        "Wed ",
+        "Fri "
+      ],
+      "capacity": 5,
+      "enrolled": 0,
       "type": "group",
-      "startDate": "08-21-20",
-      "endDate": "09-21-20",
-      "time": "08:00 am",
-      "meetingDay": ["mon, wed, fri"],
-      "capacity": 6,
-      "enrolled": 5,
-      "availableSeats": 1,
-      "status": "active",
-      "students": [""]
+      "id": 1
+    }
+  ],
+  "users": [
+    {
+      "email": "thomcdixon@gmail.com",
+      "firstName": "Tom",
+      "lastName": "Dixon",
+      "courses": [
+        1,
+        4
+      ],
+      "type": "student"
     },
     {
-      "id": 2,
-      "groupTitle": "",
-      "type": "individual",
-      "startDate": "08-21-20",
-      "endDate": "09-21-20",
-      "time": "08:00 am",
-      "meetingDay": ["sat"],
-      "capacity": 1,
-      "enrolled": 1,
-      "availableSeats": 0,
-      "status": "archived",
-      "students": [""]
+      "email": "kendra.dixon@me.com",
+      "firstName": "Kendra",
+      "lastName": "Dixon",
+      "courses": [],
+      "type": "admin"
+    },
+    {
+      "email": "thomcdixon@gmail.com",
+      "firstName": "Tom",
+      "lastName": "Dixon",
+      "courses": [],
+      "type": "superuser"
     }
   ]
 }

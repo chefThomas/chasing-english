@@ -3,9 +3,8 @@ import { Tabs, Button, Table, Typography } from "antd";
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
-// const marginSm = { margin: "10px" };
 
-export default class Admin extends Component {
+export default class Register extends Component {
   groupProgramsCols = [
     {
       title: "Title",
@@ -20,7 +19,7 @@ export default class Admin extends Component {
     {
       title: "End",
       dataIndex: "endDate",
-      key: "startDate"
+      key: "endDate"
     },
     {
       title: "Time",
@@ -33,19 +32,28 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "seats avail.",
-      dataIndex: "groupSeats",
-      key: "groupSeats"
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity"
+    },
+    {
+      title: "Enrolled",
+      dataIndex: "enrolled",
+      key: "enrolled"
     },
     {
       title: "",
       key: "action",
       render: (text, record) => (
         <span>
-          {record.groupSeats === 0 ? (
-            <Button>Waitlist</Button>
+          {record.capacity === record.enrolled ? (
+            <Button {...record} onClick={this.handleWaitlist}>
+              Waitlist
+            </Button>
           ) : (
-            <Button type="primary">Register</Button>
+            <Button {...record} onClick={this.handleWaitlist} type="primary">
+              Register
+            </Button>
           )}
         </span>
       )
@@ -61,7 +69,7 @@ export default class Admin extends Component {
     {
       title: "End",
       dataIndex: "endDate",
-      key: "startDate"
+      key: "endDate"
     },
     {
       title: "Time",
@@ -74,17 +82,22 @@ export default class Admin extends Component {
       key: "meetingDay"
     },
     {
-      title: "seats avail.",
-      dataIndex: "groupSeats",
-      key: "groupSeats"
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity"
+    },
+    {
+      title: "Enrolled",
+      dataIndex: "enrolled",
+      key: "enrolled"
     },
     {
       title: "",
       key: "action",
       render: (text, record) => (
         <span>
-          {record.groupSeats === 0 ? (
-            <Button>Add to Waitlist</Button>
+          {record.enrolled === record.capacity ? (
+            <Button onClick={this.handleAddToWaitlist}>Add to Waitlist</Button>
           ) : (
             <Button type="primary">Register</Button>
           )}
@@ -98,16 +111,16 @@ export default class Admin extends Component {
       return program.type === "group";
     });
 
-    return groupPrograms.map((program, index) => {
+    return groupPrograms.map(program => {
       return {
-        key: index,
+        key: program.id,
         groupTitle: program.groupTitle,
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
-        groupSeats: program.groupSeats,
-        type: program.type
+        capacity: program.capacity,
+        enrolled: program.enrolled
       };
     });
   };
@@ -117,15 +130,15 @@ export default class Admin extends Component {
       return program.type === "individual";
     });
 
-    return indyPrograms.map((program, index) => {
+    return indyPrograms.map(program => {
       return {
-        key: index,
+        key: program.id,
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
-        groupSeats: program.groupSeats,
-        type: program.type
+        capacity: program.capacity,
+        enrolled: program.enrolled
       };
     });
   };
