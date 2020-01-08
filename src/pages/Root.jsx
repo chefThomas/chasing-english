@@ -18,7 +18,8 @@ export default class Root extends Component {
     showSignup: false,
     showLogin: false,
     showSideNav: false,
-    sessions: []
+    sessions: [],
+    users: []
   };
 
   toggleSignup = () => {
@@ -51,10 +52,27 @@ export default class Root extends Component {
     });
   };
 
+  addUser = user => {
+    console.log("add user: ", user);
+
+    const newUser = { ...user, courses: [], status: "active" };
+    axios
+      .post("http://localhost:3001/users", newUser)
+      .then(res => {
+        console.log(res);
+        this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
+      })
+      .catch(err => console.log("add user err: ", err.message));
+  };
+
   addSession = session => {
-    axios.post("http://localhost:3001/programs", session).then(res => {
-      this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
-    });
+    axios
+      .post("http://localhost:3001/programs", session)
+      .then(res => {
+        console.log(res);
+        this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
+      })
+      .catch(err => console.log("add sesh err: ", err.message));
   };
 
   removeSession = sessionId => {
@@ -70,6 +88,12 @@ export default class Root extends Component {
     axios.get("http://localhost:3001/programs").then(res => {
       this.setState(st => ({
         sessions: st.sessions.concat(res.data)
+      }));
+    });
+
+    axios.get("http://localhost:3001/users").then(res => {
+      this.setState(st => ({
+        users: st.users.concat(res.data)
       }));
     });
   }
@@ -123,7 +147,9 @@ export default class Root extends Component {
                 {...routeProps}
                 addSession={this.addSession}
                 sessions={this.state.sessions}
+                users={this.state.users}
                 removeSession={this.removeSession}
+                addUser={this.addUser}
               />
             )}
           />

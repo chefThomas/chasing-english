@@ -1,45 +1,71 @@
 {
   "programs": [
     {
-      "groupTitle": "klklklk",
+      "groupTitle": "",
       "startDate": "01-06-2020",
       "endDate": "01-06-2020",
-      "meetingTime": "9:19 am",
+      "meetingTime": "12:19 pm",
+      "meetingDay": [],
+      "capacity": 1,
+      "enrolled": 0,
+      "type": null,
+      "id": 3
+    },
+    {
+      "groupTitle": "",
+      "startDate": "01-06-2020",
+      "endDate": "01-06-2020",
+      "meetingTime": "1:21 pm",
       "meetingDay": [
         "Mon ",
-        "Wed ",
-        "Fri "
+        "Tue "
       ],
-      "capacity": 5,
+      "capacity": 1,
       "enrolled": 0,
-      "type": "group",
-      "id": 1
+      "type": null,
+      "id": 5
+    },
+    {
+      "groupTitle": "",
+      "startDate": "01-07-2020",
+      "endDate": "01-07-2020",
+      "meetingTime": "5:20 pm",
+      "meetingDay": [
+        "Mon "
+      ],
+      "capacity": 1,
+      "enrolled": 0,
+      "type": "individual",
+      "id": 6
     }
   ],
   "users": [
     {
-      "email": "thomcdixon@gmail.com",
-      "firstName": "Tom",
-      "lastName": "Dixon",
-      "courses": [
-        1,
-        4
-      ],
-      "type": "student"
+      "type": "student",
+      "firstName": "sal",
+      "lastName": "sallu",
+      "email": "sal@sal.com",
+      "courses": [],
+      "status": "active",
+      "id": 1
     },
     {
-      "email": "kendra.dixon@me.com",
-      "firstName": "Kendra",
-      "lastName": "Dixon",
+      "type": "student",
+      "firstName": "tom",
+      "lastName": "tommy",
+      "email": "tom@tom.com",
       "courses": [],
-      "type": "admin"
+      "status": "archive",
+      "id": 2
     },
     {
-      "email": "thomcdixon@gmail.com",
-      "firstName": "Tom",
-      "lastName": "Dixon",
+      "type": "student",
+      "firstName": "hello",
+      "lastName": "heeee",
+      "email": "hoooo@ho.com",
       "courses": [],
-      "type": "superuser"
+      "status": "active",
+      "id": 3
     }
   ]
 }

@@ -33,7 +33,7 @@ class TimeRelatedForm extends Component {
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
-    type: null
+    type: "individual"
   };
 
   handleTypeChange = e => {
@@ -118,13 +118,12 @@ class TimeRelatedForm extends Component {
         </Form.Item>
         <Form.Item label="Meeting Time">
           <TimePicker
-            minuteStep={15}
             format="h:mm a"
             use12Hours
             onChange={this.handleGroupTimeChange}
           />
         </Form.Item>
-        <Form.Item required={true} label="Meeting Day(s)">
+        <Form.Item label="Meeting Day(s)">
           <Select
             mode="multiple"
             style={{ width: "40%" }}
