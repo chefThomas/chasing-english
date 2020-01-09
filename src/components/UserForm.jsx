@@ -5,23 +5,8 @@ const { Option } = Select;
 
 class UserForm extends Component {
   state = {
-    type: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    parentEmail: [],
-    coursesEnrolled: []
+    type: "student"
   };
-
-  initialState = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    type: "",
-    parentEmail: [],
-    coursesEnrolled: []
-  };
-
   clearForm = () => {
     this.props.form.setFieldsValue({
       firstName: "",
@@ -30,8 +15,14 @@ class UserForm extends Component {
       type: null
     });
   };
+
+  handleTypeChange = ({ target }) => {
+    const { value } = target;
+    this.setState({ type: value });
+  };
   handleSubmit = e => {
     e.preventDefault();
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log("Received values of form: ", values);
@@ -71,7 +62,7 @@ class UserForm extends Component {
           })(
             <Input
               style={{ bottomMargin: "5px" }}
-              placeholder="First name"
+              placeholder="First name (required)"
             ></Input>
           )}
         </Form.Item>
@@ -84,7 +75,7 @@ class UserForm extends Component {
               }
             ],
             initialValue: null
-          })(<Input placeholder="Last name"></Input>)}
+          })(<Input placeholder="Last name (required)"></Input>)}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator("email", {
@@ -96,8 +87,38 @@ class UserForm extends Component {
               }
             ],
             initialValue: null
-          })(<Input placeholder="Email"></Input>)}
+          })(<Input placeholder="Email (required)"></Input>)}
         </Form.Item>
+        {this.state.type === "student" ? (
+          <>
+            <Form.Item>
+              {getFieldDecorator("guardian_email", {
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input valid email",
+                    type: "email"
+                  }
+                ],
+                initialValue: null
+              })(<Input placeholder="Guardian's email (required)"></Input>)}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator("guardian_phone", {
+                rules: [
+                  {
+                    required: false,
+                    message: "Please input valid email",
+                    type: "phone"
+                  }
+                ],
+                initialValue: null
+              })(<Input placeholder="Guardian's phone (optional)"></Input>)}
+            </Form.Item>
+          </>
+        ) : (
+          <Form.Item></Form.Item>
+        )}
 
         <Button type="primary" htmlType="submit">
           Submit

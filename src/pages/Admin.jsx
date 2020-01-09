@@ -7,10 +7,12 @@ import {
   Modal,
   Popconfirm,
   Table,
-  Tabs
+  Tabs,
+  Tooltip
 } from "antd";
 import ProgramForm from "../components/ProgramForm";
 import UserForm from "../components/UserForm";
+import "../stylesheets/css/main.css";
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -22,11 +24,17 @@ export default class Admin extends Component {
     userFormVisible: false
   };
 
-  groupProgramsCols = [
+  programCols = [
+    {
+      title: "Id",
+      dataIndex: "id",
+      key: "id"
+    },
+
     {
       title: "Title",
-      dataIndex: "groupTitle",
-      key: "groupTitle"
+      dataIndex: "title",
+      key: "title"
     },
     {
       title: "Start",
@@ -59,83 +67,55 @@ export default class Admin extends Component {
       key: "enrolled"
     },
     {
-      title: "",
+      title: "Actions",
       key: "action",
-      render: (text, record) => (
-        <span>
-          <Popconfirm
-            title="Are you sure?"
-            onConfirm={() => this.confirmDelete(record.id)}
-            onCancel={() => null}
-            okText="Yes"
-            cancelText="Cancel"
-            placement="left"
-            icon={<Icon type="question-circle-o" style={{ color: "red" }} />}
-          >
-            <Button type="danger">Delete</Button>
-          </Popconfirm>
-        </span>
-      )
-    }
-  ];
+      render: (text, { id, status }) => (
+        <div
+          style={{
+            fontSize: "25px",
+            display: "flex",
+            justifyContent: "space-evenly"
+          }}
+        >
+          <Tooltip title={"view/edit roster"}>
+            <Icon type="team" onClick={() => this.handleRosterViewClick(id)} />
+          </Tooltip>
 
-  individualProgramsCols = [
-    {
-      title: "Start",
-      dataIndex: "startDate",
-      key: "startDate"
-    },
-    {
-      title: "End",
-      dataIndex: "endDate",
-      key: "endDate"
-    },
-    {
-      title: "Time",
-      dataIndex: "meetingTime",
-      key: "meetingTime"
-    },
-    {
-      title: "Day",
-      dataIndex: "meetingDay",
-      key: "meetingDay"
-    },
-    {
-      title: "Capacity",
-      dataIndex: "capacity",
-      key: "capacity"
-    },
-    {
-      title: "Enrolled",
-      dataIndex: "enrolled",
-      key: "enrolled"
-    },
-    {
-      title: "",
-      key: "action",
-      render: (text, record) => (
-        <span>
+          <Tooltip title={status === "active" ? "archive" : "activate"}>
+            <Icon
+              type="file-sync"
+              onClick={() => this.handleArchiveClick(id, status)}
+            />
+          </Tooltip>
+
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(record.id)}
+            onConfirm={() => this.confirmDelete(id)}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
             placement="left"
-            icon={<Icon type="question-circle-o" style={{ color: "red" }} />}
+            icon={<Icon size="large" type="question-circle-o" />}
           >
-            <Button type="danger">Delete</Button>
+            <Tooltip title="delete">
+              <Icon type="delete" style={{ color: "red" }} />
+            </Tooltip>
           </Popconfirm>
-        </span>
+        </div>
       )
     }
   ];
 
   userCols = [
     {
+      title: "Id",
+      dataIndex: "id",
+      key: "id"
+    },
+    {
       title: "First",
       dataIndex: "firstName",
-      key: "startDate"
+      key: "firstName"
     },
     {
       title: "Last",
@@ -148,90 +128,63 @@ export default class Admin extends Component {
       key: "email"
     },
     {
-      title: "Courses",
-      dataIndex: "courses",
-      key: "courses"
+      title: "Actions",
+      key: "action",
+      render: (text, record) => (
+        <div
+          style={{ display: "flex", justifyContent: "space-evenly" }}
+          className="action-cell"
+        >
+          <Button type="primary">Records</Button>
+          <Popconfirm
+            title="Are you sure?"
+            onConfirm={() => this.confirmArchive(record.id)}
+            onCancel={() => null}
+            okText="Yes"
+            cancelText="Cancel"
+            placement="left"
+            icon={<Icon type="question-circle-o" style={{ color: "red" }} />}
+          >
+            <Button
+              className="archive-button"
+              type={record.status === "active" ? "danger" : "default"}
+            >
+              {record.status === "active" ? "Archive" : "Activate"}
+            </Button>
+          </Popconfirm>
+        </div>
+      )
     }
   ];
 
+  // event handlers
   setDeleteId = e => {
     const { id } = e.target;
-    console.log("set delete id", id);
     this.setState({ deleteId: id });
   };
 
   confirmDelete = id => {
-    // console.log(e);
     this.props.removeSession(id);
     message.success("Program deleted");
   };
 
-  getActiveUserData = status => {
-    const users = this.props.users.filter(user => {
-      return user.status === "active";
-    });
-
-    return users.map(user => {
-      return {
-        key: user.id,
-        id: user.id,
-        firstName: user.firstName,
-        status: user.status,
-        type: user.type,
-        courses: user.courses
-      };
-    });
+  handleRosterViewClick = id => {
+    console.log("view roster program id: ", id);
+  };
+  handleArchiveClick = (id, status) => {
+    console.log("archive program id: ", id);
+    this.props.modStatus(id, status);
   };
 
-  getGroupSessionData = () => {
-    const groupPrograms = this.props.sessions.filter(program => {
-      return program.type === "group";
-    });
-
-    return groupPrograms.map(program => {
-      return {
-        key: program.id,
-        id: program.id,
-        groupTitle: program.groupTitle,
-        startDate: program.startDate,
-        endDate: program.endDate,
-        meetingTime: program.meetingTime,
-        meetingDay: program.meetingDay,
-        capacity: program.capacity,
-        enrolled: program.enrolled
-      };
-    });
-  };
-
-  getIndividualSessionData = () => {
-    const indyPrograms = this.props.sessions.filter(program => {
-      return program.type === "individual";
-    });
-
-    return indyPrograms.map(program => {
-      return {
-        key: program.id,
-        id: program.id,
-        startDate: program.startDate,
-        endDate: program.endDate,
-        meetingTime: program.meetingTime,
-        meetingDay: program.meetingDay,
-        capacity: program.capacity,
-        enrolled: program.enrolled
-      };
-    });
-  };
-
-  showIndyModal = e => {
-    console.log("show indy modal clicked", e);
+  toggleProgramFormVisibility = e => {
+    console.log(e);
     this.setState({
       programFormVisible: !this.state.programFormVisible,
       formType: "individual"
     });
   };
 
-  showUserModal = e => {
-    console.log("show user modal clicked", e);
+  toggleUserFormVisibility = () => {
     this.setState({
       userFormVisible: !this.state.userFormVisible
     });
@@ -241,8 +194,57 @@ export default class Admin extends Component {
     this.setState({ programFormVisible: false });
   };
 
-  handleUserFormHide = () => {
-    this.setState({ userFormVisible: false });
+  // populate tables
+  getUserData = status => {
+    const users = this.props.users.filter(user => {
+      return user.status === status;
+    });
+
+    return users.map(user => {
+      return {
+        key: user.id,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        courses: user.courses,
+        status: user.status
+      };
+    });
+  };
+
+  getSessionData = (type, status) => {
+    if (status === "active") {
+      return this.props.sessions
+        .filter(program => program.type === type && program.status === status)
+        .map(program => ({
+          key: program.id,
+          id: program.id,
+          title: program.title,
+          startDate: program.startDate,
+          endDate: program.endDate,
+          meetingTime: program.meetingTime,
+          meetingDay: program.meetingDay,
+          capacity: program.capacity,
+          enrolled: program.enrolled,
+          status: program.status
+        }));
+    } else {
+      return this.props.sessions
+        .filter(program => program.status === "archive")
+        .map(program => ({
+          key: program.id,
+          id: program.id,
+          title: program.title,
+          startDate: program.startDate,
+          endDate: program.endDate,
+          meetingTime: program.meetingTime,
+          meetingDay: program.meetingDay,
+          capacity: program.capacity,
+          enrolled: program.enrolled,
+          status: program.status
+        }));
+    }
   };
 
   render() {
@@ -255,7 +257,7 @@ export default class Admin extends Component {
               icon="file-add"
               style={{ margin: "15px" }}
               size="large"
-              onClick={this.showIndyModal}
+              onClick={this.toggleProgramFormVisibility}
             >
               Create Program
             </Button>
@@ -263,23 +265,23 @@ export default class Admin extends Component {
               <Panel header="Individual" key="individual">
                 <Table
                   bordered
-                  dataSource={this.getIndividualSessionData()}
-                  columns={this.individualProgramsCols}
+                  dataSource={this.getSessionData("individual", "active")}
+                  columns={this.programCols}
                 />
               </Panel>
               <Panel header="Group" key="group">
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getGroupSessionData()}
-                  columns={this.groupProgramsCols}
+                  dataSource={this.getSessionData("group", "active")}
+                  columns={this.programCols}
                 />
               </Panel>
               <Panel header="Archive" key="archive">
                 <Table
                   bordered
-                  dataSource={this.getIndividualSessionData()}
-                  columns={this.userCols}
+                  dataSource={this.getSessionData("", "archive")}
+                  columns={this.programCols}
                 />
               </Panel>
             </Collapse>
@@ -290,7 +292,7 @@ export default class Admin extends Component {
               icon="file-add"
               style={{ margin: "15px" }}
               size="large"
-              onClick={this.showUserModal}
+              onClick={this.toggleUserFormVisibility}
             >
               Create User
             </Button>
@@ -299,7 +301,7 @@ export default class Admin extends Component {
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getActiveUserData()}
+                  dataSource={this.getUserData("active")}
                   columns={this.userCols}
                 />
               </Panel>
@@ -307,7 +309,7 @@ export default class Admin extends Component {
                 <Table
                   size="medium"
                   bordered
-                  // dataSource={this.getUserData("archive")}
+                  dataSource={this.getUserData("archive")}
                   columns={this.userCols}
                 />
               </Panel>
@@ -317,16 +319,16 @@ export default class Admin extends Component {
         <Modal
           title="Create Program"
           visible={this.state.programFormVisible}
-          onOk={this.handleProgramFormHide}
-          onCancel={this.handleProgramFormHide}
+          onOk={this.toggleProgramFormVisibility}
+          onCancel={this.toggleProgramFormVisibility}
         >
           <ProgramForm addSession={this.props.addSession} />
         </Modal>
         <Modal
           title="Create User"
           visible={this.state.userFormVisible}
-          onOk={this.handleUserFormHide}
-          onCancel={this.handleUserFormHide}
+          onOk={this.toggleUserFormVisibility}
+          onCancel={this.toggleUserFormVisibility}
         >
           <UserForm addUser={this.props.addUser} />
         </Modal>

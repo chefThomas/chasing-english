@@ -22,6 +22,7 @@ export default class Root extends Component {
     users: []
   };
 
+  // UI
   toggleSignup = () => {
     this.setState({
       showSignup: !this.state.showSignup,
@@ -52,6 +53,7 @@ export default class Root extends Component {
     });
   };
 
+  // api calls
   addUser = user => {
     console.log("add user: ", user);
 
@@ -82,6 +84,39 @@ export default class Root extends Component {
       );
       this.setState({ sessions: filteredSessions });
     });
+  };
+
+  toggleProgramActivity = (sessionId, status) => {
+    const { sessions } = this.state;
+    // get session from state
+    const session = sessions.find(session => session.id === sessionId);
+
+    if (status === "active") {
+      axios
+        .put(`http://localhost:3001/programs/${sessionId}`, {
+          ...session,
+          status: "archive"
+        })
+        .then(({ data }) => {
+          const filterState = sessions.filter(
+            session => session.id !== sessionId
+          );
+
+          this.setState({ sessions: filterState.concat(data) });
+        });
+    } else {
+      axios
+        .put(`http://localhost:3001/programs/${sessionId}`, {
+          ...session,
+          status: "active"
+        })
+        .then(({ data }) => {
+          const filterState = sessions.filter(
+            session => session.id !== sessionId
+          );
+          this.setState({ sessions: filterState.concat(data) });
+        });
+    }
   };
 
   componentDidMount() {
@@ -150,6 +185,7 @@ export default class Root extends Component {
                 users={this.state.users}
                 removeSession={this.removeSession}
                 addUser={this.addUser}
+                modStatus={this.toggleProgramActivity}
               />
             )}
           />
