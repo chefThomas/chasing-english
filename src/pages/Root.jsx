@@ -18,9 +18,11 @@ export default class Root extends Component {
     showSignup: false,
     showLogin: false,
     showSideNav: false,
-    sessions: []
+    sessions: [],
+    users: []
   };
 
+  // UI
   toggleSignup = () => {
     this.setState({
       showSignup: !this.state.showSignup,
@@ -51,25 +53,77 @@ export default class Root extends Component {
     });
   };
 
+  // api calls
+  addUser = user => {
+    console.log("add user: ", user);
+
+    const newUser = { ...user, courses: [], status: "active" };
+    axios
+      .post("http://localhost:3001/users", newUser)
+      .then(res => {
+        console.log(res);
+        this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
+      })
+      .catch(err => console.log("add user err: ", err.message));
+  };
+
   addSession = session => {
-    axios.post("http://localhost:3001/programs", session).then(res => {
-      this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
+    axios
+      .post("http://localhost:3001/sessions", session)
+      .then(res => {
+        console.log(res);
+        this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
+      })
+      .catch(err => console.log("add sesh err: ", err.message));
+  };
+
+  remove = (id, type) => {
+    axios.delete(`http://localhost:3001/${type}/${id}`).then(res => {
+      const filtered = this.state[type].filter(el => el.id !== id);
+      this.setState({ [type]: filtered });
     });
   };
 
-  removeSession = sessionId => {
-    axios.delete(`http://localhost:3001/programs/${sessionId}`).then(res => {
-      const filteredSessions = this.state.sessions.filter(
-        session => session.id !== sessionId
-      );
-      this.setState({ sessions: filteredSessions });
-    });
+  toggleActivity = (sessionId, type, status) => {
+    const session = this.state[type].find(session => session.id === sessionId);
+    if (status === "active") {
+      axios
+        .put(`http://localhost:3001/${type}/${sessionId}`, {
+          ...session,
+          status: "archive"
+        })
+        .then(({ data }) => {
+          const filterState = this.state[type].filter(
+            session => session.id !== sessionId
+          );
+
+          this.setState({ [type]: filterState.concat(data) });
+        });
+    } else {
+      axios
+        .put(`http://localhost:3001/${type}/${sessionId}`, {
+          ...session,
+          status: "active"
+        })
+        .then(({ data }) => {
+          const filterState = this.state[type].filter(
+            session => session.id !== sessionId
+          );
+          this.setState({ [type]: filterState.concat(data) });
+        });
+    }
   };
 
   componentDidMount() {
-    axios.get("http://localhost:3001/programs").then(res => {
+    axios.get("http://localhost:3001/sessions").then(res => {
       this.setState(st => ({
         sessions: st.sessions.concat(res.data)
+      }));
+    });
+
+    axios.get("http://localhost:3001/users").then(res => {
+      this.setState(st => ({
+        users: st.users.concat(res.data)
       }));
     });
   }
@@ -123,7 +177,10 @@ export default class Root extends Component {
                 {...routeProps}
                 addSession={this.addSession}
                 sessions={this.state.sessions}
-                removeSession={this.removeSession}
+                users={this.state.users}
+                remove={this.remove}
+                addUser={this.addUser}
+                modStatus={this.toggleActivity}
               />
             )}
           />

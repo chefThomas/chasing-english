@@ -15,18 +15,19 @@ const { Option } = Select;
 
 class TimeRelatedForm extends Component {
   state = {
-    groupTitle: "",
+    title: "",
     startDate: moment().format("MM-DD-YYYY"),
     endDate: moment().format("MM-DD-YYYY"),
     meetingTime: moment().format("h:mm a"),
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
-    type: null
+    type: null,
+    status: "active"
   };
 
   initialState = {
-    groupTitle: "",
+    title: "",
     startDate: moment().format("MM-DD-YYYY"),
     endDate: moment().format("MM-DD-YYYY"),
     meetingTime: moment().format("h:mm a"),
@@ -38,16 +39,18 @@ class TimeRelatedForm extends Component {
 
   handleTypeChange = e => {
     const { value } = e.target;
-    this.setState({ type: value });
+    value === "individual"
+      ? this.setState({ type: value, title: "Ind. Sessions" })
+      : this.setState({ type: value, title: "" });
   };
   handleSizeChange = value => {
     console.log(value);
     this.setState({ capacity: value });
   };
 
-  handleGroupTitleChange = e => {
+  handleTitleChange = e => {
     const { value } = e.target;
-    this.setState({ groupTitle: value });
+    this.setState({ title: value });
   };
 
   handleGroupStartChange = (date, dateString) => {
@@ -71,8 +74,6 @@ class TimeRelatedForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target);
-
     this.props.addSession(this.state);
     this.setState(this.initialState);
   };
@@ -94,10 +95,10 @@ class TimeRelatedForm extends Component {
             style={{ width: "40%" }}
             label="Title"
             placeholder="course title"
-            id="groupTitle"
+            id="title"
             allowClear
-            onChange={this.handleGroupTitleChange}
-            value={this.state.groupTitle}
+            onChange={this.handleTitleChange}
+            value={this.state.title}
           />
         </Form.Item>
         <Form.Item label="Date Range">
@@ -118,13 +119,12 @@ class TimeRelatedForm extends Component {
         </Form.Item>
         <Form.Item label="Meeting Time">
           <TimePicker
-            minuteStep={15}
             format="h:mm a"
             use12Hours
             onChange={this.handleGroupTimeChange}
           />
         </Form.Item>
-        <Form.Item required={true} label="Meeting Day(s)">
+        <Form.Item label="Meeting Day(s)">
           <Select
             mode="multiple"
             style={{ width: "40%" }}
