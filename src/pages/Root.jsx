@@ -69,7 +69,7 @@ export default class Root extends Component {
 
   addSession = session => {
     axios
-      .post("http://localhost:3001/programs", session)
+      .post("http://localhost:3001/sessions", session)
       .then(res => {
         console.log(res);
         this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
@@ -78,7 +78,7 @@ export default class Root extends Component {
   };
 
   removeSession = sessionId => {
-    axios.delete(`http://localhost:3001/programs/${sessionId}`).then(res => {
+    axios.delete(`http://localhost:3001/sessions/${sessionId}`).then(res => {
       const filteredSessions = this.state.sessions.filter(
         session => session.id !== sessionId
       );
@@ -86,41 +86,39 @@ export default class Root extends Component {
     });
   };
 
-  toggleProgramActivity = (sessionId, status) => {
-    const { sessions } = this.state;
-    // get session from state
-    const session = sessions.find(session => session.id === sessionId);
-
+  toggleActivity = (sessionId, type, status) => {
+    const session = this.state[type].find(session => session.id === sessionId);
+    console.log(session);
     if (status === "active") {
       axios
-        .put(`http://localhost:3001/programs/${sessionId}`, {
+        .put(`http://localhost:3001/${type}/${sessionId}`, {
           ...session,
           status: "archive"
         })
         .then(({ data }) => {
-          const filterState = sessions.filter(
+          const filterState = this.state[type].filter(
             session => session.id !== sessionId
           );
 
-          this.setState({ sessions: filterState.concat(data) });
+          this.setState({ [type]: filterState.concat(data) });
         });
     } else {
       axios
-        .put(`http://localhost:3001/programs/${sessionId}`, {
+        .put(`http://localhost:3001/${type}/${sessionId}`, {
           ...session,
           status: "active"
         })
         .then(({ data }) => {
-          const filterState = sessions.filter(
+          const filterState = this.state[type].filter(
             session => session.id !== sessionId
           );
-          this.setState({ sessions: filterState.concat(data) });
+          this.setState({ [type]: filterState.concat(data) });
         });
     }
   };
 
   componentDidMount() {
-    axios.get("http://localhost:3001/programs").then(res => {
+    axios.get("http://localhost:3001/sessions").then(res => {
       this.setState(st => ({
         sessions: st.sessions.concat(res.data)
       }));
@@ -185,7 +183,7 @@ export default class Root extends Component {
                 users={this.state.users}
                 removeSession={this.removeSession}
                 addUser={this.addUser}
-                modStatus={this.toggleProgramActivity}
+                modStatus={this.toggleActivity}
               />
             )}
           />

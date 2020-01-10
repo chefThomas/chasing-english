@@ -17,7 +17,6 @@ import "../stylesheets/css/main.css";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 // const marginSm = { margin: "10px" };
-
 export default class Admin extends Component {
   state = {
     programFormVisible: false,
@@ -84,7 +83,7 @@ export default class Admin extends Component {
           <Tooltip title={status === "active" ? "archive" : "activate"}>
             <Icon
               type="file-sync"
-              onClick={() => this.handleArchiveClick(id, status)}
+              onClick={() => this.handleArchiveClick(id, "sessions", status)}
             />
           </Tooltip>
 
@@ -130,27 +129,37 @@ export default class Admin extends Component {
     {
       title: "Actions",
       key: "action",
-      render: (text, record) => (
+      render: (text, { id, status }) => (
         <div
-          style={{ display: "flex", justifyContent: "space-evenly" }}
-          className="action-cell"
+          style={{
+            fontSize: "25px",
+            display: "flex",
+            justifyContent: "space-evenly"
+          }}
         >
-          <Button type="primary">Records</Button>
+          <Tooltip title={"view records"}>
+            <Icon type="read" onClick={() => this.handleRosterViewClick(id)} />
+          </Tooltip>
+
+          <Tooltip title={status === "active" ? "archive" : "activate"}>
+            <Icon
+              type="file-sync"
+              onClick={() => this.handleArchiveClick(id, "users", status)}
+            />
+          </Tooltip>
+
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmArchive(record.id)}
+            onConfirm={() => this.confirmDelete(id)}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
             placement="left"
-            icon={<Icon type="question-circle-o" style={{ color: "red" }} />}
+            icon={<Icon size="large" type="question-circle-o" />}
           >
-            <Button
-              className="archive-button"
-              type={record.status === "active" ? "danger" : "default"}
-            >
-              {record.status === "active" ? "Archive" : "Activate"}
-            </Button>
+            <Tooltip title="delete">
+              <Icon type="delete" style={{ color: "red" }} />
+            </Tooltip>
           </Popconfirm>
         </div>
       )
@@ -171,9 +180,9 @@ export default class Admin extends Component {
   handleRosterViewClick = id => {
     console.log("view roster program id: ", id);
   };
-  handleArchiveClick = (id, status) => {
-    console.log("archive program id: ", id);
-    this.props.modStatus(id, status);
+  handleArchiveClick = (id, type, status) => {
+    console.log("archive program id: ", id, "type: ", type, "status: ", status);
+    this.props.modStatus(id, type, status);
   };
 
   toggleProgramFormVisibility = e => {
@@ -208,6 +217,8 @@ export default class Admin extends Component {
         lastName: user.lastName,
         email: user.email,
         courses: user.courses,
+        guardianEmail: user.guardianEmail,
+        guardianPhoneNumber: user.guardianPhoneNumber,
         status: user.status
       };
     });
@@ -247,6 +258,14 @@ export default class Admin extends Component {
     }
   };
 
+  count = (arr, status, type) => {
+    return arr.filter(el =>
+      status === "archive"
+        ? el.status === "archive"
+        : el.status === status && el.type === type
+    ).length;
+  };
+
   render() {
     return (
       <div>
@@ -262,14 +281,28 @@ export default class Admin extends Component {
               Create Program
             </Button>
             <Collapse>
-              <Panel header="Individual" key="individual">
+              <Panel
+                header={`Individual (${this.count(
+                  this.props.sessions,
+                  "active",
+                  "individual"
+                )})`}
+                key="individual"
+              >
                 <Table
                   bordered
                   dataSource={this.getSessionData("individual", "active")}
                   columns={this.programCols}
                 />
               </Panel>
-              <Panel header="Group" key="group">
+              <Panel
+                header={`Group (${this.count(
+                  this.props.sessions,
+                  "active",
+                  "group"
+                )})`}
+                key="group"
+              >
                 <Table
                   size="medium"
                   bordered
@@ -277,7 +310,13 @@ export default class Admin extends Component {
                   columns={this.programCols}
                 />
               </Panel>
-              <Panel header="Archive" key="archive">
+              <Panel
+                header={`Archive (${this.count(
+                  this.props.sessions,
+                  "archive"
+                )})`}
+                key="archive"
+              >
                 <Table
                   bordered
                   dataSource={this.getSessionData("", "archive")}

@@ -1,114 +1,43 @@
 {
-  "programs": [
-    {
-      "status": "active",
-      "id": 2
-    },
+  "sessions": [
     {
       "title": "Ind. Sessions",
-      "startDate": "01-01-2020",
-      "endDate": "01-08-2020",
-      "meetingTime": "12:00 am",
+      "startDate": "01-09-2020",
+      "endDate": "01-09-2020",
+      "meetingTime": "9:46 pm",
       "meetingDay": [
-        "Mon ",
-        "Wed "
+        "Mon "
       ],
       "capacity": 1,
       "enrolled": 0,
       "type": "individual",
       "status": "active",
-      "id": 3
+      "id": 2
     },
     {
-      "title": "Curing Writer's Block",
-      "startDate": "01-08-2020",
-      "endDate": "01-15-2020",
-      "meetingTime": "9:00 pm",
+      "title": "Pet Fiction",
+      "startDate": "01-09-2020",
+      "endDate": "01-16-2020",
+      "meetingTime": "10:00 pm",
       "meetingDay": [
-        "Thu "
+        "Sat "
       ],
-      "capacity": 6,
+      "capacity": 5,
       "enrolled": 0,
       "type": "group",
-      "status": "active",
-      "id": 4
+      "status": "archive",
+      "id": 3
     }
   ],
   "users": [
     {
-      "type": "student",
-      "firstName": "sal",
-      "lastName": "sallu",
-      "email": "sal@sal.com",
+      "type": "admin",
+      "firstName": "Tom",
+      "lastName": "D",
+      "email": "tom@d.com",
       "courses": [],
       "status": "active",
       "id": 1
-    },
-    {
-      "type": "student",
-      "firstName": "tom",
-      "lastName": "tommy",
-      "email": "tom@tom.com",
-      "courses": [],
-      "status": "archive",
-      "id": 2
-    },
-    {
-      "type": "student",
-      "firstName": "hello",
-      "lastName": "heeee",
-      "email": "hoooo@ho.com",
-      "courses": [],
-      "status": "active",
-      "id": 3
-    },
-    {
-      "type": "student",
-      "firstName": "ff",
-      "lastName": "ss",
-      "email": "ss@s.com",
-      "courses": [
-        "writing",
-        "reading"
-      ],
-      "status": "active",
-      "id": 4
-    },
-    {
-      "type": "student",
-      "firstName": "Riley",
-      "lastName": "Dixon",
-      "email": "mdigglermichts@gmail.com",
-      "courses": [],
-      "status": "active",
-      "id": 5
-    },
-    {
-      "type": "student",
-      "firstName": "Tom",
-      "lastName": "Siozn",
-      "email": "lll@l.com",
-      "courses": [],
-      "status": "active",
-      "id": 6
-    },
-    {
-      "type": "student",
-      "firstName": "Tom",
-      "lastName": "Bomb",
-      "email": "bits@ritz.com",
-      "courses": [],
-      "status": "active",
-      "id": 7
-    },
-    {
-      "type": "student",
-      "firstName": "ss",
-      "lastName": "ss",
-      "email": "ss@s.com",
-      "courses": [],
-      "status": "active",
-      "id": 8
     }
   ]
 }

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Input, Radio, Select } from "antd";
-
-const { Option } = Select;
+import { Button, Form, Input, Radio } from "antd";
 
 class UserForm extends Component {
   state = {
