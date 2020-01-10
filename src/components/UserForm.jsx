@@ -106,8 +106,7 @@ class UserForm extends Component {
                 rules: [
                   {
                     required: false,
-                    message: "Please input valid email",
-                    type: "phone"
+                    message: "Please input valid phone number"
                   }
                 ],
                 initialValue: null

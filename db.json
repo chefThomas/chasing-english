@@ -25,16 +25,33 @@
       "capacity": 5,
       "enrolled": 0,
       "type": "group",
-      "status": "archive",
+      "status": "active",
       "id": 3
+    },
+    {
+      "title": "Writing about Dinosaurs",
+      "startDate": "01-15-2020",
+      "endDate": "01-22-2020",
+      "meetingTime": "12:00 pm",
+      "meetingDay": [
+        "Sun ",
+        "Sat "
+      ],
+      "capacity": 4,
+      "enrolled": 0,
+      "type": "group",
+      "status": "active",
+      "id": 5
     }
   ],
   "users": [
     {
-      "type": "admin",
-      "firstName": "Tom",
-      "lastName": "D",
-      "email": "tom@d.com",
+      "type": "student",
+      "firstName": "Thom",
+      "lastName": "Stom",
+      "email": "tom@red.com",
+      "guardian_email": "tom@red.com",
+      "guardian_phone": "123456",
       "courses": [],
       "status": "active",
       "id": 1

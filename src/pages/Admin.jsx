@@ -89,7 +89,7 @@ export default class Admin extends Component {
 
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id)}
+            onConfirm={() => this.confirmDelete(id, "sessions")}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
@@ -150,7 +150,7 @@ export default class Admin extends Component {
 
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id)}
+            onConfirm={() => this.confirmDelete(id, "users")}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
@@ -172,9 +172,12 @@ export default class Admin extends Component {
     this.setState({ deleteId: id });
   };
 
-  confirmDelete = id => {
-    this.props.removeSession(id);
-    message.success("Program deleted");
+  confirmDelete = (id, type) => {
+    console.log(id);
+    this.props.remove(id, type);
+
+    const itemType = type === "users" ? "User" : "Program";
+    message.success(`${itemType} deleted`);
   };
 
   handleRosterViewClick = id => {
@@ -259,10 +262,16 @@ export default class Admin extends Component {
   };
 
   count = (arr, status, type) => {
+    if (type) {
+      return arr.filter(el =>
+        status === "archive"
+          ? el.status === "archive"
+          : el.status === status && el.type === type
+      ).length;
+    }
+
     return arr.filter(el =>
-      status === "archive"
-        ? el.status === "archive"
-        : el.status === status && el.type === type
+      status === "archive" ? el.status === "archive" : el.status === "active"
     ).length;
   };
 
@@ -336,7 +345,10 @@ export default class Admin extends Component {
               Create User
             </Button>
             <Collapse>
-              <Panel header="Active" key="active">
+              <Panel
+                header={`Active (${this.count(this.props.users, "active")})`}
+                key="active"
+              >
                 <Table
                   size="medium"
                   bordered
@@ -344,7 +356,10 @@ export default class Admin extends Component {
                   columns={this.userCols}
                 />
               </Panel>
-              <Panel header="Archive" key="archive">
+              <Panel
+                header={`Archive (${this.count(this.props.users, "archive")})`}
+                key="archive"
+              >
                 <Table
                   size="medium"
                   bordered

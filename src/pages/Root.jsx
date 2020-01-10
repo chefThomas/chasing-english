@@ -77,18 +77,15 @@ export default class Root extends Component {
       .catch(err => console.log("add sesh err: ", err.message));
   };
 
-  removeSession = sessionId => {
-    axios.delete(`http://localhost:3001/sessions/${sessionId}`).then(res => {
-      const filteredSessions = this.state.sessions.filter(
-        session => session.id !== sessionId
-      );
-      this.setState({ sessions: filteredSessions });
+  remove = (id, type) => {
+    axios.delete(`http://localhost:3001/${type}/${id}`).then(res => {
+      const filtered = this.state[type].filter(el => el.id !== id);
+      this.setState({ [type]: filtered });
     });
   };
 
   toggleActivity = (sessionId, type, status) => {
     const session = this.state[type].find(session => session.id === sessionId);
-    console.log(session);
     if (status === "active") {
       axios
         .put(`http://localhost:3001/${type}/${sessionId}`, {
@@ -181,7 +178,7 @@ export default class Root extends Component {
                 addSession={this.addSession}
                 sessions={this.state.sessions}
                 users={this.state.users}
-                removeSession={this.removeSession}
+                remove={this.remove}
                 addUser={this.addUser}
                 modStatus={this.toggleActivity}
               />
