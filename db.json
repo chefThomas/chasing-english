@@ -25,7 +25,7 @@
       "capacity": 5,
       "enrolled": 0,
       "type": "group",
-      "status": "active",
+      "status": "archive",
       "id": 3
     },
     {
@@ -55,6 +55,17 @@
       "courses": [],
       "status": "active",
       "id": 1
+    },
+    {
+      "type": "student",
+      "firstName": "sally",
+      "lastName": "smith",
+      "email": "sally@sally.com",
+      "guardian_email": "mom@smith.com",
+      "guardian_phone": "123456",
+      "courses": [],
+      "status": "active",
+      "id": 2
     }
   ]
 }
