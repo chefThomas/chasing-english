@@ -151,7 +151,7 @@ class TimeRelatedForm extends Component {
           </Form.Item>
         ) : null}
         <Form.Item>
-          <Button type="primary" htmlType="submit" onClick={this.props.remove}>
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
