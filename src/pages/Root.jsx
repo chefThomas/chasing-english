@@ -59,7 +59,7 @@ export default class Root extends Component {
 
     const newUser = { ...user, courses: [], status: "active" };
     axios
-      .post("http://localhost:3001/users", newUser)
+      .post("http://localhost:3001/api/users", newUser)
       .then(res => {
         console.log(res);
         this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
@@ -69,16 +69,16 @@ export default class Root extends Component {
 
   addSession = session => {
     axios
-      .post("http://localhost:3001/sessions", session)
+      .post("http://localhost:3001/api/sessions", session)
       .then(res => {
-        console.log(res);
+        console.log(res.data);
         this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
       })
       .catch(err => console.log("add sesh err: ", err.message));
   };
 
   remove = (id, type) => {
-    axios.delete(`http://localhost:3001/${type}/${id}`).then(res => {
+    axios.delete(`http://localhost:3001/api/${type}/${id}`).then(res => {
       const filtered = this.state[type].filter(el => el.id !== id);
       this.setState({ [type]: filtered });
     });
@@ -88,7 +88,7 @@ export default class Root extends Component {
     const session = this.state[type].find(session => session.id === sessionId);
     if (status === "active") {
       axios
-        .put(`http://localhost:3001/${type}/${sessionId}`, {
+        .put(`http://localhost:3001/api/${type}/${sessionId}`, {
           ...session,
           status: "archive"
         })
@@ -101,7 +101,7 @@ export default class Root extends Component {
         });
     } else {
       axios
-        .put(`http://localhost:3001/${type}/${sessionId}`, {
+        .put(`http://localhost:3001/api/${type}/${sessionId}`, {
           ...session,
           status: "active"
         })
@@ -115,17 +115,23 @@ export default class Root extends Component {
   };
 
   componentDidMount() {
-    axios.get("http://localhost:3001/sessions").then(res => {
-      this.setState(st => ({
-        sessions: st.sessions.concat(res.data)
-      }));
-    });
+    axios
+      .get("http://localhost:3001/api/sessions")
+      .then(res => {
+        this.setState(st => ({
+          sessions: st.sessions.concat(res.data)
+        }));
+      })
+      .catch(err => console.log(err));
 
-    axios.get("http://localhost:3001/users").then(res => {
-      this.setState(st => ({
-        users: st.users.concat(res.data)
-      }));
-    });
+    // axios
+    //   .get("http://localhost:3001/api/users")
+    //   .then(res => {
+    //     this.setState(st => ({
+    //       users: st.users.concat(res.data)
+    //     }));
+    //   })
+    //   .catch(err => console.log(err));
   }
 
   render() {
