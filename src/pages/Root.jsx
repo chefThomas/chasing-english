@@ -69,7 +69,7 @@ export default class Root extends Component {
 
   addSession = session => {
     axios
-      .post("http://localhost:3001/sessions", session)
+      .post("http://localhost:3001/", session)
       .then(res => {
         console.log(res);
         this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
@@ -115,11 +115,15 @@ export default class Root extends Component {
   };
 
   componentDidMount() {
-    axios.get("http://localhost:3001/sessions").then(res => {
-      this.setState(st => ({
-        sessions: st.sessions.concat(res.data)
-      }));
-    });
+    axios
+      .get("http://localhost:3001/sessions")
+      .then(res => {
+        console.log("comp did mount");
+        this.setState(st => ({
+          sessions: st.sessions.concat(res.data)
+        }));
+      })
+      .catch(err => console.log(err));
 
     axios.get("http://localhost:3001/users").then(res => {
       this.setState(st => ({
