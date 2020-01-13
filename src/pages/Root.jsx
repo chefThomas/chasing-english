@@ -124,14 +124,14 @@ export default class Root extends Component {
       })
       .catch(err => console.log(err));
 
-    // axios
-    //   .get("http://localhost:3001/api/users")
-    //   .then(res => {
-    //     this.setState(st => ({
-    //       users: st.users.concat(res.data)
-    //     }));
-    //   })
-    //   .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/api/users")
+      .then(res => {
+        this.setState(st => ({
+          users: st.users.concat(res.data)
+        }));
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
