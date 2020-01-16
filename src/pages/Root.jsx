@@ -13,6 +13,10 @@ import Admin from "./Admin";
 
 import "../stylesheets/css/main.css";
 
+const PRE_API_URI =
+  process.env.NODE_ENV === "development"
+    ? "https://blooming-beach-67877.herokuapp.com/api"
+    : "";
 export default class Root extends Component {
   state = {
     showSignup: false,
@@ -59,7 +63,7 @@ export default class Root extends Component {
 
     const newUser = { ...user, courses: [], status: "active" };
     axios
-      .post("/api/users", newUser)
+      .post(`${PRE_API_URI}/api/users`, newUser)
       .then(res => {
         console.log(res);
         this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
@@ -69,7 +73,7 @@ export default class Root extends Component {
 
   addSession = session => {
     axios
-      .post("/api/sessions", session)
+      .post(`${PRE_API_URI}/sessions`, session)
       .then(res => {
         console.log(res.data);
         this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
@@ -78,7 +82,7 @@ export default class Root extends Component {
   };
 
   remove = (id, type) => {
-    axios.delete(`/api/${type}/${id}`).then(res => {
+    axios.delete(`${PRE_API_URI}/${type}/${id}`).then(res => {
       const filtered = this.state[type].filter(el => el.id !== id);
       this.setState({ [type]: filtered });
     });
@@ -86,37 +90,26 @@ export default class Root extends Component {
 
   toggleActivity = (sessionId, type, status) => {
     const session = this.state[type].find(session => session.id === sessionId);
-    if (status === "active") {
-      axios
-        .put(`/api/${type}/${sessionId}`, {
-          ...session,
-          status: "archive"
-        })
-        .then(({ data }) => {
-          const filterState = this.state[type].filter(
-            session => session.id !== sessionId
-          );
 
-          this.setState({ [type]: filterState.concat(data) });
-        });
-    } else {
-      axios
-        .put(`/api/${type}/${sessionId}`, {
-          ...session,
-          status: "active"
-        })
-        .then(({ data }) => {
-          const filterState = this.state[type].filter(
-            session => session.id !== sessionId
-          );
-          this.setState({ [type]: filterState.concat(data) });
-        });
-    }
+    const updatedStatus = status === "active" ? "archive" : "active";
+
+    axios
+      .put(`${PRE_API_URI}/${type}/${sessionId}`, {
+        ...session,
+        status: updatedStatus
+      })
+      .then(({ data }) => {
+        const filterState = this.state[type].filter(
+          session => session.id !== sessionId
+        );
+
+        this.setState({ [type]: filterState.concat(data) });
+      });
   };
 
   componentDidMount() {
     axios
-      .get("/api/sessions")
+      .get(`${PRE_API_URI}/sessions`)
       .then(res => {
         this.setState(st => ({
           sessions: st.sessions.concat(res.data)
@@ -124,14 +117,14 @@ export default class Root extends Component {
       })
       .catch(err => console.log("oh no, no sessions retrieved: ", err));
 
-    // axios
-    //   .get("/api/users")
-    //   .then(res => {
-    //     this.setState(st => ({
-    //       users: st.users.concat(res.data)
-    //     }));
-    //   })
-    //   .catch(err => console.log(err));
+    axios
+      .get(`${PRE_API_URI}/users`)
+      .then(res => {
+        this.setState(st => ({
+          users: st.users.concat(res.data)
+        }));
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
