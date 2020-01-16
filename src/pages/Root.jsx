@@ -94,7 +94,7 @@ export default class Root extends Component {
     const updatedStatus = status === "active" ? "archive" : "active";
 
     axios
-      .put(`${PRE_API_URI}/${type}/${sessionId}`, {
+      .put(`${PRE_API_URI}/api/${type}/${sessionId}`, {
         ...session,
         status: updatedStatus
       })

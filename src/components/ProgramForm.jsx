@@ -17,7 +17,9 @@ class TimeRelatedForm extends Component {
   state = {
     title: "",
     startDate: null,
+    startDateString: null,
     endDate: null,
+    endDateString: null,
     meetingTime: null,
     meetingDay: [],
     capacity: 1,
@@ -76,7 +78,12 @@ class TimeRelatedForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.addSession(this.state);
+    const dateString = {
+      startDate: this.state.startDate.format("MM/DD/YY"),
+      endDate: this.state.startDate.format("MM/DD/YY")
+    };
+
+    this.props.addSession({ ...this.state, ...dateString });
     this.setState(this.initialState);
   };
 
