@@ -9,16 +9,16 @@ import {
   Select,
   Radio
 } from "antd";
-import moment from "moment";
+// import moment from "moment";
 
 const { Option } = Select;
 
 class TimeRelatedForm extends Component {
   state = {
     title: "",
-    startDate: moment().format("MM-DD-YYYY"),
-    endDate: moment().format("MM-DD-YYYY"),
-    meetingTime: moment().format("h:mm a"),
+    startDate: null,
+    endDate: null,
+    meetingTime: null,
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
@@ -28,13 +28,14 @@ class TimeRelatedForm extends Component {
 
   initialState = {
     title: "",
-    startDate: moment().format("MM-DD-YYYY"),
-    endDate: moment().format("MM-DD-YYYY"),
-    meetingTime: moment().format("h:mm a"),
+    startDate: null,
+    endDate: null,
+    meetingTime: null,
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
-    type: null
+    type: null,
+    status: "active"
   };
 
   handleTypeChange = e => {
@@ -54,12 +55,13 @@ class TimeRelatedForm extends Component {
   };
 
   handleGroupStartChange = (date, dateString) => {
-    console.log("date start: ", dateString);
-    this.setState({ startDate: dateString });
+    console.log("date string: ", dateString);
+    console.log("date obj: ", date);
+    this.setState({ startDate: date });
   };
 
   handleGroupEndChange = (date, dateString) => {
-    this.setState({ endDate: dateString });
+    this.setState({ endDate: date });
   };
 
   handleGroupTimeChange = (time, timeString) => {
@@ -107,14 +109,14 @@ class TimeRelatedForm extends Component {
             format="MM-DD-YYYY"
             placeholder="Start Date"
             onChange={this.handleGroupStartChange}
-            value={moment(this.state.startDate)}
+            value={this.state.startDate}
           />
           <br></br>
           <DatePicker
             format="MM-DD-YYYY"
             placeholder="End Date"
             onChange={this.handleGroupEndChange}
-            value={moment(this.state.endDate)}
+            value={this.state.endDate}
           />
         </Form.Item>
         <Form.Item label="Meeting Time">

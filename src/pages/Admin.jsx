@@ -173,7 +173,6 @@ export default class Admin extends Component {
   };
 
   confirmDelete = (id, type) => {
-    console.log(id);
     this.props.remove(id, type);
 
     const itemType = type === "users" ? "User" : "Program";
