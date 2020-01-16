@@ -15,7 +15,7 @@ import "../stylesheets/css/main.css";
 
 const PRE_API_URI =
   process.env.NODE_ENV === "development"
-    ? "https://blooming-beach-67877.herokuapp.com/api"
+    ? "https://blooming-beach-67877.herokuapp.com"
     : "";
 export default class Root extends Component {
   state = {
@@ -73,7 +73,7 @@ export default class Root extends Component {
 
   addSession = session => {
     axios
-      .post(`${PRE_API_URI}/sessions`, session)
+      .post(`${PRE_API_URI}/api/sessions`, session)
       .then(res => {
         console.log(res.data);
         this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
@@ -82,7 +82,7 @@ export default class Root extends Component {
   };
 
   remove = (id, type) => {
-    axios.delete(`${PRE_API_URI}/${type}/${id}`).then(res => {
+    axios.delete(`${PRE_API_URI}/api/${type}/${id}`).then(res => {
       const filtered = this.state[type].filter(el => el.id !== id);
       this.setState({ [type]: filtered });
     });
@@ -109,7 +109,7 @@ export default class Root extends Component {
 
   componentDidMount() {
     axios
-      .get(`${PRE_API_URI}/sessions`)
+      .get(`${PRE_API_URI}/api/sessions`)
       .then(res => {
         this.setState(st => ({
           sessions: st.sessions.concat(res.data)
@@ -118,7 +118,7 @@ export default class Root extends Component {
       .catch(err => console.log("oh no, no sessions retrieved: ", err));
 
     axios
-      .get(`${PRE_API_URI}/users`)
+      .get(`${PRE_API_URI}/api/users`)
       .then(res => {
         this.setState(st => ({
           users: st.users.concat(res.data)
