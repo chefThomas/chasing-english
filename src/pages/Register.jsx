@@ -4,12 +4,16 @@ import { Tabs, Button, Table, Typography } from "antd";
 const { Title } = Typography;
 const { TabPane } = Tabs;
 
+const Style = {
+  padLeftReg: { paddingLeft: "10px" }
+};
+
 export default class Register extends Component {
   groupProgramsCols = [
     {
       title: "Title",
-      dataIndex: "groupTitle",
-      key: "groupTitle"
+      dataIndex: "title",
+      key: "title"
     },
     {
       title: "Start",
@@ -47,11 +51,9 @@ export default class Register extends Component {
       render: (text, record) => (
         <span>
           {record.capacity === record.enrolled ? (
-            <Button {...record} onClick={this.handleWaitlist}>
-              Waitlist
-            </Button>
+            <Button onClick={this.handleWaitlist}>Waitlist</Button>
           ) : (
-            <Button {...record} onClick={this.handleWaitlist} type="primary">
+            <Button onClick={this.handleWaitlist} type="primary">
               Register
             </Button>
           )}
@@ -114,7 +116,7 @@ export default class Register extends Component {
     return groupPrograms.map(program => {
       return {
         key: program.id,
-        groupTitle: program.groupTitle,
+        title: program.title,
         startDate: program.startDate,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
@@ -153,24 +155,32 @@ export default class Register extends Component {
     return (
       <Tabs type="card">
         <TabPane tab="Courses" key="1">
-          <Title level={3}>Individual</Title>
+          <Title style={Style.padLeftReg} level={3}>
+            Individual
+          </Title>
           <Table
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
           />
-          <Title level={3}>Group</Title>
+          <Title style={Style.padLeftReg} className="Table_title" level={3}>
+            Group
+          </Title>
           <Table
             dataSource={this.getGroupSessionData()}
             columns={this.groupProgramsCols}
           />
         </TabPane>
         <TabPane tab="My Schedule" key="2">
-          <Title level={3}>Individual</Title>
+          <Title style={Style.padLeftReg} level={3}>
+            Individual
+          </Title>
           <Table
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
           />
-          <Title level={3}>Group</Title>
+          <Title style={Style.padLeftReg} className="Table_title" level={3}>
+            Group
+          </Title>
 
           <Table
             dataSource={this.getGroupSessionData()}
