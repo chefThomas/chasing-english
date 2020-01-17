@@ -25,12 +25,6 @@ export default class Admin extends Component {
 
   programCols = [
     {
-      title: "Id",
-      dataIndex: "id",
-      key: "id"
-    },
-
-    {
       title: "Title",
       dataIndex: "title",
       key: "title"
@@ -106,11 +100,6 @@ export default class Admin extends Component {
   ];
 
   userCols = [
-    {
-      title: "Id",
-      dataIndex: "id",
-      key: "id"
-    },
     {
       title: "First",
       dataIndex: "firstName",
