@@ -8,7 +8,7 @@ const Style = {
   padLeftReg: { paddingLeft: "10px" }
 };
 
-export default class Register extends Component {
+export default class Catalog extends Component {
   groupProgramsCols = [
     {
       title: "Title",
@@ -54,7 +54,7 @@ export default class Register extends Component {
             <Button onClick={this.handleWaitlist}>Waitlist</Button>
           ) : (
             <Button onClick={this.handleWaitlist} type="primary">
-              Register
+              Enroll
             </Button>
           )}
         </span>

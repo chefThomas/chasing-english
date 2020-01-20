@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import "../stylesheets/css/main.css";
+import React, { Component } from 'react';
+import '../stylesheets/css/main.css';
 
 export default class SignupForm extends Component {
   state = {
-    parentFirstName: "",
-    parentLastName: "",
-    parentEmail: "",
-    studentName: "",
-    coursePreference: "group"
+    guardianFirstName: '',
+    guardianLastName: '',
+    guardianEmail: '',
+    password: '',
+    childName: '',
+    childEmail: '',
   };
 
   handleChange = e => {
@@ -25,11 +26,12 @@ export default class SignupForm extends Component {
 
     // reset state
     this.setState({
-      parentFirstName: "",
-      parentLastName: "",
-      parentEmail: "",
-      studentName: "",
-      coursePreference: ""
+      guardianFirstName: '',
+      guardianLastName: '',
+      guardianEmail: '',
+      password: '',
+      childName: '',
+      childEmail: '',
     });
   };
 
@@ -88,7 +90,7 @@ export default class SignupForm extends Component {
             type="radio"
             name="coursePreference"
             value="group"
-            defaultChecked={this.state.coursePreference === "group"}
+            defaultChecked={this.state.coursePreference === 'group'}
             className="group-radio"
           />
         </div>

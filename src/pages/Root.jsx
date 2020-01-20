@@ -1,29 +1,30 @@
-import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import axios from 'axios';
 
-import Navbar from "../components/Navbar";
-import SignupForm from "../components/SignupForm";
-import LoginForm from "../components/LoginForm";
-import SideNav from "../components/SideNav";
-import Home from "./Home";
-import Register from "./Register";
-import About from "./About";
-import Admin from "./Admin";
+import Navbar from '../components/Navbar';
+import SignupForm from '../components/SignupForm';
+import LoginForm from '../components/LoginForm';
+import SideNav from '../components/SideNav';
+import Home from './Home';
+import Catalog from './Catalog';
+import About from './About';
+import Admin from './Admin';
 
-import "../stylesheets/css/main.css";
+import '../stylesheets/css/main.css';
+import GuardianRegistration from './GuardianRegistration';
 
 const PRE_API_URI =
-  process.env.NODE_ENV === "development"
-    ? "https://blooming-beach-67877.herokuapp.com"
-    : "";
+  process.env.NODE_ENV === 'development'
+    ? 'https://blooming-beach-67877.herokuapp.com'
+    : '';
 export default class Root extends Component {
   state = {
     showSignup: false,
     showLogin: false,
     showSideNav: false,
     sessions: [],
-    users: []
+    users: [],
   };
 
   // UI
@@ -31,7 +32,7 @@ export default class Root extends Component {
     this.setState({
       showSignup: !this.state.showSignup,
       showLogin: false,
-      showSideNav: false
+      showSideNav: false,
     });
   };
 
@@ -39,7 +40,7 @@ export default class Root extends Component {
     this.setState({
       showLogin: !this.state.showLogin,
       showSignup: false,
-      showSideNav: false
+      showSideNav: false,
     });
   };
 
@@ -47,28 +48,28 @@ export default class Root extends Component {
     this.setState({
       showSideNav: !this.state.showSideNav,
       showSignup: false,
-      showLogin: false
+      showLogin: false,
     });
   };
 
   closeSideNav = () => {
     this.setState({
-      showSideNav: false
+      showSideNav: false,
     });
   };
 
   // api calls
   addUser = user => {
-    console.log("add user: ", user);
+    console.log('add user: ', user);
 
-    const newUser = { ...user, courses: [], status: "active" };
+    const newUser = { ...user, courses: [], status: 'active' };
     axios
       .post(`${PRE_API_URI}/api/users`, newUser)
       .then(res => {
         console.log(res);
         this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
       })
-      .catch(err => console.log("add user err: ", err.message));
+      .catch(err => console.log('add user err: ', err.message));
   };
 
   addSession = session => {
@@ -78,7 +79,7 @@ export default class Root extends Component {
         console.log(res.data);
         this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
       })
-      .catch(err => console.log("add sesh err: ", err.message));
+      .catch(err => console.log('add sesh err: ', err.message));
   };
 
   remove = (id, type) => {
@@ -91,12 +92,12 @@ export default class Root extends Component {
   toggleActivity = (sessionId, type, status) => {
     const session = this.state[type].find(session => session.id === sessionId);
 
-    const updatedStatus = status === "active" ? "archive" : "active";
+    const updatedStatus = status === 'active' ? 'archive' : 'active';
 
     axios
       .put(`${PRE_API_URI}/api/${type}/${sessionId}`, {
         ...session,
-        status: updatedStatus
+        status: updatedStatus,
       })
       .then(({ data }) => {
         const filterState = this.state[type].filter(
@@ -112,16 +113,16 @@ export default class Root extends Component {
       .get(`${PRE_API_URI}/api/sessions`)
       .then(res => {
         this.setState(st => ({
-          sessions: st.sessions.concat(res.data)
+          sessions: st.sessions.concat(res.data),
         }));
       })
-      .catch(err => console.log("oh no, no sessions retrieved: ", err));
+      .catch(err => console.log('oh no, no sessions retrieved: ', err));
 
     axios
       .get(`${PRE_API_URI}/api/users`)
       .then(res => {
         this.setState(st => ({
-          users: st.users.concat(res.data)
+          users: st.users.concat(res.data),
         }));
       })
       .catch(err => console.log(err));
@@ -139,16 +140,16 @@ export default class Root extends Component {
         />
         <SignupForm
           toggle={this.showSignup}
-          className={this.state.showSignup ? "SignupForm" : "offscreen"}
+          className={this.state.showSignup ? 'SignupForm' : 'offscreen'}
         />
         <LoginForm
           toggle={this.toggleLogin}
           toggleSignup={this.toggleSignup}
-          className={this.state.showLogin ? "LoginForm" : "offscreen-login"}
+          className={this.state.showLogin ? 'LoginForm' : 'offscreen-login'}
         />
         <SideNav
           closeSideNav={this.closeSideNav}
-          className={this.state.showSideNav ? "SideNav" : "offscreen-sidenav"}
+          className={this.state.showSideNav ? 'SideNav' : 'offscreen-sidenav'}
         />
         <Switch>
           <Route
@@ -158,15 +159,20 @@ export default class Root extends Component {
           />
           <Route
             exact
-            path="/register"
+            path="/catalog"
             render={routeProps => (
-              <Register {...routeProps} sessions={this.state.sessions} />
+              <Catalog {...routeProps} sessions={this.state.sessions} />
             )}
           />
           <Route
             exact
             path="/about"
             render={routeProps => <About {...routeProps} />}
+          />
+          <Route
+            exact
+            path="/guardian-registration"
+            render={routeProps => <GuardianRegistration {...routeProps} />}
           />
           <Route
             exact

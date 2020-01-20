@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "../stylesheets/css/main.css";
 
 // import DropdownNav from "./DropdownNav";
@@ -39,37 +39,37 @@ class Navbar extends Component {
   render() {
     // const { showDropdownNav } = this.state;
     return (
-      <div className="Navbar">
-        <div className="Navbar-links-container">
+      <div className='Navbar'>
+        <div className='Navbar-links-container'>
           <NavLink
             exact
-            className="Navbar-link "
-            activeClassName="NavLink-active"
-            to="/"
+            className='Navbar-link '
+            activeClassName='NavLink-active'
+            to='/'
           >
             Home
           </NavLink>
           <NavLink
             exact
-            className="Navbar-link"
-            activeClassName="NavLink-active"
-            to="/register"
+            className='Navbar-link'
+            activeClassName='NavLink-active'
+            to='/catalog'
           >
-            Register
+            Catalog
           </NavLink>
           <NavLink
             exact
-            className="Navbar-link"
-            activeClassName="NavLink-active"
-            to="/about"
+            className='Navbar-link'
+            activeClassName='NavLink-active'
+            to='/about'
           >
             About
           </NavLink>
           <NavLink
             exact
-            className="Navbar-link"
-            activeClassName="NavLink-active"
-            to="/admin"
+            className='Navbar-link'
+            activeClassName='NavLink-active'
+            to='/admin'
           >
             Admin
           </NavLink>
@@ -78,22 +78,24 @@ class Navbar extends Component {
           toggleSideNav={this.toggleSideNav}
           showSideNav={this.props.showSideNav}
         />
-        <div className="Navbutton-container">
+        <div className='Navbutton-container'>
           <button
-            className="NavButton dark-on-dark navbar"
-            label="Log in"
+            className='NavButton dark-on-dark navbar'
+            label='Log in'
             onClick={this.handleLoginClick}
           >
             Log In
           </button>
           {/* toggle signup form */}
-          <button
-            className="NavButton dark-on-dark navbar"
-            label="Sign up"
-            onClick={this.handleSignupClick}
-          >
-            Sign Up
-          </button>
+          <Link to='/guardian-registration'>
+            <button
+              className='NavButton dark-on-dark navbar'
+              label='Sign up'
+              // onClick={this.handleSignupClick}
+            >
+              Register
+            </button>
+          </Link>
         </div>
       </div>
     );
