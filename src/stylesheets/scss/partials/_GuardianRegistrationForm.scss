@@ -1,5 +1,30 @@
-.GuardianRegistrationForm {
-  border: 1px solid #e8e8e8;
-  max-width: 400px;
-  background-color: red;
+.RegistrationForm {
+  span.ant-input-group-addon {
+    background-color: #fff;
+  }
+  button.dark-on-light {
+    border: 2px solid #1b1c1d;
+    background: transparent none;
+    color: #1b1c1d;
+  }
+
+  button.dark-on-light:hover {
+    color: #fff;
+    background-color: #1b1c1d;
+    border: 2px solid #efefef;
+  }
+
+  button.center-inline {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .top-margin-sm {
+    margin-top: 1rem;
+  }
+
+  .top-margin-lg {
+    margin-top: 4rem;
+  }
 }

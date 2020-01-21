@@ -1,52 +1,17 @@
 import React, { Component } from 'react';
 
-import {
-  Form,
-  Heading,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-  PageHeader,
-} from 'antd';
+import { Form, Input, Tooltip, Icon, Select, PageHeader } from 'antd';
 
 import '../stylesheets/css/main.css';
 
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
 
-const courseTypes = [
-  {
-    value: 'Individual Coaching',
-    label: 'Individual Coaching',
-  },
-  {
-    value: 'Group Sessions',
-    label: 'Group Sessions',
-  },
-];
-
-const grades = ['6', '7', '8', '9', '10', '11', '12', 'Post high school'];
+const courseOptions = ['Group', 'One-day Intensive', 'Individual Coaching'];
 
 class RegistrationForm extends Component {
   state = {
     confirmDirty: false,
-    // current: 0,
-    // guardianFirstName: null,
-    // guardianLastName: null,
-    // guardianEmail: null,
-    // guardianPhone: null,
-    // contactPreference: '',
-    // studentFirstName: null,
-    // studentLastName: null,
-    // courseInfo: null,
-    // grade: null,
+    selectedCourses: [],
   };
 
   handleSubmit = e => {
@@ -58,6 +23,9 @@ class RegistrationForm extends Component {
     });
   };
 
+  handleCourseChange = selectedCourses => {
+    this.setState({ selectedCourses });
+  };
   handleConfirmBlur = e => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -66,7 +34,7 @@ class RegistrationForm extends Component {
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback("Passwords don't match");
     } else {
       callback();
     }
@@ -82,6 +50,10 @@ class RegistrationForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { selectedCourses } = this.state;
+    const filteredCourses = courseOptions.filter(course => {
+      return !selectedCourses.includes(course);
+    });
 
     const formItemLayout = {
       labelCol: {
@@ -94,218 +66,219 @@ class RegistrationForm extends Component {
       },
     };
 
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-
     const areaCode = getFieldDecorator('prefix', {
       initialValue: '(206)',
     })(
       <Input
-        style={{ border: '0', margin: '0', padding: '0 0', width: '3rem' }}
+        style={{
+          border: '0',
+          margin: '0',
+          padding: '0 0',
+          width: '3rem',
+          backgroundColor: '#fff',
+        }}
       ></Input>
     );
 
     return (
-      <Form {...formItemLayout} colon={false} onSubmit={this.handleSubmit}>
-        <h1
-          style={{
-            textAlign: 'center',
-          }}
+      <>
+        <Form
+          className="RegistrationForm"
+          {...formItemLayout}
+          colon={false}
+          onSubmit={this.handleSubmit}
         >
-          Registration{' '}
-        </h1>
-        Note: all fields are required
-        <PageHeader title="Guardian" />
-        <Form.Item
-          label={
-            <span>
-              Guardian Name&nbsp;
-              <Tooltip title="How would you like to be addressed?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('guardian name', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your name!',
-                whitespace: true,
-              },
-            ],
-          })(<Input />)}
-        </Form.Item>
-        <Form.Item label="Email">
-          {getFieldDecorator('email', {
-            rules: [
-              {
-                type: 'email',
-                message: 'The input is not valid Email!',
-              },
-              {
-                required: true,
-                message: 'Please input your Email!',
-              },
-            ],
-          })(<Input />)}
-        </Form.Item>
-        <Form.Item label="Phone Number">
-          {getFieldDecorator('phone', {
-            rules: [
-              { required: true, message: 'Please input your phone number!' },
-            ],
-            initialValue: '123-4567',
-          })(
-            <Input
-              addonBefore={areaCode}
-              style={{ paddingLeft: '0', width: '100%' }}
-            />
-          )}
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Contact Method&nbsp;
-              <Tooltip title="What is your preferred method of contact?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('contactMethod', {
-            rules: [
-              {
-                required: true,
-                message: 'Please choose your preferred contact method!',
-              },
-            ],
-          })(
-            <Select
-              placeholder="Email"
-              defaultValue="email"
-              addonBefore={areaCode}
-              style={{ paddingLeft: '0', width: '100%' }}
-            >
-              <Option value="email">Email</Option>
-              <Option value="voice">Voice</Option>
-              <Option value="text">Text</Option>
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item label="Password" hasFeedback>
-          {getFieldDecorator('password', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-              {
-                validator: this.validateToNextPassword,
-              },
-            ],
-          })(<Input.Password />)}
-        </Form.Item>
-        <Form.Item label="Confirm Password" hasFeedback>
-          {getFieldDecorator('confirm', {
-            rules: [
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
-              {
-                validator: this.compareToFirstPassword,
-              },
-            ],
-          })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-        </Form.Item>
-        <PageHeader title="Student" />
-        <Form.Item
-          label={
-            <span>
-              Student Name&nbsp;
-              <Tooltip title="How should the student be addressed?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('student_name', {
-            rules: [
-              {
-                required: true,
-                message: "Please input student's name!",
-                whitespace: true,
-              },
-            ],
-          })(<Input />)}
-        </Form.Item>
-        <Form.Item label="Student Email">
-          {getFieldDecorator('email', {
-            rules: [
-              {
-                type: 'email',
-                message: 'The input is not valid Email!',
-              },
-              {
-                required: true,
-                message: 'Please input your Email!',
-              },
-            ],
-          })(<Input />)}
-        </Form.Item>
-        <Form.Item label="Grade" hasFeedback>
-          {getFieldDecorator('grade', {
-            rules: [
-              {
-                required: true,
-                message: "Please select your student's grade level",
-              },
-            ],
-          })(
-            <Select placeholder="Please select student's grade">
-              <Option value="6">6</Option>
-              <Option value="7">7</Option>
-              <Option value="8">8</Option>
-              <Option value="9">9</Option>
-              <Option value="10">10</Option>
-              <Option value="11">11</Option>
-              <Option value="12">12</Option>
-            </Select>
-          )}
-        </Form.Item>
-        <PageHeader title="Courses" />
-        <Form.Item
-          label={
-            <span>
-              Guardian Name&nbsp;
-              <Tooltip title="How would you like to be addressed?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('guardian name', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your name!',
-                whitespace: true,
-              },
-            ],
-          })(<Input />)}
-        </Form.Item>
-      </Form>
+          <h1
+            style={{
+              textAlign: 'center',
+            }}
+          >
+            Registration{' '}
+          </h1>
+
+          <PageHeader title="Guardian" />
+          <Form.Item label={<span>Guardian Name&nbsp;</span>}>
+            {getFieldDecorator('guardian name', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your name!',
+                  whitespace: true,
+                },
+              ],
+            })(<Input placeholder="first last" />)}
+          </Form.Item>
+          <Form.Item label="Email">
+            {getFieldDecorator('guardianEmail', {
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid Email!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your Email!',
+                },
+              ],
+            })(<Input />)}
+          </Form.Item>
+          <Form.Item label="Phone Number">
+            {getFieldDecorator('phone', {
+              rules: [
+                { required: true, message: 'Please input your phone number!' },
+              ],
+            })(
+              <Input
+                placeholder="123-4567"
+                addonBefore={areaCode}
+                style={{ paddingLeft: '0', width: '60%' }}
+              />
+            )}
+          </Form.Item>
+          <Form.Item label="Password" hasFeedback>
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your password!',
+                },
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(<Input.Password />)}
+          </Form.Item>
+          <Form.Item label="Confirm Password" hasFeedback>
+            {getFieldDecorator('confirm', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please confirm your password!',
+                },
+                {
+                  validator: this.compareToFirstPassword,
+                },
+              ],
+            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+          </Form.Item>
+          <Form.Item
+            label={
+              <span>
+                Contact Method&nbsp;
+                <Tooltip title="What is your preferred method of contact?">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            }
+          >
+            {getFieldDecorator('contactMethod', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please choose your preferred contact method!',
+                },
+              ],
+            })(
+              <Select
+                placeholder="Email"
+                addonBefore={areaCode}
+                style={{ paddingLeft: '0', width: '40%' }}
+              >
+                <Option value="email">Email</Option>
+                <Option value="voice">Voice</Option>
+                <Option value="text">Text</Option>
+              </Select>
+            )}
+          </Form.Item>
+          <PageHeader title="Student" />
+          <Form.Item label={<span>Student Name&nbsp;</span>}>
+            {getFieldDecorator('student_name', {
+              rules: [
+                {
+                  required: true,
+                  message: "Please input student's name!",
+                  whitespace: true,
+                },
+              ],
+            })(<Input />)}
+          </Form.Item>
+          <Form.Item
+            label={
+              <span>
+                Student Gmail&nbsp;
+                <Tooltip title="A private Gmail account needed to access Google Classroom">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            }
+          >
+            {getFieldDecorator('email', {
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid Email!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your Email!',
+                },
+              ],
+            })(<Input />)}
+          </Form.Item>
+          <Form.Item label="Grade" hasFeedback>
+            {getFieldDecorator('grade', {
+              rules: [
+                {
+                  required: true,
+                  message: "Please select your student's grade level",
+                },
+              ],
+            })(
+              <Select style={{ width: '20%' }}>
+                <Option value="6">6</Option>
+                <Option value="7">7</Option>
+                <Option value="8">8</Option>
+                <Option value="9">9</Option>
+                <Option value="10">10</Option>
+                <Option value="11">11</Option>
+                <Option value="12">12</Option>
+              </Select>
+            )}
+          </Form.Item>
+          <PageHeader title="Programs" />
+          <Form.Item label="Programs">
+            {getFieldDecorator('course', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please choose at least one course type',
+                },
+              ],
+            })(
+              <Select
+                mode="multiple"
+                placeholder="You may choose multiple programs"
+                value={selectedCourses}
+                onChange={this.handleCourseChange}
+                style={{ width: '100%' }}
+              >
+                {filteredCourses.map(item => (
+                  <Select.Option key={item} value={item}>
+                    {item}
+                  </Select.Option>
+                ))}
+              </Select>
+            )}
+          </Form.Item>
+          <button
+            className="top-margin-lg NavButton dark-on-light navbar center-inline"
+            label="Log in"
+            onClick={this.handleSubmit}
+          >
+            Submit
+          </button>
+        </Form>
+      </>
     );
   }
 }
