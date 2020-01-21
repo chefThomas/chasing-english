@@ -18,7 +18,7 @@ body {
   .Home .section-header,
   .shift-left .section-header {
     font-size: 2.25rem;
-    font-family: "Lato", sans-serif;
+    font-family: 'Lato', sans-serif;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.87);
     margin: 0 0 3rem 1em; }
@@ -779,7 +779,7 @@ body {
   .Home .section-header,
   .shift-left .section-header {
     font-size: 2.25rem;
-    font-family: "Lato", sans-serif;
+    font-family: 'Lato', sans-serif;
     text-transform: uppercase;
     color: rgba(0, 0, 0, 0.87);
     margin: 0 0 3rem 1em; }
@@ -1039,7 +1039,33 @@ body {
 .offscreen-sidenav {
   transform: translate3d(-100%, 0, 0); }
 
-.GuardianRegistrationForm {
-  border: 1px solid #e8e8e8;
-  max-width: 400px;
-  background-color: red; }
+.RegistrationForm span.ant-input-group-addon {
+  background-color: #fff; }
+
+.RegistrationForm button.dark-on-light {
+  border: 2px solid #1b1c1d;
+  background: transparent none;
+  color: #1b1c1d; }
+
+.RegistrationForm button.dark-on-light:hover {
+  color: #fff;
+  background-color: #1b1c1d;
+  border: 2px solid #efefef; }
+
+.RegistrationForm button.center-inline {
+  margin-left: auto;
+  margin-right: auto;
+  display: block; }
+
+.RegistrationForm .top-margin-sm {
+  margin-top: 1rem; }
+
+.RegistrationForm .top-margin-lg {
+  margin-top: 4rem; }
+
+.GuardianRegistration {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #efefef;
+  font-family: 'Lato', sans-serif;
+  padding: 1.5rem 1rem 1rem 1rem;
+  margin-bottom: 5rem; }
