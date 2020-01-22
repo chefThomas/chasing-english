@@ -30,4 +30,6 @@ yarn-error.log*
 package-lock.json
 package.json
 
+project-auth.txt
+
 db.json
