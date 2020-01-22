@@ -1,4 +1,14 @@
-.RegistrationForm {
+.RegistrationForm.ant-form.ant-form-horizontal {
+  @include card-border-shadow;
+  margin: 5rem auto;
+  max-width: 650px;
+  padding: 4rem;
+
+  @media (max-width: 673px) {
+    border: none;
+    box-shadow: none;
+  }
+
   span.ant-input-group-addon {
     background-color: #fff;
   }
@@ -18,6 +28,25 @@
     margin-left: auto;
     margin-right: auto;
     display: block;
+  }
+
+  div.ant-page-header {
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+  div.ant-row {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  div.ant-row.ant-form-item {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+  }
+
+  div.ant-col.ant-form-item-label {
+    text-align: left;
   }
 
   .top-margin-sm {

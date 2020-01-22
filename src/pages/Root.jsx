@@ -89,19 +89,19 @@ export default class Root extends Component {
     });
   };
 
-  toggleActivity = (sessionId, type, status) => {
-    const session = this.state[type].find(session => session.id === sessionId);
+  toggleActivity = (recordId, type, status) => {
+    const record = this.state[type].find(record => record.id === recordId);
 
     const updatedStatus = status === 'active' ? 'archive' : 'active';
 
     axios
-      .put(`${PRE_API_URI}/api/${type}/${sessionId}`, {
-        ...session,
+      .put(`${PRE_API_URI}/api/${type}/${recordId}`, {
+        ...record,
         status: updatedStatus,
       })
       .then(({ data }) => {
         const filterState = this.state[type].filter(
-          session => session.id !== sessionId
+          record => record.id !== recordId
         );
 
         this.setState({ [type]: filterState.concat(data) });

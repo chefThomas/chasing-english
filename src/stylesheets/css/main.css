@@ -1039,33 +1039,45 @@ body {
 .offscreen-sidenav {
   transform: translate3d(-100%, 0, 0); }
 
-.RegistrationForm span.ant-input-group-addon {
-  background-color: #fff; }
-
-.RegistrationForm button.dark-on-light {
-  border: 2px solid #1b1c1d;
-  background: transparent none;
-  color: #1b1c1d; }
-
-.RegistrationForm button.dark-on-light:hover {
-  color: #fff;
-  background-color: #1b1c1d;
-  border: 2px solid #efefef; }
-
-.RegistrationForm button.center-inline {
-  margin-left: auto;
-  margin-right: auto;
-  display: block; }
-
-.RegistrationForm .top-margin-sm {
-  margin-top: 1rem; }
-
-.RegistrationForm .top-margin-lg {
-  margin-top: 4rem; }
-
-.GuardianRegistration {
+.RegistrationForm.ant-form.ant-form-horizontal {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   border: 1px solid #efefef;
   font-family: 'Lato', sans-serif;
   padding: 1.5rem 1rem 1rem 1rem;
-  margin-bottom: 5rem; }
+  margin: 5rem auto;
+  max-width: 650px;
+  padding: 4rem; }
+  @media (max-width: 673px) {
+    .RegistrationForm.ant-form.ant-form-horizontal {
+      border: none;
+      box-shadow: none; } }
+  .RegistrationForm.ant-form.ant-form-horizontal span.ant-input-group-addon {
+    background-color: #fff; }
+  .RegistrationForm.ant-form.ant-form-horizontal button.dark-on-light {
+    border: 2px solid #1b1c1d;
+    background: transparent none;
+    color: #1b1c1d; }
+  .RegistrationForm.ant-form.ant-form-horizontal button.dark-on-light:hover {
+    color: #fff;
+    background-color: #1b1c1d;
+    border: 2px solid #efefef; }
+  .RegistrationForm.ant-form.ant-form-horizontal button.center-inline {
+    margin-left: auto;
+    margin-right: auto;
+    display: block; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-page-header {
+    margin-left: 0px;
+    padding-left: 0px; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-row {
+    display: flex;
+    justify-content: flex-end; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-row.ant-form-item {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-col.ant-form-item-label {
+    text-align: left; }
+  .RegistrationForm.ant-form.ant-form-horizontal .top-margin-sm {
+    margin-top: 1rem; }
+  .RegistrationForm.ant-form.ant-form-horizontal .top-margin-lg {
+    margin-top: 4rem; }
