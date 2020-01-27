@@ -77,13 +77,13 @@ export default class Admin extends Component {
           <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
             <Icon
               type="file-sync"
-              onClick={() => this.handleArchiveClick(id, 'sessions', status)}
+              onClick={() => this.handleArchiveClick(id, 'programs', status)}
             />
           </Tooltip>
 
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id, 'sessions')}
+            onConfirm={() => this.confirmDelete(id, 'programs')}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
@@ -323,7 +323,7 @@ export default class Admin extends Component {
 
   getSessionData = (type, status) => {
     if (status === 'active') {
-      return this.props.sessions
+      return this.props.programs
         .filter(program => program.type === type && program.status === status)
         .map(program => ({
           key: program.id,
@@ -338,7 +338,7 @@ export default class Admin extends Component {
           status: program.status,
         }));
     } else {
-      return this.props.sessions
+      return this.props.programs
         .filter(program => program.status === 'archive')
         .map(program => ({
           key: program.id,
@@ -386,7 +386,7 @@ export default class Admin extends Component {
             <Collapse>
               <Panel
                 header={`Individual Coaching (${this.count(
-                  this.props.sessions,
+                  this.props.programs,
                   'active',
                   'individual'
                 )})`}
@@ -400,7 +400,7 @@ export default class Admin extends Component {
               </Panel>
               <Panel
                 header={`Group (${this.count(
-                  this.props.sessions,
+                  this.props.programs,
                   'active',
                   'group'
                 )})`}
@@ -415,7 +415,7 @@ export default class Admin extends Component {
               </Panel>
               <Panel
                 header={`One-day Intensive (${this.count(
-                  this.props.sessions,
+                  this.props.programs,
                   'active',
                   'intensive'
                 )})`}
@@ -430,7 +430,7 @@ export default class Admin extends Component {
               </Panel>
               <Panel
                 header={`Archive (${this.count(
-                  this.props.sessions,
+                  this.props.programs,
                   'archive'
                 )})`}
                 key="archive"

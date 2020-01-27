@@ -14,17 +14,19 @@ import Admin from './Admin';
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
 
-const PRE_API_URI =
-  process.env.NODE_ENV === 'development'
-    ? 'https://blooming-beach-67877.herokuapp.com'
-    : '';
+const PRE_API_URI = 'http://localhost:5000';
+// process.env.NODE_ENV === 'development'
+//   ? 'https://blooming-beach-67877.herokuapp.com'
+//   : 'http://localhost:5000';
 export default class Root extends Component {
   state = {
     showSignup: false,
     showLogin: false,
     showSideNav: false,
-    sessions: [],
-    users: [],
+    programs: [],
+    guardians: [],
+    admins: [],
+    students: [],
   };
 
   // UI
@@ -59,25 +61,34 @@ export default class Root extends Component {
   };
 
   // api calls
-  addUser = user => {
-    console.log('add user: ', user);
-
-    const newUser = { ...user, courses: [], status: 'active' };
-    axios
-      .post(`${PRE_API_URI}/api/users`, newUser)
-      .then(res => {
-        console.log(res);
-        this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
-      })
-      .catch(err => console.log('add user err: ', err.message));
+  register = async guardianData => {
+    console.log(guardianData);
+    const newGuardian = await axios.post(
+      `${PRE_API_URI}/api/guardians`,
+      guardianData
+    );
+    console.log('new guardian ', newGuardian);
   };
 
-  addSession = session => {
+  // addUser = user => {
+  //   console.log('add user: ', user);
+
+  //   const newUser = { ...user, courses: [], status: 'active' };
+  //   axios
+  //     .post(`${PRE_API_URI}/api/users`, newUser)
+  //     .then(res => {
+  //       console.log(res);
+  //       this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
+  //     })
+  //     .catch(err => console.log('add user err: ', err.message));
+  // };
+
+  addProgram = program => {
     axios
-      .post(`${PRE_API_URI}/api/sessions`, session)
+      .post(`${PRE_API_URI}/api/programs`, program)
       .then(res => {
         console.log(res.data);
-        this.setState(st => ({ sessions: st.sessions.concat(res.data) }));
+        this.setState(st => ({ programs: st.programs.concat(res.data) }));
       })
       .catch(err => console.log('add sesh err: ', err.message));
   };
@@ -110,13 +121,13 @@ export default class Root extends Component {
 
   componentDidMount() {
     axios
-      .get(`${PRE_API_URI}/api/sessions`)
+      .get(`${PRE_API_URI}/api/programs`)
       .then(res => {
         this.setState(st => ({
-          sessions: st.sessions.concat(res.data),
+          programs: st.programs.concat(res.data),
         }));
       })
-      .catch(err => console.log('oh no, no sessions retrieved: ', err));
+      .catch(err => console.log('oh no, no programs retrieved: ', err));
 
     axios
       .get(`${PRE_API_URI}/api/users`)
@@ -161,7 +172,7 @@ export default class Root extends Component {
             exact
             path="/catalog"
             render={routeProps => (
-              <Catalog {...routeProps} sessions={this.state.sessions} />
+              <Catalog {...routeProps} programs={this.state.programs} />
             )}
           />
           <Route
@@ -172,7 +183,9 @@ export default class Root extends Component {
           <Route
             exact
             path="/guardian-registration"
-            render={routeProps => <GuardianRegistration {...routeProps} />}
+            render={routeProps => (
+              <GuardianRegistration {...routeProps} register={this.register} />
+            )}
           />
           <Route
             exact
@@ -181,7 +194,7 @@ export default class Root extends Component {
               <Admin
                 {...routeProps}
                 addSession={this.addSession}
-                sessions={this.state.sessions}
+                programs={this.state.programs}
                 users={this.state.users}
                 remove={this.remove}
                 addUser={this.addUser}

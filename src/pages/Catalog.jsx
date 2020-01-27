@@ -109,7 +109,7 @@ export default class Catalog extends Component {
   ];
 
   getGroupSessionData = () => {
-    const groupPrograms = this.props.sessions.filter(program => {
+    const groupPrograms = this.props.programs.filter(program => {
       return program.type === 'group' && program.status === 'active';
     });
 
@@ -128,7 +128,7 @@ export default class Catalog extends Component {
   };
 
   getIndividualSessionData = () => {
-    const indyPrograms = this.props.sessions.filter(program => {
+    const indyPrograms = this.props.programs.filter(program => {
       return program.type === 'individual' && program.status === 'active';
     });
 
