@@ -18,7 +18,8 @@ class RegistrationForm extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
+        this.props.register(values);
       }
     });
   };
@@ -101,7 +102,7 @@ class RegistrationForm extends Component {
 
           <PageHeader title="Guardian" />
           <Form.Item label={<span>Guardian Name&nbsp;</span>}>
-            {getFieldDecorator('guardian first name', {
+            {getFieldDecorator('guardianFirstName', {
               rules: [
                 {
                   required: true,
@@ -112,7 +113,7 @@ class RegistrationForm extends Component {
             })(<Input placeholder="First" />)}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('guardian last name', {
+            {getFieldDecorator('guardianLastName', {
               rules: [
                 {
                   required: true,
@@ -163,7 +164,7 @@ class RegistrationForm extends Component {
             })(<Input.Password />)}
           </Form.Item>
           <Form.Item label="Confirm Password" hasFeedback>
-            {getFieldDecorator('confirm', {
+            {getFieldDecorator('confirmPassword', {
               rules: [
                 {
                   required: true,
@@ -179,7 +180,7 @@ class RegistrationForm extends Component {
             label={
               <span>
                 Contact Method&nbsp;
-                <Tooltip title="How do you like to be contacted?">
+                <Tooltip title="How would you like to be contacted?">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>
@@ -206,7 +207,7 @@ class RegistrationForm extends Component {
           </Form.Item>
           <PageHeader title="Student" />
           <Form.Item label={<span>Student Name&nbsp;</span>}>
-            {getFieldDecorator('student_name', {
+            {getFieldDecorator('studentFirstName', {
               rules: [
                 {
                   required: true,
@@ -217,7 +218,7 @@ class RegistrationForm extends Component {
             })(<Input placeholder="First" />)}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('student_name', {
+            {getFieldDecorator('studentLastName', {
               rules: [
                 {
                   required: true,
@@ -273,7 +274,7 @@ class RegistrationForm extends Component {
           </Form.Item>
           <PageHeader title="Programs" />
           <Form.Item label="Programs">
-            {getFieldDecorator('course', {
+            {getFieldDecorator('programsOfInterest', {
               rules: [
                 {
                   required: true,

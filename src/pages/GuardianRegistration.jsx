@@ -20,7 +20,7 @@ class GuardianRegistration extends Component {
   render() {
     return (
       <div className="GuardianRegistration">
-        <GuardianRegistrationForm />
+        <GuardianRegistrationForm register={this.props.register} />
       </div>
     );
   }
