@@ -1,53 +1,99 @@
-import React, { Component } from "react";
-import { Tabs, Button, Table, Typography } from "antd";
+import React, { Component } from 'react';
+import { Tabs, Button, Table, Typography } from 'antd';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
 
 const Style = {
-  padLeftReg: { paddingLeft: "10px" }
+  padLeftReg: { paddingLeft: '10px' },
 };
 
 export default class Catalog extends Component {
+  individualProgramsCols = [
+    {
+      title: 'Start',
+      dataIndex: 'startDate',
+      key: 'startDate',
+    },
+    {
+      title: 'End',
+      dataIndex: 'endDate',
+      key: 'endDate',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
+    },
+    {
+      title: 'Day',
+      dataIndex: 'meetingDay',
+      key: 'meetingDay',
+    },
+    {
+      title: 'Capacity',
+      dataIndex: 'capacity',
+      key: 'capacity',
+    },
+    {
+      title: 'Enrolled',
+      dataIndex: 'enrolled',
+      key: 'enrolled',
+    },
+    {
+      title: '',
+      key: 'action',
+      render: (text, record) => (
+        <span>
+          {record.enrolled === record.capacity ? (
+            <Button onClick={this.handleAddToWaitlist}>Add to Waitlist</Button>
+          ) : (
+            <Button type="primary">Register</Button>
+          )}
+        </span>
+      ),
+    },
+  ];
+
   groupProgramsCols = [
     {
-      title: "Title",
-      dataIndex: "title",
-      key: "title"
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
-      title: "Start",
-      dataIndex: "startDate",
-      key: "startDate"
+      title: 'Start',
+      dataIndex: 'startDate',
+      key: 'startDate',
     },
     {
-      title: "End",
-      dataIndex: "endDate",
-      key: "endDate"
+      title: 'End',
+      dataIndex: 'endDate',
+      key: 'endDate',
     },
     {
-      title: "Time",
-      dataIndex: "meetingTime",
-      key: "meetingTime"
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
     },
     {
-      title: "Day",
-      dataIndex: "meetingDay",
-      key: "meetingDay"
+      title: 'Day',
+      dataIndex: 'meetingDay',
+      key: 'meetingDay',
     },
     {
-      title: "Capacity",
-      dataIndex: "capacity",
-      key: "capacity"
+      title: 'Capacity',
+      dataIndex: 'capacity',
+      key: 'capacity',
     },
     {
-      title: "Enrolled",
-      dataIndex: "enrolled",
-      key: "enrolled"
+      title: 'Enrolled',
+      dataIndex: 'enrolled',
+      key: 'enrolled',
     },
     {
-      title: "",
-      key: "action",
+      title: '',
+      key: 'action',
       render: (text, record) => (
         <span>
           {record.capacity === record.enrolled ? (
@@ -58,59 +104,13 @@ export default class Catalog extends Component {
             </Button>
           )}
         </span>
-      )
-    }
-  ];
-
-  individualProgramsCols = [
-    {
-      title: "Start",
-      dataIndex: "startDate",
-      key: "startDate"
+      ),
     },
-    {
-      title: "End",
-      dataIndex: "endDate",
-      key: "endDate"
-    },
-    {
-      title: "Time",
-      dataIndex: "meetingTime",
-      key: "meetingTime"
-    },
-    {
-      title: "Day",
-      dataIndex: "meetingDay",
-      key: "meetingDay"
-    },
-    {
-      title: "Capacity",
-      dataIndex: "capacity",
-      key: "capacity"
-    },
-    {
-      title: "Enrolled",
-      dataIndex: "enrolled",
-      key: "enrolled"
-    },
-    {
-      title: "",
-      key: "action",
-      render: (text, record) => (
-        <span>
-          {record.enrolled === record.capacity ? (
-            <Button onClick={this.handleAddToWaitlist}>Add to Waitlist</Button>
-          ) : (
-            <Button type="primary">Register</Button>
-          )}
-        </span>
-      )
-    }
   ];
 
   getGroupSessionData = () => {
     const groupPrograms = this.props.sessions.filter(program => {
-      return program.type === "group";
+      return program.type === 'group' && program.status === 'active';
     });
 
     return groupPrograms.map(program => {
@@ -122,14 +122,14 @@ export default class Catalog extends Component {
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
         capacity: program.capacity,
-        enrolled: program.enrolled
+        enrolled: program.enrolled,
       };
     });
   };
 
   getIndividualSessionData = () => {
     const indyPrograms = this.props.sessions.filter(program => {
-      return program.type === "individual";
+      return program.type === 'individual' && program.status === 'active';
     });
 
     return indyPrograms.map(program => {
@@ -140,7 +140,7 @@ export default class Catalog extends Component {
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
         capacity: program.capacity,
-        enrolled: program.enrolled
+        enrolled: program.enrolled,
       };
     });
   };

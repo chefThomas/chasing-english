@@ -57,13 +57,15 @@ class RegistrationForm extends Component {
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
+        xs: { span: 15 },
         sm: { span: 8 },
       },
       wrapperCol: {
         xs: { span: 24 },
         sm: { span: 16 },
       },
+
+      layout: 'horizontal',
     };
 
     const areaCode = getFieldDecorator('prefix', {
@@ -87,6 +89,7 @@ class RegistrationForm extends Component {
           {...formItemLayout}
           colon={false}
           onSubmit={this.handleSubmit}
+          style={this.Style}
         >
           <h1
             style={{
@@ -98,26 +101,37 @@ class RegistrationForm extends Component {
 
           <PageHeader title="Guardian" />
           <Form.Item label={<span>Guardian Name&nbsp;</span>}>
-            {getFieldDecorator('guardian name', {
+            {getFieldDecorator('guardian first name', {
               rules: [
                 {
                   required: true,
-                  message: 'Please input your name!',
+                  message: 'Please input your first name',
                   whitespace: true,
                 },
               ],
-            })(<Input placeholder="first last" />)}
+            })(<Input placeholder="First" />)}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('guardian last name', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please input your last name',
+                  whitespace: true,
+                },
+              ],
+            })(<Input style={{ marginLeft: 'auto' }} placeholder="Last" />)}
           </Form.Item>
           <Form.Item label="Email">
             {getFieldDecorator('guardianEmail', {
               rules: [
                 {
                   type: 'email',
-                  message: 'The input is not valid Email!',
+                  message: 'The input is not valid Email',
                 },
                 {
                   required: true,
-                  message: 'Please input your Email!',
+                  message: 'Please input your Email',
                 },
               ],
             })(<Input />)}
@@ -125,7 +139,7 @@ class RegistrationForm extends Component {
           <Form.Item label="Phone Number">
             {getFieldDecorator('phone', {
               rules: [
-                { required: true, message: 'Please input your phone number!' },
+                { required: true, message: 'Please input your phone number' },
               ],
             })(
               <Input
@@ -196,23 +210,35 @@ class RegistrationForm extends Component {
               rules: [
                 {
                   required: true,
-                  message: "Please input student's name!",
+                  message: "Please input student's first name",
                   whitespace: true,
                 },
               ],
-            })(<Input />)}
+            })(<Input placeholder="First" />)}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('student_name', {
+              rules: [
+                {
+                  required: true,
+                  message: "Please input student's last name",
+                  whitespace: true,
+                },
+              ],
+            })(<Input placeholder="Last" />)}
           </Form.Item>
           <Form.Item
+            hasFeedback
             label={
               <span>
                 Student Gmail&nbsp;
-                <Tooltip title="A private Gmail account needed to access Google Classroom">
+                <Tooltip title="A private Gmail account is needed to access Google Classroom">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>
             }
           >
-            {getFieldDecorator('email', {
+            {getFieldDecorator('studentGmail', {
               rules: [
                 {
                   type: 'email',
@@ -220,17 +246,17 @@ class RegistrationForm extends Component {
                 },
                 {
                   required: true,
-                  message: 'Please input your Email!',
+                  message: "Please input the student's Gmail address",
                 },
               ],
-            })(<Input />)}
+            })(<Input placeholder="*.gmail.com" />)}
           </Form.Item>
-          <Form.Item label="Grade" hasFeedback>
+          <Form.Item label="Grade">
             {getFieldDecorator('grade', {
               rules: [
                 {
                   required: true,
-                  message: "Please select your student's grade level",
+                  message: "Please select the student's grade level",
                 },
               ],
             })(

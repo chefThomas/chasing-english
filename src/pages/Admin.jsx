@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Button,
   Collapse,
@@ -8,11 +8,11 @@ import {
   Popconfirm,
   Table,
   Tabs,
-  Tooltip
-} from "antd";
-import ProgramForm from "../components/ProgramForm";
-import UserForm from "../components/UserForm";
-import "../stylesheets/css/main.css";
+  Tooltip,
+} from 'antd';
+import ProgramForm from '../components/ProgramForm';
+import UserForm from '../components/UserForm';
+import '../stylesheets/css/main.css';
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -20,70 +20,70 @@ const { Panel } = Collapse;
 export default class Admin extends Component {
   state = {
     programFormVisible: false,
-    userFormVisible: false
+    userFormVisible: false,
   };
 
   programCols = [
     {
-      title: "Title",
-      dataIndex: "title",
-      key: "title"
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
-      title: "Start",
-      dataIndex: "startDate",
-      key: "startDate"
+      title: 'Start',
+      dataIndex: 'startDate',
+      key: 'startDate',
     },
     {
-      title: "End",
-      dataIndex: "endDate",
-      key: "endDate"
+      title: 'End',
+      dataIndex: 'endDate',
+      key: 'endDate',
     },
     {
-      title: "Time",
-      dataIndex: "meetingTime",
-      key: "meetingTime"
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
     },
     {
-      title: "Day",
-      dataIndex: "meetingDay",
-      key: "meetingDay"
+      title: 'Day',
+      dataIndex: 'meetingDay',
+      key: 'meetingDay',
     },
     {
-      title: "Capacity",
-      dataIndex: "capacity",
-      key: "capacity"
+      title: 'Capacity',
+      dataIndex: 'capacity',
+      key: 'capacity',
     },
     {
-      title: "Enrolled",
-      dataIndex: "enrolled",
-      key: "enrolled"
+      title: 'Enrolled',
+      dataIndex: 'enrolled',
+      key: 'enrolled',
     },
     {
-      title: "Actions",
-      key: "action",
+      title: 'Actions',
+      key: 'action',
       render: (text, { id, status }) => (
         <div
           style={{
-            fontSize: "25px",
-            display: "flex",
-            justifyContent: "space-evenly"
+            fontSize: '25px',
+            display: 'flex',
+            justifyContent: 'space-evenly',
           }}
         >
-          <Tooltip title={"view/edit roster"}>
+          <Tooltip title={'view/edit roster'}>
             <Icon type="team" onClick={() => this.handleRosterViewClick(id)} />
           </Tooltip>
 
-          <Tooltip title={status === "active" ? "archive" : "activate"}>
+          <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
             <Icon
               type="file-sync"
-              onClick={() => this.handleArchiveClick(id, "sessions", status)}
+              onClick={() => this.handleArchiveClick(id, 'sessions', status)}
             />
           </Tooltip>
 
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id, "sessions")}
+            onConfirm={() => this.confirmDelete(id, 'sessions')}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
@@ -91,55 +91,55 @@ export default class Admin extends Component {
             icon={<Icon size="large" type="question-circle-o" />}
           >
             <Tooltip title="delete">
-              <Icon type="delete" style={{ color: "red" }} />
+              <Icon type="delete" style={{ color: 'red' }} />
             </Tooltip>
           </Popconfirm>
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   userCols = [
     {
-      title: "First",
-      dataIndex: "firstName",
-      key: "firstName"
+      title: 'First',
+      dataIndex: 'firstName',
+      key: 'firstName',
     },
     {
-      title: "Last",
-      dataIndex: "lastName",
-      key: "lastName"
+      title: 'Last',
+      dataIndex: 'lastName',
+      key: 'lastName',
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email"
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: "Actions",
-      key: "action",
+      title: 'Actions',
+      key: 'action',
       render: (text, { id, status }) => (
         <div
           style={{
-            fontSize: "25px",
-            display: "flex",
-            justifyContent: "space-evenly"
+            fontSize: '25px',
+            display: 'flex',
+            justifyContent: 'space-evenly',
           }}
         >
-          <Tooltip title={"view records"}>
+          <Tooltip title={'view records'}>
             <Icon type="read" onClick={() => this.handleRosterViewClick(id)} />
           </Tooltip>
 
-          <Tooltip title={status === "active" ? "archive" : "activate"}>
+          <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
             <Icon
               type="file-sync"
-              onClick={() => this.handleArchiveClick(id, "users", status)}
+              onClick={() => this.handleArchiveClick(id, 'users', status)}
             />
           </Tooltip>
 
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id, "users")}
+            onConfirm={() => this.confirmDelete(id, 'users')}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
@@ -147,12 +147,96 @@ export default class Admin extends Component {
             icon={<Icon size="large" type="question-circle-o" />}
           >
             <Tooltip title="delete">
-              <Icon type="delete" style={{ color: "red" }} />
+              <Icon type="delete" style={{ color: 'red' }} />
             </Tooltip>
           </Popconfirm>
         </div>
-      )
-    }
+      ),
+    },
+  ];
+
+  guardianCols = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
+    },
+    {
+      title: 'Contact Method',
+      dataIndex: 'contactMethod',
+      key: 'contactMethod',
+    },
+    {
+      title: 'Student',
+      dataIndex: 'student',
+      key: 'student',
+    },
+    {
+      title: 'Student Gmail',
+      dataIndex: 'gmail',
+      key: 'gmail',
+    },
+    {
+      title: 'Grade',
+      dataIndex: 'grade',
+      key: 'grade',
+    },
+    {
+      title: '',
+      dataIndex: 'gmail',
+      key: 'gmail',
+    },
+    {
+      title: 'Actions',
+      key: 'action',
+      render: (text, { id, status }) => (
+        <div
+          style={{
+            fontSize: '25px',
+            display: 'flex',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Tooltip title={'view purchases'}>
+            <Icon
+              type="read"
+              onClick={() => this.handlePurchasesViewClick(id)}
+            />
+          </Tooltip>
+
+          <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
+            <Icon
+              type="file-sync"
+              onClick={() => this.handleArchiveClick(id, 'guardians', status)}
+            />
+          </Tooltip>
+
+          <Popconfirm
+            title="Are you sure?"
+            onConfirm={() => this.confirmDelete(id, 'guardians')}
+            onCancel={() => null}
+            okText="Yes"
+            cancelText="Cancel"
+            placement="left"
+            icon={<Icon size="large" type="question-circle-o" />}
+          >
+            <Tooltip title="delete">
+              <Icon type="delete" style={{ color: 'red' }} />
+            </Tooltip>
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
 
   // event handlers
@@ -164,15 +248,15 @@ export default class Admin extends Component {
   confirmDelete = (id, type) => {
     this.props.remove(id, type);
 
-    const itemType = type === "users" ? "User" : "Program";
+    const itemType = type === 'users' ? 'User' : 'Program';
     message.success(`${itemType} deleted`);
   };
 
   handleRosterViewClick = id => {
-    console.log("view roster program id: ", id);
+    console.log('view roster program id: ', id);
   };
   handleArchiveClick = (id, type, status) => {
-    console.log("archive program id: ", id, "type: ", type, "status: ", status);
+    console.log('archive program id: ', id, 'type: ', type, 'status: ', status);
     this.props.modStatus(id, type, status);
   };
 
@@ -180,13 +264,13 @@ export default class Admin extends Component {
     console.log(e);
     this.setState({
       programFormVisible: !this.state.programFormVisible,
-      formType: "individual"
+      formType: 'individual',
     });
   };
 
   toggleUserFormVisibility = () => {
     this.setState({
-      userFormVisible: !this.state.userFormVisible
+      userFormVisible: !this.state.userFormVisible,
     });
   };
 
@@ -210,13 +294,35 @@ export default class Admin extends Component {
         courses: user.courses,
         guardianEmail: user.guardianEmail,
         guardianPhoneNumber: user.guardianPhoneNumber,
-        status: user.status
+        status: user.status,
+      };
+    });
+  };
+
+  getGuardianData = status => {
+    const guardians = this.props.guardians.filter(guardian => {
+      return guardian.status === status;
+    });
+
+    return guardians.map(guardian => {
+      return {
+        key: guardian.id,
+        id: guardian.id,
+        name: guardian.name,
+        email: guardian.email,
+        phone: guardian.phone,
+        contactMethod: guardian.contactMethod,
+        student: guardian.student,
+        gmail: guardian.gmail,
+        grade: guardian.grade,
+        programsOfInterest: guardian.programsOfInterest,
+        studentActivated: guardian.studentActivated,
       };
     });
   };
 
   getSessionData = (type, status) => {
-    if (status === "active") {
+    if (status === 'active') {
       return this.props.sessions
         .filter(program => program.type === type && program.status === status)
         .map(program => ({
@@ -229,11 +335,11 @@ export default class Admin extends Component {
           meetingDay: program.meetingDay,
           capacity: program.capacity,
           enrolled: program.enrolled,
-          status: program.status
+          status: program.status,
         }));
     } else {
       return this.props.sessions
-        .filter(program => program.status === "archive")
+        .filter(program => program.status === 'archive')
         .map(program => ({
           key: program.id,
           id: program.id,
@@ -244,7 +350,7 @@ export default class Admin extends Component {
           meetingDay: program.meetingDay,
           capacity: program.capacity,
           enrolled: program.enrolled,
-          status: program.status
+          status: program.status,
         }));
     }
   };
@@ -252,14 +358,14 @@ export default class Admin extends Component {
   count = (arr, status, type) => {
     if (type) {
       return arr.filter(el =>
-        status === "archive"
-          ? el.status === "archive"
+        status === 'archive'
+          ? el.status === 'archive'
           : el.status === status && el.type === type
       ).length;
     }
 
     return arr.filter(el =>
-      status === "archive" ? el.status === "archive" : el.status === "active"
+      status === 'archive' ? el.status === 'archive' : el.status === 'active'
     ).length;
   };
 
@@ -271,7 +377,7 @@ export default class Admin extends Component {
             <Button
               type="primary"
               icon="file-add"
-              style={{ margin: "15px" }}
+              style={{ margin: '15px' }}
               size="large"
               onClick={this.toggleProgramFormVisibility}
             >
@@ -279,44 +385,59 @@ export default class Admin extends Component {
             </Button>
             <Collapse>
               <Panel
-                header={`Individual (${this.count(
+                header={`Individual Coaching (${this.count(
                   this.props.sessions,
-                  "active",
-                  "individual"
+                  'active',
+                  'individual'
                 )})`}
                 key="individual"
               >
                 <Table
                   bordered
-                  dataSource={this.getSessionData("individual", "active")}
+                  dataSource={this.getSessionData('individual', 'active')}
                   columns={this.programCols}
                 />
               </Panel>
               <Panel
                 header={`Group (${this.count(
                   this.props.sessions,
-                  "active",
-                  "group"
+                  'active',
+                  'group'
                 )})`}
                 key="group"
               >
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getSessionData("group", "active")}
+                  dataSource={this.getSessionData('group', 'active')}
+                  columns={this.programCols}
+                />
+              </Panel>
+              <Panel
+                header={`One-day Intensive (${this.count(
+                  this.props.sessions,
+                  'active',
+                  'intensive'
+                )})`}
+                key="intensive"
+              >
+                <Table
+                  size="medium"
+                  bordered
+                  dataSource={this.getSessionData('intensive', 'active')}
                   columns={this.programCols}
                 />
               </Panel>
               <Panel
                 header={`Archive (${this.count(
                   this.props.sessions,
-                  "archive"
+                  'archive'
                 )})`}
                 key="archive"
               >
                 <Table
                   bordered
-                  dataSource={this.getSessionData("", "archive")}
+                  dataSource={this.getSessionData('', 'archive')}
                   columns={this.programCols}
                 />
               </Panel>
@@ -326,7 +447,7 @@ export default class Admin extends Component {
             <Button
               type="primary"
               icon="file-add"
-              style={{ margin: "15px" }}
+              style={{ margin: '15px' }}
               size="large"
               onClick={this.toggleUserFormVisibility}
             >
@@ -334,24 +455,58 @@ export default class Admin extends Component {
             </Button>
             <Collapse>
               <Panel
-                header={`Active (${this.count(this.props.users, "active")})`}
-                key="active"
+                header={`Admin (${this.count(
+                  this.props.users,
+                  'active',
+                  'admin'
+                )})`}
+                key="admin"
               >
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getUserData("active")}
+                  dataSource={this.getUserData('active', 'admin')}
                   columns={this.userCols}
                 />
               </Panel>
               <Panel
-                header={`Archive (${this.count(this.props.users, "archive")})`}
+                header={`Student (${this.count(
+                  this.props.users,
+                  'active',
+                  'student'
+                )})`}
+                key="student"
+              >
+                <Table
+                  size="medium"
+                  bordered
+                  dataSource={this.getUserData('active', 'student')}
+                  columns={this.userCols}
+                />
+              </Panel>
+              <Panel
+                header={`Guardian (${this.count(
+                  this.props.users,
+                  'active',
+                  'guardian'
+                )})`}
+                key="guardian"
+              >
+                <Table
+                  size="medium"
+                  bordered
+                  dataSource={this.getUserData('active', 'guardian')}
+                  columns={this.guardianCols}
+                />
+              </Panel>
+              <Panel
+                header={`Archive (${this.count(this.props.users, 'archive')})`}
                 key="archive"
               >
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getUserData("archive")}
+                  dataSource={this.getUserData('archive')}
                   columns={this.userCols}
                 />
               </Panel>

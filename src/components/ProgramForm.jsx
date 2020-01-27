@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Form,
   DatePicker,
@@ -7,15 +7,15 @@ import {
   Input,
   InputNumber,
   Select,
-  Radio
-} from "antd";
+  Radio,
+} from 'antd';
 // import moment from "moment";
 
 const { Option } = Select;
 
 class TimeRelatedForm extends Component {
   state = {
-    title: "",
+    title: '',
     startDate: null,
     startDateString: null,
     endDate: null,
@@ -25,26 +25,33 @@ class TimeRelatedForm extends Component {
     capacity: 1,
     enrolled: 0,
     type: null,
-    status: "active"
+    status: 'active',
   };
 
   initialState = {
-    title: "",
+    title: '',
     startDate: null,
     endDate: null,
     meetingTime: null,
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
-    type: null,
-    status: "active"
+    type: this.state.type,
+    status: 'active',
   };
 
   handleTypeChange = e => {
     const { value } = e.target;
-    value === "individual"
-      ? this.setState({ type: value, title: "Ind. Sessions" })
-      : this.setState({ type: value, title: "" });
+    let title = null;
+    if (value === 'individual') {
+      title = 'Ind. Sessions';
+    }
+
+    if (value === 'intensive') {
+      title = 'One-day Intensive';
+    }
+
+    this.setState({ type: value, title });
   };
   handleSizeChange = value => {
     console.log(value);
@@ -57,8 +64,8 @@ class TimeRelatedForm extends Component {
   };
 
   handleGroupStartChange = (date, dateString) => {
-    console.log("date string: ", dateString);
-    console.log("date obj: ", date);
+    console.log('date string: ', dateString);
+    console.log('date obj: ', date);
     this.setState({ startDate: date });
   };
 
@@ -67,7 +74,7 @@ class TimeRelatedForm extends Component {
   };
 
   handleGroupTimeChange = (time, timeString) => {
-    console.log("timeString: ", timeString);
+    console.log('timeString: ', timeString);
     this.setState({ meetingTime: timeString });
   };
 
@@ -78,9 +85,12 @@ class TimeRelatedForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
+    const { startDate, endDate } = this.state;
+
     const dateString = {
-      startDate: this.state.startDate.format("MM/DD/YY"),
-      endDate: this.state.startDate.format("MM/DD/YY")
+      startDate: startDate ? startDate.format('MM/DD/YY') : null,
+      endDate: endDate ? endDate.format('MM/DD/YY') : null,
     };
 
     this.props.addSession({ ...this.state, ...dateString });
@@ -94,14 +104,15 @@ class TimeRelatedForm extends Component {
           <Radio.Group value={this.state.type} onChange={this.handleTypeChange}>
             <Radio.Button value="individual">Individual</Radio.Button>
             <Radio.Button value="group">Group</Radio.Button>
+            <Radio.Button value="intensive">One-day Intensive</Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item
-          style={this.state.type !== "group" ? { display: "none" } : null}
+          style={this.state.type !== 'group' ? { display: 'none' } : null}
           label="Title"
         >
           <Input
-            style={{ width: "40%" }}
+            style={{ width: '40%' }}
             label="Title"
             placeholder="course title"
             id="title"
@@ -110,21 +121,25 @@ class TimeRelatedForm extends Component {
             value={this.state.title}
           />
         </Form.Item>
-        <Form.Item label="Date Range">
+        <Form.Item
+          label={this.state.type === 'intensive' ? 'Date' : 'Date Range'}
+        >
           <DatePicker
-            style={{ marginBottom: "5px" }}
+            style={{ marginBottom: '5px' }}
             format="MM-DD-YYYY"
-            placeholder="Start Date"
+            placeholder="Start"
             onChange={this.handleGroupStartChange}
             value={this.state.startDate}
           />
           <br></br>
-          <DatePicker
-            format="MM-DD-YYYY"
-            placeholder="End Date"
-            onChange={this.handleGroupEndChange}
-            value={this.state.endDate}
-          />
+          {this.state.type !== 'intensive' ? (
+            <DatePicker
+              format="MM-DD-YYYY"
+              placeholder="End"
+              onChange={this.handleGroupEndChange}
+              value={this.state.endDate}
+            />
+          ) : null}
         </Form.Item>
         <Form.Item label="Meeting Time">
           <TimePicker
@@ -133,24 +148,26 @@ class TimeRelatedForm extends Component {
             onChange={this.handleGroupTimeChange}
           />
         </Form.Item>
-        <Form.Item label="Meeting Day(s)">
-          <Select
-            mode="multiple"
-            style={{ width: "40%" }}
-            placeholder="Please select"
-            onChange={this.handleDayChange}
-            value={this.state.meetingDay}
-          >
-            <Option key="Mon ">Mon</Option>
-            <Option key="Tue ">Tue</Option>
-            <Option key="Wed ">Wed</Option>
-            <Option key="Thu ">Thu</Option>
-            <Option key="Fri ">Fri</Option>
-            <Option key="Sat ">Sat</Option>
-            <Option key="Sun ">Sun</Option>
-          </Select>
-        </Form.Item>
-        {this.state.type === "group" ? (
+        {this.state.type !== 'intensive' ? (
+          <Form.Item label="Meeting Day(s)">
+            <Select
+              mode="multiple"
+              style={{ width: '40%' }}
+              placeholder="Please select"
+              onChange={this.handleDayChange}
+              value={this.state.meetingDay}
+            >
+              <Option key="Mon ">Mon</Option>
+              <Option key="Tue ">Tue</Option>
+              <Option key="Wed ">Wed</Option>
+              <Option key="Thu ">Thu</Option>
+              <Option key="Fri ">Fri</Option>
+              <Option key="Sat ">Sat</Option>
+              <Option key="Sun ">Sun</Option>
+            </Select>
+          </Form.Item>
+        ) : null}
+        {this.state.type === 'group' ? (
           <Form.Item label="Seats">
             <InputNumber
               min={0}
@@ -169,8 +186,4 @@ class TimeRelatedForm extends Component {
   }
 }
 
-const WrappedTimeRelatedForm = Form.create({ name: "time_related_controls" })(
-  TimeRelatedForm
-);
-
-export default WrappedTimeRelatedForm;
+export default TimeRelatedForm;
