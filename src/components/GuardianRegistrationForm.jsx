@@ -179,7 +179,7 @@ class RegistrationForm extends Component {
             label={
               <span>
                 Contact Method&nbsp;
-                <Tooltip title="What is your preferred method of contact?">
+                <Tooltip title="How do you like to be contacted?">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>
