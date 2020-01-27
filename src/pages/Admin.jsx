@@ -157,14 +157,19 @@ export default class Admin extends Component {
 
   guardianCols = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'First Name',
+      dataIndex: 'guardianFirstName',
+      key: 'guardianFirstName',
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'guardianLastName',
+      key: 'guardianLastName',
     },
     {
       title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      dataIndex: 'guardianEmail',
+      key: 'guardianEmail',
     },
     {
       title: 'Phone',
@@ -279,25 +284,25 @@ export default class Admin extends Component {
   };
 
   // populate tables
-  getUserData = status => {
-    const users = this.props.users.filter(user => {
-      return user.status === status;
-    });
+  // getUserData = status => {
+  //   const users = this.props.users.filter(user => {
+  //     return user.status === status;
+  //   });
 
-    return users.map(user => {
-      return {
-        key: user.id,
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        courses: user.courses,
-        guardianEmail: user.guardianEmail,
-        guardianPhoneNumber: user.guardianPhoneNumber,
-        status: user.status,
-      };
-    });
-  };
+  //   return users.map(user => {
+  //     return {
+  //       key: user.id,
+  //       id: user.id,
+  //       firstName: user.firstName,
+  //       lastName: user.lastName,
+  //       email: user.email,
+  //       courses: user.courses,
+  //       guardianEmail: user.guardianEmail,
+  //       guardianPhoneNumber: user.guardianPhoneNumber,
+  //       status: user.status,
+  //     };
+  //   });
+  // };
 
   getGuardianData = status => {
     const guardians = this.props.guardians.filter(guardian => {
@@ -456,7 +461,7 @@ export default class Admin extends Component {
             <Collapse>
               <Panel
                 header={`Admin (${this.count(
-                  this.props.users,
+                  this.props.guardians,
                   'active',
                   'admin'
                 )})`}
@@ -465,7 +470,7 @@ export default class Admin extends Component {
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getUserData('active', 'admin')}
+                  dataSource={this.getAdminData('active', 'admin')}
                   columns={this.userCols}
                 />
               </Panel>

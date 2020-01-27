@@ -130,10 +130,28 @@ export default class Root extends Component {
       .catch(err => console.log('oh no, no programs retrieved: ', err));
 
     axios
-      .get(`${PRE_API_URI}/api/users`)
+      .get(`${PRE_API_URI}/api/guardians`)
       .then(res => {
         this.setState(st => ({
-          users: st.users.concat(res.data),
+          guardians: st.guardians.concat(res.data),
+        }));
+      })
+      .catch(err => console.log(err));
+
+    axios
+      .get(`${PRE_API_URI}/api/students`)
+      .then(res => {
+        this.setState(st => ({
+          students: st.students.concat(res.data),
+        }));
+      })
+      .catch(err => console.log(err));
+
+    axios
+      .get(`${PRE_API_URI}/api/admins`)
+      .then(res => {
+        this.setState(st => ({
+          admins: st.admins.concat(res.data),
         }));
       })
       .catch(err => console.log(err));
@@ -195,7 +213,9 @@ export default class Root extends Component {
                 {...routeProps}
                 addSession={this.addSession}
                 programs={this.state.programs}
-                users={this.state.users}
+                admins={this.state.admins}
+                students={this.state.students}
+                guardians={this.state.guardians}
                 remove={this.remove}
                 addUser={this.addUser}
                 modStatus={this.toggleActivity}
