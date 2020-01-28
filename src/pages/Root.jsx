@@ -119,44 +119,45 @@ export default class Root extends Component {
       });
   };
 
-  componentDidMount() {
-    axios
-      .get(`${PRE_API_URI}/api/programs`)
-      .then(res => {
-        this.setState(st => ({
-          programs: st.programs.concat(res.data),
-        }));
-      })
-      .catch(err => console.log('oh no, no programs retrieved: ', err));
+  componentDidMount = async () => {
+    // axios
+    //   .get(`${PRE_API_URI}/api/programs`)
+    //   .then(res => {
+    //     this.setState(st => ({
+    //       programs: st.programs.concat(res.data),
+    //     }));
+    //   })
+    //   .catch(err => console.log('oh no, no programs retrieved: ', err));
 
-    axios
-      .get(`${PRE_API_URI}/api/guardians`)
-      .then(res => {
-        this.setState(st => ({
-          guardians: st.guardians.concat(res.data),
-        }));
-      })
-      .catch(err => console.log(err));
+    const guardians = await axios.get(`${PRE_API_URI}/api/guardians`);
 
-    axios
-      .get(`${PRE_API_URI}/api/students`)
-      .then(res => {
-        this.setState(st => ({
-          students: st.students.concat(res.data),
-        }));
-      })
-      .catch(err => console.log(err));
+    this.setState({ guardians: guardians.data });
+    // .then(res => {
+    //   this.setState(st => ({
+    //     guardians: st.guardians.concat(res.data),
+    //   }));
+    // })
+    // .catch(err => console.log(err));
 
-    axios
-      .get(`${PRE_API_URI}/api/admins`)
-      .then(res => {
-        this.setState(st => ({
-          admins: st.admins.concat(res.data),
-        }));
-      })
-      .catch(err => console.log(err));
-  }
+    //   axios
+    //     .get(`${PRE_API_URI}/api/students`)
+    //     .then(res => {
+    //       this.setState(st => ({
+    //         students: st.students.concat(res.data),
+    //       }));
+    //     })
+    //     .catch(err => console.log(err));
 
+    //   axios
+    //     .get(`${PRE_API_URI}/api/admins`)
+    //     .then(res => {
+    //       this.setState(st => ({
+    //         admins: st.admins.concat(res.data),
+    //       }));
+    //     })
+    //     .catch(err => console.log(err));
+    // };
+  };
   render() {
     return (
       <div className="Root">
@@ -211,14 +212,11 @@ export default class Root extends Component {
             render={routeProps => (
               <Admin
                 {...routeProps}
-                addSession={this.addSession}
-                programs={this.state.programs}
-                admins={this.state.admins}
-                students={this.state.students}
                 guardians={this.state.guardians}
-                remove={this.remove}
-                addUser={this.addUser}
-                modStatus={this.toggleActivity}
+                programs={this.state.programs}
+                students={this.state.students}
+                admins={this.state.admins}
+                addSession={this.addProgram}
               />
             )}
           />

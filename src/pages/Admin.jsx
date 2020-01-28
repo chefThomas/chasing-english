@@ -99,7 +99,7 @@ export default class Admin extends Component {
     },
   ];
 
-  userCols = [
+  guardianCols = [
     {
       title: 'First',
       dataIndex: 'firstName',
@@ -157,19 +157,14 @@ export default class Admin extends Component {
 
   guardianCols = [
     {
-      title: 'First Name',
-      dataIndex: 'guardianFirstName',
-      key: 'guardianFirstName',
-    },
-    {
-      title: 'Last Name',
-      dataIndex: 'guardianLastName',
-      key: 'guardianLastName',
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'Email',
-      dataIndex: 'guardianEmail',
-      key: 'guardianEmail',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
       title: 'Phone',
@@ -182,14 +177,9 @@ export default class Admin extends Component {
       key: 'contactMethod',
     },
     {
-      title: 'Student',
-      dataIndex: 'student',
-      key: 'student',
-    },
-    {
-      title: 'Student Gmail',
-      dataIndex: 'gmail',
-      key: 'gmail',
+      title: 'Students',
+      dataIndex: 'students',
+      key: 'students',
     },
     {
       title: 'Grade',
@@ -197,7 +187,7 @@ export default class Admin extends Component {
       key: 'grade',
     },
     {
-      title: '',
+      title: 'Student Email',
       dataIndex: 'gmail',
       key: 'gmail',
     },
@@ -304,24 +294,62 @@ export default class Admin extends Component {
   //   });
   // };
 
+  getAdminData = status => {
+    const admin = this.props.guardians.filter(admin => {
+      return admin.status === status;
+    });
+
+    return admin.map(admin => {
+      return {
+        key: admin.id,
+        id: admin.id,
+        name: admin.firstName + admin.lastName,
+        email: admin.email,
+        type: admin.type,
+        status: admin.status,
+      };
+    });
+  };
+
   getGuardianData = status => {
     const guardians = this.props.guardians.filter(guardian => {
       return guardian.status === status;
     });
 
-    return guardians.map(guardian => {
+    return guardians.map(g => {
       return {
-        key: guardian.id,
-        id: guardian.id,
-        name: guardian.name,
-        email: guardian.email,
-        phone: guardian.phone,
-        contactMethod: guardian.contactMethod,
-        student: guardian.student,
-        gmail: guardian.gmail,
-        grade: guardian.grade,
-        programsOfInterest: guardian.programsOfInterest,
-        studentActivated: guardian.studentActivated,
+        key: g.id,
+        id: g.id,
+        name: `${g.guardianFirstName} ${g.guardianLastName}`,
+        email: g.guardianEmail,
+        phone: g.phone,
+        // students: g.students,
+        gmail: g.gmail,
+        status: g.status,
+        grade: g.grade,
+        contactMethod: g.contactMethod,
+        programsOfInterest: g.programsOfInterest,
+      };
+    });
+  };
+
+  getStudentData = status => {
+    const students = this.props.students.filter(student => {
+      return student.status === status;
+    });
+
+    return students.map(s => {
+      return {
+        key: s.id,
+        id: s.id,
+        name: `${s.firstName} ${s.lastName}`,
+        email: s.emil,
+        courses: s.courses,
+        students: s.students,
+        gmail: s.gmail,
+        status: s.status,
+        guardian: s.guardian,
+        grade: s.grade,
       };
     });
   };
@@ -360,19 +388,19 @@ export default class Admin extends Component {
     }
   };
 
-  count = (arr, status, type) => {
-    if (type) {
-      return arr.filter(el =>
-        status === 'archive'
-          ? el.status === 'archive'
-          : el.status === status && el.type === type
-      ).length;
-    }
+  // count = (arr, status, type) => {
+  //   if (type) {
+  //     return arr.filter(el =>
+  //       status === 'archive'
+  //         ? el.status === 'archive'
+  //         : el.status === status && el.type === type
+  //     ).length;
+  //   }
 
-    return arr.filter(el =>
-      status === 'archive' ? el.status === 'archive' : el.status === 'active'
-    ).length;
-  };
+  //   return arr.filter(el =>
+  //     status === 'archive' ? el.status === 'archive' : el.status === 'active'
+  //   ).length;
+  // };
 
   render() {
     return (
@@ -389,28 +417,14 @@ export default class Admin extends Component {
               Create Program
             </Button>
             <Collapse>
-              <Panel
-                header={`Individual Coaching (${this.count(
-                  this.props.programs,
-                  'active',
-                  'individual'
-                )})`}
-                key="individual"
-              >
+              <Panel header="Individual Coaching" key="individual">
                 <Table
                   bordered
                   dataSource={this.getSessionData('individual', 'active')}
                   columns={this.programCols}
                 />
               </Panel>
-              <Panel
-                header={`Group (${this.count(
-                  this.props.programs,
-                  'active',
-                  'group'
-                )})`}
-                key="group"
-              >
+              <Panel header="Group" key="group">
                 <Table
                   size="medium"
                   bordered
@@ -418,14 +432,7 @@ export default class Admin extends Component {
                   columns={this.programCols}
                 />
               </Panel>
-              <Panel
-                header={`One-day Intensive (${this.count(
-                  this.props.programs,
-                  'active',
-                  'intensive'
-                )})`}
-                key="intensive"
-              >
+              <Panel header="One-day Intensive" key="intensive">
                 <Table
                   size="medium"
                   bordered
@@ -433,13 +440,7 @@ export default class Admin extends Component {
                   columns={this.programCols}
                 />
               </Panel>
-              <Panel
-                header={`Archive (${this.count(
-                  this.props.programs,
-                  'archive'
-                )})`}
-                key="archive"
-              >
+              <Panel header="Archive" key="archive">
                 <Table
                   bordered
                   dataSource={this.getSessionData('', 'archive')}
@@ -459,14 +460,7 @@ export default class Admin extends Component {
               Create User
             </Button>
             <Collapse>
-              <Panel
-                header={`Admin (${this.count(
-                  this.props.guardians,
-                  'active',
-                  'admin'
-                )})`}
-                key="admin"
-              >
+              <Panel header="Admin" key="admin">
                 <Table
                   size="medium"
                   bordered
@@ -474,47 +468,30 @@ export default class Admin extends Component {
                   columns={this.userCols}
                 />
               </Panel>
-              <Panel
-                header={`Student (${this.count(
-                  this.props.users,
-                  'active',
-                  'student'
-                )})`}
-                key="student"
-              >
+              <Panel header="Student" key="student">
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getUserData('active', 'student')}
+                  dataSource={this.getStudentData('active')}
                   columns={this.userCols}
                 />
               </Panel>
-              <Panel
-                header={`Guardian (${this.count(
-                  this.props.users,
-                  'active',
-                  'guardian'
-                )})`}
-                key="guardian"
-              >
+              <Panel header="Guardians" key="guardian">
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getUserData('active', 'guardian')}
+                  dataSource={this.getGuardianData('active')}
                   columns={this.guardianCols}
                 />
               </Panel>
-              <Panel
-                header={`Archive (${this.count(this.props.users, 'archive')})`}
-                key="archive"
-              >
+              {/* <Panel header="Archive" key="archive">
                 <Table
                   size="medium"
                   bordered
                   dataSource={this.getUserData('archive')}
                   columns={this.userCols}
                 />
-              </Panel>
+              </Panel> */}
             </Collapse>
           </TabPane>
         </Tabs>
