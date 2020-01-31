@@ -77,69 +77,13 @@ export default class Admin extends Component {
           <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
             <Icon
               type="file-sync"
-              onClick={() => this.handleArchiveClick(id, 'programs', status)}
+              onClick={() => this.props.toggleStatus(id, 'programs', status)}
             />
           </Tooltip>
 
           <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id, 'programs')}
-            onCancel={() => null}
-            okText="Yes"
-            cancelText="Cancel"
-            placement="left"
-            icon={<Icon size="large" type="question-circle-o" />}
-          >
-            <Tooltip title="delete">
-              <Icon type="delete" style={{ color: 'red' }} />
-            </Tooltip>
-          </Popconfirm>
-        </div>
-      ),
-    },
-  ];
-
-  guardianCols = [
-    {
-      title: 'First',
-      dataIndex: 'firstName',
-      key: 'firstName',
-    },
-    {
-      title: 'Last',
-      dataIndex: 'lastName',
-      key: 'lastName',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Actions',
-      key: 'action',
-      render: (text, { id, status }) => (
-        <div
-          style={{
-            fontSize: '25px',
-            display: 'flex',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          <Tooltip title={'view records'}>
-            <Icon type="read" onClick={() => this.handleRosterViewClick(id)} />
-          </Tooltip>
-
-          <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
-            <Icon
-              type="file-sync"
-              onClick={() => this.handleArchiveClick(id, 'users', status)}
-            />
-          </Tooltip>
-
-          <Popconfirm
-            title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id, 'users')}
+            onConfirm={() => this.props.remove(id, 'programs')}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
@@ -208,14 +152,6 @@ export default class Admin extends Component {
               onClick={() => this.handlePurchasesViewClick(id)}
             />
           </Tooltip>
-
-          <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
-            <Icon
-              type="file-sync"
-              onClick={() => this.handleArchiveClick(id, 'guardians', status)}
-            />
-          </Tooltip>
-
           <Popconfirm
             title="Are you sure?"
             onConfirm={() => this.confirmDelete(id, 'guardians')}
@@ -256,7 +192,6 @@ export default class Admin extends Component {
   };
 
   toggleProgramFormVisibility = e => {
-    console.log(e);
     this.setState({
       programFormVisible: !this.state.programFormVisible,
       formType: 'individual',
@@ -354,7 +289,7 @@ export default class Admin extends Component {
     });
   };
 
-  getSessionData = (type, status) => {
+  getProgramData = (type, status) => {
     if (status === 'active') {
       return this.props.programs
         .filter(program => program.type === type && program.status === status)
@@ -362,13 +297,14 @@ export default class Admin extends Component {
           key: program.id,
           id: program.id,
           title: program.title,
-          startDate: program.startDate,
-          endDate: program.endDate,
+          startDate: program.dateBegin,
+          endDate: program.dateEnd,
           meetingTime: program.meetingTime,
           meetingDay: program.meetingDay,
           capacity: program.capacity,
           enrolled: program.enrolled,
           status: program.status,
+          type: program.type,
         }));
     } else {
       return this.props.programs
@@ -377,13 +313,14 @@ export default class Admin extends Component {
           key: program.id,
           id: program.id,
           title: program.title,
-          startDate: program.startDate,
-          endDate: program.endDate,
+          startDate: program.dateBegin,
+          endDate: program.dateEnd,
           meetingTime: program.meetingTime,
           meetingDay: program.meetingDay,
           capacity: program.capacity,
           enrolled: program.enrolled,
           status: program.status,
+          type: program.type,
         }));
     }
   };
@@ -420,7 +357,7 @@ export default class Admin extends Component {
               <Panel header="Individual Coaching" key="individual">
                 <Table
                   bordered
-                  dataSource={this.getSessionData('individual', 'active')}
+                  dataSource={this.getProgramData('individual', 'active')}
                   columns={this.programCols}
                 />
               </Panel>
@@ -428,7 +365,7 @@ export default class Admin extends Component {
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getSessionData('group', 'active')}
+                  dataSource={this.getProgramData('group', 'active')}
                   columns={this.programCols}
                 />
               </Panel>
@@ -436,14 +373,14 @@ export default class Admin extends Component {
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getSessionData('intensive', 'active')}
+                  dataSource={this.getProgramData('intensive', 'active')}
                   columns={this.programCols}
                 />
               </Panel>
               <Panel header="Archive" key="archive">
                 <Table
                   bordered
-                  dataSource={this.getSessionData('', 'archive')}
+                  dataSource={this.getProgramData('', 'archive')}
                   columns={this.programCols}
                 />
               </Panel>
@@ -484,14 +421,6 @@ export default class Admin extends Component {
                   columns={this.guardianCols}
                 />
               </Panel>
-              {/* <Panel header="Archive" key="archive">
-                <Table
-                  size="medium"
-                  bordered
-                  dataSource={this.getUserData('archive')}
-                  columns={this.userCols}
-                />
-              </Panel> */}
             </Collapse>
           </TabPane>
         </Tabs>
@@ -501,7 +430,7 @@ export default class Admin extends Component {
           onOk={this.toggleProgramFormVisibility}
           onCancel={this.toggleProgramFormVisibility}
         >
-          <ProgramForm addSession={this.props.addSession} />
+          <ProgramForm addProgram={this.props.addProgram} />
         </Modal>
         <Modal
           title="Create User"
@@ -509,7 +438,11 @@ export default class Admin extends Component {
           onOk={this.toggleUserFormVisibility}
           onCancel={this.toggleUserFormVisibility}
         >
-          <UserForm addUser={this.props.addUser} />
+          <UserForm
+            addAdmin={this.props.addAdmin}
+            addGuardian={this.props.addGuardian}
+            addStudent={this.props.addStudent}
+          />
         </Modal>
       </div>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 import Navbar from '../components/Navbar';
 import SignupForm from '../components/SignupForm';
@@ -10,6 +11,8 @@ import Home from './Home';
 import Catalog from './Catalog';
 import About from './About';
 import Admin from './Admin';
+
+import formatMongoDate from '../utilities/formatMongoDate';
 
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
@@ -62,33 +65,44 @@ export default class Root extends Component {
 
   // api calls
   register = async guardianData => {
-    console.log(guardianData);
-    const newGuardian = await axios.post(
-      `${PRE_API_URI}/api/guardians`,
-      guardianData
-    );
-    console.log('new guardian ', newGuardian);
+    try {
+      console.log(guardianData);
+      const newGuardian = await axios.post(
+        `${PRE_API_URI}/api/guardians`,
+        guardianData
+      );
+      console.log('new guardian ', newGuardian);
+      this.setState(st => ({ guardians: st.guardians.concat(newGuardian) }));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  // addUser = user => {
-  //   console.log('add user: ', user);
+  addAdmin = adminData => {
+    console.log('add admin: ', adminData);
 
-  //   const newUser = { ...user, courses: [], status: 'active' };
-  //   axios
-  //     .post(`${PRE_API_URI}/api/users`, newUser)
-  //     .then(res => {
-  //       console.log(res);
-  //       this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
-  //     })
-  //     .catch(err => console.log('add user err: ', err.message));
-  // };
+    const newAdmin = { ...adminData, status: 'active' };
+    axios
+      .post(`${PRE_API_URI}/api/admins`, newAdmin)
+      .then(res => {
+        console.log(res);
+        this.setState(st => ({ admins: st.admins.concat({ ...res.data }) }));
+      })
+      .catch(err => console.log('add user err: ', err.message));
+  };
+
+  formatMongoDate = mongoDate => moment(mongoDate).format('MM-DD-YYYY');
 
   addProgram = program => {
     axios
       .post(`${PRE_API_URI}/api/programs`, program)
       .then(res => {
-        console.log(res.data);
-        this.setState(st => ({ programs: st.programs.concat(res.data) }));
+        const dateBegin = formatMongoDate(res.data.dateBegin);
+        const dateEnd = formatMongoDate(res.data.dateEnd);
+        console.log(dateBegin, dateEnd);
+        this.setState(st => ({
+          programs: st.programs.concat({ ...res.data, dateBegin, dateEnd }),
+        }));
       })
       .catch(err => console.log('add sesh err: ', err.message));
   };
@@ -100,10 +114,12 @@ export default class Root extends Component {
     });
   };
 
-  toggleActivity = (recordId, type, status) => {
+  toggleStatus = (recordId, type, status) => {
     const record = this.state[type].find(record => record.id === recordId);
 
     const updatedStatus = status === 'active' ? 'archive' : 'active';
+
+    console.log({ ...record, status: updatedStatus });
 
     axios
       .put(`${PRE_API_URI}/api/${type}/${recordId}`, {
@@ -111,6 +127,14 @@ export default class Root extends Component {
         status: updatedStatus,
       })
       .then(({ data }) => {
+        console.log(data);
+        if (type === 'programs') {
+          const dateBegin = formatMongoDate(data.dateBegin);
+          const dateEnd = formatMongoDate(data.dateEnd);
+          console.log(dateBegin, dateEnd);
+          data = { ...data, dateBegin, dateEnd };
+          console.log(data);
+        }
         const filterState = this.state[type].filter(
           record => record.id !== recordId
         );
@@ -120,14 +144,22 @@ export default class Root extends Component {
   };
 
   componentDidMount = async () => {
-    // axios
-    //   .get(`${PRE_API_URI}/api/programs`)
-    //   .then(res => {
-    //     this.setState(st => ({
-    //       programs: st.programs.concat(res.data),
-    //     }));
-    //   })
-    //   .catch(err => console.log('oh no, no programs retrieved: ', err));
+    axios
+      .get(`${PRE_API_URI}/api/programs`)
+      .then(res => {
+        const dateBegin = formatMongoDate(res.data.dateBegin);
+        const dateEnd = formatMongoDate(res.data.dateEnd);
+
+        // format date
+        const programs = res.data.map(program => {
+          const dateBegin = formatMongoDate(program.dateBegin);
+          const dateEnd = formatMongoDate(program.dateEnd);
+          return { ...program, dateBegin, dateEnd };
+        });
+        console.log(dateBegin, dateEnd);
+        this.setState({ programs });
+      })
+      .catch(err => console.log('oh no, no programs retrieved: ', err));
 
     const guardians = await axios.get(`${PRE_API_URI}/api/guardians`);
 
@@ -212,11 +244,15 @@ export default class Root extends Component {
             render={routeProps => (
               <Admin
                 {...routeProps}
+                addAdmin={this.addAdmin}
+                addGuardian={this.register}
                 guardians={this.state.guardians}
                 programs={this.state.programs}
                 students={this.state.students}
                 admins={this.state.admins}
-                addSession={this.addProgram}
+                addProgram={this.addProgram}
+                toggleStatus={this.toggleStatus}
+                remove={this.remove}
               />
             )}
           />

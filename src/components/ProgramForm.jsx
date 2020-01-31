@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import {
   Form,
   DatePicker,
@@ -13,13 +14,13 @@ import {
 
 const { Option } = Select;
 
-class TimeRelatedForm extends Component {
+class ProgramForm extends Component {
   state = {
     title: '',
     startDate: null,
-    startDateString: null,
+    dateBegin: '',
     endDate: null,
-    endDateString: null,
+    dateEnd: '',
     meetingTime: null,
     meetingDay: [],
     capacity: 1,
@@ -31,12 +32,14 @@ class TimeRelatedForm extends Component {
   initialState = {
     title: '',
     startDate: null,
+    dateBegin: '',
     endDate: null,
+    dateEnd: '',
     meetingTime: null,
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
-    type: this.state.type,
+    type: null,
     status: 'active',
   };
 
@@ -63,14 +66,12 @@ class TimeRelatedForm extends Component {
     this.setState({ title: value });
   };
 
-  handleGroupStartChange = (date, dateString) => {
-    console.log('date string: ', dateString);
-    console.log('date obj: ', date);
-    this.setState({ startDate: date });
+  handleGroupStartChange = (date, dateBegin) => {
+    this.setState({ startDate: date, dateBegin });
   };
 
-  handleGroupEndChange = (date, dateString) => {
-    this.setState({ endDate: date });
+  handleGroupEndChange = (date, dateEnd) => {
+    this.setState({ endDate: date, dateEnd });
   };
 
   handleGroupTimeChange = (time, timeString) => {
@@ -86,14 +87,30 @@ class TimeRelatedForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { startDate, endDate } = this.state;
+    const {
+      title,
+      dateBegin,
+      meetingTime,
+      meetingDay,
+      capacity,
+      enrolled,
+      type,
+    } = this.state;
 
-    const dateString = {
-      startDate: startDate ? startDate.format('MM/DD/YY') : null,
-      endDate: endDate ? endDate.format('MM/DD/YY') : null,
-    };
+    const dateEnd =
+      this.state.type === 'intensive' ? dateBegin : this.state.dateEnd;
 
-    this.props.addSession({ ...this.state, ...dateString });
+    this.props.addProgram({
+      title,
+      dateBegin,
+      dateEnd,
+      meetingTime,
+      meetingDay,
+      capacity,
+      enrolled,
+      type,
+      status: 'active',
+    });
     this.setState(this.initialState);
   };
 
@@ -145,6 +162,7 @@ class TimeRelatedForm extends Component {
           <TimePicker
             format="h:mm a"
             use12Hours
+            defaultOpenValue={moment('00:00:00', 'HH:mm')}
             onChange={this.handleGroupTimeChange}
           />
         </Form.Item>
@@ -186,4 +204,4 @@ class TimeRelatedForm extends Component {
   }
 }
 
-export default TimeRelatedForm;
+export default ProgramForm;
