@@ -126,16 +126,6 @@ export default class Admin extends Component {
       key: 'students',
     },
     {
-      title: 'Grade',
-      dataIndex: 'grade',
-      key: 'grade',
-    },
-    {
-      title: 'Student Email',
-      dataIndex: 'gmail',
-      key: 'gmail',
-    },
-    {
       title: 'Actions',
       key: 'action',
       render: (text, { id, status }) => (
@@ -152,9 +142,9 @@ export default class Admin extends Component {
               onClick={() => this.handlePurchasesViewClick(id)}
             />
           </Tooltip>
-          <Popconfirm
+          {/* <Popconfirm
             title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id, 'guardians')}
+            onConfirm={() => this.confirmDelete(id, 'guardian')}
             onCancel={() => null}
             okText="Yes"
             cancelText="Cancel"
@@ -164,12 +154,100 @@ export default class Admin extends Component {
             <Tooltip title="delete">
               <Icon type="delete" style={{ color: 'red' }} />
             </Tooltip>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>
       ),
     },
   ];
 
+  adminCols = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+
+    {
+      title: 'Actions',
+      key: 'action',
+      render: (text, { id }) => (
+        <div
+          style={{
+            fontSize: '25px',
+            display: 'flex',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          {/* <Popconfirm
+            title="Are you sure?"
+            onConfirm={() => this.confirmDelete(id, 'admin')}
+            onCancel={() => null}
+            okText="Yes"
+            cancelText="Cancel"
+            placement="left"
+            icon={<Icon size="large" type="question-circle-o" />}
+          >
+            <Tooltip title="delete">
+              <Icon type="delete" style={{ color: 'red' }} />
+            </Tooltip>
+          </Popconfirm> */}
+        </div>
+      ),
+    },
+  ];
+
+  studentCols = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Guardian',
+      dataIndex: 'guardian',
+      key: 'guardian',
+    },
+    {
+      title: 'Actions',
+      key: 'action',
+      render: (text, { id }) => (
+        <div
+          style={{
+            fontSize: '25px',
+            display: 'flex',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <Tooltip title="course history">
+            <Icon type="read"></Icon>
+          </Tooltip>
+          {/* <Popconfirm
+            title="Are you sure?"
+            onConfirm={() => this.confirmDelete(id, 'admin')}
+            onCancel={() => null}
+            okText="Yes"
+            cancelText="Cancel"
+            placement="left"
+            icon={<Icon size="large" type="question-circle-o" />}
+          >
+            <Tooltip title="delete">
+              <Icon type="delete" style={{ color: 'red' }} />
+            </Tooltip> */}
+          {/* </Popconfirm> */}
+        </div>
+      ),
+    },
+  ];
   // event handlers
   setDeleteId = e => {
     const { id } = e.target;
@@ -179,8 +257,7 @@ export default class Admin extends Component {
   confirmDelete = (id, type) => {
     this.props.remove(id, type);
 
-    const itemType = type === 'users' ? 'User' : 'Program';
-    message.success(`${itemType} deleted`);
+    message.success(`${type} deleted`);
   };
 
   handleRosterViewClick = id => {
@@ -208,57 +285,30 @@ export default class Admin extends Component {
     this.setState({ programFormVisible: false });
   };
 
-  // populate tables
-  // getUserData = status => {
-  //   const users = this.props.users.filter(user => {
-  //     return user.status === status;
-  //   });
-
-  //   return users.map(user => {
-  //     return {
-  //       key: user.id,
-  //       id: user.id,
-  //       firstName: user.firstName,
-  //       lastName: user.lastName,
-  //       email: user.email,
-  //       courses: user.courses,
-  //       guardianEmail: user.guardianEmail,
-  //       guardianPhoneNumber: user.guardianPhoneNumber,
-  //       status: user.status,
-  //     };
-  //   });
-  // };
-
-  getAdminData = status => {
-    const admin = this.props.guardians.filter(admin => {
-      return admin.status === status;
-    });
-
-    return admin.map(admin => {
+  getAdminData = () => {
+    return this.props.admins.map(admin => {
       return {
         key: admin.id,
         id: admin.id,
         name: admin.firstName + admin.lastName,
         email: admin.email,
-        type: admin.type,
-        status: admin.status,
       };
     });
   };
 
-  getGuardianData = status => {
-    const guardians = this.props.guardians.filter(guardian => {
-      return guardian.status === status;
-    });
-
-    return guardians.map(g => {
+  getGuardianData = () => {
+    return this.props.guardians.map(g => {
+      console.log(g);
+      const students = g['students'].map(
+        student => `${student.firstName} ${student.lastName}`
+      );
       return {
         key: g.id,
         id: g.id,
         name: `${g.guardianFirstName} ${g.guardianLastName}`,
         email: g.guardianEmail,
         phone: g.phone,
-        // students: g.students,
+        students,
         gmail: g.gmail,
         status: g.status,
         grade: g.grade,
@@ -268,22 +318,18 @@ export default class Admin extends Component {
     });
   };
 
-  getStudentData = status => {
-    const students = this.props.students.filter(student => {
-      return student.status === status;
-    });
-
-    return students.map(s => {
+  getStudentData = () => {
+    return this.props.students.map(s => {
       return {
         key: s.id,
         id: s.id,
         name: `${s.firstName} ${s.lastName}`,
-        email: s.emil,
+        email: s.email,
         courses: s.courses,
         students: s.students,
         gmail: s.gmail,
         status: s.status,
-        guardian: s.guardian,
+        guardian: `${s.guardian.guardianFirstName} ${s.guardian.guardianLastName}`,
         grade: s.grade,
       };
     });
@@ -401,16 +447,16 @@ export default class Admin extends Component {
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getAdminData('active', 'admin')}
-                  columns={this.userCols}
+                  dataSource={this.getAdminData()}
+                  columns={this.adminCols}
                 />
               </Panel>
               <Panel header="Student" key="student">
                 <Table
                   size="medium"
                   bordered
-                  dataSource={this.getStudentData('active')}
-                  columns={this.userCols}
+                  dataSource={this.getStudentData()}
+                  columns={this.studentCols}
                 />
               </Panel>
               <Panel header="Guardians" key="guardian">
@@ -442,6 +488,7 @@ export default class Admin extends Component {
             addAdmin={this.props.addAdmin}
             addGuardian={this.props.addGuardian}
             addStudent={this.props.addStudent}
+            guardians={this.props.guardians}
           />
         </Modal>
       </div>

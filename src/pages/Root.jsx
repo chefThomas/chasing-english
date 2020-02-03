@@ -63,8 +63,14 @@ export default class Root extends Component {
     });
   };
 
+  // MISC
+  formatMongoDate = mongoDate => moment(mongoDate).format('MM-DD-YYYY');
+
   // api calls
+  // register: adds guardian with student
+  // addAdmin: add admin
   register = async guardianData => {
+    // posts guardian and their first student. returns student id which is made to make a get request. data from guardian POST and student GET are used to set state.
     try {
       console.log(guardianData);
       const newGuardian = await axios.post(
@@ -72,26 +78,47 @@ export default class Root extends Component {
         guardianData
       );
       console.log('new guardian ', newGuardian);
-      this.setState(st => ({ guardians: st.guardians.concat(newGuardian) }));
+      // post new student
+      const studentId = newGuardian.data.students[0];
+      console.log(studentId);
+      const newStudent = await axios.get(
+        `${PRE_API_URI}/api/students/${studentId}`
+      );
+      // if guardian post successful, student and set state
+      console.log(newStudent);
+      this.setState(st => ({
+        guardians: st.guardians.concat(newGuardian.data),
+        students: st.students.concat(newStudent.data),
+      }));
+
+      console.log(this.state);
     } catch (err) {
       console.log(err);
     }
   };
 
-  addAdmin = adminData => {
+  addAdmin = async adminData => {
     console.log('add admin: ', adminData);
 
-    const newAdmin = { ...adminData, status: 'active' };
-    axios
-      .post(`${PRE_API_URI}/api/admins`, newAdmin)
-      .then(res => {
-        console.log(res);
-        this.setState(st => ({ admins: st.admins.concat({ ...res.data }) }));
-      })
-      .catch(err => console.log('add user err: ', err.message));
+    try {
+      const admin = { ...adminData, status: 'active' };
+
+      const newAdmin = await axios.post(`${PRE_API_URI}/api/admins`, admin);
+      this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
+    } catch (err) {
+      console.log('add user err: ', err.message);
+    }
   };
 
-  formatMongoDate = mongoDate => moment(mongoDate).format('MM-DD-YYYY');
+  addStudent = async studentData => {
+    // create new student
+    const student = await axios.post(
+      `${PRE_API_URI}/api/programs`,
+      studentData
+    );
+    console.log(student);
+    // PUT guardian/id
+  };
 
   addProgram = program => {
     axios
@@ -108,9 +135,10 @@ export default class Root extends Component {
   };
 
   remove = (id, type) => {
-    axios.delete(`${PRE_API_URI}/api/${type}/${id}`).then(res => {
-      const filtered = this.state[type].filter(el => el.id !== id);
-      this.setState({ [type]: filtered });
+    axios.delete(`${PRE_API_URI}/api/${type}s/${id}`).then(res => {
+      const filtered = this.state[`${type}s`].filter(el => el.id !== id);
+      console.log(filtered);
+      this.setState({ [`${type}s`]: filtered });
     });
   };
 
@@ -152,7 +180,6 @@ export default class Root extends Component {
 
         // format date
         const programs = res.data.map(program => {
-          const dateBegin = formatMongoDate(program.dateBegin);
           const dateEnd = formatMongoDate(program.dateEnd);
           return { ...program, dateBegin, dateEnd };
         });
@@ -161,35 +188,30 @@ export default class Root extends Component {
       })
       .catch(err => console.log('oh no, no programs retrieved: ', err));
 
-    const guardians = await axios.get(`${PRE_API_URI}/api/guardians`);
+    try {
+      const guardians = await axios.get(`${PRE_API_URI}/api/guardians`);
+      const admins = await axios.get(`${PRE_API_URI}/api/admins`);
+      const students = await axios.get(`${PRE_API_URI}/api/students`);
+      console.log(
+        '############## COMPONENT MOUNT USERS ###############',
+        'guardians: ',
+        guardians.data,
+        'admins: ',
+        admins.data,
+        'students: ',
+        students.data
+      );
 
-    this.setState({ guardians: guardians.data });
-    // .then(res => {
-    //   this.setState(st => ({
-    //     guardians: st.guardians.concat(res.data),
-    //   }));
-    // })
-    // .catch(err => console.log(err));
-
-    //   axios
-    //     .get(`${PRE_API_URI}/api/students`)
-    //     .then(res => {
-    //       this.setState(st => ({
-    //         students: st.students.concat(res.data),
-    //       }));
-    //     })
-    //     .catch(err => console.log(err));
-
-    //   axios
-    //     .get(`${PRE_API_URI}/api/admins`)
-    //     .then(res => {
-    //       this.setState(st => ({
-    //         admins: st.admins.concat(res.data),
-    //       }));
-    //     })
-    //     .catch(err => console.log(err));
-    // };
+      this.setState({
+        guardians: guardians.data,
+        admins: admins.data,
+        students: students.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   render() {
     return (
       <div className="Root">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Divider, Form, Input, Radio, Select } from 'antd';
+import { Button, Divider, Form, Input, Radio, Select, Alert } from 'antd';
 
 const { Option } = Select;
 
@@ -16,6 +16,18 @@ class UserForm extends Component {
       lastName: '',
       email: '',
       type: null,
+      password: '',
+      grade: null,
+      guardianEmail: '',
+      guardianId: '',
+      guardianFirstName: '',
+      guardianLastName: '',
+      phone: '',
+      contactMethod: '',
+      studentFirstName: null,
+      studentLastName: '',
+      studentGmail: '',
+      programsOfInterest: [],
     });
   };
 
@@ -43,8 +55,11 @@ class UserForm extends Component {
           case 'guardian':
             this.props.addGuardian(values);
             break;
-          default:
+          case 'student':
             this.props.addStudent(values);
+            break;
+          default:
+            break;
         }
         this.clearForm();
       }
@@ -127,7 +142,12 @@ class UserForm extends Component {
           </>
         ) : this.state.type === 'student' ? (
           <>
-            <Form.Item>
+            <Alert
+              message="The student form is only for adding students to an already existing guardian"
+              type="warning"
+            />
+            <br></br>
+            <Form.Item label="Name">
               {getFieldDecorator('firstName', {
                 rules: [{ required: true, message: 'Please input first name' }],
                 initialValue: null,
@@ -179,7 +199,9 @@ class UserForm extends Component {
                   },
                 ],
                 initialValue: null,
-              })(<Input placeholder="Gmail (required)"></Input>)}
+              })(
+                <Input placeholder="Student's gmail address (required)"></Input>
+              )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
@@ -190,19 +212,31 @@ class UserForm extends Component {
                   },
                 ],
                 initialValue: null,
-              })(<Input.Password placeholder="Password (required)" />)}
+              })(
+                <Input.Password placeholder="Student's Chasing English password (required)" />
+              )}
             </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('guardianEmail', {
+            <Form.Item label="Guardian">
+              {getFieldDecorator('guardianOptionName', {
                 rules: [
                   {
-                    message: 'Please input valid email',
-                    type: 'email',
+                    message: 'Choose guardian',
                     required: true,
                   },
                 ],
-                initialValue: null,
-              })(<Input placeholder="Guardian's email (required)"></Input>)}
+              })(
+                <Select style={{ width: '40%' }}>
+                  {this.props.guardians
+                    .sort((g1, g2) => g1.guardianLastName - g2.guardianLastName)
+                    .map(g => {
+                      return (
+                        <Option key={g.id} value={g.id}>
+                          {g.guardianFirstName} {g.guardianLastName}
+                        </Option>
+                      );
+                    })}
+                </Select>
+              )}
             </Form.Item>
           </>
         ) : (
@@ -316,7 +350,7 @@ class UserForm extends Component {
                     message: "Please input the student's Gmail address",
                   },
                 ],
-              })(<Input placeholder="*.gmail.com" />)}
+              })(<Input placeholder="*.gmail.com (required)" />)}
             </Form.Item>
             <Form.Item label="Grade">
               {getFieldDecorator('grade', {
