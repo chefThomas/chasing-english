@@ -180,10 +180,8 @@ export default class Root extends Component {
 
         // format date
         const programs = res.data.map(program => {
-          const dateEnd = formatMongoDate(program.dateEnd);
           return { ...program, dateBegin, dateEnd };
         });
-        console.log(dateBegin, dateEnd);
         this.setState({ programs });
       })
       .catch(err => console.log('oh no, no programs retrieved: ', err));

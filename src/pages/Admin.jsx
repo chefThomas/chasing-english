@@ -296,30 +296,40 @@ export default class Admin extends Component {
     });
   };
 
+  getStudentListFromGuardian = students => {
+    return students.length > 0
+      ? students.map(student => `${student.firstName} ${student.lastName}`)
+      : [];
+  };
+
   getGuardianData = () => {
-    return this.props.guardians.map(g => {
-      console.log(g);
-      const students = g['students'].map(
-        student => `${student.firstName} ${student.lastName}`
-      );
-      return {
-        key: g.id,
-        id: g.id,
-        name: `${g.guardianFirstName} ${g.guardianLastName}`,
-        email: g.guardianEmail,
-        phone: g.phone,
-        students,
-        gmail: g.gmail,
-        status: g.status,
-        grade: g.grade,
-        contactMethod: g.contactMethod,
-        programsOfInterest: g.programsOfInterest,
-      };
-    });
+    if (this.props.guardians.length > 0) {
+      return this.props.guardians.map(g => {
+        console.log(g);
+        const students = this.getStudentListFromGuardian(g['students']);
+        return {
+          key: g.id,
+          id: g.id,
+          name: `${g.guardianFirstName} ${g.guardianLastName}`,
+          email: g.guardianEmail,
+          phone: g.phone,
+          students,
+          gmail: g.gmail,
+          status: g.status,
+          grade: g.grade,
+          contactMethod: g.contactMethod,
+          programsOfInterest: g.programsOfInterest,
+        };
+      });
+    }
   };
 
   getStudentData = () => {
     return this.props.students.map(s => {
+      const guardian =
+        s.guardian && s.guardian.length > 0
+          ? `${s.guardian.guardianFirstName} ${s.guardian.guardianLastName}`
+          : '';
       return {
         key: s.id,
         id: s.id,
@@ -329,7 +339,7 @@ export default class Admin extends Component {
         students: s.students,
         gmail: s.gmail,
         status: s.status,
-        guardian: `${s.guardian.guardianFirstName} ${s.guardian.guardianLastName}`,
+        guardian,
         grade: s.grade,
       };
     });
