@@ -197,7 +197,7 @@ export default class Root extends Component {
       const admins = await axios.get(`${PRE_API_URI}/api/admins`);
       const students = await axios.get(`${PRE_API_URI}/api/students`);
       console.log(
-        '############## COMPONENT MOUNT USERS ###############',
+        '############## ROOT COMPONENT MOUNT USERS ###############',
         'guardians: ',
         guardians.data,
         'admins: ',
@@ -212,7 +212,7 @@ export default class Root extends Component {
         students: students.data,
       });
     } catch (err) {
-      console.log(err);
+      console.log('############ ROOT COMPONENT MOUNT USER ERROR ', err);
     }
   };
 

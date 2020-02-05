@@ -12,8 +12,8 @@ export default class Catalog extends Component {
   individualProgramsCols = [
     {
       title: 'Start',
-      dataIndex: 'startDate',
-      key: 'startDate',
+      dataIndex: 'dateBegin',
+      key: 'dateBegin',
     },
     {
       title: 'End',
@@ -63,8 +63,8 @@ export default class Catalog extends Component {
     },
     {
       title: 'Start',
-      dataIndex: 'startDate',
-      key: 'startDate',
+      dataIndex: 'dateBegin',
+      key: 'dateBegin',
     },
     {
       title: 'End',
@@ -117,7 +117,7 @@ export default class Catalog extends Component {
       return {
         key: program.id,
         title: program.title,
-        startDate: program.startDate,
+        dateBegin: program.dateBegin,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
@@ -135,7 +135,25 @@ export default class Catalog extends Component {
     return indyPrograms.map(program => {
       return {
         key: program.id,
-        startDate: program.startDate,
+        dateBegin: program.dateBegin,
+        endDate: program.endDate,
+        meetingTime: program.meetingTime,
+        meetingDay: program.meetingDay,
+        capacity: program.capacity,
+        enrolled: program.enrolled,
+      };
+    });
+  };
+
+  getIntensivesData = () => {
+    const intensivePrograms = this.props.programs.filter(program => {
+      return program.type === 'intensive' && program.status === 'active';
+    });
+
+    return intensivePrograms.map(program => {
+      return {
+        key: program.id,
+        dateBegin: program.dateBegin,
         endDate: program.endDate,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
@@ -149,14 +167,15 @@ export default class Catalog extends Component {
     //retrieve program data on page load
     this.getIndividualSessionData();
     this.getGroupSessionData();
+    this.getIntensivesData();
   }
 
   render() {
     return (
       <Tabs type="card">
-        <TabPane tab="Courses" key="1">
+        <TabPane tab="Programs" key="1">
           <Title style={Style.padLeftReg} level={3}>
-            Individual
+            Individual Coaching
           </Title>
           <Table
             dataSource={this.getIndividualSessionData()}
@@ -167,6 +186,13 @@ export default class Catalog extends Component {
           </Title>
           <Table
             dataSource={this.getGroupSessionData()}
+            columns={this.groupProgramsCols}
+          />
+          <Title style={Style.padLeftReg} className="Table_title" level={3}>
+            Single-day Intensive
+          </Title>
+          <Table
+            dataSource={this.getIntensivesData()}
             columns={this.groupProgramsCols}
           />
         </TabPane>
