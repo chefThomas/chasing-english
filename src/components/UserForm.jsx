@@ -35,6 +35,7 @@ class UserForm extends Component {
     const { value } = target;
     this.setState({ type: value });
     console.log(value);
+    this.clearForm();
   };
 
   handleCourseChange = selectedCourses => {
@@ -56,11 +57,13 @@ class UserForm extends Component {
             this.props.addGuardian(values);
             break;
           case 'student':
+            // unimplemented
             this.props.addStudent(values);
             break;
           default:
             break;
         }
+        console.log('############# TEST  #############');
         this.clearForm();
       }
     });
@@ -143,7 +146,7 @@ class UserForm extends Component {
         ) : this.state.type === 'student' ? (
           <>
             <Alert
-              message="The student form is only for adding students to an already existing guardian"
+              message="This form is only for adding a student to an already existing guardian"
               type="warning"
             />
             <br></br>

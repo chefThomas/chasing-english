@@ -263,6 +263,7 @@ export default class Admin extends Component {
   handleRosterViewClick = id => {
     console.log('view roster program id: ', id);
   };
+
   handleArchiveClick = (id, type, status) => {
     console.log('archive program id: ', id, 'type: ', type, 'status: ', status);
     this.props.modStatus(id, type, status);
@@ -296,17 +297,23 @@ export default class Admin extends Component {
     });
   };
 
-  getStudentListFromGuardian = students => {
-    return students.length > 0
-      ? students.map(student => `${student.firstName} ${student.lastName}`)
-      : [];
-  };
+  // getStudentListFromGuardian = students => {
+  //   if (students) {
+  //     return students.length > 0
+  //       ? students.map(student => `${student.firstName} ${student.lastName}`)
+  //       : [];
+  //   } else {
+  //     return [];
+  //   }
+  // };
 
   getGuardianData = () => {
+    console.log(this.props.guardians.length);
     if (this.props.guardians.length > 0) {
       return this.props.guardians.map(g => {
-        console.log(g);
-        const students = this.getStudentListFromGuardian(g['students']);
+        const students = g['students'].reduce((acc, student) => {
+          return acc + `${student.firstName} ${student.lastName} `;
+        }, '');
         return {
           key: g.id,
           id: g.id,
@@ -321,15 +328,14 @@ export default class Admin extends Component {
           programsOfInterest: g.programsOfInterest,
         };
       });
+    } else {
+      return null;
     }
   };
 
   getStudentData = () => {
     return this.props.students.map(s => {
-      const guardian =
-        s.guardian && s.guardian.length > 0
-          ? `${s.guardian.guardianFirstName} ${s.guardian.guardianLastName}`
-          : '';
+      console.log(s.guardian);
       return {
         key: s.id,
         id: s.id,
@@ -339,7 +345,7 @@ export default class Admin extends Component {
         students: s.students,
         gmail: s.gmail,
         status: s.status,
-        guardian,
+        guardian: `${s.guardian.guardianFirstName} ${s.guardian.guardianLastName}`,
         grade: s.grade,
       };
     });

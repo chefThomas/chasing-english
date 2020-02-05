@@ -77,18 +77,24 @@ export default class Root extends Component {
         `${PRE_API_URI}/api/guardians`,
         guardianData
       );
+
       console.log('new guardian ', newGuardian);
       // post new student
       const studentId = newGuardian.data.students[0];
-      console.log(studentId);
+
+      // retrieve student data
       const newStudent = await axios.get(
         `${PRE_API_URI}/api/students/${studentId}`
       );
+      const guardianWithStudentName = await axios.get(
+        `${PRE_API_URI}/api/guardians/${newGuardian.data.id}`
+      );
       // if guardian post successful, student and set state
-      console.log(newStudent);
-      this.setState(st => ({
-        guardians: st.guardians.concat(newGuardian.data),
-        students: st.students.concat(newStudent.data),
+      console.log('new student', newStudent);
+      // get student name to add to guardian students list
+      this.setState(prevState => ({
+        guardians: [...prevState.guardians, guardianWithStudentName.data],
+        students: [...prevState.students, newStudent.data],
       }));
 
       console.log(this.state);
