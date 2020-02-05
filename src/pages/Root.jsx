@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 import Navbar from '../components/Navbar';
 import SignupForm from '../components/SignupForm';
@@ -10,6 +11,8 @@ import Home from './Home';
 import Catalog from './Catalog';
 import About from './About';
 import Admin from './Admin';
+
+import formatMongoDate from '../utilities/formatMongoDate';
 
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
@@ -60,50 +63,97 @@ export default class Root extends Component {
     });
   };
 
+  // MISC
+  formatMongoDate = mongoDate => moment(mongoDate).format('MM-DD-YYYY');
+
   // api calls
+  // register: adds guardian with student
+  // addAdmin: add admin
   register = async guardianData => {
-    console.log(guardianData);
-    const newGuardian = await axios.post(
-      `${PRE_API_URI}/api/guardians`,
-      guardianData
-    );
-    console.log('new guardian ', newGuardian);
+    // posts guardian and their first student. returns student id which is made to make a get request. data from guardian POST and student GET are used to set state.
+    try {
+      console.log(guardianData);
+      const newGuardian = await axios.post(
+        `${PRE_API_URI}/api/guardians`,
+        guardianData
+      );
+
+      console.log('new guardian ', newGuardian);
+      // post new student
+      const studentId = newGuardian.data.students[0];
+
+      // retrieve student data
+      const newStudent = await axios.get(
+        `${PRE_API_URI}/api/students/${studentId}`
+      );
+      const guardianWithStudentName = await axios.get(
+        `${PRE_API_URI}/api/guardians/${newGuardian.data.id}`
+      );
+      // if guardian post successful, student and set state
+      console.log('new student', newStudent);
+      // get student name to add to guardian students list
+      this.setState(prevState => ({
+        guardians: [...prevState.guardians, guardianWithStudentName.data],
+        students: [...prevState.students, newStudent.data],
+      }));
+
+      console.log(this.state);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  // addUser = user => {
-  //   console.log('add user: ', user);
+  addAdmin = async adminData => {
+    console.log('add admin: ', adminData);
 
-  //   const newUser = { ...user, courses: [], status: 'active' };
-  //   axios
-  //     .post(`${PRE_API_URI}/api/users`, newUser)
-  //     .then(res => {
-  //       console.log(res);
-  //       this.setState(st => ({ users: st.users.concat({ ...res.data }) }));
-  //     })
-  //     .catch(err => console.log('add user err: ', err.message));
-  // };
+    try {
+      const admin = { ...adminData, status: 'active' };
+
+      const newAdmin = await axios.post(`${PRE_API_URI}/api/admins`, admin);
+      this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
+    } catch (err) {
+      console.log('add user err: ', err.message);
+    }
+  };
+
+  addStudent = async studentData => {
+    // create new student
+    const student = await axios.post(
+      `${PRE_API_URI}/api/programs`,
+      studentData
+    );
+    console.log(student);
+    // PUT guardian/id
+  };
 
   addProgram = program => {
     axios
       .post(`${PRE_API_URI}/api/programs`, program)
       .then(res => {
-        console.log(res.data);
-        this.setState(st => ({ programs: st.programs.concat(res.data) }));
+        const dateBegin = formatMongoDate(res.data.dateBegin);
+        const dateEnd = formatMongoDate(res.data.dateEnd);
+        console.log(dateBegin, dateEnd);
+        this.setState(st => ({
+          programs: st.programs.concat({ ...res.data, dateBegin, dateEnd }),
+        }));
       })
       .catch(err => console.log('add sesh err: ', err.message));
   };
 
   remove = (id, type) => {
-    axios.delete(`${PRE_API_URI}/api/${type}/${id}`).then(res => {
-      const filtered = this.state[type].filter(el => el.id !== id);
-      this.setState({ [type]: filtered });
+    axios.delete(`${PRE_API_URI}/api/${type}s/${id}`).then(res => {
+      const filtered = this.state[`${type}s`].filter(el => el.id !== id);
+      console.log(filtered);
+      this.setState({ [`${type}s`]: filtered });
     });
   };
 
-  toggleActivity = (recordId, type, status) => {
+  toggleStatus = (recordId, type, status) => {
     const record = this.state[type].find(record => record.id === recordId);
 
     const updatedStatus = status === 'active' ? 'archive' : 'active';
+
+    console.log({ ...record, status: updatedStatus });
 
     axios
       .put(`${PRE_API_URI}/api/${type}/${recordId}`, {
@@ -111,6 +161,14 @@ export default class Root extends Component {
         status: updatedStatus,
       })
       .then(({ data }) => {
+        console.log(data);
+        if (type === 'programs') {
+          const dateBegin = formatMongoDate(data.dateBegin);
+          const dateEnd = formatMongoDate(data.dateEnd);
+          console.log(dateBegin, dateEnd);
+          data = { ...data, dateBegin, dateEnd };
+          console.log(data);
+        }
         const filterState = this.state[type].filter(
           record => record.id !== recordId
         );
@@ -119,43 +177,44 @@ export default class Root extends Component {
       });
   };
 
-  componentDidMount() {
+  componentDidMount = async () => {
     axios
       .get(`${PRE_API_URI}/api/programs`)
       .then(res => {
-        this.setState(st => ({
-          programs: st.programs.concat(res.data),
-        }));
+        const dateBegin = formatMongoDate(res.data.dateBegin);
+        const dateEnd = formatMongoDate(res.data.dateEnd);
+
+        // format date
+        const programs = res.data.map(program => {
+          return { ...program, dateBegin, dateEnd };
+        });
+        this.setState({ programs });
       })
       .catch(err => console.log('oh no, no programs retrieved: ', err));
 
-    axios
-      .get(`${PRE_API_URI}/api/guardians`)
-      .then(res => {
-        this.setState(st => ({
-          guardians: st.guardians.concat(res.data),
-        }));
-      })
-      .catch(err => console.log(err));
+    try {
+      const guardians = await axios.get(`${PRE_API_URI}/api/guardians`);
+      const admins = await axios.get(`${PRE_API_URI}/api/admins`);
+      const students = await axios.get(`${PRE_API_URI}/api/students`);
+      console.log(
+        '############## COMPONENT MOUNT USERS ###############',
+        'guardians: ',
+        guardians.data,
+        'admins: ',
+        admins.data,
+        'students: ',
+        students.data
+      );
 
-    axios
-      .get(`${PRE_API_URI}/api/students`)
-      .then(res => {
-        this.setState(st => ({
-          students: st.students.concat(res.data),
-        }));
-      })
-      .catch(err => console.log(err));
-
-    axios
-      .get(`${PRE_API_URI}/api/admins`)
-      .then(res => {
-        this.setState(st => ({
-          admins: st.admins.concat(res.data),
-        }));
-      })
-      .catch(err => console.log(err));
-  }
+      this.setState({
+        guardians: guardians.data,
+        admins: admins.data,
+        students: students.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   render() {
     return (
@@ -211,14 +270,15 @@ export default class Root extends Component {
             render={routeProps => (
               <Admin
                 {...routeProps}
-                addSession={this.addSession}
-                programs={this.state.programs}
-                admins={this.state.admins}
-                students={this.state.students}
+                addAdmin={this.addAdmin}
+                addGuardian={this.register}
                 guardians={this.state.guardians}
+                programs={this.state.programs}
+                students={this.state.students}
+                admins={this.state.admins}
+                addProgram={this.addProgram}
+                toggleStatus={this.toggleStatus}
                 remove={this.remove}
-                addUser={this.addUser}
-                modStatus={this.toggleActivity}
               />
             )}
           />
