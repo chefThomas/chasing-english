@@ -6,12 +6,10 @@ import '../stylesheets/css/main.css';
 
 const { Option } = Select;
 
-const courseOptions = ['Group', 'One-day Intensive', 'Individual Coaching'];
-
 class RegistrationForm extends Component {
   state = {
     confirmDirty: false,
-    selectedCourses: [],
+    selectedPrograms: [],
   };
 
   handleSubmit = e => {
@@ -24,8 +22,8 @@ class RegistrationForm extends Component {
     });
   };
 
-  handleCourseChange = selectedCourses => {
-    this.setState({ selectedCourses });
+  handleProgramChange = selectedPrograms => {
+    this.setState({ selectedPrograms });
   };
   handleConfirmBlur = e => {
     const { value } = e.target;
@@ -51,10 +49,7 @@ class RegistrationForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { selectedCourses } = this.state;
-    const filteredCourses = courseOptions.filter(course => {
-      return !selectedCourses.includes(course);
-    });
+    const { selectedPrograms } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -278,23 +273,36 @@ class RegistrationForm extends Component {
               rules: [
                 {
                   required: true,
-                  message: 'Please choose at least one course type',
+                  message: 'Please choose at least one option',
                 },
               ],
             })(
-              <Select
-                mode="multiple"
-                placeholder="You may choose multiple programs"
-                value={selectedCourses}
-                onChange={this.handleCourseChange}
-                style={{ width: '100%' }}
-              >
-                {filteredCourses.map(item => (
-                  <Select.Option key={item} value={item}>
-                    {item}
-                  </Select.Option>
-                ))}
-              </Select>
+              <Form.Item>
+                <Select
+                  mode="multiple"
+                  style={{ width: '100%' }}
+                  placeholder="You may select more than one program"
+                  onChange={this.handleProgramChange}
+                  value={this.state.selectedPrograms}
+                >
+                  <Option key="group">Group</Option>
+                  <Option key="intensvie">Single-day Intensive</Option>
+                  <Option key="individual">Indivudal Coaching</Option>
+                </Select>
+              </Form.Item>
+              // <Select
+              //   mode="multiple"
+              //   placeholder="You may choose multiple programs"
+              //   value={selectedCourses}
+              //   onChange={this.handleCourseChange}
+              //   style={{ width: '100%' }}
+              // >
+              //   {filteredCourses.map(item => (
+              //     <Select.Option key={item} value={item}>
+              //       {item}
+              //     </Select.Option>
+              //   ))}
+              // </Select>
             )}
           </Form.Item>
           <button

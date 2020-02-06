@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, Button, Table, Typography } from 'antd';
+import moment from 'moment';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -17,18 +18,18 @@ export default class Catalog extends Component {
     },
     {
       title: 'End',
-      dataIndex: 'endDate',
-      key: 'endDate',
-    },
-    {
-      title: 'Time',
-      dataIndex: 'meetingTime',
-      key: 'meetingTime',
+      dataIndex: 'dateEnd',
+      key: 'dateEnd',
     },
     {
       title: 'Day',
       dataIndex: 'meetingDay',
       key: 'meetingDay',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
     },
     {
       title: 'Capacity',
@@ -68,8 +69,13 @@ export default class Catalog extends Component {
     },
     {
       title: 'End',
-      dataIndex: 'endDate',
-      key: 'endDate',
+      dataIndex: 'dateEnd',
+      key: 'dateEnd',
+    },
+    {
+      title: 'Day',
+      dataIndex: 'meetingDay',
+      key: 'meetingDay',
     },
     {
       title: 'Time',
@@ -77,9 +83,47 @@ export default class Catalog extends Component {
       key: 'meetingTime',
     },
     {
+      title: 'Capacity',
+      dataIndex: 'capacity',
+      key: 'capacity',
+    },
+    {
+      title: 'Enrolled',
+      dataIndex: 'enrolled',
+      key: 'enrolled',
+    },
+    {
+      title: '',
+      key: 'action',
+      render: (text, record) => (
+        <span>
+          {record.capacity === record.enrolled ? (
+            <Button onClick={this.handleWaitlist}>Waitlist</Button>
+          ) : (
+            <Button onClick={this.handleWaitlist} type="primary">
+              Enroll
+            </Button>
+          )}
+        </span>
+      ),
+    },
+  ];
+
+  intensiveCols = [
+    {
+      title: 'Date',
+      dataIndex: 'dateBegin',
+      key: 'dateBegin',
+    },
+    {
       title: 'Day',
       dataIndex: 'meetingDay',
       key: 'meetingDay',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
     },
     {
       title: 'Capacity',
@@ -118,7 +162,7 @@ export default class Catalog extends Component {
         key: program.id,
         title: program.title,
         dateBegin: program.dateBegin,
-        endDate: program.endDate,
+        dateEnd: program.dateEnd,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
         capacity: program.capacity,
@@ -136,7 +180,7 @@ export default class Catalog extends Component {
       return {
         key: program.id,
         dateBegin: program.dateBegin,
-        endDate: program.endDate,
+        dateEnd: program.dateEnd,
         meetingTime: program.meetingTime,
         meetingDay: program.meetingDay,
         capacity: program.capacity,
@@ -145,18 +189,29 @@ export default class Catalog extends Component {
     });
   };
 
+  formatMongoDate = date => {
+    const dateMoment = moment(date);
+    const dayNumber = dateMoment.weekday();
+    const day = moment()
+      .day(dayNumber)
+      .format('ddd');
+    return day;
+  };
+
   getIntensivesData = () => {
     const intensivePrograms = this.props.programs.filter(program => {
       return program.type === 'intensive' && program.status === 'active';
     });
 
+    // get day from dateBegin
+
     return intensivePrograms.map(program => {
+      const meetingDay = this.formatMongoDate(program.dateBegin);
       return {
         key: program.id,
         dateBegin: program.dateBegin,
-        endDate: program.endDate,
         meetingTime: program.meetingTime,
-        meetingDay: program.meetingDay,
+        meetingDay,
         capacity: program.capacity,
         enrolled: program.enrolled,
       };
@@ -182,7 +237,7 @@ export default class Catalog extends Component {
             columns={this.individualProgramsCols}
           />
           <Title style={Style.padLeftReg} className="Table_title" level={3}>
-            Group
+            Group Sessions
           </Title>
           <Table
             dataSource={this.getGroupSessionData()}
@@ -193,19 +248,19 @@ export default class Catalog extends Component {
           </Title>
           <Table
             dataSource={this.getIntensivesData()}
-            columns={this.groupProgramsCols}
+            columns={this.intensiveCols}
           />
         </TabPane>
         <TabPane tab="My Schedule" key="2">
           <Title style={Style.padLeftReg} level={3}>
-            Individual
+            Individual Coaching
           </Title>
           <Table
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
           />
           <Title style={Style.padLeftReg} className="Table_title" level={3}>
-            Group
+            Group Sessions
           </Title>
 
           <Table
