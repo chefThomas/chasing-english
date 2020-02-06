@@ -5,7 +5,7 @@ import AntLogin from '../components/AntLogin';
 
 class GuardianRegistration extends Component {
   state = {
-    showForm: false,
+    showForm: true,
   };
   openNotification = () => {
     notification.info({

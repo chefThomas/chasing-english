@@ -237,7 +237,7 @@ export default class Catalog extends Component {
             columns={this.individualProgramsCols}
           />
           <Title style={Style.padLeftReg} className="Table_title" level={3}>
-            Group Sessions
+            Group Programs
           </Title>
           <Table
             dataSource={this.getGroupSessionData()}
@@ -260,7 +260,7 @@ export default class Catalog extends Component {
             columns={this.individualProgramsCols}
           />
           <Title style={Style.padLeftReg} className="Table_title" level={3}>
-            Group Sessions
+            Group Programs
           </Title>
 
           <Table
