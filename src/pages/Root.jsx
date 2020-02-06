@@ -64,7 +64,18 @@ export default class Root extends Component {
   };
 
   // MISC
-  formatMongoDate = mongoDate => moment(mongoDate).format('MM-DD-YYYY');
+  formatMongoDate = (date, type) => {
+    const dateMoment = moment(date);
+    if (type === 'date') {
+      return dateMoment.format('MM-DD-YYYY');
+    } else {
+      const dayNumber = dateMoment.weekday();
+      const day = moment()
+        .day(dayNumber)
+        .format('ddd');
+      return day;
+    }
+  };
 
   // api calls
   // register: adds guardian with student
@@ -130,9 +141,11 @@ export default class Root extends Component {
     axios
       .post(`${PRE_API_URI}/api/programs`, program)
       .then(res => {
-        const dateBegin = formatMongoDate(res.data.dateBegin);
-        const dateEnd = formatMongoDate(res.data.dateEnd);
-        console.log(dateBegin, dateEnd);
+        const dateBegin = formatMongoDate(res.data.dateBegin, 'date');
+        const dateEnd = formatMongoDate(res.data.dateEnd, 'date');
+        const day = this.formatMongoDate(res.data.dateBegin, 'day');
+        console.log(dateBegin, dateEnd, day);
+        console.log(res.data);
         this.setState(st => ({
           programs: st.programs.concat({ ...res.data, dateBegin, dateEnd }),
         }));
