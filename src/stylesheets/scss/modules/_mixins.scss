@@ -44,3 +44,19 @@
   font-family: 'Lato', sans-serif;
   padding: 1.5rem 1rem 1rem 1rem;
 }
+
+@mixin button-on-light-bg {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.28571429rem;
+  transition: all 0.2s ease;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  border: 2px solid #1b1c1d;
+  background: transparent none;
+  color: #1b1c1d;
+}

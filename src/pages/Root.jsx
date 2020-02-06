@@ -239,19 +239,19 @@ export default class Root extends Component {
           toggleSideNav={this.toggleSideNav}
           showSideNav={this.state.showSideNav}
         />
-        <SignupForm
+        {/* <SignupForm
           toggle={this.showSignup}
           className={this.state.showSignup ? 'SignupForm' : 'offscreen'}
-        />
-        <LoginForm
+        /> */}
+        {/* <LoginForm
           toggle={this.toggleLogin}
           toggleSignup={this.toggleSignup}
           className={this.state.showLogin ? 'LoginForm' : 'offscreen-login'}
-        />
-        <SideNav
+        /> */}
+        {/* <SideNav
           closeSideNav={this.closeSideNav}
           className={this.state.showSideNav ? 'SideNav' : 'offscreen-sidenav'}
-        />
+        /> */}
         <Switch>
           <Route
             exact
