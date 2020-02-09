@@ -4,9 +4,6 @@ import axios from 'axios';
 import moment from 'moment';
 
 import Navbar from '../components/Navbar';
-import SignupForm from '../components/SignupForm';
-import LoginForm from '../components/LoginForm';
-import SideNav from '../components/SideNav';
 import Home from './Home';
 import Catalog from './Catalog';
 import About from './About';
@@ -23,45 +20,14 @@ const PRE_API_URI = 'http://localhost:5000';
 //   : 'http://localhost:5000';
 export default class Root extends Component {
   state = {
-    showSignup: false,
-    showLogin: false,
-    showSideNav: false,
     programs: [],
     guardians: [],
     admins: [],
     students: [],
+    registrationEvent: false,
   };
 
   // UI
-  toggleSignup = () => {
-    this.setState({
-      showSignup: !this.state.showSignup,
-      showLogin: false,
-      showSideNav: false,
-    });
-  };
-
-  toggleLogin = () => {
-    this.setState({
-      showLogin: !this.state.showLogin,
-      showSignup: false,
-      showSideNav: false,
-    });
-  };
-
-  toggleSideNav = () => {
-    this.setState({
-      showSideNav: !this.state.showSideNav,
-      showSignup: false,
-      showLogin: false,
-    });
-  };
-
-  closeSideNav = () => {
-    this.setState({
-      showSideNav: false,
-    });
-  };
 
   // MISC
   formatMongoDate = (date, type) => {
@@ -80,6 +46,38 @@ export default class Root extends Component {
   // api calls
   // register: adds guardian with student
   // addAdmin: add admin
+
+  login = async ({ email, password }) => {
+    console.log(email, password);
+    const users = [
+      ...this.state.guardians,
+      ...this.state.students,
+      ...this.state.admins,
+    ];
+
+    console.log(users);
+    // find user by email
+    const user = users.find(user => {
+      return user['email'] === email || user['guardianEmail'] === email;
+    });
+
+    if (!user) {
+      // display UI error: are you sure that's the correct user?
+      console.log('user not found in state: display UI error');
+    } else {
+      console.log(user);
+      const email = user.email ? user.email : user.guardianEmail;
+      const result = await axios.post(`${PRE_API_URI}/login`, {
+        email,
+        password,
+        userType: user.userType,
+      });
+
+      // if login result valid, reset registration event to false
+
+      console.log(result);
+    }
+  };
   register = async guardianData => {
     // posts guardian and their first student. returns student id which is made to make a get request. data from guardian POST and student GET are used to set state.
     try {
@@ -106,9 +104,8 @@ export default class Root extends Component {
       this.setState(prevState => ({
         guardians: [...prevState.guardians, guardianWithStudentName.data],
         students: [...prevState.students, newStudent.data],
+        registrationEvent: true,
       }));
-
-      console.log(this.state);
     } catch (err) {
       console.log(err);
     }
@@ -190,6 +187,10 @@ export default class Root extends Component {
       });
   };
 
+  resetRegistrationEvent = () => {
+    this.setState({ registrationEvent: false });
+  };
+
   componentDidMount = async () => {
     axios
       .get(`${PRE_API_URI}/api/programs`)
@@ -232,26 +233,7 @@ export default class Root extends Component {
   render() {
     return (
       <div className="Root">
-        <Navbar
-          {...this.state}
-          toggleSignup={this.toggleSignup}
-          toggleLogin={this.toggleLogin}
-          toggleSideNav={this.toggleSideNav}
-          showSideNav={this.state.showSideNav}
-        />
-        {/* <SignupForm
-          toggle={this.showSignup}
-          className={this.state.showSignup ? 'SignupForm' : 'offscreen'}
-        /> */}
-        {/* <LoginForm
-          toggle={this.toggleLogin}
-          toggleSignup={this.toggleSignup}
-          className={this.state.showLogin ? 'LoginForm' : 'offscreen-login'}
-        /> */}
-        {/* <SideNav
-          closeSideNav={this.closeSideNav}
-          className={this.state.showSideNav ? 'SideNav' : 'offscreen-sidenav'}
-        /> */}
+        <Navbar {...this.state} />
         <Switch>
           <Route
             exact
@@ -274,7 +256,12 @@ export default class Root extends Component {
             exact
             path="/guardian-registration"
             render={routeProps => (
-              <GuardianRegistration {...routeProps} register={this.register} />
+              <GuardianRegistration
+                {...routeProps}
+                register={this.register}
+                login={this.login}
+                registrationEvent={this.state.registrationEvent}
+              />
             )}
           />
           <Route

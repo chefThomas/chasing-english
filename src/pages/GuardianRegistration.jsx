@@ -5,7 +5,7 @@ import AntLogin from '../components/AntLogin';
 
 class GuardianRegistration extends Component {
   state = {
-    showForm: true,
+    showRegistrationForm: true,
   };
   openNotification = () => {
     notification.info({
@@ -17,23 +17,17 @@ class GuardianRegistration extends Component {
 
   checkRegistration = () => {
     if (this.props.registrationSuccess) {
-      this.setState({ showForm: false });
+      this.setState({ showRegistrationForm: false });
     }
   };
 
-  handleLoginButtonClick = () => {
-    // nav to login page
-    this.setState({ showForm: true });
-  };
   componentDidMount() {
     this.openNotification();
   }
   render() {
     return (
       <div className="GuardianRegistration">
-        {this.state.showForm ? (
-          <GuardianRegistrationForm register={this.props.register} />
-        ) : (
+        {this.props.registrationEvent ? (
           <div
             style={{
               display: 'flex',
@@ -50,10 +44,10 @@ class GuardianRegistration extends Component {
               title="Welcome to Chasing English!"
               subTitle="You are now registered and ready to enroll your student. Please login to view all course offerings."
             />
-            <AntLogin />
-
-            {/* login form goes here */}
+            <AntLogin login={this.props.login} />
           </div>
+        ) : (
+          <GuardianRegistrationForm register={this.props.register} />
         )}
       </div>
     );

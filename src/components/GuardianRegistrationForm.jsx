@@ -13,6 +13,7 @@ class RegistrationForm extends Component {
   };
 
   clearForm = () => {
+    console.log('clearForm called');
     this.props.form.setFieldsValue({
       guardianFirstName: '',
       guardianLastName: '',
@@ -119,7 +120,7 @@ class RegistrationForm extends Component {
           </h1>
 
           <PageHeader title="Guardian" />
-          <Form.Item label={<span>Guardian Name&nbsp;</span>}>
+          <Form.Item label={<span>Name&nbsp;</span>}>
             {getFieldDecorator('guardianFirstName', {
               rules: [
                 {
