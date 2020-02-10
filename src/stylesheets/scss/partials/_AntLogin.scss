@@ -1,0 +1,11 @@
+.AntLogin {
+  button {
+    @include button-on-light-bg;
+  }
+
+  button:hover {
+    color: #fff;
+    background-color: #1b1c1d;
+    border: 2px solid #efefef;
+  }
+}

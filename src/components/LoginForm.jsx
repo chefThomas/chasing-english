@@ -1,24 +1,16 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import "../stylesheets/css/main.css";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import '../stylesheets/css/main.css';
 
 export default class LoginForm extends Component {
   state = {
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   };
 
   handleChange = e => {
     console.log();
     this.setState({ [e.target.name]: e.target.value });
-  };
-
-  handleToggle = e => {
-    this.props.toggle();
-  };
-
-  handleToggleSignup = e => {
-    this.props.toggleSignup();
   };
 
   handleSubmit = e => {
@@ -27,13 +19,13 @@ export default class LoginForm extends Component {
 
     // reset state
     this.setState({
-      email: "",
-      password: ""
+      email: '',
+      password: '',
     });
   };
 
   text = e => {
-    console.log("test fired");
+    console.log('test fired');
   };
 
   render() {
@@ -72,7 +64,7 @@ export default class LoginForm extends Component {
         <input
           className="NavButton dark-on-light"
           type="submit"
-          onClick={this.test}
+          onClick={this.text}
         />
       </form>
     );

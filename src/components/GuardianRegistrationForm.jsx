@@ -12,18 +12,43 @@ class RegistrationForm extends Component {
     selectedPrograms: [],
   };
 
+  clearForm = () => {
+    console.log('clearForm called');
+    this.props.form.setFieldsValue({
+      guardianFirstName: '',
+      guardianLastName: '',
+      guardianEmail: '',
+      password: '',
+      grade: null,
+      phone: '',
+      guardianId: '',
+      contactMethod: '',
+      studentFirstName: null,
+      studentLastName: '',
+      studentGmail: '',
+      confirm: '',
+    });
+
+    this.setState({ selectedPrograms: [] });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        // console.log('Received values of form: ', values);
+        values.programsOfInterest = this.state.selectedPrograms;
+        values.phone = `${values.prefix} ${values.phone}`;
+        console.log('Received values of form: ', values);
         this.props.register(values);
+        //clear form
+        this.clearForm();
       }
     });
   };
 
   handleProgramChange = selectedPrograms => {
     this.setState({ selectedPrograms });
+    console.log(this.state.selectedPrograms);
   };
   handleConfirmBlur = e => {
     const { value } = e.target;
@@ -49,7 +74,6 @@ class RegistrationForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { selectedPrograms } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -96,7 +120,7 @@ class RegistrationForm extends Component {
           </h1>
 
           <PageHeader title="Guardian" />
-          <Form.Item label={<span>Guardian Name&nbsp;</span>}>
+          <Form.Item label={<span>Name&nbsp;</span>}>
             {getFieldDecorator('guardianFirstName', {
               rules: [
                 {
@@ -238,7 +262,7 @@ class RegistrationForm extends Component {
               rules: [
                 {
                   type: 'email',
-                  message: 'The input is not valid Email!',
+                  message: 'The input is not valid Email',
                 },
                 {
                   required: true,
@@ -272,37 +296,24 @@ class RegistrationForm extends Component {
             {getFieldDecorator('programsOfInterest', {
               rules: [
                 {
-                  required: true,
                   message: 'Please choose at least one option',
                 },
               ],
             })(
               <Form.Item>
                 <Select
+                  value={this.state.selectedPrograms}
                   mode="multiple"
                   style={{ width: '100%' }}
                   placeholder="You may select more than one program"
                   onChange={this.handleProgramChange}
-                  value={this.state.selectedPrograms}
+                  // value={this.state.selectedPrograms}
                 >
                   <Option key="group">Group</Option>
-                  <Option key="intensvie">Single-day Intensive</Option>
+                  <Option key="intensive">One-day Intensive</Option>
                   <Option key="individual">Indivudal Coaching</Option>
                 </Select>
               </Form.Item>
-              // <Select
-              //   mode="multiple"
-              //   placeholder="You may choose multiple programs"
-              //   value={selectedCourses}
-              //   onChange={this.handleCourseChange}
-              //   style={{ width: '100%' }}
-              // >
-              //   {filteredCourses.map(item => (
-              //     <Select.Option key={item} value={item}>
-              //       {item}
-              //     </Select.Option>
-              //   ))}
-              // </Select>
             )}
           </Form.Item>
           <button

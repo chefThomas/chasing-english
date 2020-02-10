@@ -1,18 +1,12 @@
-import React, { Component } from "react";
-import { NavLink, Link } from "react-router-dom";
-import "../stylesheets/css/main.css";
+import React, { Component } from 'react';
+import { NavLink, Link, withRouter } from 'react-router-dom';
+import '../stylesheets/css/main.css';
 
-// import DropdownNav from "./DropdownNav";
-// import NavButton from "./NavButton";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from './HamburgerMenu';
 
 class Navbar extends Component {
-  state = {
-    showDropdownNav: false
-  };
-
   handleClick = e => {
-    console.log("click burger");
+    console.log('click burger');
   };
 
   // toggles visibility on click
@@ -28,7 +22,7 @@ class Navbar extends Component {
   };
 
   handleLoginClick = e => {
-    this.props.toggleLogin();
+    // display login form
   };
 
   handleSignupClick = e => {
@@ -39,60 +33,52 @@ class Navbar extends Component {
   render() {
     // const { showDropdownNav } = this.state;
     return (
-      <div className='Navbar'>
-        <div className='Navbar-links-container'>
+      <div className="Navbar">
+        <div className="Navbar-links-container">
           <NavLink
             exact
-            className='Navbar-link '
-            activeClassName='NavLink-active'
-            to='/'
+            className="Navbar-link "
+            activeClassName="NavLink-active"
+            to="/"
           >
             Home
           </NavLink>
           <NavLink
             exact
-            className='Navbar-link'
-            activeClassName='NavLink-active'
-            to='/catalog'
+            className="Navbar-link"
+            activeClassName="NavLink-active"
+            to="/catalog"
           >
             Catalog
           </NavLink>
           <NavLink
             exact
-            className='Navbar-link'
-            activeClassName='NavLink-active'
-            to='/about'
+            className="Navbar-link"
+            activeClassName="NavLink-active"
+            to="/about"
           >
             About
           </NavLink>
           <NavLink
             exact
-            className='Navbar-link'
-            activeClassName='NavLink-active'
-            to='/admin'
+            className="Navbar-link"
+            activeClassName="NavLink-active"
+            to="/admin"
           >
             Admin
           </NavLink>
         </div>
-        <HamburgerMenu
-          toggleSideNav={this.toggleSideNav}
-          showSideNav={this.props.showSideNav}
-        />
-        <div className='Navbutton-container'>
+        <HamburgerMenu />
+        <div className="Navbutton-container">
           <button
-            className='NavButton dark-on-dark navbar'
-            label='Log in'
+            className="NavButton dark-on-dark navbar"
+            label="Log in"
             onClick={this.handleLoginClick}
           >
             Log In
           </button>
-          {/* toggle signup form */}
-          <Link to='/guardian-registration'>
-            <button
-              className='NavButton dark-on-dark navbar'
-              label='Sign up'
-              // onClick={this.handleSignupClick}
-            >
+          <Link to="/guardian-registration">
+            <button className="NavButton dark-on-dark navbar" label="Sign up">
               Register
             </button>
           </Link>
@@ -102,4 +88,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

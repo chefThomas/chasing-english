@@ -689,32 +689,28 @@ body {
 .offscreen {
   transform: translate3d(-200%, 0, 0); }
 
-.LoginForm,
-.offscreen-login {
-  position: fixed;
+.LoginForm {
   background: #ffffff;
   height: 80vh;
   width: 34vw;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid red;
+  display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-top: 2rem;
-  transition: all 0.3s ease; }
+  align-items: center; }
   .LoginForm .email-input,
-  .LoginForm .password-input,
-  .offscreen-login .email-input,
-  .offscreen-login .password-input {
+  .LoginForm .password-input {
     width: 90%;
     margin-left: auto;
-    margin-right: auto; }
-  .LoginForm label,
-  .offscreen-login label {
+    margin-right: auto;
+    border: 1px solid pink; }
+  .LoginForm label {
     display: block;
     margin-bottom: 0.5rem;
     font-size: 1.2rem; }
-  .LoginForm input[type="text"],
-  .LoginForm input[type="password"],
-  .offscreen-login input[type="text"],
-  .offscreen-login input[type="password"] {
+  .LoginForm input[type='text'],
+  .LoginForm input[type='password'] {
     margin-bottom: 1rem;
     padding: 0.3rem 0.5rem;
     height: 2rem;
@@ -724,48 +720,30 @@ body {
     outline: none;
     transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
     @media screen and (max-width: 750px) {
-      .LoginForm input[type="text"],
-      .LoginForm input[type="password"],
-      .offscreen-login input[type="text"],
-      .offscreen-login input[type="password"] {
+      .LoginForm input[type='text'],
+      .LoginForm input[type='password'] {
         width: 60%; } }
-  .LoginForm .link,
-  .offscreen-login .link {
+  .LoginForm .link {
     text-decoration: none;
     display: block;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1rem; }
-  .LoginForm .register,
-  .offscreen-login .register {
+  .LoginForm .register {
     margin-bottom: 2rem; }
-  .LoginForm .dark-on-light,
-  .offscreen-login .dark-on-light {
+  .LoginForm .dark-on-light {
     margin-left: 18%;
     display: block;
     border: 2px solid rgba(0, 0, 0, 0.87);
     background-color: #fff; }
-    .LoginForm .dark-on-light:hover,
-    .offscreen-login .dark-on-light:hover {
+    .LoginForm .dark-on-light:hover {
       background-color: rgba(0, 0, 0, 0.87);
       color: rgba(255, 255, 255, 0.9); }
 
-.LoginForm {
-  transform: translate3d(0, 0, 0); }
-  @media screen and (max-width: 650px) {
-    .LoginForm {
-      width: 80vw; } }
-  .LoginForm .LoginForm-header {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto; }
-  .LoginForm input:focus {
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
-
-.offscreen-login {
-  transform: translate3d(-200%, 0, 0); }
+input:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
 
 .Root {
   position: relative;
@@ -1081,3 +1059,23 @@ body {
     margin-top: 1rem; }
   .RegistrationForm.ant-form.ant-form-horizontal .top-margin-lg {
     margin-top: 4rem; }
+
+.AntLogin button {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.28571429rem;
+  transition: all 0.2s ease;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  border: 2px solid #1b1c1d;
+  background: transparent none;
+  color: #1b1c1d; }
+
+.AntLogin button:hover {
+  color: #fff;
+  background-color: #1b1c1d;
+  border: 2px solid #efefef; }
