@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 import '../stylesheets/css/main.css';
 
-// import DropdownNav from "./DropdownNav";
-// import NavButton from "./NavButton";
 import HamburgerMenu from './HamburgerMenu';
 
 class Navbar extends Component {
-  state = {
-    showDropdownNav: false,
-  };
-
   handleClick = e => {
     console.log('click burger');
   };
@@ -94,4 +88,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

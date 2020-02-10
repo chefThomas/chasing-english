@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Tabs, Button, Table, Typography } from 'antd';
 import moment from 'moment';
 
@@ -9,7 +10,7 @@ const Style = {
   padLeftReg: { paddingLeft: '10px' },
 };
 
-export default class Catalog extends Component {
+class Catalog extends Component {
   individualProgramsCols = [
     {
       title: 'Start',
@@ -272,3 +273,5 @@ export default class Catalog extends Component {
     );
   }
 }
+
+export default withRouter(Catalog);

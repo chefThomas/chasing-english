@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import GuardianRegistrationForm from '../components/GuardianRegistrationForm';
 import { notification, Result } from 'antd';
 import AntLogin from '../components/AntLogin';
@@ -54,4 +55,4 @@ class GuardianRegistration extends Component {
   }
 }
 
-export default GuardianRegistration;
+export default withRouter(GuardianRegistration);

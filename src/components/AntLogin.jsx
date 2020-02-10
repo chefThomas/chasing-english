@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
 
 import { Form, Icon, Input } from 'antd';
 import '../stylesheets/css/main.css';
@@ -41,13 +42,16 @@ class NormalLoginForm extends React.Component {
             />
           )}
         </Form.Item>
-        <button
-          className="top-margin-lg NavButton dark-on-light navbar center-inline"
-          label="Log in"
-          onClick={this.handleSubmit}
-        >
-          Submit
-        </button>
+        <Link to="/catalog">
+          {' '}
+          <button
+            className="top-margin-lg NavButton dark-on-light navbar center-inline"
+            label="Log in"
+            onClick={this.handleSubmit}
+          >
+            Submit
+          </button>
+        </Link>
       </Form>
     );
   }
@@ -57,4 +61,4 @@ const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
   NormalLoginForm
 );
 
-export default WrappedNormalLoginForm;
+export default withRouter(WrappedNormalLoginForm);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -18,13 +18,14 @@ const PRE_API_URI = 'http://localhost:5000';
 // process.env.NODE_ENV === 'development'
 //   ? 'https://blooming-beach-67877.herokuapp.com'
 //   : 'http://localhost:5000';
-export default class Root extends Component {
+class Root extends Component {
   state = {
     programs: [],
     guardians: [],
     admins: [],
     students: [],
     registrationEvent: false,
+    userToken: '',
   };
 
   // UI
@@ -76,6 +77,16 @@ export default class Root extends Component {
       // if login result valid, reset registration event to false
 
       console.log(result);
+      if (result) {
+        this.setState({
+          token: result.data.token,
+          registrationEvent: false,
+          redirectToCatalog: true,
+        });
+        // redirect to Catalog
+      } else {
+        // UI display unsuccessful login
+      }
     }
   };
   register = async guardianData => {
@@ -233,8 +244,11 @@ export default class Root extends Component {
   render() {
     return (
       <div className="Root">
-        <Navbar {...this.state} />
+        <Navbar />
         <Switch>
+          {this.state.redirectToCatalog ? (
+            <Redirect from="/guardian-registration" to="/catalog" />
+          ) : null}
           <Route
             exact
             path="/"
@@ -287,3 +301,5 @@ export default class Root extends Component {
     );
   }
 }
+
+export default withRouter(Root);
