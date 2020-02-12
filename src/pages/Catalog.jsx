@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Tabs, Button, Table, Typography } from 'antd';
+import { Tabs, Button, Table, Typography, Icon, Drawer, Badge } from 'antd';
 import moment from 'moment';
 
 const { Title } = Typography;
@@ -11,6 +11,17 @@ const Style = {
 };
 
 class Catalog extends Component {
+  state = {
+    showCart: false,
+  };
+  handleCartOpen = () => {
+    console.log('cart clicked');
+    this.setState({ showCart: true });
+  };
+
+  handleCartClose = () => {
+    this.setState({ showCart: false });
+  };
   individualProgramsCols = [
     {
       title: 'Start',
@@ -232,48 +243,76 @@ class Catalog extends Component {
 
   render() {
     return (
-      <Tabs type="card">
-        <TabPane tab="Programs" key="1">
-          <Title style={Style.padLeftReg} level={3}>
-            Individual Coaching
-          </Title>
-          <Table
-            dataSource={this.getIndividualSessionData()}
-            columns={this.individualProgramsCols}
-          />
-          <Title style={Style.padLeftReg} className="Table_title" level={3}>
-            Group Programs
-          </Title>
-          <Table
-            dataSource={this.getGroupSessionData()}
-            columns={this.groupProgramsCols}
-          />
-          <Title style={Style.padLeftReg} className="Table_title" level={3}>
-            Single-day Intensive
-          </Title>
-          <Table
-            dataSource={this.getIntensivesData()}
-            columns={this.intensiveCols}
-          />
-        </TabPane>
-        <TabPane tab="My Schedule" key="2">
-          <Title style={Style.padLeftReg} level={3}>
-            Individual Coaching
-          </Title>
-          <Table
-            dataSource={this.getIndividualSessionData()}
-            columns={this.individualProgramsCols}
-          />
-          <Title style={Style.padLeftReg} className="Table_title" level={3}>
-            Group Programs
-          </Title>
+      <>
+        <Drawer
+          title="Shopping Cart"
+          width={360}
+          onClose={this.handleCartClose}
+          visible={this.state.showCart}
+          bodyStyle={{ paddingBottom: 80 }}
+          zIndex={3000}
+        ></Drawer>
+        <Button
+          style={{
+            fontSize: '2rem',
+            border: 'none',
+            zIndex: '2000',
+            position: 'absolute',
+            top: '78px',
+            right: '5px',
+            outline: 'none',
+            backgroundColor: 'rgba(0,0,0,0)',
+          }}
+          onClick={this.handleCartOpen}
+        >
+          <Badge count={5}>
+            <Icon style={{ fontSize: '2rem' }} type="shopping-cart" />
+          </Badge>
+        </Button>
 
-          <Table
-            dataSource={this.getGroupSessionData()}
-            columns={this.groupProgramsCols}
-          />
-        </TabPane>
-      </Tabs>
+        <Tabs type="card">
+          <TabPane tab="Programs" key="1">
+            <Title style={Style.padLeftReg} level={3}>
+              Individual Coaching
+            </Title>
+            <Table
+              dataSource={this.getIndividualSessionData()}
+              columns={this.individualProgramsCols}
+            />
+            <Title style={Style.padLeftReg} className="Table_title" level={3}>
+              Group Programs
+            </Title>
+            <Table
+              dataSource={this.getGroupSessionData()}
+              columns={this.groupProgramsCols}
+            />
+            <Title style={Style.padLeftReg} className="Table_title" level={3}>
+              Single-day Intensive
+            </Title>
+            <Table
+              dataSource={this.getIntensivesData()}
+              columns={this.intensiveCols}
+            />
+          </TabPane>
+          <TabPane tab="My Schedule" key="2">
+            <Title style={Style.padLeftReg} level={3}>
+              Individual Coaching
+            </Title>
+            <Table
+              dataSource={this.getIndividualSessionData()}
+              columns={this.individualProgramsCols}
+            />
+            <Title style={Style.padLeftReg} className="Table_title" level={3}>
+              Group Programs
+            </Title>
+
+            <Table
+              dataSource={this.getGroupSessionData()}
+              columns={this.groupProgramsCols}
+            />
+          </TabPane>
+        </Tabs>
+      </>
     );
   }
 }

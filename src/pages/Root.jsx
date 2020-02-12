@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer, Result } from 'antd';
+import { Drawer } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -63,7 +64,6 @@ class Root extends Component {
 
   logout = () => {
     this.setState({
-      loggedInUsername: null,
       userToken: null,
       loggedInUsername: null,
       loggedInUserType: null,
@@ -269,6 +269,7 @@ class Root extends Component {
           onClose={this.hideLogin}
           visible={this.state.showLogin}
           bodyStyle={{ paddingBottom: 80 }}
+          zIndex={3000}
         >
           <AntLogin login={this.login} />
         </Drawer>

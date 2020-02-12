@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
-import { Icon, Badge } from 'antd';
+import { Icon } from 'antd';
 import '../stylesheets/css/main.css';
 
 import HamburgerMenu from './HamburgerMenu';
