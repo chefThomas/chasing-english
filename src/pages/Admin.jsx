@@ -9,6 +9,7 @@ import {
   Table,
   Tabs,
   Tooltip,
+  Result,
 } from 'antd';
 import ProgramForm from '../components/ProgramForm';
 import UserForm from '../components/UserForm';
@@ -403,111 +404,125 @@ export default class Admin extends Component {
 
   render() {
     return (
-      <div>
-        <Tabs type="card">
-          <TabPane tab="Programs" key="2">
-            <Button
-              type="primary"
-              icon="file-add"
-              style={{ margin: '15px' }}
-              size="large"
-              onClick={this.toggleProgramFormVisibility}
+      <>
+        {this.props.loggedInUserType === 'admin' ? (
+          <div>
+            <Tabs type="card">
+              <TabPane tab="Programs" key="2">
+                <Button
+                  type="primary"
+                  icon="file-add"
+                  style={{ margin: '15px' }}
+                  size="large"
+                  onClick={this.toggleProgramFormVisibility}
+                >
+                  Create Program
+                </Button>
+                <Collapse>
+                  <Panel header="Individual Coaching" key="individual">
+                    <Table
+                      bordered
+                      dataSource={this.getProgramData('individual', 'active')}
+                      columns={this.programCols}
+                    />
+                  </Panel>
+                  <Panel header="Group" key="group">
+                    <Table
+                      size="medium"
+                      bordered
+                      dataSource={this.getProgramData('group', 'active')}
+                      columns={this.programCols}
+                    />
+                  </Panel>
+                  <Panel header="One-day Intensive" key="intensive">
+                    <Table
+                      size="medium"
+                      bordered
+                      dataSource={this.getProgramData('intensive', 'active')}
+                      columns={this.programCols}
+                    />
+                  </Panel>
+                  <Panel header="Archive" key="archive">
+                    <Table
+                      bordered
+                      dataSource={this.getProgramData('', 'archive')}
+                      columns={this.programCols}
+                    />
+                  </Panel>
+                </Collapse>
+              </TabPane>
+              <TabPane tab="Users" key="3">
+                <Button
+                  type="primary"
+                  icon="file-add"
+                  style={{ margin: '15px' }}
+                  size="large"
+                  onClick={this.toggleUserFormVisibility}
+                >
+                  Create User
+                </Button>
+                <Collapse>
+                  <Panel header="Admin" key="admin">
+                    <Table
+                      size="medium"
+                      bordered
+                      dataSource={this.getAdminData()}
+                      columns={this.adminCols}
+                    />
+                  </Panel>
+                  <Panel header="Student" key="student">
+                    <Table
+                      size="medium"
+                      bordered
+                      dataSource={this.getStudentData()}
+                      columns={this.studentCols}
+                    />
+                  </Panel>
+                  <Panel header="Guardians" key="guardian">
+                    <Table
+                      size="medium"
+                      bordered
+                      dataSource={this.getGuardianData('active')}
+                      columns={this.guardianCols}
+                    />
+                  </Panel>
+                </Collapse>
+              </TabPane>
+            </Tabs>
+            <Modal
+              title="Create Program"
+              visible={this.state.programFormVisible}
+              onOk={this.toggleProgramFormVisibility}
+              onCancel={this.toggleProgramFormVisibility}
             >
-              Create Program
-            </Button>
-            <Collapse>
-              <Panel header="Individual Coaching" key="individual">
-                <Table
-                  bordered
-                  dataSource={this.getProgramData('individual', 'active')}
-                  columns={this.programCols}
-                />
-              </Panel>
-              <Panel header="Group" key="group">
-                <Table
-                  size="medium"
-                  bordered
-                  dataSource={this.getProgramData('group', 'active')}
-                  columns={this.programCols}
-                />
-              </Panel>
-              <Panel header="One-day Intensive" key="intensive">
-                <Table
-                  size="medium"
-                  bordered
-                  dataSource={this.getProgramData('intensive', 'active')}
-                  columns={this.programCols}
-                />
-              </Panel>
-              <Panel header="Archive" key="archive">
-                <Table
-                  bordered
-                  dataSource={this.getProgramData('', 'archive')}
-                  columns={this.programCols}
-                />
-              </Panel>
-            </Collapse>
-          </TabPane>
-          <TabPane tab="Users" key="3">
-            <Button
-              type="primary"
-              icon="file-add"
-              style={{ margin: '15px' }}
-              size="large"
-              onClick={this.toggleUserFormVisibility}
+              <ProgramForm addProgram={this.props.addProgram} />
+            </Modal>
+            <Modal
+              title="Create User"
+              visible={this.state.userFormVisible}
+              onOk={this.toggleUserFormVisibility}
+              onCancel={this.toggleUserFormVisibility}
             >
-              Create User
-            </Button>
-            <Collapse>
-              <Panel header="Admin" key="admin">
-                <Table
-                  size="medium"
-                  bordered
-                  dataSource={this.getAdminData()}
-                  columns={this.adminCols}
-                />
-              </Panel>
-              <Panel header="Student" key="student">
-                <Table
-                  size="medium"
-                  bordered
-                  dataSource={this.getStudentData()}
-                  columns={this.studentCols}
-                />
-              </Panel>
-              <Panel header="Guardians" key="guardian">
-                <Table
-                  size="medium"
-                  bordered
-                  dataSource={this.getGuardianData('active')}
-                  columns={this.guardianCols}
-                />
-              </Panel>
-            </Collapse>
-          </TabPane>
-        </Tabs>
-        <Modal
-          title="Create Program"
-          visible={this.state.programFormVisible}
-          onOk={this.toggleProgramFormVisibility}
-          onCancel={this.toggleProgramFormVisibility}
-        >
-          <ProgramForm addProgram={this.props.addProgram} />
-        </Modal>
-        <Modal
-          title="Create User"
-          visible={this.state.userFormVisible}
-          onOk={this.toggleUserFormVisibility}
-          onCancel={this.toggleUserFormVisibility}
-        >
-          <UserForm
-            addAdmin={this.props.addAdmin}
-            addGuardian={this.props.addGuardian}
-            addStudent={this.props.addStudent}
-            guardians={this.props.guardians}
+              <UserForm
+                addAdmin={this.props.addAdmin}
+                addGuardian={this.props.addGuardian}
+                addStudent={this.props.addStudent}
+                guardians={this.props.guardians}
+              />
+            </Modal>
+          </div>
+        ) : (
+          <Result
+            style={{
+              marginRight: 'auto',
+              marginLeft: 'auto',
+            }}
+            status="success"
+            title="Welcome to Chasing English!"
+            subTitle="You are now registered and ready to enroll your student. Please login to view all course offerings."
           />
-        </Modal>
-      </div>
+        )}
+      </>
     );
   }
 }

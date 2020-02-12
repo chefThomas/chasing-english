@@ -3,7 +3,10 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
+import { Drawer, Result } from 'antd';
+
 import Navbar from '../components/Navbar';
+import AntLogin from '../components/AntLogin';
 import Home from './Home';
 import Catalog from './Catalog';
 import About from './About';
@@ -25,10 +28,20 @@ class Root extends Component {
     admins: [],
     students: [],
     registrationEvent: false,
-    userToken: '',
+    userToken: null,
+    loggedInUsername: null,
+    loggedInUserType: null,
+    showLogin: false,
   };
 
   // UI
+  hideLogin = () => {
+    this.setState({ showLogin: false });
+  };
+
+  showLogin = () => {
+    this.setState({ showLogin: true });
+  };
 
   // MISC
   formatMongoDate = (date, type) => {
@@ -47,6 +60,15 @@ class Root extends Component {
   // api calls
   // register: adds guardian with student
   // addAdmin: add admin
+
+  logout = () => {
+    this.setState({
+      loggedInUsername: null,
+      userToken: null,
+      loggedInUsername: null,
+      loggedInUserType: null,
+    });
+  };
 
   login = async ({ email, password }) => {
     console.log(email, password);
@@ -74,16 +96,17 @@ class Root extends Component {
         userType: user.userType,
       });
 
-      // if login result valid, reset registration event to false
-
       console.log(result);
       if (result) {
         this.setState({
-          token: result.data.token,
+          userToken: result.data.token,
+          loggedInUsername: result.data.name,
+          loggedInUserType: result.data.userType,
           registrationEvent: false,
-          redirectToCatalog: true,
+          redirectToCatalog: false,
         });
-        // redirect to Catalog
+
+        this.hideLogin();
       } else {
         // UI display unsuccessful login
       }
@@ -198,10 +221,6 @@ class Root extends Component {
       });
   };
 
-  resetRegistrationEvent = () => {
-    this.setState({ registrationEvent: false });
-  };
-
   componentDidMount = async () => {
     axios
       .get(`${PRE_API_URI}/api/programs`)
@@ -244,7 +263,21 @@ class Root extends Component {
   render() {
     return (
       <div className="Root">
-        <Navbar />
+        <Drawer
+          title="Login"
+          width={360}
+          onClose={this.hideLogin}
+          visible={this.state.showLogin}
+          bodyStyle={{ paddingBottom: 80 }}
+        >
+          <AntLogin login={this.login} />
+        </Drawer>
+        <Navbar
+          showLogin={this.showLogin}
+          loggedInUsername={this.state.loggedInUsername}
+          loggedInUserType={this.state.loggedInUserType}
+          logout={this.logout}
+        />
         <Switch>
           {this.state.redirectToCatalog ? (
             <Redirect from="/guardian-registration" to="/catalog" />
@@ -278,24 +311,27 @@ class Root extends Component {
               />
             )}
           />
-          <Route
-            exact
-            path="/admin"
-            render={routeProps => (
-              <Admin
-                {...routeProps}
-                addAdmin={this.addAdmin}
-                addGuardian={this.register}
-                guardians={this.state.guardians}
-                programs={this.state.programs}
-                students={this.state.students}
-                admins={this.state.admins}
-                addProgram={this.addProgram}
-                toggleStatus={this.toggleStatus}
-                remove={this.remove}
-              />
-            )}
-          />
+          {this.state.loggedInUserType === 'admin' ? (
+            <Route
+              exact
+              path="/admin"
+              render={routeProps => (
+                <Admin
+                  {...routeProps}
+                  addAdmin={this.addAdmin}
+                  addGuardian={this.register}
+                  guardians={this.state.guardians}
+                  programs={this.state.programs}
+                  students={this.state.students}
+                  admins={this.state.admins}
+                  addProgram={this.addProgram}
+                  toggleStatus={this.toggleStatus}
+                  remove={this.remove}
+                  loggedInUserType={this.state.loggedInUserType}
+                />
+              )}
+            />
+          ) : null}
         </Switch>
       </div>
     );

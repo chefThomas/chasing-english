@@ -50,7 +50,7 @@ class Catalog extends Component {
           {record.enrolled === record.capacity ? (
             <Button onClick={this.handleAddToWaitlist}>Add to Waitlist</Button>
           ) : (
-            <Button type="primary">Register</Button>
+            <Button type="primary">Enroll</Button>
           )}
         </span>
       ),
@@ -144,7 +144,7 @@ class Catalog extends Component {
           {record.capacity === record.enrolled ? (
             <Button onClick={this.handleWaitlist}>Waitlist</Button>
           ) : (
-            <Button onClick={this.handleWaitlist} type="primary">
+            <Button onClick={this.handleEnroll} type="primary">
               Enroll
             </Button>
           )}
@@ -217,6 +217,10 @@ class Catalog extends Component {
         enrolled: program.enrolled,
       };
     });
+  };
+
+  handleEnroll = () => {
+    console.log('enroll clicked');
   };
 
   componentDidMount() {
