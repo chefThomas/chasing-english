@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
+import { Icon, Badge } from 'antd';
 import '../stylesheets/css/main.css';
 
 import HamburgerMenu from './HamburgerMenu';
 
 class Navbar extends Component {
+  state = {
+    showLogin: false,
+  };
   handleClick = e => {
     console.log('click burger');
+    // display mobile nav
   };
 
-  // toggles visibility on click
-  toggleSideNav = () => {
-    // this.setState({ showDropdownNav: !this.state.showDropdownNav });
-    // console.log("in nav");
-    this.props.toggleSideNav();
+  showLogin = e => {
+    this.setState({ showLogin: true });
   };
 
-  // closes when screen width increased greater than 700px from less.
-  closeDropdown = e => {
-    this.setState({ showDropdownNav: false });
+  hideLogin = e => {
+    this.setState({ showLogin: false });
   };
 
-  handleLoginClick = e => {
-    // display login form
+  logout = e => {
+    this.props.logout();
   };
 
-  handleSignupClick = e => {
-    this.props.toggleSignup();
-    // push sign up form into v
-  };
+  // handleSignupClick = e => {
+  //   this.props.toggleSignup();
+  //   // push sign up form into v
+  // };
 
   render() {
     // const { showDropdownNav } = this.state;
@@ -59,27 +60,44 @@ class Navbar extends Component {
           >
             About
           </NavLink>
-          <NavLink
-            exact
-            className="Navbar-link"
-            activeClassName="NavLink-active"
-            to="/admin"
-          >
-            Admin
-          </NavLink>
+          {this.props.loggedInUserType === 'admin' ? (
+            <NavLink
+              exact
+              className="Navbar-link"
+              activeClassName="NavLink-active"
+              to="/admin"
+            >
+              Admin
+            </NavLink>
+          ) : null}
         </div>
         <HamburgerMenu />
         <div className="Navbutton-container">
-          <button
-            className="NavButton dark-on-dark navbar"
-            label="Log in"
-            onClick={this.handleLoginClick}
+          {this.props.loggedInUsername ? (
+            <>
+              <Icon type="mail" />
+              <span className="welcome-user">
+                Welcome, {this.props.loggedInUsername}!
+              </span>
+            </>
+          ) : (
+            <button
+              className="NavButton dark-on-dark navbar"
+              label="Log in"
+              onClick={this.props.showLogin}
+            >
+              Log In
+            </button>
+          )}
+          <Link
+            to={this.props.loggedInUsername ? '' : '/guardian-registration'}
           >
-            Log In
-          </button>
-          <Link to="/guardian-registration">
-            <button className="NavButton dark-on-dark navbar" label="Sign up">
-              Register
+            <button
+              className="NavButton dark-on-dark navbar"
+              label="Sign up"
+              onClick={this.props.loggedInUsername ? this.logout : null}
+            >
+              {this.props.loggedInUsername ? 'Log out' : 'Register'}
             </button>
           </Link>
         </div>
