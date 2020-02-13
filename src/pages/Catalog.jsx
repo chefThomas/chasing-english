@@ -13,6 +13,10 @@ const Style = {
 class Catalog extends Component {
   state = {
     showCart: false,
+    cart: [
+      { id: '123', type: 'intensive', price: '200' },
+      { id: '456', type: 'group', price: '100' },
+    ],
   };
   handleCartOpen = () => {
     console.log('cart clicked');
@@ -21,6 +25,14 @@ class Catalog extends Component {
 
   handleCartClose = () => {
     this.setState({ showCart: false });
+  };
+
+  handleCheckout = () => {
+    console.log('cart contents: ', this.state.cart);
+  };
+
+  handleEmptyCart = () => {
+    this.setState({ cart: [] });
   };
   individualProgramsCols = [
     {
@@ -59,9 +71,17 @@ class Catalog extends Component {
       render: (text, record) => (
         <span>
           {record.enrolled === record.capacity ? (
-            <Button onClick={this.handleAddToWaitlist}>Add to Waitlist</Button>
+            <Button courseid={record.id} onClick={this.handleAddToWaitlist}>
+              Add to Waitlist
+            </Button>
           ) : (
-            <Button type="primary">Enroll</Button>
+            <Button
+              courseid={record.id}
+              onClick={this.handleEnroll}
+              type="primary"
+            >
+              Enroll
+            </Button>
           )}
         </span>
       ),
@@ -110,9 +130,15 @@ class Catalog extends Component {
       render: (text, record) => (
         <span>
           {record.capacity === record.enrolled ? (
-            <Button onClick={this.handleWaitlist}>Waitlist</Button>
+            <Button courseid={record.id} onClick={this.handleWaitlist}>
+              Waitlist
+            </Button>
           ) : (
-            <Button onClick={this.handleWaitlist} type="primary">
+            <Button
+              courseid={record.id}
+              onClick={this.handleEnroll}
+              type="primary"
+            >
               Enroll
             </Button>
           )}
@@ -153,9 +179,15 @@ class Catalog extends Component {
       render: (text, record) => (
         <span>
           {record.capacity === record.enrolled ? (
-            <Button onClick={this.handleWaitlist}>Waitlist</Button>
+            <Button courseid={record.id} onClick={this.handleWaitlist}>
+              Waitlist
+            </Button>
           ) : (
-            <Button onClick={this.handleEnroll} type="primary">
+            <Button
+              courseid={record.id}
+              onClick={this.handleEnroll}
+              type="primary"
+            >
               Enroll
             </Button>
           )}
@@ -163,6 +195,35 @@ class Catalog extends Component {
       ),
     },
   ];
+
+  cartCols = [
+    {
+      title: 'Program',
+      dataIndex: 'type',
+      key: 'type',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: '',
+      key: 'action',
+      render: (text, record) => (
+        <Button courseid={record.id} onClick={this.handleRemoveFromCart}>
+          <Icon type="delete" />
+        </Button>
+      ),
+    },
+  ];
+
+  getCartData = () => {
+    return this.state.cart.map(item => ({
+      type: item.type,
+      price: item.price,
+    }));
+  };
 
   getGroupSessionData = () => {
     const groupPrograms = this.props.programs.filter(program => {
@@ -172,6 +233,7 @@ class Catalog extends Component {
     return groupPrograms.map(program => {
       return {
         key: program.id,
+        id: program.id,
         title: program.title,
         dateBegin: program.dateBegin,
         dateEnd: program.dateEnd,
@@ -191,6 +253,7 @@ class Catalog extends Component {
     return indyPrograms.map(program => {
       return {
         key: program.id,
+        id: program.id,
         dateBegin: program.dateBegin,
         dateEnd: program.dateEnd,
         meetingTime: program.meetingTime,
@@ -221,6 +284,7 @@ class Catalog extends Component {
       const meetingDay = this.formatMongoDate(program.dateBegin);
       return {
         key: program.id,
+        id: program.id,
         dateBegin: program.dateBegin,
         meetingTime: program.meetingTime,
         meetingDay,
@@ -230,8 +294,8 @@ class Catalog extends Component {
     });
   };
 
-  handleEnroll = () => {
-    console.log('enroll clicked');
+  handleEnroll = e => {
+    console.log(e.target.getAttribute('courseId'));
   };
 
   componentDidMount() {
@@ -246,26 +310,41 @@ class Catalog extends Component {
       <>
         <Drawer
           title="Shopping Cart"
-          width={360}
+          width={500}
           onClose={this.handleCartClose}
           visible={this.state.showCart}
           bodyStyle={{ paddingBottom: 80 }}
           zIndex={3000}
-        ></Drawer>
+        >
+          <Table
+            columns={this.cartCols}
+            dataSource={this.getCartData()}
+            pagination={false}
+          ></Table>
+          <Button onClick={this.handleEmptyCart}>Empty Cart</Button>
+          <Button
+            type="primary"
+            disabled={this.state.cart.length === 0}
+            onClick={this.handleCheckout}
+          >
+            Checkout
+          </Button>
+        </Drawer>
         <Button
+          shape="circle"
           style={{
             fontSize: '2rem',
             border: 'none',
             zIndex: '2000',
             position: 'absolute',
             top: '78px',
-            right: '5px',
-            outline: 'none',
+            right: '25px',
+            // outline: 'none',
             backgroundColor: 'rgba(0,0,0,0)',
           }}
           onClick={this.handleCartOpen}
         >
-          <Badge count={5}>
+          <Badge count={this.state.cart.length}>
             <Icon style={{ fontSize: '2rem' }} type="shopping-cart" />
           </Badge>
         </Button>
