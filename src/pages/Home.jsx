@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { withRouter, Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { withRouter, Link } from 'react-router-dom';
 
-import NavButton from "../components/NavButton";
-import TextBlock from "../components/TextBlock";
-import Image from "../components/Image";
-import ContactForm from "../components/ContactForm";
-import Grid from "../components/Grid";
-import Testimonial from "../components/Testimonial";
-import ServiceCard from "../components/ServiceCard";
+import NavButton from '../components/NavButton';
+import TextBlock from '../components/TextBlock';
+import Image from '../components/Image';
+import ContactForm from '../components/ContactForm';
+import Grid from '../components/Grid';
+import Testimonial from '../components/Testimonial';
+import ServiceCard from '../components/ServiceCard';
 
-import icon from "../static/logo.svg";
+import icon from '../static/logo.svg';
 
-import textData from "../text/paragraph";
-import books from "../static/group-read.jpg";
-import personal from "../static/personal.jpg";
-import group from "../static/kendrasLovesThisPic.jpg";
+import textData from '../text/paragraph';
+import books from '../static/group-read.jpg';
+import personal from '../static/personal.jpg';
+import group from '../static/kendrasLovesThisPic.jpg';
 
-import "../stylesheets/css/main.css";
+import '../stylesheets/css/main.css';
 
 class Home extends Component {
   testimonials = [
@@ -24,11 +24,11 @@ class Home extends Component {
     <Testimonial name="Jane Thompson" body={textData.body} type="Student" />,
     <Testimonial name="Laura Parsons" body={textData.body} type="Parent" />,
     <Testimonial name="John Smith" body={textData.body} type="Student" />,
-    <Testimonial name="Olivia Bellevue" body={textData.body} type="Student" />
+    <Testimonial name="Olivia Bellevue" body={textData.body} type="Student" />,
   ];
 
   state = {
-    showForm: false
+    showForm: false,
   };
   render() {
     return (
@@ -37,8 +37,8 @@ class Home extends Component {
           this.props.showSignup ||
           this.props.showLogin ||
           this.props.showSideNav
-            ? "shift-left"
-            : "Home"
+            ? 'shift-left'
+            : 'Home'
         }
       >
         <section id="title-section" className="Home-top-segment dark">
@@ -46,8 +46,8 @@ class Home extends Component {
             <img className="icon-full" src={icon} alt="icon" />
             <h1 className="motto">
               <span className="line1">Chasing</span>
-              <span className="line2">English</span>{" "}
-              <span className="line3">writing support for the future</span>{" "}
+              <span className="line2">English</span>{' '}
+              {/* <span className="line3">writing support for the future</span>{" "} */}
             </h1>
           </div>
         </section>
@@ -57,11 +57,11 @@ class Home extends Component {
             <div className="text-and-image-container">
               <div className="text-container">
                 <TextBlock
-                  header={"Help students grow"}
+                  header={'Help students grow'}
                   text={textData.body + textData.body}
                 />
                 <TextBlock
-                  header={"Help students succeed"}
+                  header={'Help students succeed'}
                   text={textData.body + textData.body}
                 />
               </div>
@@ -74,7 +74,7 @@ class Home extends Component {
             <NavButton
               class="NavButton light-on-light center"
               label="Find Out More"
-              to="/info"
+              to="/catalog"
             />
           </div>
         </section>
@@ -109,7 +109,7 @@ class Home extends Component {
               body={textData.personal}
               noteText="one-on-one"
               alt="g"
-            />{" "}
+            />{' '}
             <div className="img-container">
               <Image
                 class="service-image"
@@ -118,7 +118,7 @@ class Home extends Component {
               />
             </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <NavButton
               class="NavButton light-on-light fixed-width center"
               label="Learn More"

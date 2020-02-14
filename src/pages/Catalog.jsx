@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Tabs, Button, Table, Typography, Icon, Drawer, Badge } from 'antd';
+import {
+  Tabs,
+  Button,
+  Table,
+  Typography,
+  Icon,
+  Drawer,
+  Badge,
+  Alert,
+  message,
+} from 'antd';
 import moment from 'moment';
 
 const { Title } = Typography;
@@ -10,16 +20,18 @@ const Style = {
   padLeftReg: { paddingLeft: '10px' },
 };
 
+const prices = {
+  individual: 200,
+  group: 300,
+  intensive: 100,
+};
+
 class Catalog extends Component {
   state = {
     showCart: false,
-    cart: [
-      { id: '123', type: 'intensive', price: '200' },
-      { id: '456', type: 'group', price: '100' },
-    ],
+    cart: [],
   };
   handleCartOpen = () => {
-    console.log('cart clicked');
     this.setState({ showCart: true });
   };
 
@@ -31,6 +43,11 @@ class Catalog extends Component {
     console.log('cart contents: ', this.state.cart);
   };
 
+  handleRemoveFromCart = e => {
+    const courseId = e.target.getAttribute('courseId');
+    const cartItems = this.state.cart.filter(item => courseId !== item.id);
+    this.setState({ cart: cartItems });
+  };
   handleEmptyCart = () => {
     this.setState({ cart: [] });
   };
@@ -212,17 +229,27 @@ class Catalog extends Component {
       key: 'action',
       render: (text, record) => (
         <Button courseid={record.id} onClick={this.handleRemoveFromCart}>
-          <Icon type="delete" />
+          <Icon type="close" />
         </Button>
       ),
     },
   ];
 
+  formatPrice = num => num.toFixed(2);
+  getTotal = () =>
+    this.state.cart.reduce((total, item) => total + Number(item.price), 0);
+
   getCartData = () => {
-    return this.state.cart.map(item => ({
-      type: item.type,
-      price: item.price,
-    }));
+    const cart = this.state.cart.map(item => {
+      const price = this.formatPrice(item.price);
+      return {
+        type: item.type,
+        price,
+        id: item.id,
+      };
+    });
+
+    this.setState({ cart });
   };
 
   getGroupSessionData = () => {
@@ -234,6 +261,8 @@ class Catalog extends Component {
       return {
         key: program.id,
         id: program.id,
+        type: program.type,
+
         title: program.title,
         dateBegin: program.dateBegin,
         dateEnd: program.dateEnd,
@@ -254,6 +283,7 @@ class Catalog extends Component {
       return {
         key: program.id,
         id: program.id,
+        type: program.type,
         dateBegin: program.dateBegin,
         dateEnd: program.dateEnd,
         meetingTime: program.meetingTime,
@@ -285,6 +315,8 @@ class Catalog extends Component {
       return {
         key: program.id,
         id: program.id,
+        type: program.type,
+
         dateBegin: program.dateBegin,
         meetingTime: program.meetingTime,
         meetingDay,
@@ -294,8 +326,27 @@ class Catalog extends Component {
     });
   };
 
+  handleMessage = msg => {
+    message.info(msg);
+  };
+
   handleEnroll = e => {
-    console.log(e.target.getAttribute('courseId'));
+    const courseId = e.target.getAttribute('courseId');
+
+    // check if course already in cart to prevent double charge
+    const course = this.state.cart.find(course => courseId === course.id);
+    if (course) {
+      this.handleMessage('This course is already in the your cart : )');
+      return;
+    }
+    // find course in root
+    const { type, id } = this.props.programs.find(
+      program => program.id === courseId
+    );
+    const price = this.formatPrice(prices[type]);
+    const program = { type, price, id, key: id };
+
+    this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
   };
 
   componentDidMount() {
@@ -303,6 +354,7 @@ class Catalog extends Component {
     this.getIndividualSessionData();
     this.getGroupSessionData();
     this.getIntensivesData();
+    this.getCartData();
   }
 
   render() {
@@ -316,19 +368,35 @@ class Catalog extends Component {
           bodyStyle={{ paddingBottom: 80 }}
           zIndex={3000}
         >
-          <Table
-            columns={this.cartCols}
-            dataSource={this.getCartData()}
-            pagination={false}
-          ></Table>
-          <Button onClick={this.handleEmptyCart}>Empty Cart</Button>
-          <Button
-            type="primary"
-            disabled={this.state.cart.length === 0}
-            onClick={this.handleCheckout}
-          >
-            Checkout
-          </Button>
+          {this.state.cart.length > 0 ? (
+            <>
+              <Table
+                columns={this.cartCols}
+                dataSource={this.state.cart}
+                pagination={false}
+              ></Table>
+              <p style={{ padding: '15px' }}>
+                <span style={{ fontSize: '1.25rem' }}>
+                  Total ${this.getTotal()}
+                </span>
+              </p>
+              <div>
+                <Button
+                  type="primary"
+                  disabled={this.state.cart.length === 0}
+                  onClick={this.handleCheckout}
+                >
+                  Checkout
+                </Button>
+              </div>
+            </>
+          ) : (
+            <Alert
+              message="Click the blue 'Enroll' button to place a course in the cart"
+              type="success"
+              showIcon
+            />
+          )}
         </Drawer>
         <Button
           shape="circle"
