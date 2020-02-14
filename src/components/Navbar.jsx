@@ -97,7 +97,7 @@ class Navbar extends Component {
               label="Sign up"
               onClick={this.props.loggedInUsername ? this.logout : null}
             >
-              {this.props.loggedInUsername ? 'Log out' : 'Register'}
+              {this.props.loggedInUsername ? 'Log out' : 'Sign Up'}
             </button>
           </Link>
         </div>

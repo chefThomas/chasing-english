@@ -51,7 +51,7 @@ class ProgramForm extends Component {
     }
 
     if (value === 'intensive') {
-      title = 'One-day Intensive';
+      title = 'Single-day Workshop';
     }
 
     this.setState({ type: value, title });
@@ -121,7 +121,7 @@ class ProgramForm extends Component {
           <Radio.Group value={this.state.type} onChange={this.handleTypeChange}>
             <Radio.Button value="individual">Individual</Radio.Button>
             <Radio.Button value="group">Group</Radio.Button>
-            <Radio.Button value="intensive">One-day Intensive</Radio.Button>
+            <Radio.Button value="intensive">Single-day Workshop</Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item

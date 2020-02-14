@@ -331,12 +331,18 @@ class Catalog extends Component {
   };
 
   handleEnroll = e => {
+    //check if user logged in
+    if (!this.props.userToken) {
+      this.handleMessage('You must be logged-in to enroll');
+      return;
+    }
+
     const courseId = e.target.getAttribute('courseId');
 
     // check if course already in cart to prevent double charge
     const course = this.state.cart.find(course => courseId === course.id);
     if (course) {
-      this.handleMessage('This course is already in the your cart : )');
+      this.handleMessage('This course is already in your cart');
       return;
     }
     // find course in root
@@ -375,16 +381,29 @@ class Catalog extends Component {
                 dataSource={this.state.cart}
                 pagination={false}
               ></Table>
-              <p style={{ padding: '15px' }}>
+              <p
+                style={{
+                  padding: '15px',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
                 <span style={{ fontSize: '1.25rem' }}>
                   Total ${this.getTotal()}
                 </span>
               </p>
-              <div>
+              <div
+                style={{
+                  padding: '0 15px',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
                 <Button
                   type="primary"
                   disabled={this.state.cart.length === 0}
                   onClick={this.handleCheckout}
+                  style={{ marginLeft: 'auto' }}
                 >
                   Checkout
                 </Button>
@@ -434,7 +453,7 @@ class Catalog extends Component {
               columns={this.groupProgramsCols}
             />
             <Title style={Style.padLeftReg} className="Table_title" level={3}>
-              Single-day Intensive
+              Single-day Workshop
             </Title>
             <Table
               dataSource={this.getIntensivesData()}

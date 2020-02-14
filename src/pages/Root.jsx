@@ -185,10 +185,11 @@ class Root extends Component {
   };
 
   remove = (id, type) => {
-    axios.delete(`${PRE_API_URI}/api/${type}s/${id}`).then(res => {
-      const filtered = this.state[`${type}s`].filter(el => el.id !== id);
+    console.log(id, type);
+    axios.delete(`${PRE_API_URI}/api/${type}/${id}`).then(res => {
+      const filtered = this.state[`${type}`].filter(el => el.id !== id);
       console.log(filtered);
-      this.setState({ [`${type}s`]: filtered });
+      this.setState({ [type]: filtered });
     });
   };
 
@@ -292,7 +293,11 @@ class Root extends Component {
             exact
             path="/catalog"
             render={routeProps => (
-              <Catalog {...routeProps} programs={this.state.programs} />
+              <Catalog
+                {...routeProps}
+                programs={this.state.programs}
+                userToken={this.state.userToken}
+              />
             )}
           />
           <Route
