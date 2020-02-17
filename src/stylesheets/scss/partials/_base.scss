@@ -1,4 +1,4 @@
-@import "../modules/all";
+@import '../modules/all';
 * {
   box-sizing: border-box;
 }
@@ -16,7 +16,9 @@ body {
 // base font
 body {
   font-family: $font-lato;
+  font-size: 1.4rem;
+  // text-align: justify;
 }
 
 // headings
-@import "../modules/all";
+@import '../modules/all';

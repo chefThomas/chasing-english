@@ -187,6 +187,7 @@ class Root extends Component {
     const stripe = this.props.stripe;
     console.log('########## STRIPE OBJECT #########', stripe);
 
+    // TODO adjust roster after successful checkout. REfer to after payment in docs
     await stripe
       .redirectToCheckout({
         sessionId: checkout.data.id,

@@ -4,35 +4,36 @@
   font-family: $font-lato;
   padding: 1.5rem 1rem 1rem 1rem;
   margin-bottom: 1rem;
-  height: 17rem;
+  // height: 17rem;
 
   .Testimonial-body {
     margin-top: 0;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: justify;
+    height: 78%;
+    // overflow-y: hidden;
+    padding-right: 0.2rem;
+    margin-bottom: 1.7rem;
   }
 
-  .name-type {
-    position: absolute;
-    bottom: 0.25rem;
-    right: 1rem;
-  }
+  // .name-type {
+  // }
   &-name {
     width: 10rem;
     display: block;
     margin-left: auto;
     text-align: right;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   &-type {
     display: block;
     color: $text-dark;
-    padding: 0.25rem 1rem;
-    width: 5rem;
-    text-align: center;
+    // width: 5rem;
     margin-left: auto;
     font-weight: bold;
+    text-align: right;
     font-style: italic;
+    font-size: 1.2rem;
   }
 }
