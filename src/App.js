@@ -1,18 +1,28 @@
-import React from 'react';
-import { StripeProvider, Elements } from 'react-stripe-elements';
+import React, { Component } from 'react';
 import Root from '../src/pages/Root';
 import './App.css';
+import { StripeProvider, Elements } from 'react-stripe-elements';
 
-function App() {
-  return (
-    <div className="App">
-      <StripeProvider apiKey="pk_test_GYVlMxH8rzVT5dlqAo3bjCUm00mcVGw6plK">
-        <Elements>
-          <Root />
-        </Elements>
-      </StripeProvider>
-    </div>
-  );
+class App extends Component {
+  state = { stripe: null };
+
+  componentDidMount() {
+    this.setState({
+      stripe: window.Stripe('pk_test_GYVlMxH8rzVT5dlqAo3bjCUm00mcVGw6pl'),
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <StripeProvider stripe={this.state.stripe}>
+          <Elements>
+            <Root />
+          </Elements>
+        </StripeProvider>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+
 import {
   Tabs,
   Button,
@@ -30,6 +31,7 @@ class Catalog extends Component {
   state = {
     showCart: false,
     cart: [],
+    showStripeForm: false,
   };
   handleCartOpen = () => {
     this.setState({ showCart: true });
@@ -39,8 +41,13 @@ class Catalog extends Component {
     this.setState({ showCart: false });
   };
 
+  handleOpenStripeForm = () => {
+    this.setState({ showStripeForm: true });
+  };
+
   handleCheckout = () => {
     console.log('cart contents: ', this.state.cart);
+    this.props.checkout(this.state.cart);
   };
 
   handleRemoveFromCart = e => {
@@ -72,16 +79,7 @@ class Catalog extends Component {
       dataIndex: 'meetingTime',
       key: 'meetingTime',
     },
-    {
-      title: 'Capacity',
-      dataIndex: 'capacity',
-      key: 'capacity',
-    },
-    {
-      title: 'Enrolled',
-      dataIndex: 'enrolled',
-      key: 'enrolled',
-    },
+
     {
       title: '',
       key: 'action',
@@ -131,16 +129,7 @@ class Catalog extends Component {
       dataIndex: 'meetingTime',
       key: 'meetingTime',
     },
-    {
-      title: 'Capacity',
-      dataIndex: 'capacity',
-      key: 'capacity',
-    },
-    {
-      title: 'Enrolled',
-      dataIndex: 'enrolled',
-      key: 'enrolled',
-    },
+
     {
       title: '',
       key: 'action',
@@ -240,12 +229,12 @@ class Catalog extends Component {
     this.state.cart.reduce((total, item) => total + Number(item.price), 0);
 
   getCartData = () => {
+    console.log('get cart data');
     const cart = this.state.cart.map(item => {
       const price = this.formatPrice(item.price);
       return {
-        type: item.type,
-        price,
-        id: item.id,
+        name: item.type,
+        amount: price,
       };
     });
 
@@ -360,7 +349,6 @@ class Catalog extends Component {
     this.getIndividualSessionData();
     this.getGroupSessionData();
     this.getIntensivesData();
-    this.getCartData();
   }
 
   render() {
@@ -411,7 +399,7 @@ class Catalog extends Component {
             </>
           ) : (
             <Alert
-              message="Click the blue 'Enroll' button to place a course in the cart"
+              message="Click the blue 'Enroll' button to put a course in your shopping cart"
               type="success"
               showIcon
             />
@@ -444,6 +432,7 @@ class Catalog extends Component {
             <Table
               dataSource={this.getIndividualSessionData()}
               columns={this.individualProgramsCols}
+              pagination={false}
             />
             <Title style={Style.padLeftReg} className="Table_title" level={3}>
               Group Programs
@@ -451,6 +440,7 @@ class Catalog extends Component {
             <Table
               dataSource={this.getGroupSessionData()}
               columns={this.groupProgramsCols}
+              pagination={false}
             />
             <Title style={Style.padLeftReg} className="Table_title" level={3}>
               Single-day Workshop
@@ -458,6 +448,7 @@ class Catalog extends Component {
             <Table
               dataSource={this.getIntensivesData()}
               columns={this.intensiveCols}
+              pagination={false}
             />
           </TabPane>
           <TabPane tab="My Schedule" key="2">
@@ -467,6 +458,7 @@ class Catalog extends Component {
             <Table
               dataSource={this.getIndividualSessionData()}
               columns={this.individualProgramsCols}
+              pagination={false}
             />
             <Title style={Style.padLeftReg} className="Table_title" level={3}>
               Group Programs
@@ -475,6 +467,7 @@ class Catalog extends Component {
             <Table
               dataSource={this.getGroupSessionData()}
               columns={this.groupProgramsCols}
+              pagination={false}
             />
           </TabPane>
         </Tabs>

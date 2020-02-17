@@ -87,7 +87,7 @@ class Home extends Component {
           <NavButton
             class="NavButton light-on-light fixed-width center"
             label="View Services"
-            to="/info"
+            to="/catalog"
           />
         </section>
         <section id="services-section" className="services">
@@ -122,7 +122,7 @@ class Home extends Component {
             <NavButton
               class="NavButton light-on-light fixed-width center"
               label="Learn More"
-              to="/info"
+              to="/catalog"
             />
           </div>
         </section>

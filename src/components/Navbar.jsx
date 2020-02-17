@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
-import { Icon } from 'antd';
 import '../stylesheets/css/main.css';
 
 import HamburgerMenu from './HamburgerMenu';
@@ -75,7 +74,6 @@ class Navbar extends Component {
         <div className="Navbutton-container">
           {this.props.loggedInUsername ? (
             <>
-              <Icon type="mail" />
               <span className="welcome-user">
                 Welcome, {this.props.loggedInUsername}!
               </span>

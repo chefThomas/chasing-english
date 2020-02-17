@@ -26,6 +26,7 @@ class ProgramForm extends Component {
     capacity: 1,
     enrolled: 0,
     type: null,
+    sku: null,
     status: 'active',
   };
 
