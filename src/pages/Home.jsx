@@ -15,7 +15,7 @@ import icon from '../static/logo.svg';
 import text from '../text/paragraph';
 import books from '../static/group-read.jpg';
 import personal from '../static/personal.jpg';
-import group from '../static/kendrasLovesThisPic.jpg';
+import writing from '../static/writing.png';
 
 import '../stylesheets/css/main.css';
 
@@ -56,7 +56,6 @@ class Home extends Component {
           </div>
         </section>
         <section id="mission-section" className="Home-mid-segment light">
-          <h2 className="section-header">mission</h2>
           <div className="what-we-do-container">
             <div className="text-and-image-container">
               <div className="text-container">
@@ -78,7 +77,7 @@ class Home extends Component {
               </div>
               <div className="col-4-lg img-container">
                 <div className="img-container">
-                  <Image class="Image" source={group} alt="smiling students" />
+                  <Image class="Image" source={writing} alt="student writing" />
                 </div>
               </div>
             </div>
@@ -90,7 +89,7 @@ class Home extends Component {
           </div>
         </section>
         <section id="testimonials-section" className="testimonials">
-          <h2 className="section-header">testimonials</h2>
+          <Title style={{ marginLeft: '3rem' }}>Testimonials</Title>
           <Grid
             class="testimonials-grid-container"
             gridItems={this.testimonials}
