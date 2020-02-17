@@ -434,7 +434,7 @@ export default class Admin extends Component {
                       columns={this.programCols}
                     />
                   </Panel>
-                  <Panel header="One-day Intensive" key="intensive">
+                  <Panel header="Single-day Workshop" key="intensive">
                     <Table
                       size="medium"
                       bordered

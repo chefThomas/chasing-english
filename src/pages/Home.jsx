@@ -1,34 +1,38 @@
-import React, { Component } from "react";
-import { withRouter, Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { withRouter, Link } from 'react-router-dom';
 
-import NavButton from "../components/NavButton";
-import TextBlock from "../components/TextBlock";
-import Image from "../components/Image";
-import ContactForm from "../components/ContactForm";
-import Grid from "../components/Grid";
-import Testimonial from "../components/Testimonial";
-import ServiceCard from "../components/ServiceCard";
+import { Typography } from 'antd';
 
-import icon from "../static/logo.svg";
+import NavButton from '../components/NavButton';
+import Image from '../components/Image';
+import ContactForm from '../components/ContactForm';
+import Grid from '../components/Grid';
+import Testimonial from '../components/Testimonial';
+import ServiceCard from '../components/ServiceCard';
 
-import textData from "../text/paragraph";
-import books from "../static/group-read.jpg";
-import personal from "../static/personal.jpg";
-import group from "../static/kendrasLovesThisPic.jpg";
+import icon from '../static/logo.svg';
 
-import "../stylesheets/css/main.css";
+import text from '../text/paragraph';
+import books from '../static/group-read.jpg';
+import personal from '../static/personal.jpg';
+import group from '../static/kendrasLovesThisPic.jpg';
+
+import '../stylesheets/css/main.css';
+
+const { Title } = Typography;
 
 class Home extends Component {
   testimonials = [
-    <Testimonial name="Jill Withers" body={textData.body} type="Parent" />,
-    <Testimonial name="Jane Thompson" body={textData.body} type="Student" />,
-    <Testimonial name="Laura Parsons" body={textData.body} type="Parent" />,
-    <Testimonial name="John Smith" body={textData.body} type="Student" />,
-    <Testimonial name="Olivia Bellevue" body={textData.body} type="Student" />
+    <Testimonial name="Ann M." body={text.am} type="Parent" />,
+    <Testimonial name="Sarah B." body={text.sb} type="Student" />,
+    <Testimonial name="Janet K." body={text.jk} type="Parent" />,
+    <Testimonial name="Ann G." body={text.ag} type="Student" />,
+    <Testimonial name="Bob C." body={text.bc} type="Head of School" />,
+    <Testimonial name="Joe W." body={text.jw} type="Middle School Director" />,
   ];
 
   state = {
-    showForm: false
+    showForm: false,
   };
   render() {
     return (
@@ -37,8 +41,8 @@ class Home extends Component {
           this.props.showSignup ||
           this.props.showLogin ||
           this.props.showSideNav
-            ? "shift-left"
-            : "Home"
+            ? 'shift-left'
+            : 'Home'
         }
       >
         <section id="title-section" className="Home-top-segment dark">
@@ -46,8 +50,8 @@ class Home extends Component {
             <img className="icon-full" src={icon} alt="icon" />
             <h1 className="motto">
               <span className="line1">Chasing</span>
-              <span className="line2">English</span>{" "}
-              <span className="line3">writing support for the future</span>{" "}
+              <span className="line2">English</span>{' '}
+              {/* <span className="line3">writing support for the future</span>{" "} */}
             </h1>
           </div>
         </section>
@@ -56,14 +60,21 @@ class Home extends Component {
           <div className="what-we-do-container">
             <div className="text-and-image-container">
               <div className="text-container">
-                <TextBlock
-                  header={"Help students grow"}
-                  text={textData.body + textData.body}
-                />
-                <TextBlock
-                  header={"Help students succeed"}
-                  text={textData.body + textData.body}
-                />
+                <Title>Mission Statement</Title>
+                <p>
+                  The central mission of Chasing English is to <i>encourage</i>,{' '}
+                  <i>guide</i>, and <i>support</i> students as they navigate the
+                  writing process, hone their critical thinking skills, and
+                  develop competence and therefore confidence through an
+                  engaging digital platform that can be accessed anywhere.
+                </p>
+                <p>
+                  In support of this mission, Chasing English fosters the
+                  individual through personalized writing coaching;
+                  community-based group courses; and single-day workshops, all
+                  which seek to engage and ignite middle and high school-aged
+                  learners.{' '}
+                </p>
               </div>
               <div className="col-4-lg img-container">
                 <div className="img-container">
@@ -74,7 +85,7 @@ class Home extends Component {
             <NavButton
               class="NavButton light-on-light center"
               label="Find Out More"
-              to="/info"
+              to="/catalog"
             />
           </div>
         </section>
@@ -87,7 +98,7 @@ class Home extends Component {
           <NavButton
             class="NavButton light-on-light fixed-width center"
             label="View Services"
-            to="/info"
+            to="/catalog"
           />
         </section>
         <section id="services-section" className="services">
@@ -96,7 +107,7 @@ class Home extends Component {
             <ServiceCard
               mainHeader="Group"
               subHeader="social learning"
-              body={textData.group}
+              body={text.group}
               noteText="peer to peer"
               alt="group course"
             />
@@ -106,10 +117,10 @@ class Home extends Component {
             <ServiceCard
               mainHeader="Personal"
               subHeader="individual learning"
-              body={textData.personal}
+              body={text.personal}
               noteText="one-on-one"
               alt="g"
-            />{" "}
+            />{' '}
             <div className="img-container">
               <Image
                 class="service-image"
@@ -118,11 +129,11 @@ class Home extends Component {
               />
             </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <NavButton
               class="NavButton light-on-light fixed-width center"
               label="Learn More"
-              to="/info"
+              to="/catalog"
             />
           </div>
         </section>

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+
+import { injectStripe } from 'react-stripe-elements';
+
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer, Result } from 'antd';
+import { Drawer } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -11,6 +14,7 @@ import Home from './Home';
 import Catalog from './Catalog';
 import About from './About';
 import Admin from './Admin';
+import Success from './Success';
 
 import formatMongoDate from '../utilities/formatMongoDate';
 
@@ -21,6 +25,7 @@ const PRE_API_URI = 'http://localhost:5000';
 // process.env.NODE_ENV === 'development'
 //   ? 'https://blooming-beach-67877.herokuapp.com'
 //   : 'http://localhost:5000';
+
 class Root extends Component {
   state = {
     programs: [],
@@ -30,6 +35,7 @@ class Root extends Component {
     registrationEvent: false,
     userToken: null,
     loggedInUsername: null,
+    loggedInUserCustomerId: null,
     loggedInUserType: null,
     showLogin: false,
   };
@@ -63,7 +69,6 @@ class Root extends Component {
 
   logout = () => {
     this.setState({
-      loggedInUsername: null,
       userToken: null,
       loggedInUsername: null,
       loggedInUserType: null,
@@ -102,6 +107,7 @@ class Root extends Component {
           userToken: result.data.token,
           loggedInUsername: result.data.name,
           loggedInUserType: result.data.userType,
+          loggedInUserCustomerId: result.data.customerId,
           registrationEvent: false,
           redirectToCatalog: false,
         });
@@ -132,6 +138,9 @@ class Root extends Component {
       const guardianWithStudentName = await axios.get(
         `${PRE_API_URI}/api/guardians/${newGuardian.data.id}`
       );
+      //TODO add to stripe customers here
+      axios.post('https:/api.stripe.com/v1/customers');
+      console.log(guardianWithStudentName);
       // if guardian post successful, student and set state
       console.log('new student', newStudent);
       // get student name to add to guardian students list
@@ -168,6 +177,25 @@ class Root extends Component {
     // PUT guardian/id
   };
 
+  checkout = async lineItems => {
+    const checkout = await axios.post(`${PRE_API_URI}/shop`, {
+      customer: this.state.loggedInUserCustomerId,
+      lineItems,
+    });
+
+    console.log('##### CHECKOUT RESPONSE #####', checkout);
+    const stripe = this.props.stripe;
+    console.log('########## STRIPE OBJECT #########', stripe);
+
+    // TODO adjust roster after successful checkout. REfer to after payment in docs
+    await stripe
+      .redirectToCheckout({
+        sessionId: checkout.data.id,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
   addProgram = program => {
     axios
       .post(`${PRE_API_URI}/api/programs`, program)
@@ -185,10 +213,11 @@ class Root extends Component {
   };
 
   remove = (id, type) => {
-    axios.delete(`${PRE_API_URI}/api/${type}s/${id}`).then(res => {
-      const filtered = this.state[`${type}s`].filter(el => el.id !== id);
+    console.log(id, type);
+    axios.delete(`${PRE_API_URI}/api/${type}/${id}`).then(res => {
+      const filtered = this.state[`${type}`].filter(el => el.id !== id);
       console.log(filtered);
-      this.setState({ [`${type}s`]: filtered });
+      this.setState({ [type]: filtered });
     });
   };
 
@@ -269,6 +298,7 @@ class Root extends Component {
           onClose={this.hideLogin}
           visible={this.state.showLogin}
           bodyStyle={{ paddingBottom: 80 }}
+          zIndex={3000}
         >
           <AntLogin login={this.login} />
         </Drawer>
@@ -291,13 +321,23 @@ class Root extends Component {
             exact
             path="/catalog"
             render={routeProps => (
-              <Catalog {...routeProps} programs={this.state.programs} />
+              <Catalog
+                {...routeProps}
+                programs={this.state.programs}
+                userToken={this.state.userToken}
+                checkout={this.checkout}
+              />
             )}
           />
           <Route
             exact
             path="/about"
             render={routeProps => <About {...routeProps} />}
+          />
+          <Route
+            exact
+            path="/success"
+            render={routeProps => <Success {...routeProps} />}
           />
           <Route
             exact
@@ -338,4 +378,5 @@ class Root extends Component {
   }
 }
 
-export default withRouter(Root);
+const stripeWrapper = injectStripe(withRouter(Root));
+export default stripeWrapper;

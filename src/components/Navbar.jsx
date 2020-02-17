@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
-import { Icon, Badge } from 'antd';
 import '../stylesheets/css/main.css';
 
 import HamburgerMenu from './HamburgerMenu';
@@ -75,7 +74,6 @@ class Navbar extends Component {
         <div className="Navbutton-container">
           {this.props.loggedInUsername ? (
             <>
-              <Icon type="mail" />
               <span className="welcome-user">
                 Welcome, {this.props.loggedInUsername}!
               </span>
@@ -97,7 +95,7 @@ class Navbar extends Component {
               label="Sign up"
               onClick={this.props.loggedInUsername ? this.logout : null}
             >
-              {this.props.loggedInUsername ? 'Log out' : 'Register'}
+              {this.props.loggedInUsername ? 'Log out' : 'Sign Up'}
             </button>
           </Link>
         </div>
