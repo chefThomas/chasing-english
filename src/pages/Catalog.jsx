@@ -11,10 +11,12 @@ import {
   Badge,
   Alert,
   message,
+  Layout,
 } from 'antd';
 import moment from 'moment';
 
 const { Title } = Typography;
+const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const Style = {
@@ -41,10 +43,6 @@ class Catalog extends Component {
     this.setState({ showCart: false });
   };
 
-  handleOpenStripeForm = () => {
-    this.setState({ showStripeForm: true });
-  };
-
   handleCheckout = () => {
     console.log('cart contents: ', this.state.cart);
     this.props.checkout(this.state.cart);
@@ -55,9 +53,7 @@ class Catalog extends Component {
     const cartItems = this.state.cart.filter(item => courseId !== item.id);
     this.setState({ cart: cartItems });
   };
-  handleEmptyCart = () => {
-    this.setState({ cart: [] });
-  };
+
   individualProgramsCols = [
     {
       title: 'Start',
