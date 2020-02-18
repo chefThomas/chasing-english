@@ -34,17 +34,10 @@ class Home extends Component {
   state = {
     showForm: false,
   };
+
   render() {
     return (
-      <div
-        className={
-          this.props.showSignup ||
-          this.props.showLogin ||
-          this.props.showSideNav
-            ? 'shift-left'
-            : 'Home'
-        }
-      >
+      <div className="Home">
         <section id="title-section" className="Home-top-segment dark">
           <div className="icon-container">
             <img className="icon-full" src={icon} alt="icon" />
@@ -81,11 +74,14 @@ class Home extends Component {
                 </div>
               </div>
             </div>
-            <NavButton
-              class="NavButton light-on-light center"
+            <button
+              class="NavButton light-on-light fixed-width center"
               label="Find Out More"
-              to="/catalog"
-            />
+              // to="/catalog"
+              onClick={this.handleScrollToPrograms}
+            >
+              Find Out More
+            </button>
           </div>
         </section>
         <section id="testimonials-section" className="testimonials">
@@ -96,12 +92,14 @@ class Home extends Component {
           />
           <NavButton
             class="NavButton light-on-light fixed-width center"
-            label="View Services"
+            label="Learn More"
             to="/catalog"
           />
         </section>
         <section id="services-section" className="services">
-          <Title style={{ marginLeft: '3rem' }}>Services</Title>
+          <Title name="services" style={{ marginLeft: '3rem' }}>
+            Services
+          </Title>
           <div className="service-card-container">
             <ServiceCard
               mainHeader="Group"
