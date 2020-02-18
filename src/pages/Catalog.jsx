@@ -382,9 +382,13 @@ class Catalog extends Component {
                   type="primary"
                   disabled={this.state.cart.length === 0}
                   onClick={this.handleCheckout}
-                  style={{ marginLeft: 'auto' }}
+                  style={{ marginLeft: 'auto', width: '6rem' }}
                 >
-                  Checkout
+                  {this.props.fetching ? (
+                    <Icon size="large" type="loading" />
+                  ) : (
+                    'Checkout'
+                  )}
                 </Button>
               </div>
             </>

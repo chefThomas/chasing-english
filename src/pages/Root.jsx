@@ -38,6 +38,7 @@ class Root extends Component {
     loggedInUserCustomerId: null,
     loggedInUserType: null,
     showLogin: false,
+    fetching: false,
   };
 
   // UI
@@ -178,22 +179,36 @@ class Root extends Component {
   };
 
   checkout = async lineItems => {
-    const checkout = await axios.post(`${PRE_API_URI}/shop`, {
-      customer: this.state.loggedInUserCustomerId,
-      lineItems,
-    });
+    try {
+      const checkout = await axios.post(`${PRE_API_URI}/shop`, {
+        customer: this.state.loggedInUserCustomerId,
+        lineItems,
+      });
 
-    console.log('##### CHECKOUT RESPONSE #####', checkout);
-    const stripe = this.props.stripe;
-    console.log('########## STRIPE OBJECT #########', stripe);
+      this.setState({ fetching: true });
 
-    // TODO adjust roster after successful checkout. REfer to after payment in docs
-    await stripe
-      .redirectToCheckout({
-        sessionId: checkout.data.id,
-      })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      console.log('##### CHECKOUT RESPONSE #####', checkout);
+      // make Stripe object available from Window (see App.js)
+      const stripe = this.props.stripe;
+      // console.log('########## STRIPE OBJECT #########', stripe);
+
+      // TODO adjust roster after successful checkout. Refer to after payment in docs
+      await stripe
+        .redirectToCheckout({
+          sessionId: checkout.data.id,
+        })
+        .then(res => {
+          console.log(res);
+          this.setState({ fetching: false });
+        })
+        .catch(err => {
+          console.log(err);
+          this.setState({ fetching: false });
+        });
+    } catch (err) {
+      console.log(err);
+      this.setState({ fetching: false });
+    }
   };
 
   addProgram = program => {
@@ -326,6 +341,7 @@ class Root extends Component {
                 programs={this.state.programs}
                 userToken={this.state.userToken}
                 checkout={this.checkout}
+                fetching={this.state.fetching}
               />
             )}
           />
