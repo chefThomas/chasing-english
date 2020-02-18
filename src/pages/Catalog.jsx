@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
-  Tabs,
   Button,
   Table,
   Typography,
@@ -14,14 +13,10 @@ import {
   Layout,
 } from 'antd';
 import moment from 'moment';
+import text from '../text/paragraph';
 
 const { Title } = Typography;
 const { Content } = Layout;
-const { TabPane } = Tabs;
-
-const Style = {
-  padLeftReg: { paddingLeft: '10px' },
-};
 
 const prices = {
   individual: 200,
@@ -401,72 +396,66 @@ class Catalog extends Component {
             />
           )}
         </Drawer>
-        <Button
-          shape="circle"
+        <div
           style={{
-            fontSize: '2rem',
-            border: 'none',
+            position: 'fixed',
+            top: '7rem',
+            right: '3rem',
             zIndex: '2000',
-            position: 'absolute',
-            top: '78px',
-            right: '25px',
-            // outline: 'none',
-            backgroundColor: 'rgba(0,0,0,0)',
           }}
-          onClick={this.handleCartOpen}
         >
           <Badge count={this.state.cart.length}>
-            <Icon style={{ fontSize: '2rem' }} type="shopping-cart" />
+            <Button
+              shape="circle"
+              icon="shopping-cart"
+              size="large"
+              style={{
+                fontSize: '3rem',
+                border: 'none',
+                color: '#efefef',
+
+                // position: 'fixed',
+                // top: '7rem',
+                // right: '3rem',
+                // outline: 'none',
+                // backgroundColor: 'rgba(0,0,0,0)',
+              }}
+              onClick={this.handleCartOpen}
+            />
           </Badge>
-        </Button>
+        </div>
 
-        <Tabs type="card">
-          <TabPane tab="Programs" key="1">
-            <Title style={Style.padLeftReg} level={3}>
-              Individual Coaching
-            </Title>
-            <Table
-              dataSource={this.getIndividualSessionData()}
-              columns={this.individualProgramsCols}
-              pagination={false}
-            />
-            <Title style={Style.padLeftReg} className="Table_title" level={3}>
-              Group Programs
-            </Title>
-            <Table
-              dataSource={this.getGroupSessionData()}
-              columns={this.groupProgramsCols}
-              pagination={false}
-            />
-            <Title style={Style.padLeftReg} className="Table_title" level={3}>
-              Single-day Workshop
-            </Title>
-            <Table
-              dataSource={this.getIntensivesData()}
-              columns={this.intensiveCols}
-              pagination={false}
-            />
-          </TabPane>
-          <TabPane tab="My Schedule" key="2">
-            <Title style={Style.padLeftReg} level={3}>
-              Individual Coaching
-            </Title>
-            <Table
-              dataSource={this.getIndividualSessionData()}
-              columns={this.individualProgramsCols}
-              pagination={false}
-            />
-            <Title style={Style.padLeftReg} className="Table_title" level={3}>
-              Group Programs
-            </Title>
-
-            <Table
-              dataSource={this.getGroupSessionData()}
-              columns={this.groupProgramsCols}
-              pagination={false}
-            />
-          </TabPane>
-        </Tabs>
+        <Content style={{ padding: '0 2rem' }}>
+          <Title level={2}>Programs</Title>
+          <Title level={3}>Individual Coaching</Title>
+          <p>{text.indCoachp1}</p>
+          <p>{text.indCoachp2}</p>
+          <p>
+            <i>{text.indCoachp3}</i>
+          </p>
+          <Table
+            dataSource={this.getIndividualSessionData()}
+            columns={this.individualProgramsCols}
+            pagination={false}
+          />
+          <Title level={3}>Group</Title>
+          <p>{text.groupp1}</p>
+          <p>{text.groupp2}</p>
+          <p>{text.groupp3}</p>
+          <Table
+            dataSource={this.getGroupSessionData()}
+            columns={this.groupProgramsCols}
+            pagination={false}
+          />
+          <Title level={3}>Single-day Workshop</Title>
+          <p>{text.workshopp1}</p>
+          <p>{text.workshopp2}</p>
+          <Table
+            dataSource={this.getIndividualSessionData()}
+            columns={this.individualProgramsCols}
+            pagination={false}
+          />
+        </Content>
       </>
     );
   }

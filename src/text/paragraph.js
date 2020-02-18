@@ -24,6 +24,22 @@ const text = {
     'Kendra is a great teacher-- period. It is also obvious - and can be seen on a daily basis when she is with her students - how much Kendra loves literature and writing – it is contagious. Her standards are always high and she expects students to do their best work. This combination of respect from students and their desire to do well, in my experience, is the quality that only the best teachers have. Students know that she has their back and that she expects them to bring their “A” game when they attend her class.',
   jw:
     'Kendra is an extremely capable educator who has created an environment where students are challenged academically, yet feel safe, supported, and appropriately acknowledged when they succeed.  Her teaching style is creative, engaging, and student centered.  However, what is most impressive about Kendra is her ability to forge strong relationships with her students.',
+  indCoachp1:
+    'Through a personalized, online program, these individual coaching sessions seek to support academic growth and confidence-building opportunities based on the needs of the student and best practices. Whether the desire is to become a stronger writer, develop critical thinking skills, or hone reading comprehension, this personalized program will be created with a student’s best interest at the center.',
+  indCoachp2:
+    'Families can expect a dedicated hour time slot once a week, periodic check-ins as a student completes necessary tasks, and a weekly breakdown to highlight what was covered as well as tangible student progression shared through an online platform',
+  indCoachp3:
+    '*In order for this style of coaching to be successful, consistency is paramount. It is encouraged to sign a student up for a    four- week block of coaching time in order to see results.',
+  groupp1:
+    'Whether meeting in a digital space to write creatively, share writing and gain feedback, or discuss literature, group programs seek to bring students together from a wide-range of backgrounds and interests to learn from one another and develop both critical thinking and communication skills. ',
+  groupp2:
+    'Students can expect to meet collectively with Kendra once a week at a scheduled time through a digital, video platform. This platform will also be a space to communicate with one another throughout the week within a secure and private Google Classroom. There, students will be able to engage in video chats to discuss their writing and/or the literature they are reading; gain feedback from their peers on any personal writing they are completing; and have a space that is always available outside of the slotted weekly schedule with Kendra.',
+  groupp3:
+    'Families can expect to receive a weekly email that details what was covered the week prior as well as insight into what the following week will encompass.',
+  workshopp1:
+    'Interested in gaining support but don’t have the time to commit to an individual coaching schedule or group programs? If so, single-day workshops may be of interest. These two-hour digital intensives will be offered periodically throughout a season. Students can expect to meet through an online platform with other students to cover such things as writing refreshers; grammar intensives; high school essay development; and reading comprehension pointers.',
+  workshopp2:
+    'Students will continue to have access to the materials shared through these single-day classes to use as independent refreshers as they navigate their academics outside of their time with Kendra.',
 };
 
 export default text;
