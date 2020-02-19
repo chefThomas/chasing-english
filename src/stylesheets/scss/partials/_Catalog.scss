@@ -11,19 +11,33 @@ td {
   font-size: 1.1rem;
 }
 
-sup.ant-scroll-number {
+.Cart {
+  // border: 1px solid green;
   position: fixed;
+  // border: none;
   z-index: 3000;
-  right: 2.3rem;
-  top: 7.3rem;
+  right: 2.2rem;
+  font-size: 2rem;
+  top: 1rem;
+  background: none;
+}
+
+sup.ant-scroll-number {
+  position: absolute;
+  top: 0.2rem;
+
+  //   // z-index: 3000;
+  //   // right: 2.3rem;
+  //   // top: 7.3rem;
 }
 
 #shopping-cart {
-  position: fixed;
+  // position: fixed;
   border: none;
-  z-index: 3000;
-  right: 2rem;
-  font-size: 2rem;
+  // z-index: 3000;
+  // right: 2rem;
+  font-size: 2.1rem;
   //   top: 0.8rem;
   background: none;
+  color: #efefef;
 }
