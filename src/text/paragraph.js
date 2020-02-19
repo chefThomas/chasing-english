@@ -31,7 +31,7 @@ const text = {
   indCoachp3:
     '*In order for this style of coaching to be successful, consistency is paramount. It is encouraged to sign a student up for a    four- week block of coaching time in order to see results.',
   groupp1:
-    'Whether meeting online to write, discuss literature, share their work or gain feedback group programs bring students together from a wide-range of backgrounds and interests to learn from one another to develop critical thinking and communication skills.',
+    'Whether meeting online to write, discuss literature, share work or gain feedback, group programs bring students together from a wide-range of backgrounds and interests to learn from one another and develop critical thinking and communication skills.',
   groupp2:
     'Students meet collectively with Kendra once a week on the Google Classroom platform. This secure and private space allows students to engage in collaborative reading and writing exercises via video chats and documents hosted in the cloud.',
   groupp3:
