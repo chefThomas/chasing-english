@@ -13,9 +13,9 @@ import ServiceCard from '../components/ServiceCard';
 import icon from '../static/logo.svg';
 
 import text from '../text/paragraph';
-import books from '../static/group-read.jpg';
-import personal from '../static/personal.jpg';
-import writing from '../static/writing.png';
+import books from '../static/undraw_in_sync_xwsa.png';
+import personal from '../static/undraw_freelancer_b0my.png';
+import writing from '../static/undraw_teacher_35j2.png';
 
 import '../stylesheets/css/main.css';
 

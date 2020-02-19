@@ -11,9 +11,14 @@ import {
   Alert,
   message,
   Layout,
+  Col,
+  Row,
 } from 'antd';
 import moment from 'moment';
 import text from '../text/paragraph';
+import laptop from '../static/undraw_youtube_tutorial_2gn3.png';
+import group from '../static/undraw_Group_chat_unwm.png';
+import workshop from '../static/undraw_researching_22gp.png';
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -410,51 +415,106 @@ class Catalog extends Component {
         >
           <Badge count={this.state.cart.length}>
             <Button
+              id="shopping-cart"
               shape="circle"
               icon="shopping-cart"
               size="large"
-              style={{
-                fontSize: '3rem',
-                border: 'none',
-                color: '#efefef',
-
-                // position: 'fixed',
-                // top: '7rem',
-                // right: '3rem',
-                // outline: 'none',
-                // backgroundColor: 'rgba(0,0,0,0)',
-              }}
               onClick={this.handleCartOpen}
             />
           </Badge>
         </div>
-
         <Content style={{ padding: '0 2rem' }}>
-          <Title level={2}>Programs</Title>
-          <Title level={3}>Individual Coaching</Title>
-          <p>{text.indCoachp1}</p>
-          <p>{text.indCoachp2}</p>
-          <p>
-            <i>{text.indCoachp3}</i>
-          </p>
+          <Title style={{ marginBottom: '3rem', marginTop: '3rem' }} level={2}>
+            Programs
+          </Title>
+          <Row>
+            {/* / style={{ display: 'flex', alignItems: 'center' }}> */}
+            <Col sm={24} md={12}>
+              <div className="ImageWithTextOverlay-text-block">
+                <Title level={3}>Individual Coaching</Title>
+                <p>{text.indCoachp1}</p>
+                <p>{text.indCoachp2}</p>
+                <p>
+                  <i>{text.indCoachp3}</i>
+                </p>
+              </div>
+            </Col>
+            <Col
+              sm={24}
+              md={12}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <img src={laptop} alt="laptop on desk" style={{ width: '85%' }} />
+            </Col>
+          </Row>
+
           <Table
+            className="Catalog-program-table"
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
             pagination={false}
           />
-          <Title level={3}>Group</Title>
-          <p>{text.groupp1}</p>
-          <p>{text.groupp2}</p>
-          <p>{text.groupp3}</p>
+          <Row>
+            <Col
+              sm={24}
+              md={12}
+              style={{
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <img src={group} alt="reading group" style={{ width: '85%' }} />
+            </Col>
+            <Col sm={24} md={12}>
+              <div className="ImageWithTextOverlay-text-block">
+                <Title level={3}>Group</Title>
+                <p>{text.groupp1}</p>
+                <p>{text.groupp2}</p>
+                <p>{text.groupp3}</p>
+              </div>
+            </Col>
+          </Row>
           <Table
+            className="Catalog-program-table"
             dataSource={this.getGroupSessionData()}
             columns={this.groupProgramsCols}
             pagination={false}
           />
-          <Title level={3}>Single-day Workshop</Title>
-          <p>{text.workshopp1}</p>
-          <p>{text.workshopp2}</p>
+          <Row>
+            <Col sm={24} md={12}>
+              <div className="ImageWithTextOverlay-text-block">
+                <Title level={3}>Single-day Workshop</Title>
+                <p>{text.workshopp1}</p>
+                <p>{text.workshopp2}</p>
+              </div>
+            </Col>
+            <Col
+              className="imageDisplay"
+              sm={24}
+              md={12}
+              style={{
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src={workshop}
+                alt="reading group"
+                style={{ width: '85%' }}
+              />
+            </Col>
+          </Row>
+
           <Table
+            className="Catalog-program-table"
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
             pagination={false}
@@ -464,5 +524,9 @@ class Catalog extends Component {
     );
   }
 }
+
+// <Title level={3}>Single-day Workshop</Title>
+// <p>{text.workshopp1}</p>
+// <p>{text.workshopp2}</p>
 
 export default withRouter(Catalog);
