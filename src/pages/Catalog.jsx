@@ -25,12 +25,6 @@ import workshop from '../static/undraw_researching_22gp.png';
 const { Title } = Typography;
 const { Content } = Layout;
 
-const prices = {
-  individual: 200,
-  group: 300,
-  intensive: 100,
-};
-
 class Catalog extends Component {
   state = {
     showCart: false,
@@ -162,6 +156,11 @@ class Catalog extends Component {
   ];
 
   intensiveCols = [
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
     {
       title: 'Date',
       dataIndex: 'dateBegin',
@@ -313,6 +312,7 @@ class Catalog extends Component {
       const meetingDay = this.formatMongoDate(program.dateBegin);
       return {
         key: program.id,
+        title: program.title,
         id: program.id,
         type: program.type,
         duration: `${program.duration} hrs`,
@@ -348,8 +348,8 @@ class Catalog extends Component {
     const { type, id } = this.props.programs.find(
       program => program.id === courseId
     );
-    const price = this.formatPrice(prices[type]);
-    const program = { type, price, id, key: id };
+    // const price = this.formatPrice(prices[type]);
+    const program = { type, id, key: id };
 
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
   };
@@ -537,7 +537,7 @@ class Catalog extends Component {
           <Table
             className="Catalog-program-table"
             dataSource={this.getIndividualSessionData()}
-            columns={this.individualProgramsCols}
+            columns={this.intensiveCols}
             pagination={false}
           />
         </Content>

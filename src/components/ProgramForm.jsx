@@ -54,10 +54,6 @@ class ProgramForm extends Component {
       title = 'Ind. Sessions';
     }
 
-    if (value === 'intensive') {
-      title = 'Single-day Workshop';
-    }
-
     this.setState({ type: value, title });
   };
   handleSizeChange = value => {
@@ -136,7 +132,7 @@ class ProgramForm extends Component {
           </Radio.Group>
         </Form.Item>
         <Form.Item
-          style={this.state.type !== 'group' ? { display: 'none' } : null}
+          style={this.state.type === 'individual' ? { display: 'none' } : null}
           label="Title"
         >
           <Input
