@@ -42,8 +42,19 @@ body {
 td {
   font-size: 1.1rem; }
 
-sup {
-  font-size: 2rem; }
+sup.ant-scroll-number {
+  position: fixed;
+  z-index: 3000;
+  right: 2.3rem;
+  top: 7.3rem; }
+
+#shopping-cart {
+  position: fixed;
+  border: none;
+  z-index: 3000;
+  right: 2rem;
+  font-size: 2rem;
+  background: none; }
 
 .ContactForm {
   display: flex;

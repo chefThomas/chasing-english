@@ -405,24 +405,16 @@ class Catalog extends Component {
             />
           )}
         </Drawer>
-        <div
-          style={{
-            position: 'fixed',
-            top: '7rem',
-            right: '3rem',
-            zIndex: '2000',
-          }}
-        >
-          <Badge count={this.state.cart.length}>
-            <Button
-              id="shopping-cart"
-              shape="circle"
-              icon="shopping-cart"
-              size="large"
-              onClick={this.handleCartOpen}
-            />
-          </Badge>
-        </div>
+        <Badge className="cart-counter" count={this.state.cart.length}>
+          <Button
+            id="shopping-cart"
+            shape="circle"
+            icon="shopping-cart"
+            size="large"
+            onClick={this.handleCartOpen}
+          />
+        </Badge>
+
         <Content style={{ padding: '0 2rem' }}>
           <Title style={{ marginBottom: '3rem', marginTop: '3rem' }} level={2}>
             Programs
