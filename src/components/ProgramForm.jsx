@@ -28,6 +28,7 @@ class ProgramForm extends Component {
     type: null,
     sku: null,
     status: 'active',
+    duration: 0,
   };
 
   initialState = {
@@ -41,7 +42,9 @@ class ProgramForm extends Component {
     capacity: 1,
     enrolled: 0,
     type: null,
+    sku: null,
     status: 'active',
+    duration: 0,
   };
 
   handleTypeChange = e => {
@@ -85,6 +88,11 @@ class ProgramForm extends Component {
     this.setState({ meetingDay: value });
   };
 
+  handleDurationChange = value => {
+    console.log(value);
+    this.setState({ duration: value });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
 
@@ -96,6 +104,7 @@ class ProgramForm extends Component {
       capacity,
       enrolled,
       type,
+      duration,
     } = this.state;
 
     const dateEnd =
@@ -110,6 +119,7 @@ class ProgramForm extends Component {
       capacity,
       enrolled,
       type,
+      duration,
       status: 'active',
     });
     this.setState(this.initialState);
@@ -165,6 +175,14 @@ class ProgramForm extends Component {
             use12Hours
             defaultOpenValue={moment('00:00:00', 'HH:mm')}
             onChange={this.handleGroupTimeChange}
+          />
+        </Form.Item>
+
+        <Form.Item label="Duration (hours)">
+          <InputNumber
+            min={0}
+            value={this.state.duration}
+            onChange={this.handleDurationChange}
           />
         </Form.Item>
         {this.state.type !== 'intensive' ? (

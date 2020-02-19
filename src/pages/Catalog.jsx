@@ -75,6 +75,11 @@ class Catalog extends Component {
       dataIndex: 'meetingTime',
       key: 'meetingTime',
     },
+    {
+      title: 'Duration (hrs)',
+      dataIndex: 'duration',
+      key: 'duration',
+    },
 
     {
       title: '',
@@ -124,6 +129,11 @@ class Catalog extends Component {
       title: 'Time',
       dataIndex: 'meetingTime',
       key: 'meetingTime',
+    },
+    {
+      title: 'Duration (hrs)',
+      dataIndex: 'duration',
+      key: 'duration',
     },
 
     {
@@ -255,6 +265,7 @@ class Catalog extends Component {
         meetingDay: program.meetingDay,
         capacity: program.capacity,
         enrolled: program.enrolled,
+        duration: program.duration,
       };
     });
   };
@@ -275,6 +286,7 @@ class Catalog extends Component {
         meetingDay: program.meetingDay,
         capacity: program.capacity,
         enrolled: program.enrolled,
+        duration: program.duration,
       };
     });
   };
@@ -301,7 +313,7 @@ class Catalog extends Component {
         key: program.id,
         id: program.id,
         type: program.type,
-
+        duration: `${program.duration} hrs`,
         dateBegin: program.dateBegin,
         meetingTime: program.meetingTime,
         meetingDay,

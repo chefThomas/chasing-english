@@ -46,6 +46,11 @@ export default class Admin extends Component {
       key: 'meetingTime',
     },
     {
+      title: 'Duration (hrs)',
+      dataIndex: 'duration',
+      key: 'duration',
+    },
+    {
       title: 'Day',
       dataIndex: 'meetingDay',
       key: 'meetingDay',
@@ -368,6 +373,7 @@ export default class Admin extends Component {
           enrolled: program.enrolled,
           status: program.status,
           type: program.type,
+          duration: program.duration,
         }));
     } else {
       return this.props.programs
@@ -384,6 +390,7 @@ export default class Admin extends Component {
           enrolled: program.enrolled,
           status: program.status,
           type: program.type,
+          duration: program.duration,
         }));
     }
   };
