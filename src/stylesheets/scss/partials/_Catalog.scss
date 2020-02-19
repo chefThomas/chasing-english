@@ -1,0 +1,29 @@
+.Catalog-program-table {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.ant-table-column-title {
+  font-size: 1.2rem;
+}
+
+td {
+  font-size: 1.1rem;
+}
+
+sup.ant-scroll-number {
+  position: fixed;
+  z-index: 3000;
+  right: 2.3rem;
+  top: 7.3rem;
+}
+
+#shopping-cart {
+  position: fixed;
+  border: none;
+  z-index: 3000;
+  right: 2rem;
+  font-size: 2rem;
+  //   top: 0.8rem;
+  background: none;
+}

@@ -13,9 +13,9 @@ import ServiceCard from '../components/ServiceCard';
 import icon from '../static/logo.svg';
 
 import text from '../text/paragraph';
-import books from '../static/group-read.jpg';
-import personal from '../static/personal.jpg';
-import writing from '../static/writing.png';
+import books from '../static/undraw_in_sync_xwsa.png';
+import personal from '../static/undraw_freelancer_b0my.png';
+import writing from '../static/undraw_teacher_35j2.png';
 
 import '../stylesheets/css/main.css';
 
@@ -54,11 +54,11 @@ class Home extends Component {
               <div className="text-container">
                 <Title>Mission Statement</Title>
                 <p>
-                  The central mission of Chasing English is toencourage, guide,
-                  andsupport students as they navigate the writing process, hone
-                  their critical thinking skills, and develop competence and
-                  therefore confidence through an engaging digital platform that
-                  can be accessed anywhere.
+                  The central mission of Chasing English is to encourage, guide,
+                  and support students as they navigate the writing process,
+                  hone their critical thinking skills, and develop competence
+                  and therefore confidence through an engaging digital platform
+                  that can be accessed anywhere.
                 </p>
                 <p>
                   In support of this mission, Chasing English fosters the

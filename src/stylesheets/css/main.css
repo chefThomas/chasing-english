@@ -12,6 +12,123 @@ body {
   font-family: "Lato", sans-serif;
   font-size: 1.4rem; }
 
+.AntLogin button {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.28571429rem;
+  transition: all 0.2s ease;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  border: 2px solid #1b1c1d;
+  background: transparent none;
+  color: #1b1c1d; }
+
+.AntLogin button:hover {
+  color: #fff;
+  background-color: #1b1c1d;
+  border: 2px solid #efefef; }
+
+.Catalog-program-table {
+  margin-top: 3rem;
+  margin-bottom: 3rem; }
+
+.ant-table-column-title {
+  font-size: 1.2rem; }
+
+td {
+  font-size: 1.1rem; }
+
+sup.ant-scroll-number {
+  position: fixed;
+  z-index: 3000;
+  right: 2.3rem;
+  top: 7.3rem; }
+
+#shopping-cart {
+  position: fixed;
+  border: none;
+  z-index: 3000;
+  right: 2rem;
+  font-size: 2rem;
+  background: none; }
+
+.ContactForm {
+  display: flex;
+  flex-direction: column; }
+  .ContactForm .text-input {
+    margin-bottom: 1rem;
+    font-family: "Lato", sans-serif;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.2rem; }
+  .ContactForm .text-field {
+    margin-bottom: 3rem; }
+  .ContactForm > label {
+    margin-bottom: 0.3rem; }
+  .ContactForm .ContactForm-header {
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 0;
+    margin-bottom: 0.5rem; }
+  .ContactForm .ContactForm-submit {
+    margin-left: auto;
+    margin-right: auto;
+    width: 130px; }
+
+.Grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(12, 1fr);
+  grid-column-gap: 1rem;
+  padding-left: 3rem;
+  padding-right: 2rem; }
+
+.RegistrationForm.ant-form.ant-form-horizontal {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #efefef;
+  font-family: 'Lato', sans-serif;
+  padding: 1.5rem 1rem 1rem 1rem;
+  margin: 5rem auto;
+  max-width: 650px;
+  padding: 4rem; }
+  @media (max-width: 673px) {
+    .RegistrationForm.ant-form.ant-form-horizontal {
+      border: none;
+      box-shadow: none; } }
+  .RegistrationForm.ant-form.ant-form-horizontal span.ant-input-group-addon {
+    background-color: #fff; }
+  .RegistrationForm.ant-form.ant-form-horizontal button.dark-on-light {
+    border: 2px solid #1b1c1d;
+    background: transparent none;
+    color: #1b1c1d; }
+  .RegistrationForm.ant-form.ant-form-horizontal button.dark-on-light:hover {
+    color: #fff;
+    background-color: #1b1c1d;
+    border: 2px solid #efefef; }
+  .RegistrationForm.ant-form.ant-form-horizontal button.center-inline {
+    margin-left: auto;
+    margin-right: auto;
+    display: block; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-page-header {
+    margin-left: 0px;
+    padding-left: 0px; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-row {
+    display: flex;
+    justify-content: flex-end; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-row.ant-form-item {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start; }
+  .RegistrationForm.ant-form.ant-form-horizontal div.ant-col.ant-form-item-label {
+    text-align: left; }
+  .RegistrationForm.ant-form.ant-form-horizontal .top-margin-sm {
+    margin-top: 1rem; }
+  .RegistrationForm.ant-form.ant-form-horizontal .top-margin-lg {
+    margin-top: 4rem; }
+
 .Home .section-header,
 .shift-left .section-header {
   font-size: 2.25rem;
@@ -265,6 +382,67 @@ body {
       .Home .social-media .social-icons .fab:hover,
       .shift-left .social-media .social-icons .fab:hover {
         color: white; }
+
+.Image {
+  width: 100%;
+  height: auto;
+  margin: 3rem auto; }
+
+.LoginForm {
+  background: #ffffff;
+  height: 80vh;
+  width: 34vw;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .LoginForm .email-input,
+  .LoginForm .password-input {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid pink; }
+  .LoginForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem; }
+  .LoginForm input[type='text'],
+  .LoginForm input[type='password'] {
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.5rem;
+    height: 2rem;
+    font-size: 0.9rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    outline: none;
+    transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
+    @media screen and (max-width: 750px) {
+      .LoginForm input[type='text'],
+      .LoginForm input[type='password'] {
+        width: 60%; } }
+  .LoginForm .link {
+    text-decoration: none;
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem; }
+  .LoginForm .register {
+    margin-bottom: 2rem; }
+  .LoginForm .dark-on-light {
+    margin-left: 18%;
+    display: block;
+    border: 2px solid rgba(0, 0, 0, 0.87);
+    background-color: #fff; }
+    .LoginForm .dark-on-light:hover {
+      background-color: rgba(0, 0, 0, 0.87);
+      color: rgba(255, 255, 255, 0.9); }
+
+input:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
 
 .Navbar {
   position: sticky;
@@ -443,82 +621,10 @@ body {
   .Hamburger-container {
     left: 1rem; } }
 
-.TextBlock {
-  color: rgba(0, 0, 0, 0.87);
-  padding: 0 1rem; }
-  .TextBlock-header {
-    font-size: 2.25rem;
-    font-family: "Lato", sans-serif;
-    margin-bottom: 0.5rem;
-    margin-top: 0; }
-  .TextBlock-body {
-    font-family: "Lato", sans-serif;
-    font-size: 1.4rem;
-    text-align: justify; }
-
-.Testimonial {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid #efefef;
+.Root {
   position: relative;
-  font-family: "Lato", sans-serif;
-  padding: 1.5rem 1rem 1rem 1rem;
-  margin-bottom: 1rem; }
-  .Testimonial .Testimonial-body {
-    margin-top: 0;
-    font-size: 1.1rem;
-    text-align: justify;
-    height: 78%;
-    padding-right: 0.2rem;
-    margin-bottom: 1.7rem; }
-  .Testimonial-name {
-    width: 10rem;
-    display: block;
-    margin-left: auto;
-    text-align: right;
-    font-size: 1.1rem; }
-  .Testimonial-type {
-    display: block;
-    color: rgba(0, 0, 0, 0.87);
-    margin-left: auto;
-    font-weight: bold;
-    text-align: right;
-    font-style: italic;
-    font-size: 1.2rem; }
-
-.Image {
-  width: 100%;
-  height: auto;
-  margin: 3rem auto; }
-
-.ContactForm {
-  display: flex;
-  flex-direction: column; }
-  .ContactForm .text-input {
-    margin-bottom: 1rem;
-    font-family: "Lato", sans-serif;
-    padding: 0.5em 1em;
-    border: none;
-    border-radius: 0.2rem; }
-  .ContactForm .text-field {
-    margin-bottom: 3rem; }
-  .ContactForm > label {
-    margin-bottom: 0.3rem; }
-  .ContactForm .ContactForm-header {
-    color: rgba(255, 255, 255, 0.9);
-    margin-top: 0;
-    margin-bottom: 0.5rem; }
-  .ContactForm .ContactForm-submit {
-    margin-left: auto;
-    margin-right: auto;
-    width: 130px; }
-
-.Grid {
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(12, 1fr);
-  grid-column-gap: 1rem;
-  padding-left: 3rem;
-  padding-right: 2rem; }
+  overflow-x: hidden;
+  height: 100vh; }
 
 .ServiceCard {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
@@ -625,6 +731,19 @@ body {
   .ServiceCard .ServiceCard-main-content .Service-header {
     margin-bottom: 0.5rem; }
 
+.SideNav,
+.offscreen-sidenav {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  transition: all 0.3s ease;
+  padding: 1rem; }
+
+.offscreen-sidenav {
+  transform: translate3d(-100%, 0, 0); }
+
 .SignupForm,
 .offscreen {
   position: fixed;
@@ -691,393 +810,44 @@ body {
 .offscreen {
   transform: translate3d(-200%, 0, 0); }
 
-.LoginForm {
-  background: #ffffff;
-  height: 80vh;
-  width: 34vw;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  align-items: center; }
-  .LoginForm .email-input,
-  .LoginForm .password-input {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid pink; }
-  .LoginForm label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem; }
-  .LoginForm input[type='text'],
-  .LoginForm input[type='password'] {
-    margin-bottom: 1rem;
-    padding: 0.3rem 0.5rem;
-    height: 2rem;
-    font-size: 0.9rem;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    outline: none;
-    transition: #005cbf 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
-    @media screen and (max-width: 750px) {
-      .LoginForm input[type='text'],
-      .LoginForm input[type='password'] {
-        width: 60%; } }
-  .LoginForm .link {
-    text-decoration: none;
-    display: block;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1rem; }
-  .LoginForm .register {
-    margin-bottom: 2rem; }
-  .LoginForm .dark-on-light {
-    margin-left: 18%;
-    display: block;
-    border: 2px solid rgba(0, 0, 0, 0.87);
-    background-color: #fff; }
-    .LoginForm .dark-on-light:hover {
-      background-color: rgba(0, 0, 0, 0.87);
-      color: rgba(255, 255, 255, 0.9); }
-
-input:focus {
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
-
-.Root {
-  position: relative;
-  overflow-x: hidden;
-  height: 100vh; }
-
-.Home .section-header,
-.shift-left .section-header {
-  font-size: 2.25rem;
-  font-family: 'Lato', sans-serif;
-  text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.87);
-  margin: 0 0 3rem 1em; }
-
-.Home section,
-.shift-left section {
-  margin-bottom: 5rem;
-  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
-  padding-bottom: 7rem;
-  width: 100%; }
-
-.Home section.dark,
-.shift-left section.dark {
-  background-color: #1b1c1d;
-  color: rgba(255, 255, 255, 0.9); }
-
-.Home section.light,
-.shift-left section.light {
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.87); }
-
-.Home .Home-top-segment,
-.shift-left .Home-top-segment {
-  min-height: 700px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center; }
-  .Home .Home-top-segment .icon-container,
-  .shift-left .Home-top-segment .icon-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 400px;
-    height: auto; }
-    .Home .Home-top-segment .icon-container .icon-full,
-    .shift-left .Home-top-segment .icon-container .icon-full {
-      width: 10rem;
-      height: auto;
-      display: block; }
-    .Home .Home-top-segment .icon-container .motto,
-    .shift-left .Home-top-segment .icon-container .motto {
-      color: rgba(255, 255, 255, 0.9);
-      text-transform: uppercase;
-      margin-top: 1rem;
-      line-height: 0.9; }
-      .Home .Home-top-segment .icon-container .motto span,
-      .shift-left .Home-top-segment .icon-container .motto span {
-        display: block;
-        font-family: "Poppins", sans-serif; }
-      .Home .Home-top-segment .icon-container .motto .line1,
-      .shift-left .Home-top-segment .icon-container .motto .line1 {
-        font-weight: 600;
-        font-size: 4rem; }
-      .Home .Home-top-segment .icon-container .motto .line2,
-      .shift-left .Home-top-segment .icon-container .motto .line2 {
-        font-weight: 600;
-        font-size: 4.5rem;
-        margin-bottom: 0.7rem; }
-      .Home .Home-top-segment .icon-container .motto .line3,
-      .shift-left .Home-top-segment .icon-container .motto .line3 {
-        font-size: 1rem;
-        font-weight: 300;
-        text-align: center;
-        letter-spacing: 0.8px; }
-
-@media screen and (max-width: 900px) {
-  .Home .Home-mid-segment .section-header,
-  .shift-left .Home-mid-segment .section-header {
-    margin-bottom: 0; } }
-
-.Home .Home-mid-segment .what-we-do-container,
-.shift-left .Home-mid-segment .what-we-do-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-bottom: 1px solid 1px solid rgba(34, 36, 38, 0.15); }
-  .Home .Home-mid-segment .what-we-do-container .text-and-image-container,
-  .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(12, 1fr);
-    grid-column-gap: 1rem;
-    padding-left: 3rem;
-    padding-right: 2rem;
-    margin: 0 auto 5rem auto; }
-    .Home .Home-mid-segment .what-we-do-container .text-and-image-container .text-container,
-    .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container .text-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      grid-column: 1/7; }
-    .Home .Home-mid-segment .what-we-do-container .text-and-image-container .img-container,
-    .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container .img-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      grid-column: 8/13; }
-    @media screen and (max-width: 900px) {
-      .Home .Home-mid-segment .what-we-do-container .text-and-image-container .text-container,
-      .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container .text-container {
-        grid-column: 1/13;
-        margin: 5rem auto 2rem auto; }
-      .Home .Home-mid-segment .what-we-do-container .text-and-image-container .img-container,
-      .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container .img-container {
-        grid-column: 1/13; } }
-
-.Home .services,
-.shift-left .services {
-  padding-right: 1rem;
-  margin-bottom: 0; }
-  .Home .services .service-card-container,
-  .shift-left .services .service-card-container {
-    padding-left: 3rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center; }
-    .Home .services .service-card-container .img-container,
-    .shift-left .services .service-card-container .img-container {
-      width: 90%;
-      margin-bottom: 5rem;
-      margin-right: 2rem; }
-      .Home .services .service-card-container .img-container .service-image,
-      .shift-left .services .service-card-container .img-container .service-image {
-        width: 100%;
-        height: auto; }
-    @media screen and (min-width: 915px) {
-      .Home .services .service-card-container,
-      .shift-left .services .service-card-container {
-        justify-content: center; }
-        .Home .services .service-card-container .img-container,
-        .shift-left .services .service-card-container .img-container {
-          width: 35%; } }
-  .Home .services .NavButton,
-  .shift-left .services .NavButton {
-    margin-top: 2.5rem; }
-
-.Home .testimonials,
-.shift-left .testimonials {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 7rem; }
-  .Home .testimonials .testimonials-grid-container,
-  .shift-left .testimonials .testimonials-grid-container {
-    margin: 0 auto 5rem auto; }
-    .Home .testimonials .testimonials-grid-container .Testimonial,
-    .shift-left .testimonials .testimonials-grid-container .Testimonial {
-      grid-column: span 12; }
-    @media screen and (min-width: 725px) {
-      .Home .testimonials .testimonials-grid-container .Testimonial,
-      .shift-left .testimonials .testimonials-grid-container .Testimonial {
-        grid-column: span 6; } }
-    @media screen and (min-width: 1100px) {
-      .Home .testimonials .testimonials-grid-container .Testimonial,
-      .shift-left .testimonials .testimonials-grid-container .Testimonial {
-        grid-column: span 4; } }
-
-.Home .footer-section,
-.shift-left .footer-section {
-  margin-bottom: 0;
-  padding-bottom: 0; }
-
-.Home .footer,
-.shift-left .footer {
-  background: #1b1c1d;
-  color: rgba(255, 255, 255, 0.9);
-  font-family: "Lato", sans-serif;
-  padding-bottom: 5rem;
-  border-bottom: 1px solid rgba(34, 36, 38, 0.15); }
-  .Home .footer .site-map-grid,
-  .shift-left .footer .site-map-grid {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    margin-bottom: 7rem;
-    width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 2rem; }
-    .Home .footer .site-map-grid .footer-col,
-    .shift-left .footer .site-map-grid .footer-col {
-      width: 15%;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      margin-bottom: 2rem;
-      margin-left: 1rem;
-      margin-right: 1rem;
-      flex-wrap: wrap; }
-    @media screen and (max-width: 800px) {
-      .Home .footer .site-map-grid .footer-col,
-      .shift-left .footer .site-map-grid .footer-col {
-        width: 25%; }
-      .Home .footer .site-map-grid .contact-form,
-      .shift-left .footer .site-map-grid .contact-form {
-        width: 50%; } }
-    @media screen and (max-width: 600px) {
-      .Home .footer .site-map-grid .footer-col,
-      .shift-left .footer .site-map-grid .footer-col {
-        width: 25%; }
-      .Home .footer .site-map-grid .contact-form,
-      .shift-left .footer .site-map-grid .contact-form {
-        width: 75%; } }
-    @media screen and (max-width: 400px) {
-      .Home .footer .site-map-grid .footer-col,
-      .shift-left .footer .site-map-grid .footer-col {
-        width: 25%; }
-      .Home .footer .site-map-grid .contact-form,
-      .shift-left .footer .site-map-grid .contact-form {
-        width: 100%; } }
-  .Home .footer .head,
-  .shift-left .footer .head {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: rgba(255, 255, 255, 0.9); }
-  .Home .footer .site-map-link,
-  .shift-left .footer .site-map-link {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.7); }
-    .Home .footer .site-map-link:hover,
-    .shift-left .footer .site-map-link:hover {
-      color: rgba(255, 255, 255, 0.9); }
-
-.Home .social-media,
-.shift-left .social-media {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  width: 100%;
-  padding: 0 1rem; }
-  .Home .social-media *,
-  .shift-left .social-media * {
-    margin-right: 1rem; }
-  .Home .social-media .social-icons,
-  .shift-left .social-media .social-icons {
-    display: flex;
-    align-items: center;
-    margin-left: auto; }
-    .Home .social-media .social-icons .social-media-header,
-    .shift-left .social-media .social-icons .social-media-header {
-      color: rgba(255, 255, 255, 0.9); }
-    .Home .social-media .social-icons .fab,
-    .shift-left .social-media .social-icons .fab {
-      font-size: 1.75rem; }
-      .Home .social-media .social-icons .fab:hover,
-      .shift-left .social-media .social-icons .fab:hover {
-        color: white; }
-
-.SideNav,
-.offscreen-sidenav {
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 1.75rem;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  transition: all 0.3s ease;
-  padding: 1rem; }
-
-.offscreen-sidenav {
-  transform: translate3d(-100%, 0, 0); }
-
-.RegistrationForm.ant-form.ant-form-horizontal {
+.Testimonial {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   border: 1px solid #efefef;
-  font-family: 'Lato', sans-serif;
+  position: relative;
+  font-family: "Lato", sans-serif;
   padding: 1.5rem 1rem 1rem 1rem;
-  margin: 5rem auto;
-  max-width: 650px;
-  padding: 4rem; }
-  @media (max-width: 673px) {
-    .RegistrationForm.ant-form.ant-form-horizontal {
-      border: none;
-      box-shadow: none; } }
-  .RegistrationForm.ant-form.ant-form-horizontal span.ant-input-group-addon {
-    background-color: #fff; }
-  .RegistrationForm.ant-form.ant-form-horizontal button.dark-on-light {
-    border: 2px solid #1b1c1d;
-    background: transparent none;
-    color: #1b1c1d; }
-  .RegistrationForm.ant-form.ant-form-horizontal button.dark-on-light:hover {
-    color: #fff;
-    background-color: #1b1c1d;
-    border: 2px solid #efefef; }
-  .RegistrationForm.ant-form.ant-form-horizontal button.center-inline {
+  margin-bottom: 1rem; }
+  .Testimonial .Testimonial-body {
+    margin-top: 0;
+    font-size: 1.1rem;
+    text-align: justify;
+    height: 78%;
+    padding-right: 0.2rem;
+    margin-bottom: 1.7rem; }
+  .Testimonial-name {
+    width: 10rem;
+    display: block;
     margin-left: auto;
-    margin-right: auto;
-    display: block; }
-  .RegistrationForm.ant-form.ant-form-horizontal div.ant-page-header {
-    margin-left: 0px;
-    padding-left: 0px; }
-  .RegistrationForm.ant-form.ant-form-horizontal div.ant-row {
-    display: flex;
-    justify-content: flex-end; }
-  .RegistrationForm.ant-form.ant-form-horizontal div.ant-row.ant-form-item {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start; }
-  .RegistrationForm.ant-form.ant-form-horizontal div.ant-col.ant-form-item-label {
-    text-align: left; }
-  .RegistrationForm.ant-form.ant-form-horizontal .top-margin-sm {
-    margin-top: 1rem; }
-  .RegistrationForm.ant-form.ant-form-horizontal .top-margin-lg {
-    margin-top: 4rem; }
+    text-align: right;
+    font-size: 1.1rem; }
+  .Testimonial-type {
+    display: block;
+    color: rgba(0, 0, 0, 0.87);
+    margin-left: auto;
+    font-weight: bold;
+    text-align: right;
+    font-style: italic;
+    font-size: 1.2rem; }
 
-.AntLogin button {
-  font-family: 'Lato', sans-serif;
-  font-size: 1rem;
-  padding: 0.4rem 0.9rem;
-  cursor: pointer;
-  font-weight: 700;
-  border-radius: 0.28571429rem;
-  transition: all 0.2s ease;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  border: 2px solid #1b1c1d;
-  background: transparent none;
-  color: #1b1c1d; }
-
-.AntLogin button:hover {
-  color: #fff;
-  background-color: #1b1c1d;
-  border: 2px solid #efefef; }
+.TextBlock {
+  color: rgba(0, 0, 0, 0.87);
+  padding: 0 1rem; }
+  .TextBlock-header {
+    font-size: 2.25rem;
+    font-family: "Lato", sans-serif;
+    margin-bottom: 0.5rem;
+    margin-top: 0; }
+  .TextBlock-body {
+    font-family: "Lato", sans-serif;
+    font-size: 1.4rem;
+    text-align: justify; }

@@ -2,7 +2,7 @@ const text = {
   group:
     'Achievement is often bolstered in cooperative learning environments. These courses offer engaging reading assignments and creative writing opportunities enriched by extended viewership, peer-editing and social interaction.',
   personal:
-    'One-on-one programs are tailored to fit the individual needs and goals of the student. Offered in repeated sessions, or single-day workshops, and covering everything from the fundamentals of writing to advanced composition, these courses are designed to help students reach their fullest potential.',
+    'One-on-one courses are tailored to fit the individual needs and goals of the student. Offered in repeated sessions, or single-day workshops, and covering everything from the fundamentals of writing to advanced composition, these courses are designed to help students reach their fullest potential.',
   cf:
     '"I have been wanting to write this for awhile nownd just could not find the right words to express the heartfelt appreciation and respect I have for who Kendra is and all that she does. She is an inspiration, and I am deeply grateful that she was a part of our son’s middle school years when he was first finding his written voice."',
 
@@ -24,6 +24,22 @@ const text = {
     'Kendra is a great teacher-- period. It is also obvious - and can be seen on a daily basis when she is with her students - how much Kendra loves literature and writing – it is contagious. Her standards are always high and she expects students to do their best work. This combination of respect from students and their desire to do well, in my experience, is the quality that only the best teachers have. Students know that she has their back and that she expects them to bring their “A” game when they attend her class.',
   jw:
     'Kendra is an extremely capable educator who has created an environment where students are challenged academically, yet feel safe, supported, and appropriately acknowledged when they succeed.  Her teaching style is creative, engaging, and student centered.  However, what is most impressive about Kendra is her ability to forge strong relationships with her students.',
+  indCoachp1:
+    'Through a personalized, online program, individual coaching sessions seek to support academic growth and confidence-building opportunities based on the needs of the student and best practices. Whether the desire is to become a stronger writer, develop critical thinking skills, or hone reading comprehension, this personalized program will be created with a student’s best interest at the center.',
+  indCoachp2:
+    'Families can expect a dedicated hour time slot once a week, periodic check-ins as a student completes necessary tasks, and a weekly breakdown to highlight what was covered as well as tangible student progression shared through an online platform',
+  indCoachp3:
+    '*In order for this style of coaching to be successful, consistency is paramount. It is encouraged to sign a student up for a    four- week block of coaching time in order to see results.',
+  groupp1:
+    'Whether meeting online to write, discuss literature, share their work or gain feedback group programs bring students together from a wide-range of backgrounds and interests to learn from one another to develop critical thinking and communication skills.',
+  groupp2:
+    'Students meet collectively with Kendra once a week on the Google Classroom platform. This secure and private space allows students to engage in collaborative reading and writing exercises via video chats and documents hosted in the cloud.',
+  groupp3:
+    'Families can expect to receive a weekly email that details what was covered the week prior as well as insight into what the following week will encompass.',
+  workshopp1:
+    'Interested in gaining support but don’t have the time to commit to an individual coaching schedule or group programs? If so, single-day workshops may be of interest. These two-hour intensives will be offered periodically throughout a season. Students can expect to meet through an online platform with other students to cover such things as writing refreshers; grammar intensives; high school essay development; and reading comprehension pointers.',
+  workshopp2:
+    'Students will continue to have access to the materials shared through these single-day classes to use as independent refreshers as they navigate their academics outside of their time with Kendra.',
 };
 
 export default text;
