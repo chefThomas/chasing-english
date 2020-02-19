@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import {
   Button,
+  Card,
   Table,
   Typography,
   Icon,
@@ -12,6 +13,7 @@ import {
   message,
   Layout,
   Col,
+  Statistic,
   Row,
 } from 'antd';
 import moment from 'moment';
@@ -411,7 +413,7 @@ class Catalog extends Component {
             </>
           ) : (
             <Alert
-              message="Click the blue 'Enroll' button to put a course in your shopping cart"
+              message="Click the blue 'Enroll' button to place a course in your shopping cart"
               type="success"
               showIcon
             />
@@ -448,6 +450,9 @@ class Catalog extends Component {
                   <i>{text.indCoachp3}</i>
                 </p>
               </div>
+              <p>
+                <i>$125 per week</i>
+              </p>
             </Col>
             <Col
               sm={24}
@@ -488,6 +493,9 @@ class Catalog extends Component {
                 <p>{text.groupp2}</p>
                 <p>{text.groupp3}</p>
               </div>
+              <p>
+                <i>$395 per 4-week program</i>
+              </p>
             </Col>
           </Row>
           <Table
@@ -503,6 +511,9 @@ class Catalog extends Component {
                 <p>{text.workshopp1}</p>
                 <p>{text.workshopp2}</p>
               </div>
+              <p>
+                <i>$125 per 2-hour workshop</i>
+              </p>
             </Col>
             <Col
               className="imageDisplay"
