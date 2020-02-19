@@ -405,8 +405,12 @@ class Catalog extends Component {
             />
           )}
         </Drawer>
-        <div>
-          <Badge className="cart-counter" count={this.state.cart.length}>
+        <div className="Cart">
+          <Badge
+            className="cart-counter"
+            count={this.state.cart.length}
+            style={{ backgroundColor: '#1890ff' }}
+          >
             <Button
               id="shopping-cart"
               shape="circle"

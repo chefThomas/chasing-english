@@ -42,19 +42,23 @@ body {
 td {
   font-size: 1.1rem; }
 
-sup.ant-scroll-number {
+.Cart {
   position: fixed;
   z-index: 3000;
-  right: 2.3rem;
-  top: 7.3rem; }
+  right: 2.2rem;
+  font-size: 2rem;
+  top: 1rem;
+  background: none; }
+
+sup.ant-scroll-number {
+  position: absolute;
+  top: 0.2rem; }
 
 #shopping-cart {
-  position: fixed;
   border: none;
-  z-index: 3000;
-  right: 2rem;
-  font-size: 2rem;
-  background: none; }
+  font-size: 2.1rem;
+  background: none;
+  color: #efefef; }
 
 .ContactForm {
   display: flex;
@@ -515,7 +519,8 @@ input:focus {
   justify-content: flex-end;
   align-items: center;
   margin-left: auto;
-  margin-right: 3rem; }
+  margin-right: 3rem;
+  padding-right: 2rem; }
   .Navbutton-container .welcome-user {
     color: #f8f8f0;
     margin-right: 2rem;
