@@ -189,7 +189,7 @@ export default class Admin extends Component {
             justifyContent: 'space-evenly',
           }}
         >
-          {/* <Popconfirm
+          <Popconfirm
             title="Are you sure?"
             onConfirm={() => this.confirmDelete(id, 'admin')}
             onCancel={() => null}
@@ -201,7 +201,7 @@ export default class Admin extends Component {
             <Tooltip title="delete">
               <Icon type="delete" style={{ color: 'red' }} />
             </Tooltip>
-          </Popconfirm> */}
+          </Popconfirm>
         </div>
       ),
     },
@@ -365,6 +365,7 @@ export default class Admin extends Component {
           key: program.id,
           id: program.id,
           title: program.title,
+          description: program.description,
           startDate: program.dateBegin,
           endDate: program.dateEnd,
           meetingTime: program.meetingTime,
@@ -382,6 +383,7 @@ export default class Admin extends Component {
           key: program.id,
           id: program.id,
           title: program.title,
+          description: program.description,
           startDate: program.dateBegin,
           endDate: program.dateEnd,
           meetingTime: program.meetingTime,
