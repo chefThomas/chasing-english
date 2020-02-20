@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 
 import {
   Button,
-  Card,
   Table,
   Typography,
   Icon,
@@ -13,7 +12,6 @@ import {
   message,
   Layout,
   Col,
-  Statistic,
   Row,
 } from 'antd';
 import moment from 'moment';
@@ -25,6 +23,11 @@ import workshop from '../static/undraw_researching_22gp.png';
 const { Title } = Typography;
 const { Content } = Layout;
 
+const prices = {
+  individual: 125,
+  group: 395,
+  intensive: 125,
+};
 class Catalog extends Component {
   state = {
     showCart: false,
@@ -232,6 +235,7 @@ class Catalog extends Component {
   ];
 
   formatPrice = num => num.toFixed(2);
+
   getTotal = () =>
     this.state.cart.reduce((total, item) => total + Number(item.price), 0);
 
@@ -348,8 +352,10 @@ class Catalog extends Component {
     const { type, id } = this.props.programs.find(
       program => program.id === courseId
     );
-    // const price = this.formatPrice(prices[type]);
-    const program = { type, id, key: id };
+
+    const price = this.formatPrice(prices[type]);
+
+    const program = { type, id, key: id, price };
 
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
   };
@@ -399,15 +405,12 @@ class Catalog extends Component {
               >
                 <Button
                   type="primary"
+                  loading={this.props.fetching}
                   disabled={this.state.cart.length === 0}
                   onClick={this.handleCheckout}
                   style={{ marginLeft: 'auto', width: '6rem' }}
                 >
-                  {this.props.fetching ? (
-                    <Icon size="large" type="loading" />
-                  ) : (
-                    'Checkout'
-                  )}
+                  {this.props.fetching ? '' : 'Checkout'}
                 </Button>
               </div>
             </>
@@ -440,7 +443,6 @@ class Catalog extends Component {
             Programs
           </Title>
           <Row>
-            {/* / style={{ display: 'flex', alignItems: 'center' }}> */}
             <Col sm={24} md={12}>
               <div className="ImageWithTextOverlay-text-block">
                 <Title level={3}>Individual Coaching</Title>
@@ -536,7 +538,7 @@ class Catalog extends Component {
 
           <Table
             className="Catalog-program-table"
-            dataSource={this.getIndividualSessionData()}
+            dataSource={this.getIntensivesData()}
             columns={this.intensiveCols}
             pagination={false}
           />

@@ -12,11 +12,13 @@ import {
 } from 'antd';
 // import moment from "moment";
 
+const { TextArea } = Input;
 const { Option } = Select;
 
 class ProgramForm extends Component {
   state = {
     title: '',
+    description: '',
     startDate: null,
     dateBegin: '',
     endDate: null,
@@ -33,6 +35,7 @@ class ProgramForm extends Component {
 
   initialState = {
     title: '',
+    description: '',
     startDate: null,
     dateBegin: '',
     endDate: null,
@@ -66,6 +69,11 @@ class ProgramForm extends Component {
     this.setState({ title: value });
   };
 
+  handleDescription = value => {
+    console.log(value);
+    this.setState({ description: value });
+  };
+
   handleGroupStartChange = (date, dateBegin) => {
     this.setState({ startDate: date, dateBegin });
   };
@@ -94,6 +102,7 @@ class ProgramForm extends Component {
 
     const {
       title,
+      description,
       dateBegin,
       meetingTime,
       meetingDay,
@@ -108,6 +117,7 @@ class ProgramForm extends Component {
 
     this.props.addProgram({
       title,
+      description,
       dateBegin,
       dateEnd,
       meetingTime,
@@ -146,6 +156,12 @@ class ProgramForm extends Component {
           />
         </Form.Item>
         <Form.Item
+          style={this.state.type === 'individual' ? { display: 'none' } : null}
+          label="Description"
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+        <Form.Item
           label={this.state.type === 'intensive' ? 'Date' : 'Date Range'}
         >
           <DatePicker
@@ -173,7 +189,6 @@ class ProgramForm extends Component {
             onChange={this.handleGroupTimeChange}
           />
         </Form.Item>
-
         <Form.Item label="Duration (hours)">
           <InputNumber
             min={0}
