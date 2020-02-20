@@ -366,6 +366,7 @@ export default class Admin extends Component {
           id: program.id,
           title: program.title,
           description: program.description,
+          duration: program.duration,
           startDate: program.dateBegin,
           endDate: program.dateEnd,
           meetingTime: program.meetingTime,
@@ -374,7 +375,6 @@ export default class Admin extends Component {
           enrolled: program.enrolled,
           status: program.status,
           type: program.type,
-          duration: program.duration,
         }));
     } else {
       return this.props.programs

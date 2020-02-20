@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
+import moment from 'moment';
 import {
+  Alert,
+  Badge,
   Button,
+  Col,
+  Drawer,
+  Icon,
+  Layout,
+  message,
+  Modal,
+  Row,
   Table,
   Typography,
-  Icon,
-  Drawer,
-  Badge,
-  Alert,
-  message,
-  Layout,
-  Col,
-  Row,
 } from 'antd';
-import moment from 'moment';
+
 import text from '../text/paragraph';
 import laptop from '../static/undraw_youtube_tutorial_2gn3.png';
 import group from '../static/undraw_Group_chat_unwm.png';
@@ -32,8 +33,11 @@ class Catalog extends Component {
   state = {
     showCart: false,
     cart: [],
-    showStripeForm: false,
+    descriptionModalVisible: false,
+    courseDescriptionBody: '',
+    courseTitle: '',
   };
+
   handleCartOpen = () => {
     this.setState({ showCart: true });
   };
@@ -45,6 +49,70 @@ class Catalog extends Component {
   handleCheckout = () => {
     console.log('cart contents: ', this.state.cart);
     this.props.checkout(this.state.cart);
+  };
+
+  handleDisplayCourseDescription = e => {
+    const courseId = e.target.getAttribute('courseId');
+    const { title, description } = this.props.programs.find(
+      program => program.id === courseId
+    );
+
+    this.setState({
+      descriptionModalVisible: true,
+      courseTitle: title,
+      courseDescriptionBody: description,
+    });
+  };
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      descriptionModalVisible: false,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      descriptionModalVisible: false,
+    });
+  };
+
+  handleMessage = msg => {
+    message.info(msg);
+  };
+
+  handleEnroll = e => {
+    //check if user logged in
+    if (!this.props.userToken) {
+      this.handleMessage('You must be logged-in to enroll');
+      return;
+    }
+
+    const courseId = e.target.getAttribute('courseId');
+
+    // check if course already in cart to prevent double charge
+    const course = this.state.cart.find(course => courseId === course.id);
+    if (course) {
+      this.handleMessage('This course is already in your cart');
+      return;
+    }
+    // find course in root
+    const { type, id } = this.props.programs.find(
+      program => program.id === courseId
+    );
+
+    const price = this.formatPrice(prices[type]);
+
+    const program = { type, id, key: id, price };
+
+    this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
   };
 
   handleRemoveFromCart = e => {
@@ -106,8 +174,17 @@ class Catalog extends Component {
   groupProgramsCols = [
     {
       title: 'Title',
-      dataIndex: 'title',
+      // dataIndex: 'title',
       key: 'title',
+      render: (text, record) => (
+        <Button
+          courseid={record.id}
+          onClick={this.handleDisplayCourseDescription}
+          type="link"
+        >
+          {record.title}
+        </Button>
+      ),
     },
     {
       title: 'Start',
@@ -161,8 +238,17 @@ class Catalog extends Component {
   intensiveCols = [
     {
       title: 'Title',
-      dataIndex: 'title',
+      // dataIndex: 'title',
       key: 'title',
+      render: (text, record) => (
+        <Button
+          courseid={record.id}
+          onClick={this.handleDisplayCourseDescription}
+          type="link"
+        >
+          {record.title}
+        </Button>
+      ),
     },
     {
       title: 'Date',
@@ -310,13 +396,12 @@ class Catalog extends Component {
       return program.type === 'intensive' && program.status === 'active';
     });
 
-    // get day from dateBegin
-
     return intensivePrograms.map(program => {
       const meetingDay = this.formatMongoDate(program.dateBegin);
       return {
         key: program.id,
         title: program.title,
+        description: program.description,
         id: program.id,
         type: program.type,
         duration: `${program.duration} hrs`,
@@ -329,37 +414,6 @@ class Catalog extends Component {
     });
   };
 
-  handleMessage = msg => {
-    message.info(msg);
-  };
-
-  handleEnroll = e => {
-    //check if user logged in
-    if (!this.props.userToken) {
-      this.handleMessage('You must be logged-in to enroll');
-      return;
-    }
-
-    const courseId = e.target.getAttribute('courseId');
-
-    // check if course already in cart to prevent double charge
-    const course = this.state.cart.find(course => courseId === course.id);
-    if (course) {
-      this.handleMessage('This course is already in your cart');
-      return;
-    }
-    // find course in root
-    const { type, id } = this.props.programs.find(
-      program => program.id === courseId
-    );
-
-    const price = this.formatPrice(prices[type]);
-
-    const program = { type, id, key: id, price };
-
-    this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
-  };
-
   componentDidMount() {
     //retrieve program data on page load
     this.getIndividualSessionData();
@@ -368,8 +422,23 @@ class Catalog extends Component {
   }
 
   render() {
+    const {
+      courseDescriptionBody,
+      courseTitle,
+      descriptionModalVisible,
+    } = this.state;
     return (
       <>
+        {this.state.descriptionModalVisible ? (
+          <Modal
+            visible={descriptionModalVisible}
+            title={`${courseTitle} description`}
+            onCancel={this.handleCancel}
+            // onOk={this.handleOk}
+          >
+            {courseDescriptionBody}
+          </Modal>
+        ) : null}
         <Drawer
           title="Shopping Cart"
           width={500}

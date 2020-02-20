@@ -69,8 +69,8 @@ class ProgramForm extends Component {
     this.setState({ title: value });
   };
 
-  handleDescription = value => {
-    console.log(value);
+  handleDescriptionChange = e => {
+    const { value } = e.target;
     this.setState({ description: value });
   };
 
@@ -159,7 +159,7 @@ class ProgramForm extends Component {
           style={this.state.type === 'individual' ? { display: 'none' } : null}
           label="Description"
         >
-          <TextArea rows={4} />
+          <TextArea onChange={this.handleDescriptionChange} rows={4} />
         </Form.Item>
         <Form.Item
           label={this.state.type === 'intensive' ? 'Date' : 'Date Range'}
