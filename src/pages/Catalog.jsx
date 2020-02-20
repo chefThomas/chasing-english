@@ -31,19 +31,23 @@ const prices = {
 };
 class Catalog extends Component {
   state = {
-    showCart: false,
+    cartVisible: false,
     cart: [],
     descriptionModalVisible: false,
     courseDescriptionBody: '',
     courseTitle: '',
   };
 
+  handleCloseAlert = () => {
+    this.setState({ showAlert: false });
+  };
+
   handleCartOpen = () => {
-    this.setState({ showCart: true });
+    this.setState({ cartVisible: true });
   };
 
   handleCartClose = () => {
-    this.setState({ showCart: false });
+    this.setState({ cartVisible: false });
   };
 
   handleCheckout = () => {
@@ -443,7 +447,7 @@ class Catalog extends Component {
           title="Shopping Cart"
           width={500}
           onClose={this.handleCartClose}
-          visible={this.state.showCart}
+          visible={this.state.cartVisible}
           bodyStyle={{ paddingBottom: 80 }}
           zIndex={3000}
         >

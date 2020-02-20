@@ -6,7 +6,7 @@ import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer } from 'antd';
+import { Drawer, Alert } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -15,6 +15,7 @@ import Catalog from './Catalog';
 import About from './About';
 import Admin from './Admin';
 import Success from './Success';
+import Cancel from './Cancel';
 
 import formatMongoDate from '../utilities/formatMongoDate';
 
@@ -28,6 +29,7 @@ const PRE_API_URI = 'http://localhost:5000';
 
 class Root extends Component {
   state = {
+    alertVisible: false,
     programs: [],
     guardians: [],
     admins: [],
@@ -39,6 +41,11 @@ class Root extends Component {
     loggedInUserType: null,
     showLogin: false,
     fetching: false,
+    alertMessage: '',
+  };
+
+  handleAlertClose = () => {
+    this.setState({ alertVisible: false });
   };
 
   // UI
@@ -92,7 +99,7 @@ class Root extends Component {
 
     if (!user) {
       // display UI error: are you sure that's the correct user?
-      console.log('user not found in state: display UI error');
+      this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
     } else {
       console.log(user);
       const email = user.email ? user.email : user.guardianEmail;
@@ -115,7 +122,7 @@ class Root extends Component {
 
         this.hideLogin();
       } else {
-        // UI display unsuccessful login
+        this.setState({ loginMessage: 'Unsuccessful login' });
       }
     }
   };
@@ -139,7 +146,6 @@ class Root extends Component {
       const guardianWithStudentName = await axios.get(
         `${PRE_API_URI}/api/guardians/${newGuardian.data.id}`
       );
-      //TODO add to stripe customers here
       axios.post('https:/api.stripe.com/v1/customers');
       console.log(guardianWithStudentName);
       // if guardian post successful, student and set state
@@ -315,6 +321,16 @@ class Root extends Component {
           bodyStyle={{ paddingBottom: 80 }}
           zIndex={3000}
         >
+          {this.state.alertVisible ? (
+            <Alert
+              message={this.state.alertMessage}
+              type="error"
+              showIcon
+              closable
+              onClose={this.handleAlertClose}
+              handle
+            />
+          ) : null}
           <AntLogin login={this.login} />
         </Drawer>
         <Navbar
@@ -354,6 +370,11 @@ class Root extends Component {
             exact
             path="/success"
             render={routeProps => <Success {...routeProps} />}
+          />
+          <Route
+            exact
+            path="/cancel"
+            render={routeProps => <Cancel {...routeProps} />}
           />
           <Route
             exact
