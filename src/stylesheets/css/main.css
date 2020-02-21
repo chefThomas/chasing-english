@@ -1,12 +1,25 @@
 * {
   box-sizing: border-box; }
 
+.NavButton {
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.28571429rem;
+  transition: all 0.2s ease; }
+
+.dark-on-light {
+  display: block;
+  border: 2px solid rgba(0, 0, 0, 0.87);
+  background-color: #fff; }
+  .dark-on-light:hover {
+    background-color: rgba(0, 0, 0, 0.87);
+    color: rgba(255, 255, 255, 0.9); }
+
 body {
   margin: 0; }
-
-.center {
-  margin-left: auto;
-  margin-right: auto; }
 
 body {
   font-family: "Lato", sans-serif;
@@ -31,6 +44,13 @@ body {
   color: #fff;
   background-color: #1b1c1d;
   border: 2px solid #efefef; }
+
+.CancelPage.ant-layout {
+  background-color: #fff; }
+  .CancelPage.ant-layout .ant-layout-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
 
 .Catalog-program-table {
   margin-top: 3rem;
@@ -434,8 +454,10 @@ sup.ant-scroll-number {
     margin-bottom: 1rem; }
   .LoginForm .register {
     margin-bottom: 2rem; }
+  .LoginForm .center {
+    margin-left: auto;
+    margin-right: auto; }
   .LoginForm .dark-on-light {
-    margin-left: 18%;
     display: block;
     border: 2px solid rgba(0, 0, 0, 0.87);
     background-color: #fff; }
