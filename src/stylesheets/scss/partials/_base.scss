@@ -3,13 +3,32 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
+.NavButton {
+  font-family: $font-lato;
+  font-size: 1rem;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0.28571429rem;
+  transition: all 0.2s ease;
 }
 
-.center {
-  margin-left: auto;
-  margin-right: auto;
+.dark-on-light {
+  // margin-left: 18%;
+  // margin-right: auto;
+  display: block;
+  border: 2px solid $text-dark;
+  background-color: $bg-light;
+  // transform: translate3d(50%, 0, 0);
+
+  &:hover {
+    background-color: $text-dark;
+    color: $text-light;
+  }
+}
+
+body {
+  margin: 0;
 }
 
 // font weights

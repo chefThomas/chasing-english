@@ -1,30 +1,37 @@
 import React, { Component } from 'react';
-import { Result, Layout } from 'antd';
+import { Layout, Typography } from 'antd';
 
 import NavButton from '../components/NavButton';
 
-const { Content } = Layout;
+import '../stylesheets/css/main.css';
 
-class Cancel extends Component {
+import cancel from '../static/undraw_empty_cart_co35.svg';
+
+const { Content } = Layout;
+const { Title } = Typography;
+
+class CancelPage extends Component {
   render() {
     return (
-      <Layout>
-        <Content>
-          <Result
-            title="Purchase Cancelled"
-            status="warning"
-            extra={
-              <NavButton
-                class="top-margin-lg NavButton dark-on-light navbar center-inline"
-                to="/catalog"
-                label="Return to Catalog"
-              />
-            }
-          ></Result>
+      <Layout className="CancelPage">
+        <Content className="content" style={{ padding: ' 50px' }}>
+          <img
+            src={cancel}
+            style={{ width: '20%', marginBottom: '2rem' }}
+            alt="empty shopping cart"
+          />
+          <Title style={{ marginBottom: '2rem' }} level={3}>
+            Purchase canceled
+          </Title>
+          <NavButton
+            class="top-margin-lg NavButton dark-on-light center-inline"
+            to="/catalog"
+            label="Return to catalog"
+          />
         </Content>
       </Layout>
     );
   }
 }
 
-export default Cancel;
+export default CancelPage;
