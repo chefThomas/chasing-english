@@ -21,6 +21,7 @@ import formatMongoDate from '../utilities/formatMongoDate';
 
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
+import ProgramForm from '../components/ProgramForm';
 
 const PRE_API_URI = 'http://localhost:5000';
 // process.env.NODE_ENV === 'development'
@@ -81,6 +82,8 @@ class Root extends Component {
       loggedInUsername: null,
       loggedInUserType: null,
     });
+
+    localStorage.clear();
   };
 
   login = async ({ email, password }) => {
@@ -119,6 +122,11 @@ class Root extends Component {
           registrationEvent: false,
           redirectToCatalog: false,
         });
+        // set token, name, and customerId to localStorage
+        localStorage.setItem('userToken', result.data.token);
+        localStorage.setItem('loggedInUsername', result.data.name);
+        localStorage.setItem('loggedInUserCustomerId', result.data.customerId);
+        localStorage.setItem('loggedInUserType', result.data.userType);
 
         this.hideLogin();
       } else {
@@ -161,6 +169,21 @@ class Root extends Component {
     }
   };
 
+  incrementProgramEnrolled = async id => {
+    const program = await axios.get(`${PRE_API_URI}/api/programs/${id}`);
+
+    console.log(program);
+
+    const updatedProgram = await axios.put(
+      `${PRE_API_URI}/api/programs/${id}`,
+      { ...program, enrolled: program.data.enrolled + 1 }
+    );
+
+    console.log(updatedProgram);
+
+    // update state
+  };
+
   addAdmin = async adminData => {
     console.log('add admin: ', adminData);
 
@@ -185,36 +208,31 @@ class Root extends Component {
   };
 
   checkout = async lineItems => {
-    try {
-      const checkout = await axios.post(`${PRE_API_URI}/shop`, {
-        customer: this.state.loggedInUserCustomerId,
-        lineItems,
+    this.setState({ fetching: true });
+
+    const checkout = await axios.post(`${PRE_API_URI}/shop`, {
+      customer: this.state.loggedInUserCustomerId,
+      lineItems,
+    });
+
+    console.log('##### CHECKOUT RESPONSE #####', checkout);
+    // make Stripe object available from Window (see App.js)
+    const stripe = this.props.stripe;
+    console.log('########## STRIPE OBJECT #########', stripe);
+
+    // // TODO adjust roster after successful checkout. Refer to after payment in docs
+    await stripe
+      .redirectToCheckout({
+        sessionId: checkout.data.id,
+      })
+      .then(res => {
+        console.log('redirect to checkout');
+        this.setState({ fetching: false });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ fetching: false });
       });
-
-      this.setState({ fetching: true });
-
-      console.log('##### CHECKOUT RESPONSE #####', checkout);
-      // make Stripe object available from Window (see App.js)
-      const stripe = this.props.stripe;
-      // console.log('########## STRIPE OBJECT #########', stripe);
-
-      // TODO adjust roster after successful checkout. Refer to after payment in docs
-      await stripe
-        .redirectToCheckout({
-          sessionId: checkout.data.id,
-        })
-        .then(res => {
-          console.log(res);
-          this.setState({ fetching: false });
-        })
-        .catch(err => {
-          console.log(err);
-          this.setState({ fetching: false });
-        });
-    } catch (err) {
-      console.log(err);
-      this.setState({ fetching: false });
-    }
   };
 
   addProgram = program => {
@@ -272,19 +290,24 @@ class Root extends Component {
   };
 
   componentDidMount = async () => {
-    axios
-      .get(`${PRE_API_URI}/api/programs`)
-      .then(res => {
-        const dateBegin = formatMongoDate(res.data.dateBegin);
-        const dateEnd = formatMongoDate(res.data.dateEnd);
+    // load programs and users
+    try {
+      axios
+        .get(`${PRE_API_URI}/api/programs`)
+        .then(res => {
+          const dateBegin = formatMongoDate(res.data.dateBegin);
+          const dateEnd = formatMongoDate(res.data.dateEnd);
 
-        // format date
-        const programs = res.data.map(program => {
-          return { ...program, dateBegin, dateEnd };
-        });
-        this.setState({ programs });
-      })
-      .catch(err => console.log('oh no, no programs retrieved: ', err));
+          // format date
+          const programs = res.data.map(program => {
+            return { ...program, dateBegin, dateEnd };
+          });
+          this.setState({ programs });
+        })
+        .catch(err => console.log('oh no, no programs retrieved: ', err));
+    } catch (err) {
+      console.log(err);
+    }
 
     try {
       const guardians = await axios.get(`${PRE_API_URI}/api/guardians`);
@@ -307,6 +330,28 @@ class Root extends Component {
       });
     } catch (err) {
       console.log('############ ROOT COMPONENT MOUNT USER ERROR ', err);
+    }
+
+    // Use local storage to keep users logged in on component remount
+    const userToken = localStorage.getItem('userToken');
+
+    if (userToken) {
+      const loggedInUsername = localStorage.getItem('loggedInUsername');
+      const loggedInUserCustomerId = localStorage.getItem(
+        'loggedInUserCustomerId'
+      );
+      const loggedInUserType = localStorage.getItem('loggedInUserType');
+
+      this.setState({
+        userToken,
+        loggedInUsername,
+        loggedInUserType,
+        loggedInUserCustomerId,
+      });
+
+      // save to state
+    } else {
+      console.log('no user stored');
     }
   };
 
@@ -358,6 +403,7 @@ class Root extends Component {
                 userToken={this.state.userToken}
                 checkout={this.checkout}
                 fetching={this.state.fetching}
+                incrementProgramEnrolled={this.incrementProgramEnrolled}
               />
             )}
           />

@@ -31,28 +31,31 @@ const prices = {
 };
 class Catalog extends Component {
   state = {
-    cartVisible: false,
     cart: [],
-    descriptionModalVisible: false,
+    cartVisible: false,
     courseDescriptionBody: '',
     courseTitle: '',
-  };
-
-  handleCloseAlert = () => {
-    this.setState({ showAlert: false });
-  };
-
-  handleCartOpen = () => {
-    this.setState({ cartVisible: true });
+    descriptionModalVisible: false,
+    fetching: false,
   };
 
   handleCartClose = () => {
     this.setState({ cartVisible: false });
   };
 
-  handleCheckout = () => {
-    console.log('cart contents: ', this.state.cart);
-    this.props.checkout(this.state.cart);
+  handleCartOpen = () => {
+    this.setState({ cartVisible: true });
+  };
+
+  handleCloseAlert = () => {
+    this.setState({ showAlert: false });
+  };
+
+  handleCloseDescription = e => {
+    console.log(e);
+    this.setState({
+      descriptionModalVisible: false,
+    });
   };
 
   handleDisplayCourseDescription = e => {
@@ -74,22 +77,8 @@ class Catalog extends Component {
     });
   };
 
-  handleOk = e => {
-    console.log(e);
-    this.setState({
-      descriptionModalVisible: false,
-    });
-  };
-
-  handleCancel = e => {
-    console.log(e);
-    this.setState({
-      descriptionModalVisible: false,
-    });
-  };
-
-  handleMessage = msg => {
-    message.info(msg);
+  handleCheckout = () => {
+    this.props.checkout(this.state.cart);
   };
 
   handleEnroll = e => {
@@ -116,7 +105,23 @@ class Catalog extends Component {
 
     const program = { type, id, key: id, price };
 
+    console.log(program);
+
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
+
+    // update enrollment number of program PUT REQUEST
+    this.props.incrementProgramEnrolled(id);
+  };
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      descriptionModalVisible: false,
+    });
+  };
+
+  handleMessage = msg => {
+    message.info(msg);
   };
 
   handleRemoveFromCart = e => {
@@ -268,16 +273,6 @@ class Catalog extends Component {
       title: 'Time',
       dataIndex: 'meetingTime',
       key: 'meetingTime',
-    },
-    {
-      title: 'Capacity',
-      dataIndex: 'capacity',
-      key: 'capacity',
-    },
-    {
-      title: 'Enrolled',
-      dataIndex: 'enrolled',
-      key: 'enrolled',
     },
     {
       title: '',
@@ -437,7 +432,7 @@ class Catalog extends Component {
           <Modal
             visible={descriptionModalVisible}
             title={`${courseTitle} description`}
-            onCancel={this.handleCancel}
+            onCancel={this.handleCloseDescription}
             // onOk={this.handleOk}
           >
             {courseDescriptionBody}

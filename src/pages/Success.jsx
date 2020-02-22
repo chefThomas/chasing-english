@@ -5,8 +5,8 @@ export default class About extends Component {
     return (
       <Result
         status="success"
-        title="Enrollment is successful"
-        subTitle="Please note meeting times"
+        title="Enrollment was successful"
+        subTitle={this.props.match.params.session_id}
       />
     );
   }
