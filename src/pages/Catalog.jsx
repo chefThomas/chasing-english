@@ -90,27 +90,31 @@ class Catalog extends Component {
 
     const courseId = e.target.getAttribute('courseId');
 
-    // check if course already in cart to prevent double charge
+    // check if course already in cart to prevent double purchase
     const course = this.state.cart.find(course => courseId === course.id);
     if (course) {
       this.handleMessage('This course is already in your cart');
       return;
     }
-    // find course in root
-    const { type, id } = this.props.programs.find(
+    // find course in Root state
+    let { type, id } = this.props.programs.find(
       program => program.id === courseId
     );
 
     const price = this.formatPrice(prices[type]);
+
+    type =
+      type === 'intensive'
+        ? 'Workshop'
+        : type === 'individual'
+        ? 'Individual Coaching'
+        : 'Group';
 
     const program = { type, id, key: id, price };
 
     console.log(program);
 
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
-
-    // update enrollment number of program PUT REQUEST
-    this.props.incrementProgramEnrolled(id);
   };
 
   handleOk = e => {

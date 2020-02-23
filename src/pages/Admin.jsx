@@ -341,7 +341,6 @@ export default class Admin extends Component {
 
   getStudentData = () => {
     return this.props.students.map(s => {
-      console.log(s.guardian);
       return {
         key: s.id,
         id: s.id,
