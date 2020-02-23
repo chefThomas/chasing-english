@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import { Result } from 'antd';
-export default class About extends Component {
+class About extends Component {
   render() {
     return (
       <Result
@@ -11,3 +13,5 @@ export default class About extends Component {
     );
   }
 }
+
+export default withRouter(About);

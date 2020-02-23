@@ -620,8 +620,4 @@ class Catalog extends Component {
   }
 }
 
-// <Title level={3}>Single-day Workshop</Title>
-// <p>{text.workshopp1}</p>
-// <p>{text.workshopp2}</p>
-
 export default withRouter(Catalog);

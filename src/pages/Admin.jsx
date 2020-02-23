@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import {
   Button,
   Collapse,
@@ -18,7 +20,7 @@ import '../stylesheets/css/main.css';
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 // const marginSm = { margin: "10px" };
-export default class Admin extends Component {
+class Admin extends Component {
   state = {
     programFormVisible: false,
     userFormVisible: false,
@@ -534,3 +536,5 @@ export default class Admin extends Component {
     );
   }
 }
+
+export default withRouter(Admin);

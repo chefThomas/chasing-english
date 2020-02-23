@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import { Layout } from 'antd';
 
 import text from '../text/paragraph';
@@ -6,7 +8,7 @@ import '../stylesheets/css/main.css';
 
 const { Content } = Layout;
 
-export default class About extends Component {
+class About extends Component {
   render() {
     return (
       <Layout>
@@ -19,3 +21,4 @@ export default class About extends Component {
     );
   }
 }
+export default withRouter(About);
