@@ -22,7 +22,7 @@ import formatMongoDate from '../utilities/formatMongoDate';
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
 
-const PRE_API_URI = 'https://blooming-beach-67877.herokuapp.com/';
+const PRE_API_URI = 'https://blooming-beach-67877.herokuapp.com';
 
 class Root extends Component {
   state = {
