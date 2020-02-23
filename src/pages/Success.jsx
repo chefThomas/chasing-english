@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { Result } from 'antd';
-class About extends Component {
+class Success extends Component {
   render() {
     return (
       <Result
@@ -14,4 +14,4 @@ class About extends Component {
   }
 }
 
-export default withRouter(About);
+export default withRouter(Success);
