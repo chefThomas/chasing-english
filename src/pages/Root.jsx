@@ -21,7 +21,6 @@ import formatMongoDate from '../utilities/formatMongoDate';
 
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
-import ProgramForm from '../components/ProgramForm';
 
 const PRE_API_URI = 'http://localhost:5000';
 // process.env.NODE_ENV === 'development'
@@ -31,6 +30,7 @@ const PRE_API_URI = 'http://localhost:5000';
 class Root extends Component {
   state = {
     alertVisible: false,
+    checkoutSession: null,
     programs: [],
     guardians: [],
     admins: [],
@@ -169,7 +169,8 @@ class Root extends Component {
     }
   };
 
-  incrementProgramEnrolled = async id => {
+  // after payment authorized, increment number enrolled, add student to roster, add course to student, add course to courses purchased.
+  handleIncrementProgramEnrolled = async id => {
     const program = await axios.get(`${PRE_API_URI}/api/programs/${id}`);
 
     console.log(program);
@@ -182,6 +183,11 @@ class Root extends Component {
     console.log(updatedProgram);
 
     // update state
+    const programs = this.state.programs.map(program => {
+      return program.id === updatedProgram.id ? updatedProgram : program;
+    });
+
+    this.setState({ ...this.state, programs });
   };
 
   addAdmin = async adminData => {
@@ -207,6 +213,7 @@ class Root extends Component {
     // PUT guardian/id
   };
 
+  // generate Stripe Checkout
   checkout = async lineItems => {
     this.setState({ fetching: true });
 
@@ -215,24 +222,15 @@ class Root extends Component {
       lineItems,
     });
 
-    console.log('##### CHECKOUT RESPONSE #####', checkout);
+    console.log('##### CHECKOUT SESSION RETURNED FROM STRIPE #####', checkout);
     // make Stripe object available from Window (see App.js)
     const stripe = this.props.stripe;
-    console.log('########## STRIPE OBJECT #########', stripe);
+    // console.log('########## STRIPE OBJECT #########', stripe);
 
-    // // TODO adjust roster after successful checkout. Refer to after payment in docs
-    await stripe
-      .redirectToCheckout({
-        sessionId: checkout.data.id,
-      })
-      .then(res => {
-        console.log('redirect to checkout');
-        this.setState({ fetching: false });
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({ fetching: false });
-      });
+    // // TODO adjust roster after successful checkout. Refer to after payment in docs. Should be done with webhooks
+    await stripe.redirectToCheckout({
+      sessionId: checkout.data.id,
+    });
   };
 
   addProgram = program => {
@@ -403,7 +401,7 @@ class Root extends Component {
                 userToken={this.state.userToken}
                 checkout={this.checkout}
                 fetching={this.state.fetching}
-                incrementProgramEnrolled={this.incrementProgramEnrolled}
+                incrementProgramEnrolled={this.handleIncrementProgramEnrolled}
               />
             )}
           />

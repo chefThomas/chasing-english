@@ -1,4 +1,10 @@
 const text = {
+  about1:
+    'Kendra has been an educator in independent schools for more than a decade. Prior to her time teaching seventh and eighth graders in Seattle, Kendra worked as a resident writer at an International Baccalaureate school where she also taught the Language and Literature component of the program to middle school students and worked with seniors on their college admission essays. Preceding that experience, she taught Language Arts at a school for the gifted and spent time as an editor for an annually published literary journal during her graduate studies.',
+  about2:
+    'Kendra holds both a bachelor’s and master’s degree in English with emphasis placed on the teaching of poetry, earned an IB Subject-Specific Certificate in English Language and Literature, and completed a Writing Institute certificate at the Teachers College at Columbia University. She is trained in both the Jane Schaffer and Lucy Calkins’ writing methods; is an active member of the National Council of Teachers of English; and is a participant in the Teacher Advisory Board for Teen Ink.',
+  about3:
+    'As a lifelong learner, Kendra seeks out professional development with the Washington Language Arts Council, the National Council of Teachers of English, Hugo House, and other local organizations to continue honing her teaching and writing skills so she can bring her best to the students with which she has the opportunity to work.',
   group:
     'Achievement is often bolstered in cooperative learning environments. These courses offer engaging reading assignments and creative writing opportunities enriched by extended viewership, peer-editing and social interaction.',
   personal:
