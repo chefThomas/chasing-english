@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import { Layout, Typography } from 'antd';
 
 import NavButton from '../components/NavButton';
@@ -34,4 +36,4 @@ class CancelPage extends Component {
   }
 }
 
-export default CancelPage;
+export default withRouter(CancelPage);
