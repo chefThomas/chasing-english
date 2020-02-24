@@ -235,8 +235,7 @@ sup.ant-scroll-number {
 .shift-left .Home-mid-segment .what-we-do-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  border-bottom: 1px solid 1px solid rgba(34, 36, 38, 0.15); }
+  justify-content: center; }
   .Home .Home-mid-segment .what-we-do-container .text-and-image-container,
   .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container {
     display: grid;
@@ -328,8 +327,7 @@ sup.ant-scroll-number {
   background: #1b1c1d;
   color: rgba(255, 255, 255, 0.9);
   font-family: "Lato", sans-serif;
-  padding-bottom: 5rem;
-  border-bottom: 1px solid rgba(34, 36, 38, 0.15); }
+  padding-bottom: 5rem; }
   .Home .footer .site-map-grid,
   .shift-left .footer .site-map-grid {
     display: flex;
