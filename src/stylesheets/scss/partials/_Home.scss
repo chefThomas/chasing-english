@@ -84,7 +84,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      border-bottom: 1px solid $border-thin-dark;
 
       .text-and-image-container {
         @include grid;
@@ -118,7 +117,6 @@
   }
 
   .services {
-    // padding-left: 1rem;
     padding-right: 1rem;
     margin-bottom: 0;
 
@@ -282,15 +280,5 @@
         }
       }
     }
-  }
-}
-
-.shift-left {
-  // transform: translate3d(35%, 0, 0);
-
-  // position: absolute;
-
-  @media screen and (max-width: 650px) {
-    // transform: translate3d(100%, 0, 0);
   }
 }
