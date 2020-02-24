@@ -435,7 +435,7 @@ class Catalog extends Component {
         {this.state.descriptionModalVisible ? (
           <Modal
             visible={descriptionModalVisible}
-            title={`${courseTitle} description`}
+            title={courseTitle}
             onCancel={this.handleCloseDescription}
             // onOk={this.handleOk}
           >
@@ -524,9 +524,11 @@ class Catalog extends Component {
                   <i>{text.indCoachp3}</i>
                 </p>
               </div>
-              <p>
-                <i>$125 per week</i>
-              </p>
+              {this.props.userToken ? (
+                <p>
+                  <i>$125 per week</i>
+                </p>
+              ) : null}
             </Col>
             <Col
               sm={24}
@@ -567,9 +569,11 @@ class Catalog extends Component {
                 <p>{text.groupp2}</p>
                 <p>{text.groupp3}</p>
               </div>
-              <p>
-                <i>$395 per 4-week program</i>
-              </p>
+              {this.props.userToken ? (
+                <p>
+                  <i>$395 per 4-week program</i>
+                </p>
+              ) : null}
             </Col>
           </Row>
           <Table
@@ -585,9 +589,11 @@ class Catalog extends Component {
                 <p>{text.workshopp1}</p>
                 <p>{text.workshopp2}</p>
               </div>
-              <p>
-                <i>$125 per 2-hour workshop</i>
-              </p>
+              {this.props.userToken ? (
+                <p>
+                  <i>$125 per 2-hour workshop</i>
+                </p>
+              ) : null}
             </Col>
             <Col
               className="imageDisplay"
