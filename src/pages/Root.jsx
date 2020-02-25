@@ -22,13 +22,7 @@ import formatMongoDate from '../utilities/formatMongoDate';
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
 
-console.log(process.env.NODE_ENV);
-
-const PRE_API_URI =
-  process.env.NODE_ENV === 'local'
-    ? 'http://localhost:5000'
-    : 'https://blooming-beach-67877.herokuapp.com';
-
+const URI_STUB = 'https://blooming-beach-67877.herokuapp.com';
 class Root extends Component {
   state = {
     alertVisible: false,
@@ -108,7 +102,7 @@ class Root extends Component {
     } else {
       console.log(user);
       const email = user.email ? user.email : user.guardianEmail;
-      const result = await axios.post(`${PRE_API_URI}/login`, {
+      const result = await axios.post(`${URI_STUB}/login`, {
         email,
         password,
         userType: user.userType,
@@ -141,7 +135,7 @@ class Root extends Component {
     try {
       console.log(guardianData);
       const newGuardian = await axios.post(
-        `${PRE_API_URI}/api/guardians`,
+        `${URI_STUB}/api/guardians`,
         guardianData
       );
 
@@ -151,10 +145,10 @@ class Root extends Component {
 
       // retrieve student data
       const newStudent = await axios.get(
-        `${PRE_API_URI}/api/students/${studentId}`
+        `${URI_STUB}/api/students/${studentId}`
       );
       const guardianWithStudentName = await axios.get(
-        `${PRE_API_URI}/api/guardians/${newGuardian.data.id}`
+        `${URI_STUB}/api/guardians/${newGuardian.data.id}`
       );
       axios.post('https:/api.stripe.com/v1/customers');
       console.log(guardianWithStudentName);
@@ -173,14 +167,14 @@ class Root extends Component {
 
   // after payment authorized, increment number enrolled, add student to roster, add course to student, add course to courses purchased.
   handleIncrementProgramEnrolled = async id => {
-    const program = await axios.get(`${PRE_API_URI}/api/programs/${id}`);
+    const program = await axios.get(`${URI_STUB}/api/programs/${id}`);
 
     console.log(program);
 
-    const updatedProgram = await axios.put(
-      `${PRE_API_URI}/api/programs/${id}`,
-      { ...program, enrolled: program.data.enrolled + 1 }
-    );
+    const updatedProgram = await axios.put(`${URI_STUB}/api/programs/${id}`, {
+      ...program,
+      enrolled: program.data.enrolled + 1,
+    });
 
     console.log(updatedProgram);
 
@@ -198,7 +192,7 @@ class Root extends Component {
     try {
       const admin = { ...adminData, status: 'active' };
 
-      const newAdmin = await axios.post(`${PRE_API_URI}/api/admins`, admin);
+      const newAdmin = await axios.post(`${URI_STUB}/api/admins`, admin);
       this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
     } catch (err) {
       console.log('add user err: ', err.message);
@@ -207,10 +201,7 @@ class Root extends Component {
 
   addStudent = async studentData => {
     // create new student
-    const student = await axios.post(
-      `${PRE_API_URI}/api/programs`,
-      studentData
-    );
+    const student = await axios.post(`${URI_STUB}/api/programs`, studentData);
     console.log(student);
     // PUT guardian/id
   };
@@ -219,7 +210,7 @@ class Root extends Component {
   checkout = async lineItems => {
     this.setState({ fetching: true });
 
-    const checkout = await axios.post(`${PRE_API_URI}/shop`, {
+    const checkout = await axios.post(`${URI_STUB}/shop`, {
       customer: this.state.loggedInUserCustomerId,
       lineItems,
     });
@@ -237,7 +228,7 @@ class Root extends Component {
 
   addProgram = program => {
     axios
-      .post(`${PRE_API_URI}/api/programs`, program)
+      .post(`${URI_STUB}/api/programs`, program)
       .then(res => {
         const dateBegin = formatMongoDate(res.data.dateBegin, 'date');
         const dateEnd = formatMongoDate(res.data.dateEnd, 'date');
@@ -253,7 +244,7 @@ class Root extends Component {
 
   remove = (id, type) => {
     console.log(id, type);
-    axios.delete(`${PRE_API_URI}/api/${type}/${id}`).then(res => {
+    axios.delete(`${URI_STUB}/api/${type}/${id}`).then(res => {
       const filtered = this.state[`${type}`].filter(el => el.id !== id);
       console.log(filtered);
       this.setState({ [type]: filtered });
@@ -268,7 +259,7 @@ class Root extends Component {
     console.log({ ...record, status: updatedStatus });
 
     axios
-      .put(`${PRE_API_URI}/api/${type}/${recordId}`, {
+      .put(`${URI_STUB}/api/${type}/${recordId}`, {
         ...record,
         status: updatedStatus,
       })
@@ -291,9 +282,10 @@ class Root extends Component {
 
   componentDidMount = async () => {
     // load programs and users
+    console.log(URI_STUB);
     try {
       axios
-        .get(`${PRE_API_URI}/api/programs`)
+        .get(`${URI_STUB}/api/programs`)
         .then(res => {
           const dateBegin = formatMongoDate(res.data.dateBegin);
           const dateEnd = formatMongoDate(res.data.dateEnd);
@@ -310,9 +302,9 @@ class Root extends Component {
     }
 
     try {
-      const guardians = await axios.get(`${PRE_API_URI}/api/guardians`);
-      const admins = await axios.get(`${PRE_API_URI}/api/admins`);
-      const students = await axios.get(`${PRE_API_URI}/api/students`);
+      const guardians = await axios.get(`${URI_STUB}/api/guardians`);
+      const admins = await axios.get(`${URI_STUB}/api/admins`);
+      const students = await axios.get(`${URI_STUB}/api/students`);
       console.log(
         '############## ROOT COMPONENT MOUNT USERS ###############',
         'guardians: ',
