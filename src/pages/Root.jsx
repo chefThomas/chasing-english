@@ -22,7 +22,12 @@ import formatMongoDate from '../utilities/formatMongoDate';
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
 
-const URI_STUB = 'https://blooming-beach-67877.herokuapp.com';
+// const URI_STUB = 'https://blooming-beach-67877.herokuapp.com';
+const URI_STUB =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5000'
+    : 'https://blooming-beach-67877.herokuapp.com';
+
 class Root extends Component {
   state = {
     alertVisible: false,
@@ -281,8 +286,12 @@ class Root extends Component {
   };
 
   componentDidMount = async () => {
+    // check env
+    console.log(
+      '################ PROCESS.ENV.NODE_ENV #################',
+      process.env.NODE_ENV
+    );
     // load programs and users
-    console.log(URI_STUB);
     try {
       axios
         .get(`${URI_STUB}/api/programs`)
@@ -294,6 +303,7 @@ class Root extends Component {
           const programs = res.data.map(program => {
             return { ...program, dateBegin, dateEnd };
           });
+          console.log('##### PROGRAMS #####', programs);
           this.setState({ programs });
         })
         .catch(err => console.log('oh no, no programs retrieved: ', err));
