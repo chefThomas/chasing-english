@@ -354,7 +354,6 @@ class Catalog extends Component {
         key: program.id,
         id: program.id,
         type: program.type,
-
         title: program.title,
         dateBegin: program.dateBegin,
         dateEnd: program.dateEnd,
