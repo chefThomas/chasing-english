@@ -316,7 +316,6 @@ class Admin extends Component {
   // };
 
   getGuardianData = () => {
-    console.log(this.props.guardians.length);
     if (this.props.guardians.length > 0) {
       return this.props.guardians.map(g => {
         const students = g['students'].reduce((acc, student) => {
