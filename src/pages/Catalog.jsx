@@ -112,8 +112,6 @@ class Catalog extends Component {
 
     const program = { type, id, key: id, price };
 
-    console.log(program);
-
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
   };
 
@@ -279,6 +277,11 @@ class Catalog extends Component {
       key: 'meetingTime',
     },
     {
+      title: 'Duration (hrs)',
+      dataIndex: 'duration',
+      key: 'duration',
+    },
+    {
       title: '',
       key: 'action',
       render: (text, record) => (
@@ -407,7 +410,7 @@ class Catalog extends Component {
         description: program.description,
         id: program.id,
         type: program.type,
-        duration: `${program.duration} hrs`,
+        duration: program.duration,
         dateBegin: program.dateBegin,
         meetingTime: program.meetingTime,
         meetingDay,

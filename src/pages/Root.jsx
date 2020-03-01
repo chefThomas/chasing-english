@@ -136,7 +136,7 @@ class Root extends Component {
     }
   };
   register = async guardianData => {
-    // posts guardian and their first student. returns student id which is made to make a get request. data from guardian POST and student GET are used to set state.
+    // register customer (guardian )and their student. user data from register form.
     try {
       console.log(guardianData);
       const newGuardian = await axios.post(
@@ -168,27 +168,6 @@ class Root extends Component {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  // after payment authorized, increment number enrolled, add student to roster, add course to student, add course to courses purchased.
-  handleIncrementProgramEnrolled = async id => {
-    const program = await axios.get(`${URI_STUB}/api/programs/${id}`);
-
-    console.log(program);
-
-    const updatedProgram = await axios.put(`${URI_STUB}/api/programs/${id}`, {
-      ...program,
-      enrolled: program.data.enrolled + 1,
-    });
-
-    console.log(updatedProgram);
-
-    // update state
-    const programs = this.state.programs.map(program => {
-      return program.id === updatedProgram.id ? updatedProgram : program;
-    });
-
-    this.setState({ ...this.state, programs });
   };
 
   addAdmin = async adminData => {
@@ -306,7 +285,7 @@ class Root extends Component {
           console.log('##### PROGRAMS #####', programs);
           this.setState({ programs });
         })
-        .catch(err => console.log('oh no, no programs retrieved: ', err));
+        .catch(err => console.log('no programs retrieved: ', err));
     } catch (err) {
       console.log(err);
     }
@@ -405,7 +384,6 @@ class Root extends Component {
                 userToken={this.state.userToken}
                 checkout={this.checkout}
                 fetching={this.state.fetching}
-                incrementProgramEnrolled={this.handleIncrementProgramEnrolled}
               />
             )}
           />
