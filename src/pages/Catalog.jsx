@@ -98,7 +98,7 @@ class Catalog extends Component {
       return;
     }
     // find course in Root state
-    let { type, id } = this.props.programs.find(
+    let { type, id, title } = this.props.programs.find(
       program => program.id === courseId
     );
 
@@ -111,7 +111,7 @@ class Catalog extends Component {
         ? 'Individual Coaching'
         : 'Group';
 
-    const program = { type, id, key: id, price };
+    const program = { type, id, key: id, price, title };
 
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
   };
@@ -308,9 +308,15 @@ class Catalog extends Component {
   cartCols = [
     {
       title: 'Program',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Type',
       dataIndex: 'type',
       key: 'type',
     },
+
     {
       title: 'Price',
       dataIndex: 'price',
@@ -509,7 +515,12 @@ class Catalog extends Component {
             </div>
             <br></br>
             <div>
-              <Button onClick={this.props.handleWaitlist}>Waitlist</Button>
+              <Button
+                style={{ marginRight: '2rem' }}
+                onClick={this.props.handleWaitlist}
+              >
+                Waitlist
+              </Button>
               <Button onClick={this.props.handleWaitlist}>Cancel</Button>
             </div>
           </div>

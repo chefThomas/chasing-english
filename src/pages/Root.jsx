@@ -46,6 +46,7 @@ class Root extends Component {
     userToken: null,
     fullCourseModalMessage: '',
     fullCourseModalVisible: false,
+    removeCoursesFromCart: [],
   };
 
   handleAlertClose = () => {
