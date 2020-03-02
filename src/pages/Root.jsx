@@ -44,9 +44,9 @@ class Root extends Component {
     showLogin: false,
     students: [],
     userToken: null,
-    fullCourseModalMessage: '',
+    fullCourseModalMessages: [],
     fullCourseModalVisible: false,
-    removeCoursesFromCart: [],
+    fullCourseIds: [],
   };
 
   handleAlertClose = () => {
@@ -68,7 +68,6 @@ class Root extends Component {
     // displays dialog on Catalog page when customer tries to checkout courses that were filled after they logged in
 
     this.setState({
-      fullCourseModalMessage: message,
       fullCourseModalVisible: true,
     });
   };
@@ -249,29 +248,23 @@ class Root extends Component {
     console.log(fullCourses);
 
     if (fullCourses.length > 0) {
-      let message = fullCourses.reduce((accum, course) => {
-        return `${course.data.title} is no longer available` + accum;
-      }, '');
       this.setState({ fetching: false });
+
+      let fullCourseModalMessages = fullCourses.map(course => {
+        return `${course.data.title} is no longer available and has been removed from the cart`;
+      });
 
       // remove from cart and call handleCheckout
       // make id array of full courses to filter them out of line items
       const fullCourseIds = fullCourses.map(course => course.data.id);
+      this.setState({ fullCourseModalVisible: true });
+      this.setState({ fullCourseModalMessages });
+      this.setState({ fullCourseIds });
 
-      console.log(fullCourseIds);
-      const availableCourses = lineItems.filter(item => {
-        return !fullCourseIds.includes(item.id);
-      });
+      // const availableCourses = lineItems.filter(item => {
+      //   return !fullCourseIds.includes(item.id);
+      // });
       // handle message display on catalog page
-      this.handleFullCourseDialog(message);
-      console.log(message);
-      console.log(availableCourses);
-
-      if (availableCourses.length > 0) {
-        this.purchase(availableCourses);
-      } else {
-        this.handleCloseCart();
-      }
     } else {
       this.purchase(lineItems);
     }
@@ -453,8 +446,9 @@ class Root extends Component {
                 checkout={this.checkout}
                 fetching={this.state.fetching}
                 fullCourseModalVisible={this.state.fullCourseModalVisible}
-                fullCourseModalMessage={this.state.fullCourseModalMessage}
+                fullCourseModalMessages={this.state.fullCourseModalMessages}
                 fullCourseModalClose={this.props.fullCourseModalClose}
+                fullCourseIds={this.state.fullCourseIds}
               />
             )}
           />

@@ -79,7 +79,18 @@ class Catalog extends Component {
   };
 
   handleCheckout = () => {
-    this.props.checkout(this.state.cart);
+    const { fullCourseIds } = this.props;
+
+    console.log(fullCourseIds);
+    // filter full courses from cart
+    const availableCourses = this.state.cart.filter(
+      course => !fullCourseIds.includes(course.id)
+    );
+
+    console.log(availableCourses);
+
+    this.setState({ cart: availableCourses });
+    this.props.checkout(availableCourses);
   };
 
   handleEnroll = e => {
@@ -507,21 +518,26 @@ class Catalog extends Component {
             className="FullClassAlert"
           >
             <Divider />
-            <Alert message={this.props.fullCourseModalMessage} type="info" />
+            {this.props.fullCourseModalMessages.map(msg => (
+              <Alert
+                style={{ marginBottom: '0.5rem' }}
+                message={msg}
+                type="info"
+                key={msg}
+              />
+            ))}
             <br></br>
-            <div>
-              Uh-oh, it looks like someone reserved that spot after you logged
-              in. Would you like to be added to the waitlist?
-            </div>
+            <div>Would you like to be added to the waitlist?</div>
             <br></br>
             <div>
               <Button
-                style={{ marginRight: '2rem' }}
+                style={{ marginRight: '1.5rem' }}
                 onClick={this.props.handleWaitlist}
+                type="primary"
               >
                 Waitlist
               </Button>
-              <Button onClick={this.props.handleWaitlist}>Cancel</Button>
+              <Button onClick={this.props.handleWaitlistCancel}>Cancel</Button>
             </div>
           </div>
         </Drawer>
