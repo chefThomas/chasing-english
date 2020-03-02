@@ -30,24 +30,24 @@ const URI_STUB =
 
 class Root extends Component {
   state = {
+    admins: [],
+    alertMessage: '',
     alertVisible: false,
     checkoutSession: null,
-    programs: [],
+    fetching: false,
     guardians: [],
-    admins: [],
-    students: [],
-    registrationEvent: false,
-    userToken: null,
     loggedInUsername: null,
     loggedInUserCustomerId: null,
     loggedInUserType: null,
+    programs: [],
+    registrationEvent: false,
     showLogin: false,
-    fetching: false,
-    alertMessage: '',
+    students: [],
+    userToken: null,
   };
 
   handleAlertClose = () => {
-    this.setState({ alertVisible: false });
+    this.setState({ alertVisible: false, alertMessage: '' });
   };
 
   // UI
@@ -57,6 +57,13 @@ class Root extends Component {
 
   showLogin = () => {
     this.setState({ showLogin: true });
+  };
+
+  handleCloseCart = () => {};
+
+  handleFullCourse = message => {
+    // displays courses that reached capacity while customer was shopping.
+    this.setState({ alertVisible: true, alertMessage: message });
   };
 
   // MISC
@@ -135,6 +142,22 @@ class Root extends Component {
       }
     }
   };
+
+  purchase = async courses => {
+    const checkout = await axios.post(`${URI_STUB}/shop`, {
+      customer: this.state.loggedInUserCustomerId,
+      lineItems: courses,
+    });
+
+    console.log('##### CHECKOUT SESSION RETURNED FROM STRIPE #####', checkout);
+    // make Stripe object available from Window (see App.js)
+    const stripe = this.props.stripe;
+
+    await stripe.redirectToCheckout({
+      sessionId: checkout.data.id,
+    });
+  };
+
   register = async guardianData => {
     // register customer (guardian )and their student. user data from register form.
     try {
@@ -194,20 +217,52 @@ class Root extends Component {
   checkout = async lineItems => {
     this.setState({ fetching: true });
 
-    const checkout = await axios.post(`${URI_STUB}/shop`, {
-      customer: this.state.loggedInUserCustomerId,
-      lineItems,
+    console.log(lineItems);
+    // check enrollment for each course in cart.
+    const programsArr = lineItems.map(
+      async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
+    );
+
+    const programs = await Promise.all(programsArr);
+
+    console.log('ROOT :200, programs ', programs);
+
+    // array of full programs where number enrolled >= capacity
+    const fullCourses = programs.filter(({ data }) => {
+      return data.enrolled >= data.capacity;
     });
 
-    console.log('##### CHECKOUT SESSION RETURNED FROM STRIPE #####', checkout);
-    // make Stripe object available from Window (see App.js)
-    const stripe = this.props.stripe;
-    // console.log('########## STRIPE OBJECT #########', stripe);
+    console.log(fullCourses);
 
-    // // TODO adjust roster after successful checkout. Refer to after payment in docs. Should be done with webhooks
-    await stripe.redirectToCheckout({
-      sessionId: checkout.data.id,
-    });
+    if (fullCourses.length > 0) {
+      let message = fullCourses.reduce((accum, course) => {
+        return (
+          `Sorry, ${course.data.title} is no longer available and has been removed from cart. Would you like to be added to the waitlist?` +
+          accum
+        );
+      }, '');
+
+      // remove from cart and call handleCheckout
+      // make id array of full courses to filter them out of line items
+      const fullCourseIds = fullCourses.map(course => course.data.id);
+
+      console.log(fullCourseIds);
+      const availableCourses = lineItems.filter(item => {
+        return !fullCourseIds.includes(item.id);
+      });
+      // handle message display on catalog page
+      this.handleMessage(message);
+      console.log(message);
+      console.log(availableCourses);
+
+      if (availableCourses.length > 0) {
+        this.purchase(availableCourses);
+      } else {
+        this.handleCloseCart();
+      }
+    } else {
+      this.purchase(lineItems);
+    }
   };
 
   addProgram = program => {
@@ -226,6 +281,7 @@ class Root extends Component {
       .catch(err => console.log('add sesh err: ', err.message));
   };
 
+  handleMessage = msg => {};
   remove = (id, type) => {
     console.log(id, type);
     axios.delete(`${URI_STUB}/api/${type}/${id}`).then(res => {
