@@ -6,6 +6,7 @@ import {
   Badge,
   Button,
   Col,
+  Divider,
   Drawer,
   Icon,
   Layout,
@@ -434,16 +435,14 @@ class Catalog extends Component {
     } = this.state;
     return (
       <>
-        {this.state.descriptionModalVisible ? (
-          <Modal
-            visible={descriptionModalVisible}
-            title={courseTitle}
-            onCancel={this.handleCloseDescription}
-            // onOk={this.handleOk}
-          >
-            {courseDescriptionBody}
-          </Modal>
-        ) : null}
+        <Modal
+          visible={descriptionModalVisible}
+          title={courseTitle}
+          onCancel={this.handleCloseDescription}
+          // onOk={this.handleOk}
+        >
+          {courseDescriptionBody}
+        </Modal>
         <Drawer
           title="Shopping Cart"
           width={500}
@@ -495,6 +494,25 @@ class Catalog extends Component {
               showIcon
             />
           )}
+          <div
+            style={{
+              display: this.props.fullCourseModalVisible ? 'block' : 'none',
+            }}
+            className="FullClassAlert"
+          >
+            <Divider />
+            <Alert message={this.props.fullCourseModalMessage} type="info" />
+            <br></br>
+            <div>
+              Uh-oh, it looks like someone reserved that spot after you logged
+              in. Would you like to be added to the waitlist?
+            </div>
+            <br></br>
+            <div>
+              <Button onClick={this.props.handleWaitlist}>Waitlist</Button>
+              <Button onClick={this.props.handleWaitlist}>Cancel</Button>
+            </div>
+          </div>
         </Drawer>
         <div className="Cart">
           <Badge

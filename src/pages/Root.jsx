@@ -44,6 +44,8 @@ class Root extends Component {
     showLogin: false,
     students: [],
     userToken: null,
+    fullCourseModalMessage: '',
+    fullCourseModalVisible: false,
   };
 
   handleAlertClose = () => {
@@ -61,9 +63,13 @@ class Root extends Component {
 
   handleCloseCart = () => {};
 
-  handleFullCourse = message => {
-    // displays courses that reached capacity while customer was shopping.
-    this.setState({ alertVisible: true, alertMessage: message });
+  handleFullCourseDialog = message => {
+    // displays dialog on Catalog page when customer tries to checkout courses that were filled after they logged in
+
+    this.setState({
+      fullCourseModalMessage: message,
+      fullCourseModalVisible: true,
+    });
   };
 
   // MISC
@@ -206,6 +212,13 @@ class Root extends Component {
     }
   };
 
+  fullCourseModalClose = () => {
+    this.setState({
+      fullCourseModalVisible: false,
+      fullCourseModalMessage: '',
+    });
+  };
+
   addStudent = async studentData => {
     // create new student
     const student = await axios.post(`${URI_STUB}/api/programs`, studentData);
@@ -236,11 +249,9 @@ class Root extends Component {
 
     if (fullCourses.length > 0) {
       let message = fullCourses.reduce((accum, course) => {
-        return (
-          `Sorry, ${course.data.title} is no longer available and has been removed from cart. Would you like to be added to the waitlist?` +
-          accum
-        );
+        return `${course.data.title} is no longer available` + accum;
       }, '');
+      this.setState({ fetching: false });
 
       // remove from cart and call handleCheckout
       // make id array of full courses to filter them out of line items
@@ -251,7 +262,7 @@ class Root extends Component {
         return !fullCourseIds.includes(item.id);
       });
       // handle message display on catalog page
-      this.handleMessage(message);
+      this.handleFullCourseDialog(message);
       console.log(message);
       console.log(availableCourses);
 
@@ -440,6 +451,9 @@ class Root extends Component {
                 userToken={this.state.userToken}
                 checkout={this.checkout}
                 fetching={this.state.fetching}
+                fullCourseModalVisible={this.state.fullCourseModalVisible}
+                fullCourseModalMessage={this.state.fullCourseModalMessage}
+                fullCourseModalClose={this.props.fullCourseModalClose}
               />
             )}
           />
