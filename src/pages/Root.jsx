@@ -143,6 +143,8 @@ class Root extends Component {
         localStorage.setItem('loggedInUserType', result.data.userType);
 
         this.hideLogin();
+        // redirect to catalog
+        this.props.history.push('/catalog');
       } else {
         this.setState({ loginMessage: 'Unsuccessful login' });
       }
