@@ -30,24 +30,27 @@ const URI_STUB =
 
 class Root extends Component {
   state = {
+    admins: [],
+    alertMessage: '',
     alertVisible: false,
     checkoutSession: null,
-    programs: [],
+    fetching: false,
     guardians: [],
-    admins: [],
-    students: [],
-    registrationEvent: false,
-    userToken: null,
     loggedInUsername: null,
     loggedInUserCustomerId: null,
     loggedInUserType: null,
+    programs: [],
+    registrationEvent: false,
     showLogin: false,
-    fetching: false,
-    alertMessage: '',
+    students: [],
+    userToken: null,
+    fullCourseDialogMessages: [],
+    fullCourseDialogVisible: false,
+    fullCourseIds: [],
   };
 
   handleAlertClose = () => {
-    this.setState({ alertVisible: false });
+    this.setState({ alertVisible: false, alertMessage: '' });
   };
 
   // UI
@@ -57,6 +60,16 @@ class Root extends Component {
 
   showLogin = () => {
     this.setState({ showLogin: true });
+  };
+
+  handleCloseCart = () => {};
+
+  handleFullCourseDialog = message => {
+    // displays dialog on Catalog page when customer tries to checkout courses that were filled after they logged in
+
+    this.setState({
+      fullCourseDialogVisible: true,
+    });
   };
 
   // MISC
@@ -135,6 +148,22 @@ class Root extends Component {
       }
     }
   };
+
+  purchase = async courses => {
+    const checkout = await axios.post(`${URI_STUB}/shop`, {
+      customer: this.state.loggedInUserCustomerId,
+      lineItems: courses,
+    });
+
+    console.log('##### CHECKOUT SESSION RETURNED FROM STRIPE #####', checkout);
+    // make Stripe object available from Window (see App.js)
+    const stripe = this.props.stripe;
+
+    await stripe.redirectToCheckout({
+      sessionId: checkout.data.id,
+    });
+  };
+
   register = async guardianData => {
     // register customer (guardian )and their student. user data from register form.
     try {
@@ -183,6 +212,13 @@ class Root extends Component {
     }
   };
 
+  fullCourseDialogClose = () => {
+    this.setState({
+      fullCourseDialogVisible: false,
+      fullCourseDialogMessage: '',
+    });
+  };
+
   addStudent = async studentData => {
     // create new student
     const student = await axios.post(`${URI_STUB}/api/programs`, studentData);
@@ -190,24 +226,47 @@ class Root extends Component {
     // PUT guardian/id
   };
 
-  // generate Stripe Checkout
-  checkout = async lineItems => {
+  checkForFullCourses = async items => {
+    // fetching icon in checkout button
     this.setState({ fetching: true });
 
-    const checkout = await axios.post(`${URI_STUB}/shop`, {
-      customer: this.state.loggedInUserCustomerId,
-      lineItems,
+    // retrieve purchased programs from db
+    const programsArr = items.map(
+      async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
+    );
+
+    const programs = await Promise.all(programsArr);
+
+    // array of full programs where number enrolled >= capacity
+    const fullCourses = programs.filter(({ data }) => {
+      return data.enrolled >= data.capacity;
     });
 
-    console.log('##### CHECKOUT SESSION RETURNED FROM STRIPE #####', checkout);
-    // make Stripe object available from Window (see App.js)
-    const stripe = this.props.stripe;
-    // console.log('########## STRIPE OBJECT #########', stripe);
+    console.log(fullCourses);
 
-    // // TODO adjust roster after successful checkout. Refer to after payment in docs. Should be done with webhooks
-    await stripe.redirectToCheckout({
-      sessionId: checkout.data.id,
-    });
+    if (fullCourses.length) {
+      this.setState({ fetching: false });
+      const fullCourseIds = fullCourses.map(course => course.data.id);
+
+      this.setState({ fullCourseIds });
+
+      let fullCourseDialogMessages = fullCourses.map(course => {
+        return `${course.data.title} is no longer available and has been removed from the cart`;
+      });
+      this.setState({ fullCourseDialogMessages });
+      this.setState({ fullCourseDialogVisible: true });
+    }
+  };
+
+  // generate Stripe Checkout
+  checkout = async lineItems => {
+    console.log(lineItems);
+    // check enrollment for each course in cart.
+    this.purchase(lineItems);
+  };
+
+  clearFullCourseIds = () => {
+    this.setState({ fullCourseIds: [] });
   };
 
   addProgram = program => {
@@ -226,6 +285,7 @@ class Root extends Component {
       .catch(err => console.log('add sesh err: ', err.message));
   };
 
+  handleMessage = msg => {};
   remove = (id, type) => {
     console.log(id, type);
     axios.delete(`${URI_STUB}/api/${type}/${id}`).then(res => {
@@ -382,8 +442,14 @@ class Root extends Component {
                 {...routeProps}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
-                checkout={this.checkout}
+                purchase={this.purchase}
                 fetching={this.state.fetching}
+                fullCourseDialogVisible={this.state.fullCourseDialogVisible}
+                fullCourseDialogMessages={this.state.fullCourseDialogMessages}
+                fullCourseDialogClose={this.props.fullCourseDialogClose}
+                fullCourseIds={this.state.fullCourseIds}
+                checkForFullCourses={this.checkForFullCourses}
+                clearFullCourseIds={this.clearFullCourseIds}
               />
             )}
           />

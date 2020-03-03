@@ -54,7 +54,7 @@ class ProgramForm extends Component {
     const { value } = e.target;
     let title = null;
     if (value === 'individual') {
-      title = 'Ind. Sessions';
+      title = 'Individual Coaching';
     }
 
     this.setState({ type: value, title });

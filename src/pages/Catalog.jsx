@@ -6,6 +6,7 @@ import {
   Badge,
   Button,
   Col,
+  Divider,
   Drawer,
   Icon,
   Layout,
@@ -77,8 +78,24 @@ class Catalog extends Component {
     });
   };
 
-  handleCheckout = () => {
-    this.props.checkout(this.state.cart);
+  handleCheckout = async () => {
+    // handle case where course is filled after user logs in
+    await this.props.checkForFullCourses(this.state.cart);
+
+    // continue to Stripe checkout if no full courses
+    if (!this.props.fullCourseIds.length) {
+      this.props.purchase(this.state.cart);
+    } else {
+      //filter full courses out of cart
+      const availableCourses = this.state.cart.filter(
+        item => !this.props.fullCourseIds.includes(item.id)
+      );
+
+      // clear full course ids from root state
+      this.props.clearFullCourseIds();
+
+      this.setState({ cart: availableCourses });
+    }
   };
 
   handleEnroll = e => {
@@ -230,7 +247,7 @@ class Catalog extends Component {
         <span>
           {record.capacity === record.enrolled ? (
             <Button courseid={record.id} onClick={this.handleWaitlist}>
-              Waitlist
+              Add to Waitlist
             </Button>
           ) : (
             <Button
@@ -288,7 +305,7 @@ class Catalog extends Component {
         <span>
           {record.capacity === record.enrolled ? (
             <Button courseid={record.id} onClick={this.handleWaitlist}>
-              Waitlist
+              Add to Waitlist
             </Button>
           ) : (
             <Button
@@ -307,9 +324,15 @@ class Catalog extends Component {
   cartCols = [
     {
       title: 'Program',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Type',
       dataIndex: 'type',
       key: 'type',
     },
+
     {
       title: 'Price',
       dataIndex: 'price',
@@ -434,16 +457,14 @@ class Catalog extends Component {
     } = this.state;
     return (
       <>
-        {this.state.descriptionModalVisible ? (
-          <Modal
-            visible={descriptionModalVisible}
-            title={courseTitle}
-            onCancel={this.handleCloseDescription}
-            // onOk={this.handleOk}
-          >
-            {courseDescriptionBody}
-          </Modal>
-        ) : null}
+        <Modal
+          visible={descriptionModalVisible}
+          title={courseTitle}
+          onCancel={this.handleCloseDescription}
+          // onOk={this.handleOk}
+        >
+          {courseDescriptionBody}
+        </Modal>
         <Drawer
           title="Shopping Cart"
           width={500}
@@ -495,6 +516,38 @@ class Catalog extends Component {
               showIcon
             />
           )}
+          <div
+            style={{
+              display: this.props.fullCourseDialogVisible ? 'block' : 'none',
+            }}
+            className="FullClassAlert"
+          >
+            <Divider />
+            {this.props.fullCourseDialogMessages.map(msg => (
+              <Alert
+                style={{ marginBottom: '0.5rem' }}
+                message={msg}
+                type="info"
+                key={msg}
+              />
+            ))}
+            <br></br>
+            <div>
+              Would you like to be added to the waitlist? If not, go ahead and
+              finish checking out.
+            </div>
+            <br></br>
+            <div>
+              <Button
+                style={{ marginRight: '1.5rem' }}
+                onClick={this.props.handleWaitlist}
+                type="primary"
+              >
+                Waitlist
+              </Button>
+              <Button onClick={this.handleCartClose}>Cancel</Button>
+            </div>
+          </div>
         </Drawer>
         <div className="Cart">
           <Badge
