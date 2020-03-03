@@ -186,7 +186,6 @@ class Root extends Component {
       const guardianWithStudentName = await axios.get(
         `${URI_STUB}/api/guardians/${newGuardian.data.id}`
       );
-      axios.post('https:/api.stripe.com/v1/customers');
       console.log(guardianWithStudentName);
       // if guardian post successful, student and set state
       console.log('new student', newStudent);
