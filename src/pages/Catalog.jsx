@@ -78,19 +78,24 @@ class Catalog extends Component {
     });
   };
 
-  handleCheckout = () => {
-    const { fullCourseIds } = this.props;
+  handleCheckout = async () => {
+    // handle case where course is filled after user logs in
+    await this.props.checkForFullCourses(this.state.cart);
 
-    console.log(fullCourseIds);
-    // filter full courses from cart
-    const availableCourses = this.state.cart.filter(
-      course => !fullCourseIds.includes(course.id)
-    );
+    // continue to Stripe checkout if no full courses
+    if (!this.props.fullCourseIds.length) {
+      this.props.purchase(this.state.cart);
+    } else {
+      //filter full courses out of cart
+      const availableCourses = this.state.cart.filter(
+        item => !this.props.fullCourseIds.includes(item.id)
+      );
 
-    console.log(availableCourses);
+      // clear full course ids from root state
+      this.props.clearFullCourseIds();
 
-    this.setState({ cart: availableCourses });
-    this.props.checkout(availableCourses);
+      this.setState({ cart: availableCourses });
+    }
   };
 
   handleEnroll = e => {
@@ -242,7 +247,7 @@ class Catalog extends Component {
         <span>
           {record.capacity === record.enrolled ? (
             <Button courseid={record.id} onClick={this.handleWaitlist}>
-              Waitlist
+              Add to Waitlist
             </Button>
           ) : (
             <Button
@@ -300,7 +305,7 @@ class Catalog extends Component {
         <span>
           {record.capacity === record.enrolled ? (
             <Button courseid={record.id} onClick={this.handleWaitlist}>
-              Waitlist
+              Add to Waitlist
             </Button>
           ) : (
             <Button
@@ -513,12 +518,12 @@ class Catalog extends Component {
           )}
           <div
             style={{
-              display: this.props.fullCourseModalVisible ? 'block' : 'none',
+              display: this.props.fullCourseDialogVisible ? 'block' : 'none',
             }}
             className="FullClassAlert"
           >
             <Divider />
-            {this.props.fullCourseModalMessages.map(msg => (
+            {this.props.fullCourseDialogMessages.map(msg => (
               <Alert
                 style={{ marginBottom: '0.5rem' }}
                 message={msg}
@@ -527,7 +532,10 @@ class Catalog extends Component {
               />
             ))}
             <br></br>
-            <div>Would you like to be added to the waitlist?</div>
+            <div>
+              Would you like to be added to the waitlist? If not, go ahead and
+              finish checking out.
+            </div>
             <br></br>
             <div>
               <Button
@@ -537,7 +545,7 @@ class Catalog extends Component {
               >
                 Waitlist
               </Button>
-              <Button onClick={this.props.handleWaitlistCancel}>Cancel</Button>
+              <Button onClick={this.handleCartClose}>Cancel</Button>
             </div>
           </div>
         </Drawer>

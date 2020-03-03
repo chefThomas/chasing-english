@@ -44,8 +44,8 @@ class Root extends Component {
     showLogin: false,
     students: [],
     userToken: null,
-    fullCourseModalMessages: [],
-    fullCourseModalVisible: false,
+    fullCourseDialogMessages: [],
+    fullCourseDialogVisible: false,
     fullCourseIds: [],
   };
 
@@ -68,7 +68,7 @@ class Root extends Component {
     // displays dialog on Catalog page when customer tries to checkout courses that were filled after they logged in
 
     this.setState({
-      fullCourseModalVisible: true,
+      fullCourseDialogVisible: true,
     });
   };
 
@@ -212,10 +212,10 @@ class Root extends Component {
     }
   };
 
-  fullCourseModalClose = () => {
+  fullCourseDialogClose = () => {
     this.setState({
-      fullCourseModalVisible: false,
-      fullCourseModalMessage: '',
+      fullCourseDialogVisible: false,
+      fullCourseDialogMessage: '',
     });
   };
 
@@ -226,19 +226,16 @@ class Root extends Component {
     // PUT guardian/id
   };
 
-  // generate Stripe Checkout
-  checkout = async lineItems => {
+  checkForFullCourses = async items => {
+    // fetching icon in checkout button
     this.setState({ fetching: true });
 
-    console.log(lineItems);
-    // check enrollment for each course in cart.
-    const programsArr = lineItems.map(
+    // retrieve purchased programs from db
+    const programsArr = items.map(
       async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
     );
 
     const programs = await Promise.all(programsArr);
-
-    console.log('ROOT :200, programs ', programs);
 
     // array of full programs where number enrolled >= capacity
     const fullCourses = programs.filter(({ data }) => {
@@ -247,27 +244,29 @@ class Root extends Component {
 
     console.log(fullCourses);
 
-    if (fullCourses.length > 0) {
+    if (fullCourses.length) {
       this.setState({ fetching: false });
-
-      let fullCourseModalMessages = fullCourses.map(course => {
-        return `${course.data.title} is no longer available and has been removed from the cart`;
-      });
-
-      // remove from cart and call handleCheckout
-      // make id array of full courses to filter them out of line items
       const fullCourseIds = fullCourses.map(course => course.data.id);
-      this.setState({ fullCourseModalVisible: true });
-      this.setState({ fullCourseModalMessages });
+
       this.setState({ fullCourseIds });
 
-      // const availableCourses = lineItems.filter(item => {
-      //   return !fullCourseIds.includes(item.id);
-      // });
-      // handle message display on catalog page
-    } else {
-      this.purchase(lineItems);
+      let fullCourseDialogMessages = fullCourses.map(course => {
+        return `${course.data.title} is no longer available and has been removed from the cart`;
+      });
+      this.setState({ fullCourseDialogMessages });
+      this.setState({ fullCourseDialogVisible: true });
     }
+  };
+
+  // generate Stripe Checkout
+  checkout = async lineItems => {
+    console.log(lineItems);
+    // check enrollment for each course in cart.
+    this.purchase(lineItems);
+  };
+
+  clearFullCourseIds = () => {
+    this.setState({ fullCourseIds: [] });
   };
 
   addProgram = program => {
@@ -443,12 +442,14 @@ class Root extends Component {
                 {...routeProps}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
-                checkout={this.checkout}
+                purchase={this.purchase}
                 fetching={this.state.fetching}
-                fullCourseModalVisible={this.state.fullCourseModalVisible}
-                fullCourseModalMessages={this.state.fullCourseModalMessages}
-                fullCourseModalClose={this.props.fullCourseModalClose}
+                fullCourseDialogVisible={this.state.fullCourseDialogVisible}
+                fullCourseDialogMessages={this.state.fullCourseDialogMessages}
+                fullCourseDialogClose={this.props.fullCourseDialogClose}
                 fullCourseIds={this.state.fullCourseIds}
+                checkForFullCourses={this.checkForFullCourses}
+                clearFullCourseIds={this.clearFullCourseIds}
               />
             )}
           />
