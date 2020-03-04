@@ -47,6 +47,7 @@ class Root extends Component {
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
     fullCourseIds: [],
+    showSideNav: false,
   };
 
   handleAlertClose = () => {
@@ -296,6 +297,13 @@ class Root extends Component {
     });
   };
 
+  closeSideNav = () => {
+    this.setState({ showSideNav: false });
+  };
+
+  openSideNav = () => {
+    this.setState({ showSideNav: true });
+  };
   toggleStatus = (recordId, type, status) => {
     const record = this.state[type].find(record => record.id === recordId);
 
@@ -421,6 +429,9 @@ class Root extends Component {
           <AntLogin login={this.login} />
         </Drawer>
         <Navbar
+          showSideNav={this.state.showSideNav}
+          openSideNav={this.openSideNav}
+          closeSideNav={this.closeSideNav}
           showLogin={this.showLogin}
           loggedInUsername={this.state.loggedInUsername}
           loggedInUserType={this.state.loggedInUserType}
