@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 
 import { Form, Icon, Input } from 'antd';
 import '../stylesheets/css/main.css';
 
-class NormalLoginForm extends React.Component {
+class NormalLoginForm extends Component {
   // login form displays on GuardianRegistration page when registration event state in Root === true.
 
   handleSubmit = e => {

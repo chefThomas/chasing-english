@@ -16,6 +16,7 @@ import {
 } from 'antd';
 import ProgramForm from '../components/ProgramForm';
 import UserForm from '../components/UserForm';
+import Roster from '../components/Roster';
 import '../stylesheets/css/main.css';
 
 const { TabPane } = Tabs;
@@ -25,6 +26,9 @@ class Admin extends Component {
   state = {
     programFormVisible: false,
     userFormVisible: false,
+    rosterVisible: false,
+    roster: [],
+    rosterCourseTitle: '',
   };
 
   programCols = [
@@ -257,6 +261,7 @@ class Admin extends Component {
       ),
     },
   ];
+
   // event handlers
   setDeleteId = e => {
     const { id } = e.target;
@@ -269,8 +274,16 @@ class Admin extends Component {
     message.success(`${type} deleted`);
   };
 
+  closeRoster = () => {
+    this.setState({ showRoster: false });
+  };
+
   handleRosterViewClick = id => {
-    console.log('view roster program id: ', id);
+    const { roster, title } = this.props.programs.find(
+      program => program.id == id
+    );
+    this.setState({ roster, rosterCourseTitle: title });
+    this.setState({ showRoster: true });
   };
 
   handleArchiveClick = (id, type, status) => {
@@ -390,6 +403,7 @@ class Admin extends Component {
             enrolled: program.enrolled,
             status: program.status,
             type: program.type,
+            roster: program.roster,
           };
         });
     } else {
@@ -430,6 +444,12 @@ class Admin extends Component {
   render() {
     return (
       <>
+        <Roster
+          roster={this.state.roster}
+          showRoster={this.state.showRoster}
+          closeRoster={this.closeRoster}
+          rosterCourseTitle={this.state.rosterCourseTitle}
+        />
         {this.props.loggedInUserType === 'admin' ? (
           <div>
             <Tabs type="card">
