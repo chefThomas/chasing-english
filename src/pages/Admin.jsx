@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import moment from 'moment';
 
 import {
   Button,
@@ -78,7 +79,7 @@ class Admin extends Component {
             justifyContent: 'space-evenly',
           }}
         >
-          <Tooltip title={'view/edit roster'}>
+          <Tooltip title={'view roster'}>
             <Icon type="team" onClick={() => this.handleRosterViewClick(id)} />
           </Tooltip>
 
@@ -357,25 +358,40 @@ class Admin extends Component {
     });
   };
 
+  formatMongoDate = date => {
+    const dateMoment = moment(date);
+    const dayNumber = dateMoment.weekday();
+    const day = moment()
+      .day(dayNumber)
+      .format('ddd');
+    return day;
+  };
+
   getProgramData = (type, status) => {
     if (status === 'active') {
       return this.props.programs
         .filter(program => program.type === type && program.status === status)
-        .map(program => ({
-          key: program.id,
-          id: program.id,
-          title: program.title,
-          description: program.description,
-          duration: program.duration,
-          startDate: program.dateBegin,
-          endDate: program.dateEnd,
-          meetingTime: program.meetingTime,
-          meetingDay: program.meetingDay,
-          capacity: program.capacity,
-          enrolled: program.enrolled,
-          status: program.status,
-          type: program.type,
-        }));
+        .map(program => {
+          const meetingDay =
+            program.type === 'intensive'
+              ? this.formatMongoDate(program.dateBegin)
+              : program.meetingDay;
+          return {
+            key: program.id,
+            id: program.id,
+            title: program.title,
+            description: program.description,
+            duration: program.duration,
+            startDate: program.dateBegin,
+            endDate: program.dateEnd,
+            meetingTime: program.meetingTime,
+            meetingDay,
+            capacity: program.capacity,
+            enrolled: program.enrolled,
+            status: program.status,
+            type: program.type,
+          };
+        });
     } else {
       return this.props.programs
         .filter(program => program.status === 'archive')
