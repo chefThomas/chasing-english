@@ -3,6 +3,7 @@ import { NavLink, Link, withRouter } from 'react-router-dom';
 import '../stylesheets/css/main.css';
 
 import HamburgerMenu from './HamburgerMenu';
+import { Drawer } from 'antd';
 
 class Navbar extends Component {
   state = {
@@ -31,9 +32,56 @@ class Navbar extends Component {
   // };
 
   render() {
-    // const { showDropdownNav } = this.state;
+    const location = this.props.history.location.pathname;
     return (
       <div className="Navbar">
+        <Drawer
+          visible={this.props.showSideNav}
+          onClose={this.props.closeSideNav}
+          placement="left"
+          width={300}
+          zIndex={0}
+          height={20}
+        >
+          <div style={{ color: 'black' }}>
+            <div className="side-nav-link-container">
+              <NavLink
+                exact
+                className="side-nav-link"
+                activeClassName="side-nav-link-active"
+                to="/"
+              >
+                Home
+              </NavLink>
+              <NavLink
+                exact
+                className="side-nav-link"
+                activeClassName="side-nav-link-active"
+                to="/catalog"
+              >
+                Catalog
+              </NavLink>
+              <NavLink
+                exact
+                className="side-nav-link"
+                activeClassName="side-nav-link-active"
+                to="/about"
+              >
+                About
+              </NavLink>
+              {this.props.loggedInUserType === 'admin' ? (
+                <NavLink
+                  exact
+                  className="side-nav-link"
+                  activeClassName="side-nav-link-active"
+                  to="/admin"
+                >
+                  Admin
+                </NavLink>
+              ) : null}
+            </div>
+          </div>
+        </Drawer>
         <div className="Navbar-links-container">
           <NavLink
             exact
@@ -70,8 +118,18 @@ class Navbar extends Component {
             </NavLink>
           ) : null}
         </div>
-        <HamburgerMenu />
-        <div className="Navbutton-container">
+        <HamburgerMenu
+          showSideNav={this.props.showSideNav}
+          openSideNav={this.props.openSideNav}
+          closeSideNav={this.props.closeSideNav}
+        />
+        <div
+          className={
+            location === '/catalog'
+              ? 'Navbutton-container nav-item-shift-left'
+              : 'Navbutton-container'
+          }
+        >
           {this.props.loggedInUsername ? (
             <>
               <span className="welcome-user">
