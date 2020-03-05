@@ -78,6 +78,14 @@ class Catalog extends Component {
     });
   };
 
+  handleAddToWaitlist = courseId => {
+    console.log('course id ', courseId);
+
+    this.props.addToWaitlist(courseId);
+    // concat course id to guardian waitlist
+    // concat guardian id to course waitlist
+  };
+
   handleCheckout = async () => {
     // handle case where course is filled after user logs in
     await this.props.checkForFullCourses(this.state.cart);
@@ -98,14 +106,12 @@ class Catalog extends Component {
     }
   };
 
-  handleEnroll = e => {
+  handleEnroll = courseId => {
     //check if user logged in
     if (!this.props.userToken) {
       this.handleMessage('You must be logged-in to enroll');
       return;
     }
-
-    const courseId = e.target.getAttribute('courseId');
 
     // check if course already in cart to prevent double purchase
     const course = this.state.cart.find(course => courseId === course.id);
@@ -182,15 +188,14 @@ class Catalog extends Component {
       render: (text, record) => (
         <span>
           {record.enrolled === record.capacity ? (
-            <Button courseid={record.id} onClick={this.handleAddToWaitlist}>
+            <Button
+              courseid={record.id}
+              onClick={() => this.handleAddToWaitlist(record.id)}
+            >
               Add to Waitlist
             </Button>
           ) : (
-            <Button
-              courseid={record.id}
-              onClick={this.handleEnroll}
-              type="primary"
-            >
+            <Button onClick={() => this.handleEnroll(record.id)} type="primary">
               Enroll
             </Button>
           )}
@@ -246,15 +251,14 @@ class Catalog extends Component {
       render: (text, record) => (
         <span>
           {record.capacity === record.enrolled ? (
-            <Button courseid={record.id} onClick={this.handleWaitlist}>
+            <Button
+              courseid={record.id}
+              onClick={() => this.handleAddToWaitlist(record.id)}
+            >
               Add to Waitlist
             </Button>
           ) : (
-            <Button
-              courseid={record.id}
-              onClick={this.handleEnroll}
-              type="primary"
-            >
+            <Button onClick={() => this.handleEnroll(record.id)} type="primary">
               Enroll
             </Button>
           )}
@@ -304,15 +308,11 @@ class Catalog extends Component {
       render: (text, record) => (
         <span>
           {record.capacity === record.enrolled ? (
-            <Button courseid={record.id} onClick={this.handleWaitlist}>
+            <Button onClick={() => this.handleAddToWaitlist(record.id)}>
               Add to Waitlist
             </Button>
           ) : (
-            <Button
-              courseid={record.id}
-              onClick={this.handleEnroll}
-              type="primary"
-            >
+            <Button onClick={() => this.handleEnroll(record.id)} type="primary">
               Enroll
             </Button>
           )}

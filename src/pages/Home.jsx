@@ -5,7 +5,7 @@ import { Typography } from 'antd';
 
 import NavButton from '../components/NavButton';
 import Image from '../components/Image';
-import ContactForm from '../components/ContactForm';
+
 import Grid from '../components/Grid';
 import Testimonial from '../components/Testimonial';
 import ServiceCard from '../components/ServiceCard';
@@ -128,7 +128,7 @@ class Home extends Component {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <NavButton
-              class="NavButton light-on-light fixed-width center"
+              className="NavButton light-on-light fixed-width center"
               label="Learn More"
               to="/catalog"
             />
