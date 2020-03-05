@@ -139,55 +139,40 @@ class Home extends Component {
           <footer className="footer">
             <div className="site-map-grid">
               <div className="home-page-map footer-col">
-                <Link className="site-map-link head" to="/">
+                <span className="site-map-link head" to="/">
                   Home
-                </Link>
-                <Link className="site-map-link" to="/#mission-section">
+                </span>
+                <a className="site-map-link" href="#mission-section">
                   Mission
-                </Link>
-                <Link className="site-map-link" to="/#testimonials-section">
+                </a>
+                <a className="site-map-link" href="#testimonials-section">
                   Testimonials
-                </Link>
+                </a>
               </div>
               <div className="services-page-map footer-col">
-                <Link className="site-map-link head" to="/info">
-                  Services
-                </Link>
-                <Link className="site-map-link" to="/info/#group-section">
+                <span className="site-map-link head">Programs</span>
+                <a className="site-map-link" href="#services-section">
                   Group
-                </Link>
-                <Link
-                  className="site-map-link"
-                  to="/info/#individual-formatted-section"
-                >
+                </a>
+                <a className="site-map-link" href="#services-section">
                   Individual
-                </Link>
-                <Link className="site-map-link" to="/info/#custom-section">
-                  Custom
-                </Link>
+                </a>
               </div>
               <div className="book-page-map footer-col">
-                <Link
-                  className="site-map-link head"
-                  to="/schedule#intro-section"
-                >
-                  Calendar
-                </Link>
-                <Link className="site-map-link" to="/schedule#calendar-section">
-                  Request Tutor
+                <span className="site-map-link head">Catalog</span>
+                <Link className="site-map-link" to="/catalog">
+                  Programs
                 </Link>
               </div>
               <div className="about-page-map footer-col">
-                <Link className="site-map-link head" to="/about">
-                  About
-                </Link>
-                <Link className="site-map-link" to="/about#bio">
+                <span className="site-map-link head">About</span>
+                <Link className="site-map-link" to="/about">
                   Bio
                 </Link>
               </div>
-              <div className="contact-form">
+              {/* <div className="contact-form">
                 <ContactForm />
-              </div>
+              </div> */}
             </div>
             <div className="social-media">
               <div>©Chasing English 2019</div>

@@ -10,6 +10,11 @@
   border-radius: 0.28571429rem;
   transition: all 0.2s ease; }
 
+.ant-layout-content {
+  color: rgba(0, 0, 0, 0.65);
+  padding: 2rem 2rem;
+  background-color: #fff; }
+
 .dark-on-light {
   display: block;
   border: 2px solid rgba(0, 0, 0, 0.87);
@@ -24,10 +29,6 @@ body {
 body {
   font-family: "Lato", sans-serif;
   font-size: 1rem; }
-
-.About {
-  padding: 2rem 2rem;
-  background-color: #fff; }
 
 .AntLogin button {
   font-family: 'Lato', sans-serif;

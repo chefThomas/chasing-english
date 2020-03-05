@@ -59,10 +59,6 @@ class Root extends Component {
     this.setState({ showLogin: false });
   };
 
-  showLogin = () => {
-    this.setState({ showLogin: true });
-  };
-
   handleCloseCart = () => {};
 
   handleFullCourseDialog = message => {
@@ -88,8 +84,8 @@ class Root extends Component {
   };
 
   // api calls
-  // register: adds guardian with student
-  // addAdmin: add admin
+  // register: adds guardian + student
+  //
 
   logout = () => {
     this.setState({
@@ -97,8 +93,9 @@ class Root extends Component {
       loggedInUsername: null,
       loggedInUserType: null,
     });
-
-    localStorage.clear();
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('loggedInUsername');
+    localStorage.removeItem('loggedInUserType');
   };
 
   login = async ({ email, password }) => {
@@ -158,7 +155,6 @@ class Root extends Component {
       lineItems: courses,
     });
 
-    console.log('##### CHECKOUT SESSION RETURNED FROM STRIPE #####', checkout);
     // make Stripe object available from Window (see App.js)
     const stripe = this.props.stripe;
 
@@ -168,15 +164,13 @@ class Root extends Component {
   };
 
   register = async guardianData => {
-    // register customer (guardian )and their student. user data from register form.
+    // register customer (guardian)and their student. user data from register form.
     try {
-      console.log(guardianData);
       const newGuardian = await axios.post(
         `${URI_STUB}/api/guardians`,
         guardianData
       );
 
-      console.log('new guardian ', newGuardian);
       // post new student
       const studentId = newGuardian.data.students[0];
 
@@ -187,9 +181,7 @@ class Root extends Component {
       const guardianWithStudentName = await axios.get(
         `${URI_STUB}/api/guardians/${newGuardian.data.id}`
       );
-      console.log(guardianWithStudentName);
-      // if guardian post successful, student and set state
-      console.log('new student', newStudent);
+
       // get student name to add to guardian students list
       this.setState(prevState => ({
         guardians: [...prevState.guardians, guardianWithStudentName.data],
@@ -304,6 +296,11 @@ class Root extends Component {
   openSideNav = () => {
     this.setState({ showSideNav: true });
   };
+
+  showLogin = () => {
+    this.setState({ showLogin: true });
+  };
+
   toggleStatus = (recordId, type, status) => {
     const record = this.state[type].find(record => record.id === recordId);
 
@@ -333,12 +330,15 @@ class Root extends Component {
       });
   };
 
-  componentDidMount = async () => {
-    // check env
-    console.log(
-      '################ PROCESS.ENV.NODE_ENV #################',
-      process.env.NODE_ENV
+  getLoggedInUserPrograms = () => {
+    const { programs } = this.state.guardians.find(
+      guardian => this.state.loggedInUserCustomerId == guardian.customerId
     );
+
+    return programs;
+  };
+
+  componentDidMount = async () => {
     // load programs and users
     try {
       axios
@@ -364,7 +364,6 @@ class Root extends Component {
       const admins = await axios.get(`${URI_STUB}/api/admins`);
       const students = await axios.get(`${URI_STUB}/api/students`);
       console.log(
-        '############## ROOT COMPONENT MOUNT USERS ###############',
         'guardians: ',
         guardians.data,
         'admins: ',
