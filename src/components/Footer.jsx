@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import '../stylesheets/css/main.css';
 
-const Footer = () => {
+const Footer = props => {
   return (
-    <section id="footer-section" className="footer-section">
+    <section id="footer-section" className={`footer-section Home ${props.mod}`}>
       <footer className="footer">
         <div className="site-map-grid">
           <div className="home-page-map footer-col">
@@ -42,7 +42,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="social-media">
-          <div>©Chasing English 2019</div>
+          <div>©Chasing English 2020</div>
           <div className="social-icons">
             <h4 className="social-media-header">Follow Us</h4>
             <i className="fab fa-twitter-square" />
