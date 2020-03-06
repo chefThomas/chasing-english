@@ -149,6 +149,34 @@ class Catalog extends Component {
     });
   };
 
+  makeProgramButton = record => {
+    const { waitlist } = record;
+
+    const makeButton = (type, text, disabled) => (
+      <Button
+        onClick={() => this.handleEnroll(record.id)}
+        type={type}
+        disabled={disabled}
+      >
+        {text}
+      </Button>
+    );
+    console.log(waitlist, this.props.customerId);
+
+    const waitlistCustomerIds = waitlist.some(customer => {
+      return customer.customerId === this.props.customerId;
+    });
+
+    console.log(waitlistCustomerIds);
+    if (waitlistCustomerIds) {
+      return makeButton(null, 'Added to waitlist', true);
+    } else if (record.enrolled === record.capacity) {
+      return makeButton(null, 'Add to Waitlist', false);
+    } else {
+      return makeButton('primary', 'Enroll', false);
+    }
+  };
+
   handleMessage = msg => {
     message.info(msg);
   };
@@ -189,22 +217,7 @@ class Catalog extends Component {
     {
       title: '',
       key: 'action',
-      render: (text, record) => (
-        <span>
-          {record.enrolled !== record.capacity ? (
-            <Button onClick={() => this.handleEnroll(record.id)} type="primary">
-              Enroll
-            </Button>
-          ) : (
-            <Button
-              courseid={record.id}
-              onClick={() => this.handleAddToWaitlist(record.id)}
-            >
-              Add to Waitlist
-            </Button>
-          )}
-        </span>
-      ),
+      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
     },
   ];
 
@@ -389,6 +402,7 @@ class Catalog extends Component {
         capacity: program.capacity,
         enrolled: program.enrolled,
         duration: program.duration,
+        waitlist: program.waitlist,
       };
     });
   };
@@ -410,6 +424,7 @@ class Catalog extends Component {
         capacity: program.capacity,
         enrolled: program.enrolled,
         duration: program.duration,
+        waitlist: program.waitlist,
       };
     });
   };
@@ -442,6 +457,7 @@ class Catalog extends Component {
         meetingDay,
         capacity: program.capacity,
         enrolled: program.enrolled,
+        waitlist: program.waitlist,
       };
     });
   };
