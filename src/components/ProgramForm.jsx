@@ -23,12 +23,11 @@ class ProgramForm extends Component {
     dateBegin: '',
     endDate: null,
     dateEnd: '',
-    meetingTime: null,
+    meetingTime: moment('00:00:00', 'HH:mm'),
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
     type: null,
-    sku: null,
     status: 'active',
     duration: 0,
   };
@@ -40,12 +39,11 @@ class ProgramForm extends Component {
     dateBegin: '',
     endDate: null,
     dateEnd: '',
-    meetingTime: null,
+    meetingTime: moment('00:00:00', 'HH:mm'),
     meetingDay: [],
     capacity: 1,
     enrolled: 0,
     type: null,
-    sku: null,
     status: 'active',
     duration: 0,
   };
@@ -159,7 +157,11 @@ class ProgramForm extends Component {
           style={this.state.type === 'individual' ? { display: 'none' } : null}
           label="Description"
         >
-          <TextArea onChange={this.handleDescriptionChange} rows={4} />
+          <TextArea
+            onChange={this.handleDescriptionChange}
+            value={this.state.description}
+            rows={4}
+          />
         </Form.Item>
         <Form.Item
           label={this.state.type === 'intensive' ? 'Date' : 'Date Range'}

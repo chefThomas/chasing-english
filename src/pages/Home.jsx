@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { Typography } from 'antd';
 
 import NavButton from '../components/NavButton';
 import Image from '../components/Image';
-import ContactForm from '../components/ContactForm';
+
 import Grid from '../components/Grid';
 import Testimonial from '../components/Testimonial';
 import ServiceCard from '../components/ServiceCard';
+import Footer from '../components/Footer';
 
 import icon from '../static/logo.svg';
 
@@ -77,8 +78,7 @@ class Home extends Component {
             <button
               class="NavButton light-on-light fixed-width center"
               label="Find Out More"
-              // to="/catalog"
-              onClick={this.handleScrollToPrograms}
+              to="/catalog"
             >
               Find Out More
             </button>
@@ -128,63 +128,13 @@ class Home extends Component {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <NavButton
-              class="NavButton light-on-light fixed-width center"
+              className="NavButton light-on-light fixed-width center"
               label="Learn More"
               to="/catalog"
             />
           </div>
         </section>
-        {/* FOOTER */}
-        <section id="footer-section" className="footer-section">
-          <footer className="footer">
-            <div className="site-map-grid">
-              <div className="home-page-map footer-col">
-                <span className="site-map-link head" to="/">
-                  Home
-                </span>
-                <a className="site-map-link" href="#mission-section">
-                  Mission
-                </a>
-                <a className="site-map-link" href="#testimonials-section">
-                  Testimonials
-                </a>
-              </div>
-              <div className="services-page-map footer-col">
-                <span className="site-map-link head">Programs</span>
-                <a className="site-map-link" href="#services-section">
-                  Group
-                </a>
-                <a className="site-map-link" href="#services-section">
-                  Individual
-                </a>
-              </div>
-              <div className="book-page-map footer-col">
-                <span className="site-map-link head">Catalog</span>
-                <Link className="site-map-link" to="/catalog">
-                  Programs
-                </Link>
-              </div>
-              <div className="about-page-map footer-col">
-                <span className="site-map-link head">About</span>
-                <Link className="site-map-link" to="/about">
-                  Bio
-                </Link>
-              </div>
-              {/* <div className="contact-form">
-                <ContactForm />
-              </div> */}
-            </div>
-            <div className="social-media">
-              <div>©Chasing English 2019</div>
-              <div className="social-icons">
-                <h4 className="social-media-header">Follow Us</h4>
-                <i className="fab fa-twitter-square" />
-                <i className="fab fa-linkedin" />
-                <i className="fab fa-instagram" />
-              </div>
-            </div>
-          </footer>
-        </section>
+        <Footer />
       </div>
     );
   }

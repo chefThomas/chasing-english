@@ -6,7 +6,7 @@ import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer, Alert } from 'antd';
+import { Drawer, Alert, message } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -63,7 +63,6 @@ class Root extends Component {
 
   handleFullCourseDialog = message => {
     // displays dialog on Catalog page when customer tries to checkout courses that were filled after they logged in
-
     this.setState({
       fullCourseDialogVisible: true,
     });
@@ -161,6 +160,41 @@ class Root extends Component {
     await stripe.redirectToCheckout({
       sessionId: checkout.data.id,
     });
+  };
+
+  addToWaitlist = async courseId => {
+    // get program
+    const program = await axios.get(`${URI_STUB}/api/programs/${courseId}`);
+    console.log(program.data);
+    // get user
+    const user = await axios.get(
+      `${URI_STUB}/api/guardians/${this.state.loggedInUserCustomerId}`
+    );
+
+    // check if user is on waitlist
+    if (program.data.waitlist.includes(user.data.id)) {
+      message.info("It looks like you're already on the waitlist");
+      return;
+    }
+
+    // add mongo user id to program waitlist
+    const updatedProgram = await axios.put(
+      `${URI_STUB}/api/programs/${courseId}`,
+      {
+        waitlist: program.data.waitlist.concat(user.data.id),
+      }
+    );
+
+    console.log(updatedProgram);
+    // add program id to user waitlist
+    const updatedUser = await axios.put(
+      `${URI_STUB}/api/guardians/${user.data.id}`,
+      {
+        waitlist: user.data.waitlist.concat(program.data.id),
+      }
+    );
+
+    console.log(updatedUser);
   };
 
   register = async guardianData => {
@@ -461,6 +495,8 @@ class Root extends Component {
                 fullCourseIds={this.state.fullCourseIds}
                 checkForFullCourses={this.checkForFullCourses}
                 clearFullCourseIds={this.clearFullCourseIds}
+                customerId={this.state.loggedInUserCustomerId}
+                addToWaitlist={this.addToWaitlist}
               />
             )}
           />
