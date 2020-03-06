@@ -191,16 +191,16 @@ class Catalog extends Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          {record.enrolled === record.capacity ? (
+          {record.enrolled !== record.capacity ? (
+            <Button onClick={() => this.handleEnroll(record.id)} type="primary">
+              Enroll
+            </Button>
+          ) : (
             <Button
               courseid={record.id}
               onClick={() => this.handleAddToWaitlist(record.id)}
             >
               Add to Waitlist
-            </Button>
-          ) : (
-            <Button onClick={() => this.handleEnroll(record.id)} type="primary">
-              Enroll
             </Button>
           )}
         </span>
