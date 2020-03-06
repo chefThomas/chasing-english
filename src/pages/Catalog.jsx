@@ -17,6 +17,10 @@ import {
   Typography,
 } from 'antd';
 
+import '../stylesheets/css/main.css';
+
+import Footer from '../components/Footer';
+
 import text from '../text/paragraph';
 import laptop from '../static/undraw_youtube_tutorial_2gn3.png';
 import group from '../static/undraw_Group_chat_unwm.png';
@@ -676,6 +680,7 @@ class Catalog extends Component {
             pagination={false}
           />
         </Content>
+        <Footer />
       </>
     );
   }

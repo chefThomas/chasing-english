@@ -30,6 +30,11 @@ body {
   font-family: "Lato", sans-serif;
   font-size: 1rem; }
 
+.About-footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0; }
+
 .AntLogin button {
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
