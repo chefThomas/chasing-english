@@ -313,6 +313,7 @@ class Root extends Component {
       .catch(err => console.log('add sesh err: ', err.message));
   };
 
+  handleMessage = msg => {};
   remove = (id, type) => {
     console.log(id, type);
     axios.delete(`${URI_STUB}/api/${type}/${id}`).then(res => {
