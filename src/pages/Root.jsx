@@ -194,7 +194,8 @@ class Root extends Component {
       }
     );
 
-    console.log(updatedUser);
+    //TODO add updated program and user to state
+    console.log('updated user and program: ', updatedUser, updatedProgram);
   };
 
   register = async guardianData => {
