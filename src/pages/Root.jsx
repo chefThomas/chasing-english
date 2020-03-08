@@ -36,9 +36,10 @@ class Root extends Component {
     checkoutSession: null,
     fetching: false,
     guardians: [],
-    loggedInUsername: null,
+    loggedInUser: null,
     loggedInUserCustomerId: null,
     loggedInUserType: null,
+    loggedInUserStudents: [],
     programs: [],
     registrationEvent: false,
     showLogin: false,
@@ -48,6 +49,7 @@ class Root extends Component {
     fullCourseDialogVisible: false,
     fullCourseIds: [],
     showSideNav: false,
+    user: null,
   };
 
   handleAlertClose = () => {
@@ -99,45 +101,34 @@ class Root extends Component {
 
   login = async ({ email, password }) => {
     console.log(email, password);
-    const users = [
-      ...this.state.guardians,
-      ...this.state.students,
-      ...this.state.admins,
-    ];
 
-    console.log(users);
-    // find user by email
-    const user = users.find(user => {
-      return user['email'] === email || user['guardianEmail'] === email;
-    });
+    // if (!user) {
+    //   // display UI error: are you sure that's the correct user?
+    //   this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
+    // } else {
+    //   console.log(user);
 
-    if (!user) {
-      // display UI error: are you sure that's the correct user?
-      this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
-    } else {
-      console.log(user);
-      const email = user.email ? user.email : user.guardianEmail;
-      const result = await axios.post(`${URI_STUB}/login`, {
+    try {
+      const { data } = await axios.post(`${URI_STUB}/login`, {
         email,
         password,
-        userType: user.userType,
       });
 
-      console.log(result);
-      if (result) {
+      console.log(data);
+
+      if (data) {
         this.setState({
-          userToken: result.data.token,
-          loggedInUsername: result.data.name,
-          loggedInUserType: result.data.userType,
-          loggedInUserCustomerId: result.data.customerId,
+          userToken: data.token,
+          user: data.user,
+          loggedInUserType: data.userType,
+          loggedInUserCustomerId: data.customerId,
+          loggedInUserStudents: data.students,
+          loggedInUserCoursesPurchased: data.coursesPurchased,
           registrationEvent: false,
           redirectToCatalog: false,
         });
         // set token, name, and customerId to localStorage
-        localStorage.setItem('userToken', result.data.token);
-        localStorage.setItem('loggedInUsername', result.data.name);
-        localStorage.setItem('loggedInUserCustomerId', result.data.customerId);
-        localStorage.setItem('loggedInUserType', result.data.userType);
+        localStorage.setItem('userToken', data.token);
 
         this.hideLogin();
         // redirect to catalog
@@ -145,12 +136,15 @@ class Root extends Component {
       } else {
         this.setState({ loginMessage: 'Unsuccessful login' });
       }
+    } catch (err) {
+      this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
+      console.log(err);
     }
   };
 
   purchase = async courses => {
     const checkout = await axios.post(`${URI_STUB}/shop`, {
-      customer: this.state.loggedInUserCustomerId,
+      customer: this.state.user.customerId,
       lineItems: courses,
     });
 
@@ -168,14 +162,14 @@ class Root extends Component {
     console.log(program.data);
     // get user
     const user = await axios.get(
-      `${URI_STUB}/api/guardians/${this.state.loggedInUserCustomerId}`
+      `${URI_STUB}/api/guardians/${this.state.user.customerId}`
     );
 
-    // check if user is on waitlist
-    if (program.data.waitlist.includes(user.data.id)) {
-      message.info("It looks like you're already on the waitlist");
-      return;
-    }
+    // // check if user is on waitlist
+    // if (program.data.waitlist.includes(user.data.id)) {
+    //   message.info("It looks like you're already on the waitlist");
+    //   return;
+    // }
 
     // add mongo user id to program waitlist
     const updatedProgram = await axios.put(
@@ -194,12 +188,30 @@ class Root extends Component {
       }
     );
 
-    //TODO add updated program and user to state
-    console.log('updated user and program: ', updatedUser, updatedProgram);
+    //TODO update state with updated programs
+    console.log(
+      'updated user and program: ',
+      updatedUser.data,
+      updatedProgram.data
+    );
+    const updatedGuardians = this.state.guardians.map(guardian => {
+      return guardian.id === updatedUser.data.id ? updatedUser.data : guardian;
+    });
+
+    const updatedPrograms = this.state.programs.map(program => {
+      return program.id === updatedProgram.data.id
+        ? updatedProgram.data
+        : program;
+    });
+
+    this.setState({
+      ...this.state,
+      programs: updatedPrograms,
+      guardians: updatedGuardians,
+    });
   };
 
   register = async guardianData => {
-    // register customer (guardian)and their student. user data from register form.
     try {
       const newGuardian = await axios.post(
         `${URI_STUB}/api/guardians`,
@@ -376,45 +388,45 @@ class Root extends Component {
   componentDidMount = async () => {
     // load programs and users
     try {
-      axios
-        .get(`${URI_STUB}/api/programs`)
-        .then(res => {
-          const dateBegin = formatMongoDate(res.data.dateBegin);
-          const dateEnd = formatMongoDate(res.data.dateEnd);
-
-          // format date
-          const programs = res.data.map(program => {
-            return { ...program, dateBegin, dateEnd };
-          });
-          console.log('##### PROGRAMS #####', programs);
-          this.setState({ programs });
-        })
-        .catch(err => console.log('no programs retrieved: ', err));
-    } catch (err) {
-      console.log(err);
-    }
-
-    try {
-      const guardians = await axios.get(`${URI_STUB}/api/guardians`);
-      const admins = await axios.get(`${URI_STUB}/api/admins`);
-      const students = await axios.get(`${URI_STUB}/api/students`);
-      console.log(
-        'guardians: ',
-        guardians.data,
-        'admins: ',
-        admins.data,
-        'students: ',
-        students.data
-      );
-
-      this.setState({
-        guardians: guardians.data,
-        admins: admins.data,
-        students: students.data,
+      const results = await axios.get(`${URI_STUB}/api/programs`);
+      // map formatted dates onto program
+      const programs = results.data.map(program => {
+        const dateBegin = formatMongoDate(program.dateBegin);
+        const dateEnd = formatMongoDate(program.dateEnd);
+        return { ...program, dateBegin, dateEnd };
       });
+
+      console.log('##### PROGRAMS #####', programs);
+      this.setState({ programs });
     } catch (err) {
-      console.log('############ ROOT COMPONENT MOUNT USER ERROR ', err);
+      console.log(
+        'there was an error retrieving programs while mounting Root',
+        err
+      );
     }
+
+    // try {
+    //   // if logged-in user is admin, get all guardians, students, and admins for admin page
+    //   const guardians = await axios.get(`${URI_STUB}/api/guardians`);
+    //   const admins = await axios.get(`${URI_STUB}/api/admins`);
+    //   const students = await axios.get(`${URI_STUB}/api/students`);
+    //   console.log(
+    //     'guardians: ',
+    //     guardians.data,
+    //     'admins: ',
+    //     admins.data,
+    //     'students: ',
+    //     students.data
+    //   );
+
+    //   this.setState({
+    //     guardians: guardians.data,
+    //     admins: admins.data,
+    //     students: students.data,
+    //   });
+    // } catch (err) {
+    //   console.log('############ ROOT COMPONENT MOUNT USER ERROR ', err);
+    // }
 
     // Use local storage to keep users logged in on component remount
     const userToken = localStorage.getItem('userToken');
@@ -424,12 +436,10 @@ class Root extends Component {
       const loggedInUserCustomerId = localStorage.getItem(
         'loggedInUserCustomerId'
       );
-      const loggedInUserType = localStorage.getItem('loggedInUserType');
 
       this.setState({
         userToken,
         loggedInUsername,
-        loggedInUserType,
         loggedInUserCustomerId,
       });
 
@@ -493,11 +503,14 @@ class Root extends Component {
                 fullCourseDialogVisible={this.state.fullCourseDialogVisible}
                 fullCourseDialogMessages={this.state.fullCourseDialogMessages}
                 fullCourseDialogClose={this.props.fullCourseDialogClose}
-                fullCourseIds={this.state.fullCourseIds}
                 checkForFullCourses={this.checkForFullCourses}
                 clearFullCourseIds={this.clearFullCourseIds}
-                customerId={this.state.loggedInUserCustomerId}
+                loggedInUserCustomerId={this.state.loggedInUserCustomerId}
+                loggedInUserStudents={this.state.loggedInUserStudents}
                 addToWaitlist={this.addToWaitlist}
+                loggedInUserCoursesPurchased={
+                  this.state.loggedInUserCoursesPurchased
+                }
               />
             )}
           />
@@ -545,6 +558,7 @@ class Root extends Component {
                   toggleStatus={this.toggleStatus}
                   remove={this.remove}
                   loggedInUserType={this.state.loggedInUserType}
+                  loggedInUserStudents={this.state.loggedInUserStudents}
                 />
               )}
             />

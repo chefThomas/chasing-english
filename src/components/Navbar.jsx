@@ -32,6 +32,8 @@ class Navbar extends Component {
   // };
 
   render() {
+
+    {user}=this.props
     const location = this.props.history.location.pathname;
     return (
       <div className="Navbar">

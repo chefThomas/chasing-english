@@ -150,31 +150,45 @@ class Catalog extends Component {
   };
 
   makeProgramButton = record => {
-    const { waitlist } = record;
-
-    const makeButton = (type, text, disabled) => (
-      <Button
-        onClick={() => this.handleEnroll(record.id)}
-        type={type}
-        disabled={disabled}
-      >
-        {text}
-      </Button>
-    );
-    console.log(waitlist, this.props.customerId);
-
-    const waitlistCustomerIds = waitlist.some(customer => {
-      return customer.customerId === this.props.customerId;
-    });
-
-    console.log(waitlistCustomerIds);
-    if (waitlistCustomerIds) {
-      return makeButton(null, 'Added to waitlist', true);
-    } else if (record.enrolled === record.capacity) {
-      return makeButton(null, 'Add to Waitlist', false);
-    } else {
-      return makeButton('primary', 'Enroll', false);
-    }
+    // console.log('number enrolled: ', record.enrolled);
+    // console.log('capacity: ', record.capacity);
+    // console.log('record: ', record);
+    // console.log('customer id: ', this.props.loggedInUserCustomerId);
+    // console.log('guardians students: ', this.props.loggedInUserStudents);
+    // console.log('courses purchased: ', this.props.loggedInUserCoursesPurchased);
+    // console.log('program id: ', record.id);
+    // if (this.props.loggedInUserCoursesPurchased.includes(record.id)) {
+    //   return (
+    //     <>
+    //       <Button onClick={null} disabled={true}>
+    //         {' '}
+    //         Enroll
+    //       </Button>
+    //     </>
+    //   );
+    // }
+    // const { waitlist } = record;
+    // const makeButton = (type, text, disabled) => (
+    //   <Button
+    //     onClick={() => this.handleEnroll(record.id)}
+    //     type={type}
+    //     disabled={disabled}
+    //   >
+    //     {text}
+    //   </Button>
+    // );
+    // console.log(waitlist, this.props.loggedInUserCustomerId);
+    // const waitlistCustomerIds = waitlist.some(customer => {
+    //   return customer.loggedInUserCustomerId === this.props.loggedInUserCustomerId;
+    // });
+    // console.log(waitlistCustomerIds);
+    // if (waitlistCustomerIds) {
+    //   return makeButton(null, 'Added to waitlist', true);
+    // } else if (record.enrolled === record.capacity) {
+    //   return makeButton(null, 'Add to Waitlist', false);
+    // } else {
+    //   return makeButton('primary', 'Enroll', false);
+    // }
   };
 
   handleMessage = msg => {
@@ -464,6 +478,7 @@ class Catalog extends Component {
 
   componentDidMount() {
     //retrieve program data on page load
+    console.log(this.props);
     this.getIndividualSessionData();
     this.getGroupSessionData();
     this.getIntensivesData();
