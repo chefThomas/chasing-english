@@ -36,10 +36,7 @@ class Root extends Component {
     checkoutSession: null,
     fetching: false,
     guardians: [],
-    loggedInUser: null,
-    loggedInUserCustomerId: null,
-    loggedInUserType: null,
-    loggedInUserStudents: [],
+    userType: null,
     programs: [],
     registrationEvent: false,
     showLogin: false,
@@ -50,6 +47,7 @@ class Root extends Component {
     fullCourseIds: [],
     showSideNav: false,
     user: null,
+    username: null,
   };
 
   handleAlertClose = () => {
@@ -91,12 +89,14 @@ class Root extends Component {
   logout = () => {
     this.setState({
       userToken: null,
-      loggedInUsername: null,
-      loggedInUserType: null,
+      user: null,
+      username: null,
+      userType: null,
     });
     localStorage.removeItem('userToken');
-    localStorage.removeItem('loggedInUsername');
-    localStorage.removeItem('loggedInUserType');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userType');
+    localStorage.removeItem('userId');
   };
 
   login = async ({ email, password }) => {
@@ -109,26 +109,40 @@ class Root extends Component {
     //   console.log(user);
 
     try {
-      const { data } = await axios.post(`${URI_STUB}/login`, {
+      const {
+        data,
+        data: { user },
+      } = await axios.post(`${URI_STUB}/login`, {
         email,
         password,
       });
 
-      console.log(data);
+      if (!user) {
+        this.setState({
+          alertVisible: true,
+          alertMessage: 'Unsuccessful login',
+        });
+        return;
+      }
 
-      if (data) {
+      // change guardian name props to match other user types
+      user.firstName = user.firstName ? user.firstName : user.guardianFirstName;
+      user.lastName = user.lastName ? user.lastName : user.guardianLastName;
+
+      if (user) {
         this.setState({
           userToken: data.token,
-          user: data.user,
-          loggedInUserType: data.userType,
-          loggedInUserCustomerId: data.customerId,
-          loggedInUserStudents: data.students,
-          loggedInUserCoursesPurchased: data.coursesPurchased,
+          user,
+          username: user.firstName,
+          userType: user.userType,
           registrationEvent: false,
           redirectToCatalog: false,
         });
         // set token, name, and customerId to localStorage
         localStorage.setItem('userToken', data.token);
+        localStorage.setItem('username', user.firstName);
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('userType', user.userType);
 
         this.hideLogin();
         // redirect to catalog
@@ -405,42 +419,18 @@ class Root extends Component {
       );
     }
 
-    // try {
-    //   // if logged-in user is admin, get all guardians, students, and admins for admin page
-    //   const guardians = await axios.get(`${URI_STUB}/api/guardians`);
-    //   const admins = await axios.get(`${URI_STUB}/api/admins`);
-    //   const students = await axios.get(`${URI_STUB}/api/students`);
-    //   console.log(
-    //     'guardians: ',
-    //     guardians.data,
-    //     'admins: ',
-    //     admins.data,
-    //     'students: ',
-    //     students.data
-    //   );
-
-    //   this.setState({
-    //     guardians: guardians.data,
-    //     admins: admins.data,
-    //     students: students.data,
-    //   });
-    // } catch (err) {
-    //   console.log('############ ROOT COMPONENT MOUNT USER ERROR ', err);
-    // }
-
-    // Use local storage to keep users logged in on component remount
     const userToken = localStorage.getItem('userToken');
 
     if (userToken) {
-      const loggedInUsername = localStorage.getItem('loggedInUsername');
-      const loggedInUserCustomerId = localStorage.getItem(
-        'loggedInUserCustomerId'
-      );
+      const username = localStorage.getItem('username');
+      const userId = localStorage.getItem('userId');
+      const userType = localStorage.getItem('userType');
 
       this.setState({
         userToken,
-        loggedInUsername,
-        loggedInUserCustomerId,
+        username,
+        userId,
+        userType,
       });
 
       // save to state
@@ -477,8 +467,8 @@ class Root extends Component {
           openSideNav={this.openSideNav}
           closeSideNav={this.closeSideNav}
           showLogin={this.showLogin}
-          loggedInUsername={this.state.loggedInUsername}
-          loggedInUserType={this.state.loggedInUserType}
+          username={this.state.username}
+          userType={this.state.userType}
           logout={this.logout}
         />
         <Switch>
@@ -541,7 +531,7 @@ class Root extends Component {
               />
             )}
           />
-          {this.state.loggedInUserType === 'admin' ? (
+          {this.state.userType === 'admin' ? (
             <Route
               exact
               path="/admin"
@@ -557,8 +547,7 @@ class Root extends Component {
                   addProgram={this.addProgram}
                   toggleStatus={this.toggleStatus}
                   remove={this.remove}
-                  loggedInUserType={this.state.loggedInUserType}
-                  loggedInUserStudents={this.state.loggedInUserStudents}
+                  userType={this.state.userType}
                 />
               )}
             />

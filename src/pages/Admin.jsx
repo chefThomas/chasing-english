@@ -450,7 +450,7 @@ class Admin extends Component {
           closeRoster={this.closeRoster}
           rosterCourseTitle={this.state.rosterCourseTitle}
         />
-        {this.props.loggedInUserType === 'admin' ? (
+        {this.props.userType === 'admin' ? (
           <div>
             <Tabs type="card">
               <TabPane tab="Programs" key="2">
