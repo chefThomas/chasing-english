@@ -6,7 +6,6 @@ import {
   Button,
   Collapse,
   Icon,
-  message,
   Modal,
   Popconfirm,
   Table,
@@ -262,6 +261,10 @@ class Admin extends Component {
     },
   ];
 
+  // displayMessage = () => {
+  //   message.success(`${type} deleted`);
+  // };
+
   // event handlers
   setDeleteId = e => {
     const { id } = e.target;
@@ -270,8 +273,6 @@ class Admin extends Component {
 
   confirmDelete = (id, type) => {
     this.props.remove(id, type);
-
-    message.success(`${type} deleted`);
   };
 
   closeRoster = () => {

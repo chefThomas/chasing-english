@@ -50,6 +50,7 @@ class Root extends Component {
     fullCourseIds: [],
     showSideNav: false,
     userId: null,
+    adminError: null,
   };
 
   handleAlertClose = () => {
@@ -228,32 +229,37 @@ class Root extends Component {
   };
 
   register = async guardianData => {
-    try {
-      const newGuardian = await axios.post(
-        `${URI_STUB}/api/guardians`,
-        guardianData
-      );
+    console.log(guardianData);
 
-      // post new student
-      const studentId = newGuardian.data.students[0];
+    const newGuardian = await axios.post(
+      `${URI_STUB}/api/guardians`,
+      guardianData
+    );
 
-      // retrieve student data
-      const newStudent = await axios.get(
-        `${URI_STUB}/api/students/${studentId}`
-      );
-      const guardianWithStudentName = await axios.get(
-        `${URI_STUB}/api/guardians/${newGuardian.data.id}`
-      );
+    console.log(newGuardian);
 
-      // get student name to add to guardian students list
-      this.setState(prevState => ({
-        guardians: [...prevState.guardians, guardianWithStudentName.data],
-        students: [...prevState.students, newStudent.data],
-        registrationEvent: true,
-      }));
-    } catch (err) {
-      console.log(err);
+    if (newGuardian.data.error) {
+      // display error message on admin page
+      this.setState({ adminError: newGuardian.data.message });
+      return;
     }
+
+    // // post new student
+    const studentId = newGuardian.data.students[0];
+
+    // // retrieve student data
+    const newStudent = await axios.get(`${URI_STUB}/api/students/${studentId}`);
+
+    const guardianWithStudentName = await axios.get(
+      `${URI_STUB}/api/guardians/${newGuardian.data.id}`
+    );
+
+    // // get student name to add to guardian students list
+    this.setState(prevState => ({
+      guardians: [...prevState.guardians, guardianWithStudentName.data],
+      students: [...prevState.students, newStudent.data],
+      registrationEvent: true,
+    }));
   };
 
   addAdmin = async adminData => {
@@ -351,14 +357,20 @@ class Root extends Component {
     }));
   };
 
-  handleMessage = msg => {};
-  remove = (id, type) => {
-    console.log(id, type);
-    axios.delete(`${URI_STUB}/api/${type}/${id}`).then(res => {
+  handleMessage = msg => {
+    console.log(msg);
+  };
+  remove = async (id, type) => {
+    const config = setAuthHeader(this.state.userToken);
+    const result = await axios.delete(`${URI_STUB}/api/${type}/${id}`, config);
+
+    console.log(result.status);
+
+    if (result.status === 200) {
       const filtered = this.state[`${type}`].filter(el => el.id !== id);
-      console.log(filtered);
       this.setState({ [type]: filtered });
-    });
+      this.handleMessage('program deleted');
+    }
   };
 
   closeSideNav = () => {
@@ -539,6 +551,7 @@ class Root extends Component {
                 register={this.register}
                 login={this.login}
                 registrationEvent={this.state.registrationEvent}
+                adminPageErrorMessage={this.state.adminError}
               />
             )}
           />
