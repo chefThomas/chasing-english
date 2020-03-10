@@ -18,6 +18,7 @@ import Success from './Success';
 import Cancel from './Cancel';
 
 import formatMongoDate from '../utilities/formatMongoDate';
+import setAuthHeader from '../utilities/setAuthHeader';
 
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
@@ -31,23 +32,24 @@ const URI_STUB =
 class Root extends Component {
   state = {
     admins: [],
+    students: [],
+    guardians: [],
     alertMessage: '',
     alertVisible: false,
+    user: null,
+    username: null,
+    userType: null,
     checkoutSession: null,
     fetching: false,
-    guardians: [],
-    userType: null,
     programs: [],
     registrationEvent: false,
     showLogin: false,
-    students: [],
     userToken: null,
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
     fullCourseIds: [],
     showSideNav: false,
-    user: null,
-    username: null,
+    userId: null,
   };
 
   handleAlertClose = () => {
@@ -92,11 +94,11 @@ class Root extends Component {
       user: null,
       username: null,
       userType: null,
+      userId: null,
     });
     localStorage.removeItem('userToken');
     localStorage.removeItem('username');
     localStorage.removeItem('userType');
-    localStorage.removeItem('userId');
   };
 
   login = async ({ email, password }) => {
@@ -324,20 +326,29 @@ class Root extends Component {
     this.setState({ fullCourseIds: [] });
   };
 
-  addProgram = program => {
-    axios
-      .post(`${URI_STUB}/api/programs`, program)
-      .then(res => {
-        const dateBegin = formatMongoDate(res.data.dateBegin, 'date');
-        const dateEnd = formatMongoDate(res.data.dateEnd, 'date');
-        const day = this.formatMongoDate(res.data.dateBegin, 'day');
-        console.log(dateBegin, dateEnd, day);
-        console.log(res.data);
-        this.setState(st => ({
-          programs: st.programs.concat({ ...res.data, dateBegin, dateEnd }),
-        }));
-      })
-      .catch(err => console.log('add sesh err: ', err.message));
+  addProgram = async program => {
+    console.log(this.state.userToken);
+    const config = setAuthHeader(this.state.userToken);
+    console.log(config);
+
+    const result = await axios.post(
+      `${URI_STUB}/api/programs`,
+      program,
+      config
+    );
+
+    const dateBegin = this.formatMongoDate(result.data.dateBegin, 'date');
+    const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
+    const day = this.formatMongoDate(result.data.dateBegin, 'day');
+    console.log(dateBegin, dateEnd, day);
+    console.log(result.data);
+    this.setState(prevState => ({
+      programs: prevState.programs.concat({
+        ...result.data,
+        dateBegin,
+        dateEnd,
+      }),
+    }));
   };
 
   handleMessage = msg => {};

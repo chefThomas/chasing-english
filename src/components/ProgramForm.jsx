@@ -97,7 +97,6 @@ class ProgramForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
     const {
       title,
       description,
