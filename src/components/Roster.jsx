@@ -18,15 +18,15 @@ class Roster extends Component {
     },
   ];
 
-  getRosterData = () => {
-    return this.props.roster.map(student => {
-      return {
-        key: student.id,
-        name: `${student.firstName} ${student.lastName}`,
-        email: student.email,
-      };
-    });
-  };
+  // getRosterData = () => {
+  //   return this.props.roster.map(student => {
+  //     return {
+  //       key: student.id,
+  //       name: `${student.firstName} ${student.lastName}`,
+  //       email: student.email,
+  //     };
+  //   });
+  // };
 
   render() {
     return (

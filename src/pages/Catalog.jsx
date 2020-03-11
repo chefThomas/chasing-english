@@ -18,6 +18,8 @@ import {
   Typography,
 } from 'antd';
 
+import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
+
 import '../stylesheets/css/main.css';
 
 import Footer from '../components/Footer';
@@ -469,6 +471,10 @@ class Catalog extends Component {
   };
 
   componentDidMount() {
+    const credentials = getCredentialFromLocalStorage();
+    if (credentials) {
+      this.props.login(credentials);
+    }
     // retrieve guardian data
     // this.getGuardian(this.props.userToken)
     //retrieve program data on page load

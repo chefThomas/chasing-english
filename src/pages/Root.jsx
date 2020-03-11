@@ -31,24 +31,24 @@ const URI_STUB =
 
 class Root extends Component {
   state = {
-    students: [],
-    guardians: [],
-    alertMessage: '',
-    user: null,
-    username: null,
-    userType: null,
+    adminError: null,
     checkoutSession: null,
+    errorMessage: null,
     fetching: false,
-    programs: [],
-    registrationEvent: false,
-    showLogin: false,
-    userToken: null,
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
     fullCourseIds: [],
+    guardians: [],
+    programs: [],
+    showLogin: false,
+    registrationEvent: false,
     showSideNav: false,
+    students: [],
+    user: null,
     userId: null,
-    adminError: null,
+    username: null,
+    userType: null,
+    userToken: null,
   };
 
   handleAlertClose = () => {
@@ -83,10 +83,6 @@ class Root extends Component {
     }
   };
 
-  // api calls
-  // register: adds guardian + student
-  //
-
   logout = () => {
     this.setState({
       userToken: null,
@@ -96,6 +92,9 @@ class Root extends Component {
       userId: null,
     });
     localStorage.removeItem('userToken');
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    localStorage.removeItem('username');
     // localStorage.removeItem('username');
     // localStorage.removeItem('userType');
   };
@@ -133,6 +132,9 @@ class Root extends Component {
       redirectToCatalog: false,
       showLogin: false,
     });
+    if (this.props.history.location === 'guardian-registration') {
+      this.props.history.push('/catalog');
+    }
   };
 
   purchase = async courses => {
@@ -199,39 +201,24 @@ class Root extends Component {
   };
 
   register = async guardianData => {
-    console.log(guardianData);
-
-    const newGuardian = await axios.post(
+    const { data, status } = await axios.post(
       `${URI_STUB}/api/guardians`,
       guardianData
     );
 
-    console.log(newGuardian);
+    console.log(data);
 
-    if (newGuardian.data.error) {
+    if (data.error) {
       // display error message on admin page
-      this.setState({ adminError: newGuardian.data.message });
-      setTimeout(this.setState({ adminError: null }), 2000);
+      this.setState({ errorMessage: data.message });
+      setTimeout(this.setState({ errorMessage: null }), 3000);
 
       return;
     }
 
-    // // post new student
-    const studentId = newGuardian.data.students[0];
-
-    // // retrieve student data
-    const newStudent = await axios.get(`${URI_STUB}/api/students/${studentId}`);
-
-    const guardianWithStudentName = await axios.get(
-      `${URI_STUB}/api/guardians/${newGuardian.data.id}`
-    );
-
-    // // get student name to add to guardian students list
-    this.setState(prevState => ({
-      guardians: [...prevState.guardians, guardianWithStudentName.data],
-      students: [...prevState.students, newStudent.data],
-      registrationEvent: true,
-    }));
+    this.setState({ registrationEvent: true });
+    console.log(status);
+    return;
   };
 
   addAdmin = async adminData => {
@@ -386,13 +373,13 @@ class Root extends Component {
       });
   };
 
-  getLoggedInUserPrograms = () => {
-    const { programs } = this.state.guardians.find(
-      guardian => this.state.loggedInUserCustomerId == guardian.customerId
-    );
+  // getLoggedInUserPrograms = () => {
+  //   const { programs } = this.state.guardians.find(
+  //     guardian => this.state.loggedInUserCustomerId == guardian.customerId
+  //   );
 
-    return programs;
-  };
+  //   return programs;
+  // };
 
   componentDidMount = async () => {
     // load programs and users
@@ -404,7 +391,6 @@ class Root extends Component {
         const dateEnd = formatMongoDate(program.dateEnd);
         return { ...program, dateBegin, dateEnd };
       });
-
       console.log('##### PROGRAMS #####', programs);
       this.setState({ programs });
     } catch (err) {
@@ -417,7 +403,6 @@ class Root extends Component {
     const userToken = localStorage.getItem('userToken');
 
     this.setState({ userToken });
-    console.log('no user stored');
   };
 
   render() {
@@ -458,7 +443,14 @@ class Root extends Component {
           <Route
             exact
             path="/"
-            render={routeProps => <Home {...this.state} {...routeProps} />}
+            render={routeProps => (
+              <Home
+                {...this.state}
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
@@ -477,23 +469,42 @@ class Root extends Component {
                 checkForFullCourses={this.checkForFullCourses}
                 clearFullCourseIds={this.clearFullCourseIds}
                 addToWaitlist={this.addToWaitlist}
+                login={this.login}
               />
             )}
           />
           <Route
             exact
             path="/about"
-            render={routeProps => <About {...routeProps} />}
+            render={routeProps => (
+              <About
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
             path="/success"
-            render={routeProps => <Success {...routeProps} />}
+            render={routeProps => (
+              <Success
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
             path="/cancel"
-            render={routeProps => <Cancel {...routeProps} />}
+            render={routeProps => (
+              <Cancel
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
@@ -503,8 +514,9 @@ class Root extends Component {
                 {...routeProps}
                 register={this.register}
                 login={this.login}
+                user={this.state.user}
                 registrationEvent={this.state.registrationEvent}
-                adminPageErrorMessage={this.state.adminError}
+                errorMessage={this.state.errorMessage}
               />
             )}
           />
@@ -524,6 +536,8 @@ class Root extends Component {
                 toggleStatus={this.toggleStatus}
                 remove={this.remove}
                 user={this.state.user}
+                login={this.login}
+                userToken={this.state.userToken}
               />
             )}
           />

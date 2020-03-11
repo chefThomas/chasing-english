@@ -29,8 +29,8 @@ class GuardianRegistration extends Component {
   render() {
     return (
       <div className="GuardianRegistration">
-        {this.props.adminPageErrorMessage
-          ? message.error(this.props.adminPageErrorMessage)
+        {this.props.errorMessage
+          ? message.error(this.props.errorMessage)
           : null}
         {this.props.registrationEvent ? (
           <div

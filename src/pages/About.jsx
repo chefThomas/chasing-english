@@ -5,11 +5,19 @@ import { Layout } from 'antd';
 import '../stylesheets/css/main.css';
 import Footer from '../components/Footer';
 
+import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
+
 import text from '../text/paragraph';
 
 const { Content } = Layout;
 
 class About extends Component {
+  componentDidMount() {
+    const credentials = getCredentialFromLocalStorage();
+    if (credentials) {
+      this.props.login(credentials);
+    }
+  }
   render() {
     return (
       <>

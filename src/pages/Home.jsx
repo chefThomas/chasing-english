@@ -11,12 +11,13 @@ import Testimonial from '../components/Testimonial';
 import ServiceCard from '../components/ServiceCard';
 import Footer from '../components/Footer';
 
-import icon from '../static/logo.svg';
+import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
 
-import text from '../text/paragraph';
+import icon from '../static/logo.svg';
 import books from '../static/undraw_in_sync_xwsa.png';
 import personal from '../static/undraw_freelancer_b0my.png';
 import writing from '../static/undraw_teacher_35j2.png';
+import text from '../text/paragraph';
 
 import '../stylesheets/css/main.css';
 
@@ -35,6 +36,13 @@ class Home extends Component {
   state = {
     showForm: false,
   };
+
+  componentDidMount() {
+    const credentials = getCredentialFromLocalStorage();
+    if (credentials) {
+      this.props.login(credentials);
+    }
+  }
 
   render() {
     return (
