@@ -40,7 +40,6 @@ class GuardianRegistration extends Component {
               alignItems: 'center',
             }}
           >
-            }
             <Result
               style={{
                 marginRight: 'auto',

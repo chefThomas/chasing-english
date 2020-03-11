@@ -41,7 +41,6 @@ class RegistrationForm extends Component {
         console.log('Received values of form: ', values);
         this.props.register(values);
         //clear form
-        // this.clearForm();
       }
     });
   };

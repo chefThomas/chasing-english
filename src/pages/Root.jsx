@@ -6,7 +6,7 @@ import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer, Alert, message } from 'antd';
+import { Drawer, Alert } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -31,11 +31,9 @@ const URI_STUB =
 
 class Root extends Component {
   state = {
-    admins: [],
     students: [],
     guardians: [],
     alertMessage: '',
-    alertVisible: false,
     user: null,
     username: null,
     userType: null,
@@ -54,7 +52,7 @@ class Root extends Component {
   };
 
   handleAlertClose = () => {
-    this.setState({ alertVisible: false, alertMessage: '' });
+    this.setState({ alertMessage: '', alertVisible: false });
   };
 
   // UI
@@ -98,65 +96,43 @@ class Root extends Component {
       userId: null,
     });
     localStorage.removeItem('userToken');
-    localStorage.removeItem('username');
-    localStorage.removeItem('userType');
+    // localStorage.removeItem('username');
+    // localStorage.removeItem('userType');
   };
 
   login = async ({ email, password }) => {
-    console.log(email, password);
+    const { data } = await axios.post(`${URI_STUB}/login`, {
+      email,
+      password,
+    });
 
-    // if (!user) {
-    //   // display UI error: are you sure that's the correct user?
-    //   this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
-    // } else {
-    //   console.log(user);
-
-    try {
-      const {
-        data,
-        data: { user },
-      } = await axios.post(`${URI_STUB}/login`, {
-        email,
-        password,
+    if (!data) {
+      this.setState({
+        alertVisible: true,
+        alertMessage: 'Unsuccessful login',
       });
-
-      if (!user) {
-        this.setState({
-          alertVisible: true,
-          alertMessage: 'Unsuccessful login',
-        });
-        return;
-      }
-
-      // change guardian name props to match other user types
-      user.firstName = user.firstName ? user.firstName : user.guardianFirstName;
-      user.lastName = user.lastName ? user.lastName : user.guardianLastName;
-
-      if (user) {
-        this.setState({
-          userToken: data.token,
-          user,
-          username: user.firstName,
-          userType: user.userType,
-          registrationEvent: false,
-          redirectToCatalog: false,
-        });
-        // set token, name, and customerId to localStorage
-        localStorage.setItem('userToken', data.token);
-        localStorage.setItem('username', user.firstName);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('userType', user.userType);
-
-        this.hideLogin();
-        // redirect to catalog
-        this.props.history.push('/catalog');
-      } else {
-        this.setState({ loginMessage: 'Unsuccessful login' });
-      }
-    } catch (err) {
-      this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
-      console.log(err);
+      return;
     }
+
+    const user = data.user;
+
+    // change guardian name props to match other user types
+    user.firstName = user.firstName ? user.firstName : user.guardianFirstName;
+    user.lastName = user.lastName ? user.lastName : user.guardianLastName;
+
+    localStorage.setItem('userToken', data.token);
+    localStorage.setItem('username', user.firstName);
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+
+    this.setState({
+      email,
+      userToken: data.token,
+      user,
+      registrationEvent: false,
+      redirectToCatalog: false,
+      showLogin: false,
+    });
   };
 
   purchase = async courses => {
@@ -205,12 +181,6 @@ class Root extends Component {
       }
     );
 
-    //TODO update state with updated programs
-    console.log(
-      'updated user and program: ',
-      updatedUser.data,
-      updatedProgram.data
-    );
     const updatedGuardians = this.state.guardians.map(guardian => {
       return guardian.id === updatedUser.data.id ? updatedUser.data : guardian;
     });
@@ -241,6 +211,8 @@ class Root extends Component {
     if (newGuardian.data.error) {
       // display error message on admin page
       this.setState({ adminError: newGuardian.data.message });
+      setTimeout(this.setState({ adminError: null }), 2000);
+
       return;
     }
 
@@ -444,22 +416,8 @@ class Root extends Component {
 
     const userToken = localStorage.getItem('userToken');
 
-    if (userToken) {
-      const username = localStorage.getItem('username');
-      const userId = localStorage.getItem('userId');
-      const userType = localStorage.getItem('userType');
-
-      this.setState({
-        userToken,
-        username,
-        userId,
-        userType,
-      });
-
-      // save to state
-    } else {
-      console.log('no user stored');
-    }
+    this.setState({ userToken });
+    console.log('no user stored');
   };
 
   render() {
@@ -490,8 +448,7 @@ class Root extends Component {
           openSideNav={this.openSideNav}
           closeSideNav={this.closeSideNav}
           showLogin={this.showLogin}
-          username={this.state.username}
-          userType={this.state.userType}
+          user={this.state.user}
           logout={this.logout}
         />
         <Switch>
@@ -511,6 +468,7 @@ class Root extends Component {
                 {...routeProps}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
+                user={this.state.user}
                 purchase={this.purchase}
                 fetching={this.state.fetching}
                 fullCourseDialogVisible={this.state.fullCourseDialogVisible}
@@ -518,12 +476,7 @@ class Root extends Component {
                 fullCourseDialogClose={this.props.fullCourseDialogClose}
                 checkForFullCourses={this.checkForFullCourses}
                 clearFullCourseIds={this.clearFullCourseIds}
-                loggedInUserCustomerId={this.state.loggedInUserCustomerId}
-                loggedInUserStudents={this.state.loggedInUserStudents}
                 addToWaitlist={this.addToWaitlist}
-                loggedInUserCoursesPurchased={
-                  this.state.loggedInUserCoursesPurchased
-                }
               />
             )}
           />
@@ -555,27 +508,25 @@ class Root extends Component {
               />
             )}
           />
-          {this.state.userType === 'admin' ? (
-            <Route
-              exact
-              path="/admin"
-              render={routeProps => (
-                <Admin
-                  {...routeProps}
-                  addAdmin={this.addAdmin}
-                  addGuardian={this.register}
-                  guardians={this.state.guardians}
-                  programs={this.state.programs}
-                  students={this.state.students}
-                  admins={this.state.admins}
-                  addProgram={this.addProgram}
-                  toggleStatus={this.toggleStatus}
-                  remove={this.remove}
-                  userType={this.state.userType}
-                />
-              )}
-            />
-          ) : null}
+          <Route
+            exact
+            path="/admin"
+            render={routeProps => (
+              <Admin
+                {...routeProps}
+                addAdmin={this.addAdmin}
+                addGuardian={this.register}
+                guardians={this.state.guardians}
+                programs={this.state.programs}
+                students={this.state.students}
+                admins={this.state.admins}
+                addProgram={this.addProgram}
+                toggleStatus={this.toggleStatus}
+                remove={this.remove}
+                user={this.state.user}
+              />
+            )}
+          />
         </Switch>
       </div>
     );

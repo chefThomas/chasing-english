@@ -69,7 +69,7 @@ class Navbar extends Component {
               >
                 About
               </NavLink>
-              {this.props.userType === 'admin' ? (
+              {this.props.user && this.props.user.userType === 'admin' ? (
                 <NavLink
                   exact
                   className="side-nav-link"
@@ -107,7 +107,7 @@ class Navbar extends Component {
           >
             About
           </NavLink>
-          {this.props.userType === 'admin' ? (
+          {this.props.user && this.props.user.userType === 'admin' ? (
             <NavLink
               exact
               className="Navbar-link"
@@ -130,10 +130,10 @@ class Navbar extends Component {
               : 'Navbutton-container'
           }
         >
-          {this.props.username ? (
+          {this.props.user ? (
             <>
               <span className="welcome-user">
-                {`Welcome, ${this.props.username}!`}
+                {`Welcome, ${this.props.user.firstName}!`}
               </span>
             </>
           ) : (
@@ -145,13 +145,13 @@ class Navbar extends Component {
               Log In
             </button>
           )}
-          <Link to={this.props.username ? '' : '/guardian-registration'}>
+          <Link to={this.props.user ? '' : '/guardian-registration'}>
             <button
               className="NavButton dark-on-dark navbar"
               label="Sign up"
-              onClick={this.props.username ? this.handleLogout : null}
+              onClick={this.props.user ? this.handleLogout : null}
             >
-              {this.props.username ? 'Log out' : 'Sign Up'}
+              {this.props.user ? 'Log out' : 'Sign Up'}
             </button>
           </Link>
         </div>

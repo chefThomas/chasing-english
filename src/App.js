@@ -21,7 +21,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <StripeProvider stripe={this.state.stripe}>
+        <StripeProvider stripe={this.props.stripe}>
           <Elements>
             <Root />
           </Elements>
