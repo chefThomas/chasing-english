@@ -1,34 +1,44 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
+import axios from 'axios';
 
 import {
   Button,
   Collapse,
   Icon,
-  message,
   Modal,
   Popconfirm,
   Table,
   Tabs,
   Tooltip,
-  Result,
 } from 'antd';
+
+import setAuthHeader from '../utilities/setAuthHeader';
+
+import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
+
 import ProgramForm from '../components/ProgramForm';
 import UserForm from '../components/UserForm';
-import Roster from '../components/Roster';
+// import Roster from '../components/Roster';
 import '../stylesheets/css/main.css';
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
-// const marginSm = { margin: "10px" };
+
+const URI_STUB =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5000'
+    : 'https://blooming-beach-67877.herokuapp.com';
+
 class Admin extends Component {
   state = {
     programFormVisible: false,
     userFormVisible: false,
     rosterVisible: false,
-    roster: [],
-    rosterCourseTitle: '',
+    students: null,
+    guardians: null,
+    admins: null,
   };
 
   programCols = [
@@ -262,6 +272,10 @@ class Admin extends Component {
     },
   ];
 
+  // displayMessage = () => {
+  //   message.success(`${type} deleted`);
+  // };
+
   // event handlers
   setDeleteId = e => {
     const { id } = e.target;
@@ -270,8 +284,6 @@ class Admin extends Component {
 
   confirmDelete = (id, type) => {
     this.props.remove(id, type);
-
-    message.success(`${type} deleted`);
   };
 
   closeRoster = () => {
@@ -308,16 +320,16 @@ class Admin extends Component {
     this.setState({ programFormVisible: false });
   };
 
-  getAdminData = () => {
-    return this.props.admins.map(admin => {
-      return {
-        key: admin.id,
-        id: admin.id,
-        name: admin.firstName + admin.lastName,
-        email: admin.email,
-      };
-    });
-  };
+  // getAdminData = () => {
+  //   return this.props.admins.map(admin => {
+  //     return {
+  //       key: admin.id,
+  //       id: admin.id,
+  //       name: admin.firstName + admin.lastName,
+  //       email: admin.email,
+  //     };
+  //   });
+  // };
 
   // getStudentListFromGuardian = students => {
   //   if (students) {
@@ -329,47 +341,99 @@ class Admin extends Component {
   //   }
   // };
 
-  getGuardianData = () => {
-    if (this.props.guardians.length > 0) {
-      return this.props.guardians.map(g => {
-        const students = g['students'].reduce((acc, student) => {
-          return acc + `${student.firstName} ${student.lastName} `;
-        }, '');
+  // getGuardianData = () => {
+  //   if (this.props.guardians.length > 0) {
+  //     return this.props.guardians.map(g => {
+  //       const students = g['students'].reduce((acc, student) => {
+  //         return acc + `${student.firstName} ${student.lastName} `;
+  //       }, '');
+  //       return {
+  //         key: g.id,
+  //         id: g.id,
+  //         name: `${g.guardianFirstName} ${g.guardianLastName}`,
+  //         email: g.guardianEmail,
+  //         phone: g.phone,
+  //         students,
+  //         gmail: g.gmail,
+  //         status: g.status,
+  //         grade: g.grade,
+  //         contactMethod: g.contactMethod,
+  //         programsOfInterest: g.programsOfInterest,
+  //       };
+  //     });
+  //   } else {
+  //     return null;
+  //   }
+  // };
+
+  getAdmins = () => {
+    if (this.state.admins) {
+      return this.state.admins.map(({ id, firstName, lastName, email }) => {
         return {
-          key: g.id,
-          id: g.id,
-          name: `${g.guardianFirstName} ${g.guardianLastName}`,
-          email: g.guardianEmail,
-          phone: g.phone,
-          students,
-          gmail: g.gmail,
-          status: g.status,
-          grade: g.grade,
-          contactMethod: g.contactMethod,
-          programsOfInterest: g.programsOfInterest,
+          key: id,
+          id: id,
+          name: `${firstName} ${lastName}`,
+          email: email,
         };
       });
-    } else {
-      return null;
     }
+    return;
   };
 
-  getStudentData = () => {
-    return this.props.students.map(s => {
-      return {
-        key: s.id,
-        id: s.id,
-        name: `${s.firstName} ${s.lastName}`,
-        email: s.email,
-        courses: s.courses,
-        students: s.students,
-        gmail: s.gmail,
-        status: s.status,
-        guardian: `${s.guardian.guardianFirstName} ${s.guardian.guardianLastName}`,
-        grade: s.grade,
-      };
-    });
+  getGuardians = () => {
+    if (this.state.guardians) {
+      return this.state.guardians.map(
+        ({
+          id,
+          guardianFirstName,
+          guardianLastName,
+          guardianEmail,
+          phone,
+          contactMethod,
+          students,
+        }) => {
+          const studentString = students.reduce(
+            (accum, student) =>
+              ` ${student.firstName}  ${student.lastName}` + accum,
+            ''
+          );
+          return {
+            key: id,
+            id,
+            name: `${guardianFirstName} ${guardianLastName}`,
+            email: guardianEmail,
+            phone,
+            contactMethod,
+            students: studentString,
+          };
+        }
+      );
+    }
+    return;
   };
+
+  getStudents = () => {
+    if (this.state.students) {
+      return this.state.students.map(
+        ({ id, firstName, lastName, email, guardian }) => {
+          return {
+            key: id,
+            id: id,
+            name: `${firstName} ${lastName}`,
+            email: email,
+            guardian: `${guardian.guardianFirstName} ${guardian.guardianLastName}`,
+          };
+        }
+      );
+    }
+    return;
+  };
+  // getStudents = async () => {
+  //   const config = setAuthHeader(this.props.userToken);
+  //   const { data } = await axios.get(`${URI_STUB}/api/students`, config);
+
+  //   this.setState({ students: data });
+  // };
 
   formatMongoDate = date => {
     const dateMoment = moment(date);
@@ -380,52 +444,52 @@ class Admin extends Component {
     return day;
   };
 
-  getProgramData = (type, status) => {
-    if (status === 'active') {
-      return this.props.programs
-        .filter(program => program.type === type && program.status === status)
-        .map(program => {
-          const meetingDay =
-            program.type === 'intensive'
-              ? this.formatMongoDate(program.dateBegin)
-              : program.meetingDay;
-          return {
-            key: program.id,
-            id: program.id,
-            title: program.title,
-            description: program.description,
-            duration: program.duration,
-            startDate: program.dateBegin,
-            endDate: program.dateEnd,
-            meetingTime: program.meetingTime,
-            meetingDay,
-            capacity: program.capacity,
-            enrolled: program.enrolled,
-            status: program.status,
-            type: program.type,
-            roster: program.roster,
-          };
-        });
-    } else {
-      return this.props.programs
-        .filter(program => program.status === 'archive')
-        .map(program => ({
-          key: program.id,
-          id: program.id,
-          title: program.title,
-          description: program.description,
-          startDate: program.dateBegin,
-          endDate: program.dateEnd,
-          meetingTime: program.meetingTime,
-          meetingDay: program.meetingDay,
-          capacity: program.capacity,
-          enrolled: program.enrolled,
-          status: program.status,
-          type: program.type,
-          duration: program.duration,
-        }));
-    }
-  };
+  // getProgramData = (type, status) => {
+  //   if (status === 'active') {
+  //     return this.props.programs
+  //       .filter(program => program.type === type && program.status === status)
+  //       .map(program => {
+  //         const meetingDay =
+  //           program.type === 'intensive'
+  //             ? this.formatMongoDate(program.dateBegin)
+  //             : program.meetingDay;
+  //         return {
+  //           key: program.id,
+  //           id: program.id,
+  //           title: program.title,
+  //           description: program.description,
+  //           duration: program.duration,
+  //           startDate: program.dateBegin,
+  //           endDate: program.dateEnd,
+  //           meetingTime: program.meetingTime,
+  //           meetingDay,
+  //           capacity: program.capacity,
+  //           enrolled: program.enrolled,
+  //           status: program.status,
+  //           type: program.type,
+  //           roster: program.roster,
+  //         };
+  //       });
+  //   } else {
+  //     return this.props.programs
+  //       .filter(program => program.status === 'archive')
+  //       .map(program => ({
+  //         key: program.id,
+  //         id: program.id,
+  //         title: program.title,
+  //         description: program.description,
+  //         startDate: program.dateBegin,
+  //         endDate: program.dateEnd,
+  //         meetingTime: program.meetingTime,
+  //         meetingDay: program.meetingDay,
+  //         capacity: program.capacity,
+  //         enrolled: program.enrolled,
+  //         status: program.status,
+  //         type: program.type,
+  //         duration: program.duration,
+  //       }));
+  //   }
+  // };
 
   // count = (arr, status, type) => {
   //   if (type) {
@@ -441,16 +505,35 @@ class Admin extends Component {
   //   ).length;
   // };
 
+  async componentDidMount() {
+    const credentials = getCredentialFromLocalStorage();
+    if (credentials) {
+      this.props.login(credentials);
+    }
+
+    const config = setAuthHeader(localStorage.getItem('userToken'));
+
+    const students = await axios.get(`${URI_STUB}/api/students`, config);
+    const guardians = await axios.get(`${URI_STUB}/api/guardians`, config);
+    const admins = await axios.get(`${URI_STUB}/api/admins`, config);
+
+    this.setState({
+      students: students.data,
+      guardians: guardians.data,
+      admins: admins.data,
+    });
+  }
+
   render() {
     return (
       <>
-        <Roster
+        {/* <Roster
           roster={this.state.roster}
           showRoster={this.state.showRoster}
           closeRoster={this.closeRoster}
           rosterCourseTitle={this.state.rosterCourseTitle}
-        />
-        {this.props.loggedInUserType === 'admin' ? (
+        /> */}
+        {this.props.user && this.props.user.userType === 'admin' ? (
           <div>
             <Tabs type="card">
               <TabPane tab="Programs" key="2">
@@ -467,7 +550,7 @@ class Admin extends Component {
                   <Panel header="Individual Coaching" key="individual">
                     <Table
                       bordered
-                      dataSource={this.getProgramData('individual', 'active')}
+                      // dataSource={() => ('individual', 'active')}
                       columns={this.programCols}
                     />
                   </Panel>
@@ -475,7 +558,7 @@ class Admin extends Component {
                     <Table
                       size="medium"
                       bordered
-                      dataSource={this.getProgramData('group', 'active')}
+                      // dataSource={this.getProgramData('group', 'active')}
                       columns={this.programCols}
                     />
                   </Panel>
@@ -483,14 +566,14 @@ class Admin extends Component {
                     <Table
                       size="medium"
                       bordered
-                      dataSource={this.getProgramData('intensive', 'active')}
+                      // dataSource={this.getProgramData('intensive', 'active')}
                       columns={this.programCols}
                     />
                   </Panel>
                   <Panel header="Archive" key="archive">
                     <Table
                       bordered
-                      dataSource={this.getProgramData('', 'archive')}
+                      // dataSource={this.getProgramData('', 'archive')}
                       columns={this.programCols}
                     />
                   </Panel>
@@ -511,7 +594,7 @@ class Admin extends Component {
                     <Table
                       size="medium"
                       bordered
-                      dataSource={this.getAdminData()}
+                      dataSource={this.getAdmins('active')}
                       columns={this.adminCols}
                     />
                   </Panel>
@@ -519,7 +602,7 @@ class Admin extends Component {
                     <Table
                       size="medium"
                       bordered
-                      dataSource={this.getStudentData()}
+                      dataSource={this.getStudents('active')}
                       columns={this.studentCols}
                     />
                   </Panel>
@@ -527,7 +610,7 @@ class Admin extends Component {
                     <Table
                       size="medium"
                       bordered
-                      dataSource={this.getGuardianData('active')}
+                      dataSource={this.getGuardians('active')}
                       columns={this.guardianCols}
                     />
                   </Panel>
@@ -557,17 +640,7 @@ class Admin extends Component {
               />
             </Modal>
           </div>
-        ) : (
-          <Result
-            style={{
-              marginRight: 'auto',
-              marginLeft: 'auto',
-            }}
-            status="success"
-            title="Welcome to Chasing English!"
-            subTitle="You are now registered and ready to enroll your student. Please login to view all course offerings."
-          />
-        )}
+        ) : null}
       </>
     );
   }

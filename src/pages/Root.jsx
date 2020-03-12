@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import '@stripe/stripe-js';
 
 import { injectStripe } from 'react-stripe-elements';
 
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer, Alert, message } from 'antd';
+import { Drawer, Alert } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -18,11 +19,11 @@ import Success from './Success';
 import Cancel from './Cancel';
 
 import formatMongoDate from '../utilities/formatMongoDate';
+import setAuthHeader from '../utilities/setAuthHeader';
 
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
 
-// const URI_STUB = 'https://blooming-beach-67877.herokuapp.com';
 const URI_STUB =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000'
@@ -30,30 +31,28 @@ const URI_STUB =
 
 class Root extends Component {
   state = {
-    admins: [],
-    alertMessage: '',
-    alertVisible: false,
+    adminError: null,
     checkoutSession: null,
+    errorMessage: null,
     fetching: false,
-    guardians: [],
-    loggedInUser: null,
-    loggedInUserCustomerId: null,
-    loggedInUserType: null,
-    loggedInUserStudents: [],
-    programs: [],
-    registrationEvent: false,
-    showLogin: false,
-    students: [],
-    userToken: null,
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
     fullCourseIds: [],
+    guardians: [],
+    programs: [],
+    showLogin: false,
+    registrationEvent: false,
     showSideNav: false,
+    students: [],
     user: null,
+    userId: null,
+    username: null,
+    userType: null,
+    userToken: null,
   };
 
   handleAlertClose = () => {
-    this.setState({ alertVisible: false, alertMessage: '' });
+    this.setState({ alertMessage: '', alertVisible: false });
   };
 
   // UI
@@ -84,61 +83,57 @@ class Root extends Component {
     }
   };
 
-  // api calls
-  // register: adds guardian + student
-  //
-
   logout = () => {
     this.setState({
       userToken: null,
-      loggedInUsername: null,
-      loggedInUserType: null,
+      user: null,
+      username: null,
+      userType: null,
+      userId: null,
     });
     localStorage.removeItem('userToken');
-    localStorage.removeItem('loggedInUsername');
-    localStorage.removeItem('loggedInUserType');
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    localStorage.removeItem('username');
+    // localStorage.removeItem('username');
+    // localStorage.removeItem('userType');
   };
 
   login = async ({ email, password }) => {
-    console.log(email, password);
+    const { data } = await axios.post(`${URI_STUB}/login`, {
+      email,
+      password,
+    });
 
-    // if (!user) {
-    //   // display UI error: are you sure that's the correct user?
-    //   this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
-    // } else {
-    //   console.log(user);
-
-    try {
-      const { data } = await axios.post(`${URI_STUB}/login`, {
-        email,
-        password,
+    if (!data) {
+      this.setState({
+        alertVisible: true,
+        alertMessage: 'Unsuccessful login',
       });
+      return;
+    }
 
-      console.log(data);
+    const user = data.user;
 
-      if (data) {
-        this.setState({
-          userToken: data.token,
-          user: data.user,
-          loggedInUserType: data.userType,
-          loggedInUserCustomerId: data.customerId,
-          loggedInUserStudents: data.students,
-          loggedInUserCoursesPurchased: data.coursesPurchased,
-          registrationEvent: false,
-          redirectToCatalog: false,
-        });
-        // set token, name, and customerId to localStorage
-        localStorage.setItem('userToken', data.token);
+    // change guardian name props to match other user types
+    user.firstName = user.firstName ? user.firstName : user.guardianFirstName;
+    user.lastName = user.lastName ? user.lastName : user.guardianLastName;
 
-        this.hideLogin();
-        // redirect to catalog
-        this.props.history.push('/catalog');
-      } else {
-        this.setState({ loginMessage: 'Unsuccessful login' });
-      }
-    } catch (err) {
-      this.setState({ alertVisible: true, alertMessage: 'Unsuccessful login' });
-      console.log(err);
+    localStorage.setItem('userToken', data.token);
+    localStorage.setItem('username', user.firstName);
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+
+    this.setState({
+      email,
+      userToken: data.token,
+      user,
+      registrationEvent: false,
+      redirectToCatalog: false,
+      showLogin: false,
+    });
+    if (this.props.history.location === 'guardian-registration') {
+      this.props.history.push('/catalog');
     }
   };
 
@@ -188,12 +183,6 @@ class Root extends Component {
       }
     );
 
-    //TODO update state with updated programs
-    console.log(
-      'updated user and program: ',
-      updatedUser.data,
-      updatedProgram.data
-    );
     const updatedGuardians = this.state.guardians.map(guardian => {
       return guardian.id === updatedUser.data.id ? updatedUser.data : guardian;
     });
@@ -212,32 +201,24 @@ class Root extends Component {
   };
 
   register = async guardianData => {
-    try {
-      const newGuardian = await axios.post(
-        `${URI_STUB}/api/guardians`,
-        guardianData
-      );
+    const { data, status } = await axios.post(
+      `${URI_STUB}/api/guardians`,
+      guardianData
+    );
 
-      // post new student
-      const studentId = newGuardian.data.students[0];
+    console.log(data);
 
-      // retrieve student data
-      const newStudent = await axios.get(
-        `${URI_STUB}/api/students/${studentId}`
-      );
-      const guardianWithStudentName = await axios.get(
-        `${URI_STUB}/api/guardians/${newGuardian.data.id}`
-      );
+    if (data.error) {
+      // display error message on admin page
+      this.setState({ errorMessage: data.message });
+      setTimeout(this.setState({ errorMessage: null }), 3000);
 
-      // get student name to add to guardian students list
-      this.setState(prevState => ({
-        guardians: [...prevState.guardians, guardianWithStudentName.data],
-        students: [...prevState.students, newStudent.data],
-        registrationEvent: true,
-      }));
-    } catch (err) {
-      console.log(err);
+      return;
     }
+
+    this.setState({ registrationEvent: true });
+    console.log(status);
+    return;
   };
 
   addAdmin = async adminData => {
@@ -267,37 +248,37 @@ class Root extends Component {
     // PUT guardian/id
   };
 
-  checkForFullCourses = async items => {
-    // fetching icon in checkout button
-    this.setState({ fetching: true });
+  // checkForFullCourses = async items => {
+  //   // fetching icon in checkout button
+  //   this.setState({ fetching: true });
 
-    // retrieve purchased programs from db
-    const programsArr = items.map(
-      async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
-    );
+  //   // retrieve purchased programs from db
+  //   const programsArr = items.map(
+  //     async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
+  //   );
 
-    const programs = await Promise.all(programsArr);
+  //   const programs = await Promise.all(programsArr);
 
-    // array of full programs where number enrolled >= capacity
-    const fullCourses = programs.filter(({ data }) => {
-      return data.enrolled >= data.capacity;
-    });
+  //   // array of full programs where number enrolled >= capacity
+  //   const fullCourses = programs.filter(({ data }) => {
+  //     return data.enrolled >= data.capacity;
+  //   });
 
-    console.log(fullCourses);
+  //   console.log(fullCourses);
 
-    if (fullCourses.length) {
-      this.setState({ fetching: false });
-      const fullCourseIds = fullCourses.map(course => course.data.id);
+  //   if (fullCourses.length) {
+  //     this.setState({ fetching: false });
+  //     const fullCourseIds = fullCourses.map(course => course.data.id);
 
-      this.setState({ fullCourseIds });
+  //     this.setState({ fullCourseIds });
 
-      let fullCourseDialogMessages = fullCourses.map(course => {
-        return `${course.data.title} is no longer available and has been removed from the cart`;
-      });
-      this.setState({ fullCourseDialogMessages });
-      this.setState({ fullCourseDialogVisible: true });
-    }
-  };
+  //     let fullCourseDialogMessages = fullCourses.map(course => {
+  //       return `${course.data.title} is no longer available and has been removed from the cart`;
+  //     });
+  //     this.setState({ fullCourseDialogMessages });
+  //     this.setState({ fullCourseDialogVisible: true });
+  //   }
+  // };
 
   // generate Stripe Checkout
   checkout = async lineItems => {
@@ -310,30 +291,45 @@ class Root extends Component {
     this.setState({ fullCourseIds: [] });
   };
 
-  addProgram = program => {
-    axios
-      .post(`${URI_STUB}/api/programs`, program)
-      .then(res => {
-        const dateBegin = formatMongoDate(res.data.dateBegin, 'date');
-        const dateEnd = formatMongoDate(res.data.dateEnd, 'date');
-        const day = this.formatMongoDate(res.data.dateBegin, 'day');
-        console.log(dateBegin, dateEnd, day);
-        console.log(res.data);
-        this.setState(st => ({
-          programs: st.programs.concat({ ...res.data, dateBegin, dateEnd }),
-        }));
-      })
-      .catch(err => console.log('add sesh err: ', err.message));
+  addProgram = async program => {
+    console.log(this.state.userToken);
+    const config = setAuthHeader(this.state.userToken);
+    console.log(config);
+
+    const result = await axios.post(
+      `${URI_STUB}/api/programs`,
+      program,
+      config
+    );
+
+    const dateBegin = this.formatMongoDate(result.data.dateBegin, 'date');
+    const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
+    const day = this.formatMongoDate(result.data.dateBegin, 'day');
+    console.log(dateBegin, dateEnd, day);
+    console.log(result.data);
+    this.setState(prevState => ({
+      programs: prevState.programs.concat({
+        ...result.data,
+        dateBegin,
+        dateEnd,
+      }),
+    }));
   };
 
-  handleMessage = msg => {};
-  remove = (id, type) => {
-    console.log(id, type);
-    axios.delete(`${URI_STUB}/api/${type}/${id}`).then(res => {
+  handleMessage = msg => {
+    console.log(msg);
+  };
+  remove = async (id, type) => {
+    const config = setAuthHeader(this.state.userToken);
+    const result = await axios.delete(`${URI_STUB}/api/${type}/${id}`, config);
+
+    console.log(result.status);
+
+    if (result.status === 200) {
       const filtered = this.state[`${type}`].filter(el => el.id !== id);
-      console.log(filtered);
       this.setState({ [type]: filtered });
-    });
+      this.handleMessage('program deleted');
+    }
   };
 
   closeSideNav = () => {
@@ -377,13 +373,13 @@ class Root extends Component {
       });
   };
 
-  getLoggedInUserPrograms = () => {
-    const { programs } = this.state.guardians.find(
-      guardian => this.state.loggedInUserCustomerId == guardian.customerId
-    );
+  // getLoggedInUserPrograms = () => {
+  //   const { programs } = this.state.guardians.find(
+  //     guardian => this.state.loggedInUserCustomerId == guardian.customerId
+  //   );
 
-    return programs;
-  };
+  //   return programs;
+  // };
 
   componentDidMount = async () => {
     // load programs and users
@@ -395,7 +391,6 @@ class Root extends Component {
         const dateEnd = formatMongoDate(program.dateEnd);
         return { ...program, dateBegin, dateEnd };
       });
-
       console.log('##### PROGRAMS #####', programs);
       this.setState({ programs });
     } catch (err) {
@@ -405,48 +400,9 @@ class Root extends Component {
       );
     }
 
-    // try {
-    //   // if logged-in user is admin, get all guardians, students, and admins for admin page
-    //   const guardians = await axios.get(`${URI_STUB}/api/guardians`);
-    //   const admins = await axios.get(`${URI_STUB}/api/admins`);
-    //   const students = await axios.get(`${URI_STUB}/api/students`);
-    //   console.log(
-    //     'guardians: ',
-    //     guardians.data,
-    //     'admins: ',
-    //     admins.data,
-    //     'students: ',
-    //     students.data
-    //   );
-
-    //   this.setState({
-    //     guardians: guardians.data,
-    //     admins: admins.data,
-    //     students: students.data,
-    //   });
-    // } catch (err) {
-    //   console.log('############ ROOT COMPONENT MOUNT USER ERROR ', err);
-    // }
-
-    // Use local storage to keep users logged in on component remount
     const userToken = localStorage.getItem('userToken');
 
-    if (userToken) {
-      const loggedInUsername = localStorage.getItem('loggedInUsername');
-      const loggedInUserCustomerId = localStorage.getItem(
-        'loggedInUserCustomerId'
-      );
-
-      this.setState({
-        userToken,
-        loggedInUsername,
-        loggedInUserCustomerId,
-      });
-
-      // save to state
-    } else {
-      console.log('no user stored');
-    }
+    this.setState({ userToken });
   };
 
   render() {
@@ -477,8 +433,7 @@ class Root extends Component {
           openSideNav={this.openSideNav}
           closeSideNav={this.closeSideNav}
           showLogin={this.showLogin}
-          loggedInUsername={this.state.loggedInUsername}
-          loggedInUserType={this.state.loggedInUserType}
+          user={this.state.user}
           logout={this.logout}
         />
         <Switch>
@@ -488,7 +443,14 @@ class Root extends Component {
           <Route
             exact
             path="/"
-            render={routeProps => <Home {...this.state} {...routeProps} />}
+            render={routeProps => (
+              <Home
+                {...this.state}
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
@@ -496,38 +458,48 @@ class Root extends Component {
             render={routeProps => (
               <Catalog
                 {...routeProps}
+                stripe={this.props.stripe}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
-                purchase={this.purchase}
+                user={this.state.user}
                 fetching={this.state.fetching}
-                fullCourseDialogVisible={this.state.fullCourseDialogVisible}
-                fullCourseDialogMessages={this.state.fullCourseDialogMessages}
-                fullCourseDialogClose={this.props.fullCourseDialogClose}
-                checkForFullCourses={this.checkForFullCourses}
-                clearFullCourseIds={this.clearFullCourseIds}
-                loggedInUserCustomerId={this.state.loggedInUserCustomerId}
-                loggedInUserStudents={this.state.loggedInUserStudents}
                 addToWaitlist={this.addToWaitlist}
-                loggedInUserCoursesPurchased={
-                  this.state.loggedInUserCoursesPurchased
-                }
+                login={this.login}
               />
             )}
           />
           <Route
             exact
             path="/about"
-            render={routeProps => <About {...routeProps} />}
+            render={routeProps => (
+              <About
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
             path="/success"
-            render={routeProps => <Success {...routeProps} />}
+            render={routeProps => (
+              <Success
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
             path="/cancel"
-            render={routeProps => <Cancel {...routeProps} />}
+            render={routeProps => (
+              <Cancel
+                {...routeProps}
+                login={this.login}
+                user={this.state.user}
+              />
+            )}
           />
           <Route
             exact
@@ -537,32 +509,33 @@ class Root extends Component {
                 {...routeProps}
                 register={this.register}
                 login={this.login}
+                user={this.state.user}
                 registrationEvent={this.state.registrationEvent}
+                errorMessage={this.state.errorMessage}
               />
             )}
           />
-          {this.state.loggedInUserType === 'admin' ? (
-            <Route
-              exact
-              path="/admin"
-              render={routeProps => (
-                <Admin
-                  {...routeProps}
-                  addAdmin={this.addAdmin}
-                  addGuardian={this.register}
-                  guardians={this.state.guardians}
-                  programs={this.state.programs}
-                  students={this.state.students}
-                  admins={this.state.admins}
-                  addProgram={this.addProgram}
-                  toggleStatus={this.toggleStatus}
-                  remove={this.remove}
-                  loggedInUserType={this.state.loggedInUserType}
-                  loggedInUserStudents={this.state.loggedInUserStudents}
-                />
-              )}
-            />
-          ) : null}
+          <Route
+            exact
+            path="/admin"
+            render={routeProps => (
+              <Admin
+                {...routeProps}
+                addAdmin={this.addAdmin}
+                addGuardian={this.register}
+                guardians={this.state.guardians}
+                programs={this.state.programs}
+                students={this.state.students}
+                admins={this.state.admins}
+                addProgram={this.addProgram}
+                toggleStatus={this.toggleStatus}
+                remove={this.remove}
+                user={this.state.user}
+                login={this.login}
+                userToken={this.state.userToken}
+              />
+            )}
+          />
         </Switch>
       </div>
     );

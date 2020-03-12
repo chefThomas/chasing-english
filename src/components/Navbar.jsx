@@ -22,7 +22,7 @@ class Navbar extends Component {
     this.setState({ showLogin: false });
   };
 
-  logout = e => {
+  handleLogout = e => {
     this.props.logout();
   };
 
@@ -32,8 +32,6 @@ class Navbar extends Component {
   // };
 
   render() {
-
-    {user}=this.props
     const location = this.props.history.location.pathname;
     return (
       <div className="Navbar">
@@ -71,7 +69,7 @@ class Navbar extends Component {
               >
                 About
               </NavLink>
-              {this.props.loggedInUserType === 'admin' ? (
+              {this.props.user && this.props.user.userType === 'admin' ? (
                 <NavLink
                   exact
                   className="side-nav-link"
@@ -109,7 +107,7 @@ class Navbar extends Component {
           >
             About
           </NavLink>
-          {this.props.loggedInUserType === 'admin' ? (
+          {this.props.user && this.props.user.userType === 'admin' ? (
             <NavLink
               exact
               className="Navbar-link"
@@ -132,10 +130,10 @@ class Navbar extends Component {
               : 'Navbutton-container'
           }
         >
-          {this.props.loggedInUsername ? (
+          {this.props.user ? (
             <>
               <span className="welcome-user">
-                Welcome, {this.props.loggedInUsername}!
+                {`Welcome, ${this.props.user.firstName}!`}
               </span>
             </>
           ) : (
@@ -147,15 +145,13 @@ class Navbar extends Component {
               Log In
             </button>
           )}
-          <Link
-            to={this.props.loggedInUsername ? '' : '/guardian-registration'}
-          >
+          <Link to={this.props.user ? '' : '/guardian-registration'}>
             <button
               className="NavButton dark-on-dark navbar"
               label="Sign up"
-              onClick={this.props.loggedInUsername ? this.logout : null}
+              onClick={this.props.user ? this.handleLogout : null}
             >
-              {this.props.loggedInUsername ? 'Log out' : 'Sign Up'}
+              {this.props.user ? 'Log out' : 'Sign Up'}
             </button>
           </Link>
         </div>

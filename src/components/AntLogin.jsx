@@ -11,7 +11,6 @@ class NormalLoginForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         this.props.login(values);
       }
     });
@@ -20,7 +19,14 @@ class NormalLoginForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="AntLogin login-form">
+      <Form
+        initialValues={{
+          email: localStorage.getItem('email'),
+          password: localStorage.getItem('password'),
+        }}
+        onSubmit={this.handleSubmit}
+        className="AntLogin login-form"
+      >
         <Form.Item>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: 'Please input your email' }],

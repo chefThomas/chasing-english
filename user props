@@ -1,0 +1,15 @@
+User Props
+
+id
+contactMethod
+coursesPurchased
+customerId
+guardianEmail
+guardianFirstName
+guardianLastName
+phone
+programsOfInterest
+status
+students
+userType
+waitlist
