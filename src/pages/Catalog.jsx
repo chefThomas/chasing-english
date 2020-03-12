@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
+import '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import {
   Alert,
   Badge,
@@ -20,6 +22,10 @@ import {
 
 import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
 
+import checkCourseAvailability from '../utilities/checkCourseAvailability';
+
+import purchase from '../utilities/purchase';
+
 import '../stylesheets/css/main.css';
 
 import Footer from '../components/Footer';
@@ -37,6 +43,7 @@ const prices = {
   group: 395,
   intensive: 125,
 };
+
 class Catalog extends Component {
   state = {
     cart: [],
@@ -46,6 +53,8 @@ class Catalog extends Component {
     courseTitle: '',
     descriptionModalVisible: false,
     fetching: false,
+    fullCourseDialogMessages: [],
+    fullCourseDialogVisible: false,
   };
 
   handleCartClose = () => {
@@ -94,24 +103,60 @@ class Catalog extends Component {
     // concat guardian id to course waitlist
   };
 
+  displayFullCourseMessage = fullCourses => {
+    const fullCourseDialogMessages = fullCourses.map(({ data }) => {
+      return `${data.title} is no longer available and has been removed from the cart`;
+    });
+
+    this.setState({ fullCourseDialogMessages, fullCourseDialogVisible: true });
+  };
+
   handleCheckout = async () => {
-    // handle case where course is filled after user logs in
-    await this.props.checkForFullCourses(this.state.cart);
+    this.setState({ fetching: true });
 
-    // continue to Stripe checkout if no full courses
-    if (!this.props.fullCourseIds.length) {
-      this.props.purchase(this.state.cart);
+    // returns array of full programs
+    const fullCoursesArr = await checkCourseAvailability(
+      this.state.cart,
+      this.props.userToken
+    );
+
+    // show user full courses message
+    if (fullCoursesArr.length) {
+      this.displayFullCourseMessage(fullCoursesArr);
+
+      // remove full courses from cart, and ask user to waitlist
     } else {
-      //filter full courses out of cart
-      const availableCourses = this.state.cart.filter(
-        item => !this.props.fullCourseIds.includes(item.id)
+      // purchase programs
+      const {
+        data: { id },
+      } = await purchase(this.props.user.customerId, this.state.cart);
+
+      console.log(id);
+      const stripe = await loadStripe(
+        'pk_test_GYVlMxH8rzVT5dlqAo3bjCUm00mcVGw6pl'
       );
-
-      // clear full course ids from root state
-      this.props.clearFullCourseIds();
-
-      this.setState({ cart: availableCourses });
+      await stripe
+        .redirectToCheckout({
+          sessionId: id,
+        })
+        .then(res => {
+          console.log('redirect to checkout successful');
+          this.setState({ fetching: false });
+        });
+      // TODO redirect to checkout using checkout session from purchaseResult
     }
+
+    // if (fullCourses.length) {
+    //   const fullCourseIds = fullCourses.map(course => course.data.id);
+
+    //   this.setState({ fullCourseIds });
+
+    //   let fullCourseDialogMessages = fullCourses.map(course => {
+    //     return `${course.data.title} is no longer available and has been removed from the cart`;
+    //   });
+    //   this.setState({ fullCourseDialogMessages });
+    //   this.setState({ fullCourseDialogVisible: true });
+    // }
   };
 
   handleEnroll = courseId => {
@@ -154,11 +199,6 @@ class Catalog extends Component {
   };
 
   makeProgramButton = record => {
-    // if (this.props.user.coursesPurchased.includes(record.id)) {
-    //   return <Tag color="success">purchased</Tag>;
-    // }
-    // get user courses
-
     console.log(this.props.userToken);
     const { waitlist } = record;
     const makeButton = (type, text, disabled) => (
@@ -269,7 +309,6 @@ class Catalog extends Component {
       dataIndex: 'duration',
       key: 'duration',
     },
-
     {
       title: '',
       key: 'action',
@@ -534,12 +573,12 @@ class Catalog extends Component {
               >
                 <Button
                   type="primary"
-                  loading={this.props.fetching}
+                  loading={this.state.fetching}
                   disabled={this.state.cart.length === 0}
                   onClick={this.handleCheckout}
                   style={{ marginLeft: 'auto', width: '6rem' }}
                 >
-                  {this.props.fetching ? '' : 'Checkout'}
+                  {this.state.fetching ? '' : 'Checkout'}
                 </Button>
               </div>
             </>
@@ -552,12 +591,12 @@ class Catalog extends Component {
           )}
           <div
             style={{
-              display: this.props.fullCourseDialogVisible ? 'block' : 'none',
+              display: this.state.fullCourseDialogVisible ? 'block' : 'none',
             }}
             className="FullClassAlert"
           >
             <Divider />
-            {this.props.fullCourseDialogMessages.map(msg => (
+            {this.state.fullCourseDialogMessages.map(msg => (
               <Alert
                 style={{ marginBottom: '0.5rem' }}
                 message={msg}

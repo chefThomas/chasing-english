@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import '@stripe/stripe-js';
 
 import { injectStripe } from 'react-stripe-elements';
 
@@ -23,7 +24,6 @@ import setAuthHeader from '../utilities/setAuthHeader';
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
 
-// const URI_STUB = 'https://blooming-beach-67877.herokuapp.com';
 const URI_STUB =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000'
@@ -248,37 +248,37 @@ class Root extends Component {
     // PUT guardian/id
   };
 
-  checkForFullCourses = async items => {
-    // fetching icon in checkout button
-    this.setState({ fetching: true });
+  // checkForFullCourses = async items => {
+  //   // fetching icon in checkout button
+  //   this.setState({ fetching: true });
 
-    // retrieve purchased programs from db
-    const programsArr = items.map(
-      async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
-    );
+  //   // retrieve purchased programs from db
+  //   const programsArr = items.map(
+  //     async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
+  //   );
 
-    const programs = await Promise.all(programsArr);
+  //   const programs = await Promise.all(programsArr);
 
-    // array of full programs where number enrolled >= capacity
-    const fullCourses = programs.filter(({ data }) => {
-      return data.enrolled >= data.capacity;
-    });
+  //   // array of full programs where number enrolled >= capacity
+  //   const fullCourses = programs.filter(({ data }) => {
+  //     return data.enrolled >= data.capacity;
+  //   });
 
-    console.log(fullCourses);
+  //   console.log(fullCourses);
 
-    if (fullCourses.length) {
-      this.setState({ fetching: false });
-      const fullCourseIds = fullCourses.map(course => course.data.id);
+  //   if (fullCourses.length) {
+  //     this.setState({ fetching: false });
+  //     const fullCourseIds = fullCourses.map(course => course.data.id);
 
-      this.setState({ fullCourseIds });
+  //     this.setState({ fullCourseIds });
 
-      let fullCourseDialogMessages = fullCourses.map(course => {
-        return `${course.data.title} is no longer available and has been removed from the cart`;
-      });
-      this.setState({ fullCourseDialogMessages });
-      this.setState({ fullCourseDialogVisible: true });
-    }
-  };
+  //     let fullCourseDialogMessages = fullCourses.map(course => {
+  //       return `${course.data.title} is no longer available and has been removed from the cart`;
+  //     });
+  //     this.setState({ fullCourseDialogMessages });
+  //     this.setState({ fullCourseDialogVisible: true });
+  //   }
+  // };
 
   // generate Stripe Checkout
   checkout = async lineItems => {
@@ -458,16 +458,11 @@ class Root extends Component {
             render={routeProps => (
               <Catalog
                 {...routeProps}
+                stripe={this.props.stripe}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
                 user={this.state.user}
-                purchase={this.purchase}
                 fetching={this.state.fetching}
-                fullCourseDialogVisible={this.state.fullCourseDialogVisible}
-                fullCourseDialogMessages={this.state.fullCourseDialogMessages}
-                fullCourseDialogClose={this.props.fullCourseDialogClose}
-                checkForFullCourses={this.checkForFullCourses}
-                clearFullCourseIds={this.clearFullCourseIds}
                 addToWaitlist={this.addToWaitlist}
                 login={this.login}
               />
