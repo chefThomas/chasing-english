@@ -444,52 +444,52 @@ class Admin extends Component {
     return day;
   };
 
-  // getProgramData = (type, status) => {
-  //   if (status === 'active') {
-  //     return this.props.programs
-  //       .filter(program => program.type === type && program.status === status)
-  //       .map(program => {
-  //         const meetingDay =
-  //           program.type === 'intensive'
-  //             ? this.formatMongoDate(program.dateBegin)
-  //             : program.meetingDay;
-  //         return {
-  //           key: program.id,
-  //           id: program.id,
-  //           title: program.title,
-  //           description: program.description,
-  //           duration: program.duration,
-  //           startDate: program.dateBegin,
-  //           endDate: program.dateEnd,
-  //           meetingTime: program.meetingTime,
-  //           meetingDay,
-  //           capacity: program.capacity,
-  //           enrolled: program.enrolled,
-  //           status: program.status,
-  //           type: program.type,
-  //           roster: program.roster,
-  //         };
-  //       });
-  //   } else {
-  //     return this.props.programs
-  //       .filter(program => program.status === 'archive')
-  //       .map(program => ({
-  //         key: program.id,
-  //         id: program.id,
-  //         title: program.title,
-  //         description: program.description,
-  //         startDate: program.dateBegin,
-  //         endDate: program.dateEnd,
-  //         meetingTime: program.meetingTime,
-  //         meetingDay: program.meetingDay,
-  //         capacity: program.capacity,
-  //         enrolled: program.enrolled,
-  //         status: program.status,
-  //         type: program.type,
-  //         duration: program.duration,
-  //       }));
-  //   }
-  // };
+  getProgramData = (type, status) => {
+    if (status === 'active') {
+      return this.props.programs
+        .filter(program => program.type === type && program.status === status)
+        .map(program => {
+          const meetingDay =
+            program.type === 'intensive'
+              ? this.formatMongoDate(program.dateBegin)
+              : program.meetingDay;
+          return {
+            key: program.id,
+            id: program.id,
+            title: program.title,
+            description: program.description,
+            duration: program.duration,
+            startDate: program.dateBegin,
+            endDate: program.dateEnd,
+            meetingTime: program.meetingTime,
+            meetingDay,
+            capacity: program.capacity,
+            enrolled: program.enrolled,
+            status: program.status,
+            type: program.type,
+            roster: program.roster,
+          };
+        });
+    } else {
+      return this.props.programs
+        .filter(program => program.status === 'archive')
+        .map(program => ({
+          key: program.id,
+          id: program.id,
+          title: program.title,
+          description: program.description,
+          startDate: program.dateBegin,
+          endDate: program.dateEnd,
+          meetingTime: program.meetingTime,
+          meetingDay: program.meetingDay,
+          capacity: program.capacity,
+          enrolled: program.enrolled,
+          status: program.status,
+          type: program.type,
+          duration: program.duration,
+        }));
+    }
+  };
 
   // count = (arr, status, type) => {
   //   if (type) {
@@ -550,7 +550,7 @@ class Admin extends Component {
                   <Panel header="Individual Coaching" key="individual">
                     <Table
                       bordered
-                      // dataSource={() => ('individual', 'active')}
+                      dataSource={this.getProgramData('individual', 'active')}
                       columns={this.programCols}
                     />
                   </Panel>
@@ -558,7 +558,7 @@ class Admin extends Component {
                     <Table
                       size="medium"
                       bordered
-                      // dataSource={this.getProgramData('group', 'active')}
+                      dataSource={this.getProgramData('group', 'active')}
                       columns={this.programCols}
                     />
                   </Panel>
@@ -566,14 +566,14 @@ class Admin extends Component {
                     <Table
                       size="medium"
                       bordered
-                      // dataSource={this.getProgramData('intensive', 'active')}
+                      dataSource={this.getProgramData('intensive', 'active')}
                       columns={this.programCols}
                     />
                   </Panel>
                   <Panel header="Archive" key="archive">
                     <Table
                       bordered
-                      // dataSource={this.getProgramData('', 'archive')}
+                      dataSource={this.getProgramData('', 'archive')}
                       columns={this.programCols}
                     />
                   </Panel>

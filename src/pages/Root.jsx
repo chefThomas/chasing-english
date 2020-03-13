@@ -7,7 +7,7 @@ import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer, Alert } from 'antd';
+import { Drawer, Alert, message } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -34,19 +34,29 @@ class Root extends Component {
     adminError: null,
     checkoutSession: null,
     errorMessage: null,
+
+    // UI
     fetching: false,
+
+    // Catalog UI
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
-    fullCourseIds: [],
+    // fullCourseIds: [],
+
+    // Admin
     guardians: [],
     programs: [],
     showLogin: false,
     registrationEvent: false,
     showSideNav: false,
-    students: [],
+
+    // user
     user: null,
     userId: null,
     username: null,
+    // Catalog UI
+    guardianStudents: [],
+    // Navbar/Admin page UI
     userType: null,
     userToken: null,
   };
@@ -124,10 +134,23 @@ class Root extends Component {
     localStorage.setItem('email', email);
     localStorage.setItem('password', password);
 
+    // const {
+    //   students,
+    //   coursesPurchased,
+    //   waitlist: guardianWaitlist,
+    // } = this.props.user;
+
     this.setState({
       email,
       userToken: data.token,
-      user,
+      user: user,
+      userId: user.id,
+      userType: user.userType,
+      //catalog
+      guardianStudents: user.students,
+      guardianCoursesPurchased: user.coursesPurchased,
+      guardianWaitlist: user.waitlist,
+      //UI
       registrationEvent: false,
       redirectToCatalog: false,
       showLogin: false,
@@ -151,7 +174,7 @@ class Root extends Component {
     });
   };
 
-  addToWaitlist = async courseId => {
+  addGuardianToWaitlist = async courseId => {
     // get program
     const program = await axios.get(`${URI_STUB}/api/programs/${courseId}`);
     console.log(program.data);
@@ -307,6 +330,8 @@ class Root extends Component {
     const day = this.formatMongoDate(result.data.dateBegin, 'day');
     console.log(dateBegin, dateEnd, day);
     console.log(result.data);
+
+    message.success('Program added');
     this.setState(prevState => ({
       programs: prevState.programs.concat({
         ...result.data,
@@ -382,7 +407,7 @@ class Root extends Component {
   // };
 
   componentDidMount = async () => {
-    // load programs and users
+    // load programs
     try {
       const results = await axios.get(`${URI_STUB}/api/programs`);
       // map formatted dates onto program
@@ -444,12 +469,7 @@ class Root extends Component {
             exact
             path="/"
             render={routeProps => (
-              <Home
-                {...this.state}
-                {...routeProps}
-                login={this.login}
-                user={this.state.user}
-              />
+              <Home {...routeProps} login={this.login} user={this.state.user} />
             )}
           />
           <Route
@@ -458,13 +478,18 @@ class Root extends Component {
             render={routeProps => (
               <Catalog
                 {...routeProps}
+                addToWaitlist={this.addGuardianToWaitlist}
+                login={this.login}
                 stripe={this.props.stripe}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
                 user={this.state.user}
+                userId={this.state.userId}
                 fetching={this.state.fetching}
-                addToWaitlist={this.addToWaitlist}
-                login={this.login}
+                userType={this.state.userType}
+                guardianStudents={this.state.guardianStudents}
+                guardianWaitlist={this.state.guardianWaitlist}
+                guardianCoursesPurchased={this.state.guardianCoursesPurchased}
               />
             )}
           />
@@ -523,15 +548,15 @@ class Root extends Component {
                 {...routeProps}
                 addAdmin={this.addAdmin}
                 addGuardian={this.register}
+                addProgram={this.addProgram}
+                toggleStatus={this.toggleStatus}
+                remove={this.remove}
+                login={this.login}
                 guardians={this.state.guardians}
                 programs={this.state.programs}
                 students={this.state.students}
                 admins={this.state.admins}
-                addProgram={this.addProgram}
-                toggleStatus={this.toggleStatus}
-                remove={this.remove}
                 user={this.state.user}
-                login={this.login}
                 userToken={this.state.userToken}
               />
             )}
