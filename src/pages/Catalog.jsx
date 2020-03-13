@@ -223,10 +223,30 @@ class Catalog extends Component {
     console.log('guardianWaitlist', guardianWaitlist); // array of program ids
     console.log('programWaitlist: ', programWaitlist); // array of guardian ids
     console.log('program roster: ', roster); // array of student ids
-    const courseIsFull = record.enrolled >= record.capacity;
-    const userIsWaitlisted = programWaitlist.includes(userId);
-    const userIsEnrolled = roster.includes(guardianStudents[0]);
 
+    const rosterIds = roster.map(student => student.id); // array of student ids in course program roster
+
+    const [guardianStudentId] = guardianStudents; // student id
+    console.log('guardianStudentId');
+    console.log(guardianStudentId);
+    const courseIsFull = record.enrolled >= record.capacity;
+    console.log('courseIsFull', courseIsFull);
+    const userIsWaitlisted = programWaitlist.includes(userId);
+    console.log('userIsWaitlisted', userIsWaitlisted);
+    const guardiansStudentIsEnrolled = rosterIds.includes(guardianStudentId);
+    console.log('guardiansStudentIsEnrolled', guardiansStudentIsEnrolled);
+
+    if (guardiansStudentIsEnrolled) {
+      return (
+        <Tag color="green" type="success">
+          Enrolled
+        </Tag>
+      );
+    }
+
+    if (userIsWaitlisted) {
+      return <Tag color="processing">On waitlist</Tag>;
+    }
     if (courseIsFull && !userIsWaitlisted) {
       return (
         <Button onClick={() => this.handleAddToWaitlist(record.id, userId)}>
@@ -234,19 +254,12 @@ class Catalog extends Component {
         </Button>
       );
     }
-    if (userIsWaitlisted) {
-      return <Tag color="processing">On waitlist</Tag>;
-    }
 
-    if (userIsEnrolled) {
-      return <Tag color="success">Enrolled</Tag>;
-    } else {
-      return (
-        <Button onClick={() => this.handleEnroll(record.id)} type="primary">
-          Enroll
-        </Button>
-      );
-    }
+    return (
+      <Button onClick={() => this.handleEnroll(record.id)} type="primary">
+        Enroll
+      </Button>
+    );
   };
 
   handleMessage = msg => {
