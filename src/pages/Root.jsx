@@ -174,27 +174,38 @@ class Root extends Component {
     });
   };
 
-  addGuardianToWaitlist = async courseId => {
+  addGuardianToProgramWaitlist = async (courseId, userId) => {
+    // used by guardian to add their id to course waitlist
+    // also add course id to guardian waitlist to notify user on catalog page that they've been added to the waitlist
     // get program
-    const program = await axios.get(`${URI_STUB}/api/programs/${courseId}`);
+    const config = setAuthHeader(this.state.userToken);
+
+    const program = await axios.get(
+      `${URI_STUB}/api/programs/${courseId}`,
+      config
+    );
     console.log(program.data);
     // get user
-    const user = await axios.get(
-      `${URI_STUB}/api/guardians/${this.state.user.customerId}`
-    );
+    const user = await axios.get(`${URI_STUB}/api/guardians/${userId}`);
 
-    // // check if user is on waitlist
+    // check if user is on waitlist
     // if (program.data.waitlist.includes(user.data.id)) {
     //   message.info("It looks like you're already on the waitlist");
     //   return;
     // }
 
-    // add mongo user id to program waitlist
+    // const result = await axios.post(
+    //   `${URI_STUB}/api/programs`,
+    //   program,
+    //   config
+    // );
+    // add user id to program waitlist.
     const updatedProgram = await axios.put(
       `${URI_STUB}/api/programs/${courseId}`,
       {
         waitlist: program.data.waitlist.concat(user.data.id),
-      }
+      },
+      config
     );
 
     console.log(updatedProgram);
@@ -203,12 +214,9 @@ class Root extends Component {
       `${URI_STUB}/api/guardians/${user.data.id}`,
       {
         waitlist: user.data.waitlist.concat(program.data.id),
-      }
+      },
+      config
     );
-
-    const updatedGuardians = this.state.guardians.map(guardian => {
-      return guardian.id === updatedUser.data.id ? updatedUser.data : guardian;
-    });
 
     const updatedPrograms = this.state.programs.map(program => {
       return program.id === updatedProgram.data.id
@@ -219,7 +227,6 @@ class Root extends Component {
     this.setState({
       ...this.state,
       programs: updatedPrograms,
-      guardians: updatedGuardians,
     });
   };
 
@@ -478,7 +485,7 @@ class Root extends Component {
             render={routeProps => (
               <Catalog
                 {...routeProps}
-                addToWaitlist={this.addGuardianToWaitlist}
+                addToWaitlist={this.addGuardianToProgramWaitlist}
                 login={this.login}
                 stripe={this.props.stripe}
                 programs={this.state.programs}

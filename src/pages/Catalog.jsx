@@ -96,9 +96,10 @@ class Catalog extends Component {
     });
   };
 
-  handleWaitlist = courseId => {
-    console.log('handleWaitlist ', courseId);
+  handleAddToWaitlist = (courseId, userId) => {
+    console.log('handleWaitlist ', courseId, userId);
 
+    this.props.addToWaitlist(courseId, userId);
     // this.props.addToWaitlist(courseId);
     // concat course id to guardian waitlist
     // concat guardian id to course waitlist
@@ -196,10 +197,18 @@ class Catalog extends Component {
   };
 
   makeProgramButton = record => {
-    if (this.props.userType === 'admin') {
+    const {
+      guardianStudents,
+      guardianCoursesPurchased,
+      guardianWaitlist,
+      userId,
+      userType,
+    } = this.props;
+
+    if (userType !== 'guardian') {
       return (
         <Button
-          onClick={() => message.error("admin can't enroll")}
+          onClick={() => message.error('Only logged in guardians can enroll')}
           type="primary"
         >
           Enroll
@@ -207,34 +216,13 @@ class Catalog extends Component {
       );
     }
 
-    const {
-      guardianStudents,
-      guardianCoursesPurchased,
-      guardianWaitlist,
-      userId,
-    } = this.props;
-
     // check all necessary data are coming in
     const { waitlist: programWaitlist, roster } = record;
-    console.log('Make program button');
-    console.log("userId (guardian's id): ", userId); // string
-    console.log('guardianStudents: ', guardianStudents); // array of
-    console.log('guardianCoursesPurchased', guardianCoursesPurchased); // array of program ids
-    console.log('guardianWaitlist', guardianWaitlist); // array of program ids
-    console.log('programWaitlist: ', programWaitlist); // array of guardian ids
-    console.log('program roster: ', roster); // array of student ids
-
     const rosterIds = roster.map(student => student.id); // array of student ids in course program roster
-
     const [guardianStudentId] = guardianStudents; // student id
-    console.log('guardianStudentId');
-    console.log(guardianStudentId);
     const courseIsFull = record.enrolled >= record.capacity;
-    console.log('courseIsFull', courseIsFull);
     const userIsWaitlisted = programWaitlist.includes(userId);
-    console.log('userIsWaitlisted', userIsWaitlisted);
     const guardiansStudentIsEnrolled = rosterIds.includes(guardianStudentId);
-    console.log('guardiansStudentIsEnrolled', guardiansStudentIsEnrolled);
 
     if (guardiansStudentIsEnrolled) {
       return (
