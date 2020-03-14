@@ -188,18 +188,6 @@ class Root extends Component {
     // get user
     const user = await axios.get(`${URI_STUB}/api/guardians/${userId}`);
 
-    // check if user is on waitlist
-    // if (program.data.waitlist.includes(user.data.id)) {
-    //   message.info("It looks like you're already on the waitlist");
-    //   return;
-    // }
-
-    // const result = await axios.post(
-    //   `${URI_STUB}/api/programs`,
-    //   program,
-    //   config
-    // );
-    // add user id to program waitlist.
     const updatedProgram = await axios.put(
       `${URI_STUB}/api/programs/${courseId}`,
       {
