@@ -51,13 +51,13 @@ class Root extends Component {
     showSideNav: false,
 
     // user
+    guardianWaitlist: [],
     user: null,
     userId: null,
     username: null,
     // Catalog UI
     guardianStudents: [],
     // Navbar/Admin page UI
-    userType: null,
     userToken: null,
   };
 
@@ -65,6 +65,11 @@ class Root extends Component {
     this.setState({ alertMessage: '', alertVisible: false });
   };
 
+  getTokenFromLocalStorage = () => {
+    const userToken = localStorage.getItem('userToken');
+    const username = localStorage.getItem('username');
+    this.setState({ userToken, username });
+  };
   // UI
   hideLogin = () => {
     this.setState({ showLogin: false });
@@ -110,7 +115,10 @@ class Root extends Component {
   };
 
   login = async ({ email, password }) => {
-    const { data } = await axios.post(`${URI_STUB}/login`, {
+    const {
+      data,
+      data: { user },
+    } = await axios.post(`${URI_STUB}/login`, {
       email,
       password,
     });
@@ -123,8 +131,6 @@ class Root extends Component {
       return;
     }
 
-    const user = data.user;
-
     // change guardian name props to match other user types
     user.firstName = user.firstName ? user.firstName : user.guardianFirstName;
     user.lastName = user.lastName ? user.lastName : user.guardianLastName;
@@ -134,27 +140,17 @@ class Root extends Component {
     localStorage.setItem('email', email);
     localStorage.setItem('password', password);
 
-    // const {
-    //   students,
-    //   coursesPurchased,
-    //   waitlist: guardianWaitlist,
-    // } = this.props.user;
-
     this.setState({
-      email,
+      // email,
       userToken: data.token,
-      user: user,
-      userId: user.id,
-      userType: user.userType,
-      //catalog
-      guardianStudents: user.students,
-      guardianCoursesPurchased: user.coursesPurchased,
-      guardianWaitlist: user.waitlist,
-      //UI
+      user,
+      // //UI
       registrationEvent: false,
       redirectToCatalog: false,
       showLogin: false,
     });
+    console.log('logging in from page: ');
+    console.log(this.props.history.location);
     if (this.props.history.location === 'guardian-registration') {
       this.props.history.push('/catalog');
     }
@@ -174,6 +170,7 @@ class Root extends Component {
     });
   };
 
+  // update guardian waitlist in state and
   addGuardianToProgramWaitlist = async (courseId, userId) => {
     // used by guardian to add their id to course waitlist
     // also add course id to guardian waitlist to notify user on catalog page that they've been added to the waitlist
@@ -191,20 +188,29 @@ class Root extends Component {
     const updatedProgram = await axios.put(
       `${URI_STUB}/api/programs/${courseId}`,
       {
-        waitlist: program.data.waitlist.concat(user.data.id),
+        waitlistedGuardians: program.data.waitlistedGuardians.concat(
+          user.data.id
+        ),
       },
       config
     );
 
-    console.log(updatedProgram);
+    // format date
+    updatedProgram.data.dateBegin = formatMongoDate(
+      updatedProgram.data.dateBegin
+    );
+    updatedProgram.data.dateEnd = formatMongoDate(updatedProgram.data.dateEnd);
+
     // add program id to user waitlist
     const updatedUser = await axios.put(
       `${URI_STUB}/api/guardians/${user.data.id}`,
       {
-        waitlist: user.data.waitlist.concat(program.data.id),
+        onWaitlists: user.data.onWaitlists.concat(program.data.id),
       },
       config
     );
+
+    console.log('updated user', updatedUser);
 
     const updatedPrograms = this.state.programs.map(program => {
       return program.id === updatedProgram.data.id
@@ -215,6 +221,7 @@ class Root extends Component {
     this.setState({
       ...this.state,
       programs: updatedPrograms,
+      user: updatedUser.data,
     });
   };
 
@@ -392,7 +399,6 @@ class Root extends Component {
         this.setState({ [type]: filterState.concat(data) });
       });
   };
-
   // getLoggedInUserPrograms = () => {
   //   const { programs } = this.state.guardians.find(
   //     guardian => this.state.loggedInUserCustomerId == guardian.customerId
@@ -421,8 +427,9 @@ class Root extends Component {
     }
 
     const userToken = localStorage.getItem('userToken');
+    const username = localStorage.getItem('username');
 
-    this.setState({ userToken });
+    this.setState({ userToken, username });
   };
 
   render() {
@@ -482,8 +489,9 @@ class Root extends Component {
                 userId={this.state.userId}
                 fetching={this.state.fetching}
                 userType={this.state.userType}
+                getTokenFromLocalStorage={this.getTokenFromLocalStorage}
                 guardianStudents={this.state.guardianStudents}
-                guardianWaitlist={this.state.guardianWaitlist}
+                guardianWaitlist={this.state.onWaitlists}
                 guardianCoursesPurchased={this.state.guardianCoursesPurchased}
               />
             )}
@@ -496,6 +504,7 @@ class Root extends Component {
                 {...routeProps}
                 login={this.login}
                 user={this.state.user}
+                getTokenFromLocalStorage={this.getTokenFromLocalStorage}
               />
             )}
           />

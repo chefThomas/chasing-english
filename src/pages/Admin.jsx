@@ -14,9 +14,8 @@ import {
   Tooltip,
 } from 'antd';
 
+import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 import setAuthHeader from '../utilities/setAuthHeader';
-
-import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
 
 import ProgramForm from '../components/ProgramForm';
 import UserForm from '../components/UserForm';
@@ -428,12 +427,6 @@ class Admin extends Component {
     }
     return;
   };
-  // getStudents = async () => {
-  //   const config = setAuthHeader(this.props.userToken);
-  //   const { data } = await axios.get(`${URI_STUB}/api/students`, config);
-
-  //   this.setState({ students: data });
-  // };
 
   formatMongoDate = date => {
     const dateMoment = moment(date);
@@ -506,13 +499,15 @@ class Admin extends Component {
   // };
 
   async componentDidMount() {
-    const credentials = getCredentialFromLocalStorage();
-    if (credentials) {
+    // relogin on refresh
+    const { user } = this.props;
+    const credentials = getCredentials();
+    console.log(user, credentials);
+    if (!user && credentials) {
       this.props.login(credentials);
     }
 
     const config = setAuthHeader(localStorage.getItem('userToken'));
-
     const students = await axios.get(`${URI_STUB}/api/students`, config);
     const guardians = await axios.get(`${URI_STUB}/api/guardians`, config);
     const admins = await axios.get(`${URI_STUB}/api/admins`, config);

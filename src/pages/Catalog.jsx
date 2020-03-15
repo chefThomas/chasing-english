@@ -17,13 +17,13 @@ import {
   Row,
   Table,
   Tag,
+  Tooltip,
   Typography,
 } from 'antd';
 
-import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
-
 import checkCourseAvailability from '../utilities/checkCourseAvailability';
 
+import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 import purchase from '../utilities/purchase';
 
 import '../stylesheets/css/main.css';
@@ -77,7 +77,6 @@ class Catalog extends Component {
   };
 
   handleCloseDescription = e => {
-    console.log(e);
     this.setState({
       descriptionModalVisible: false,
     });
@@ -100,9 +99,6 @@ class Catalog extends Component {
     console.log('handleWaitlist ', courseId, userId);
 
     this.props.addToWaitlist(courseId, userId);
-    // this.props.addToWaitlist(courseId);
-    // concat course id to guardian waitlist
-    // concat guardian id to course waitlist
   };
 
   showModal = () => {
@@ -112,6 +108,7 @@ class Catalog extends Component {
   };
 
   handleCheckout = async () => {
+    // display loading icon in checkout button
     this.setState({ buttonLoading: true });
 
     // returns array of programs that may have become full after enrollment, but before checkout
@@ -123,14 +120,13 @@ class Catalog extends Component {
     // show user which courses in cart are full
     if (fullCoursesArr.length) {
       this.displayFullCourseMessage(fullCoursesArr);
-      // button loading UI
+      // removes loading icon in checkout button
       this.setState({ buttonLoading: false });
-      // remove full courses from cart
-      //TODO handle waitlist button click
+      // extract ids of full courses
       const fullCourseIds = fullCoursesArr.map(({ data: { id } }) => {
         return id;
       });
-      //
+      // filter out full courses
       const coursesRemainingInCart = this.state.cart.filter(item => {
         return !fullCourseIds.includes(item.id);
       });
@@ -197,15 +193,7 @@ class Catalog extends Component {
   };
 
   makeProgramButton = record => {
-    const {
-      guardianStudents,
-      guardianCoursesPurchased,
-      guardianWaitlist,
-      userId,
-      userType,
-    } = this.props;
-
-    if (userType !== 'guardian') {
+    if (!this.props.user) {
       return (
         <Button
           onClick={() => message.error('Only logged in guardians can enroll')}
@@ -216,24 +204,53 @@ class Catalog extends Component {
       );
     }
 
-    // check all necessary data are coming in
-    const { waitlist: programWaitlist, roster } = record;
-    const rosterIds = roster.map(student => student.id); // array of student ids in course program roster
-    const [guardianStudentId] = guardianStudents; // student id
-    const courseIsFull = record.enrolled >= record.capacity;
-    const userIsWaitlisted = programWaitlist.includes(userId);
-    const guardiansStudentIsEnrolled = rosterIds.includes(guardianStudentId);
+    const {
+      onWaitlists,
+      coursesPurchased,
+      userType,
+      id: userId,
+      students,
+    } = this.props.user;
 
-    if (guardiansStudentIsEnrolled) {
+    console.log(students);
+    if (userType !== 'guardian' || !userType) {
       return (
-        <Tag color="green" type="success">
-          Enrolled
-        </Tag>
+        <Button
+          onClick={() => message.error('Only logged in guardians can enroll')}
+          type="primary"
+        >
+          Enroll
+        </Button>
+      );
+    }
+
+    const courseIsFull = record.enrolled >= record.capacity;
+    const userIsWaitlisted = onWaitlists.includes(record.id);
+    const studentIsEnrolled = coursesPurchased.includes(record.id);
+
+    // student id
+    if (studentIsEnrolled) {
+      return (
+        <Tooltip
+          placement="topLeft"
+          title="Course details will be emailed to you soon"
+        >
+          <Tag color="green" type="success">
+            Enrolled
+          </Tag>
+        </Tooltip>
       );
     }
 
     if (userIsWaitlisted) {
-      return <Tag color="processing">On waitlist</Tag>;
+      return (
+        <Tooltip
+          placement="topLeft"
+          title="We'll let you know ASAP if a spot opens up :)"
+        >
+          <Tag color="volcano">On waitlist</Tag>
+        </Tooltip>
+      );
     }
     if (courseIsFull && !userIsWaitlisted) {
       return (
@@ -447,7 +464,7 @@ class Catalog extends Component {
         capacity: program.capacity,
         enrolled: program.enrolled,
         duration: program.duration,
-        waitlist: program.waitlist,
+        waitlistedGuardians: program.waitlistedGuardians,
         roster: program.roster,
       };
     });
@@ -470,7 +487,7 @@ class Catalog extends Component {
         capacity: program.capacity,
         enrolled: program.enrolled,
         duration: program.duration,
-        waitlist: program.waitlist,
+        waitlistedGuardians: program.waitlistedGuardians,
         roster: program.roster,
       };
     });
@@ -504,16 +521,18 @@ class Catalog extends Component {
         meetingDay,
         capacity: program.capacity,
         enrolled: program.enrolled,
-        waitlist: program.waitlist,
+        waitlistedGuardians: program.waitlist,
         roster: program.roster,
       };
     });
   };
 
   async componentDidMount() {
-    const credentials = getCredentialFromLocalStorage();
-    if (credentials) {
-      await this.props.login(credentials);
+    const { user } = this.props;
+    const credentials = getCredentials();
+    console.log(user, credentials);
+    if (!user && credentials) {
+      this.props.login(credentials);
     }
 
     this.getIndividualSessionData();
@@ -606,13 +625,13 @@ class Catalog extends Component {
             <br></br>
             <div>
               Would you like to be added to the waitlist? If not, go ahead and
-              finish checking out.
+              finish checking out if you have other programs in your cart.
             </div>
             <br></br>
             <div>
               <Button
                 style={{ marginRight: '1.5rem' }}
-                onClick={this.handleWaitlist}
+                onClick={this.handleAddToWaitlist}
                 type="primary"
               >
                 Waitlist
