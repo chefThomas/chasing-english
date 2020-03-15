@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import '@stripe/stripe-js';
+// import '@stripe/stripe-js';
 
 import { injectStripe } from 'react-stripe-elements';
 
 import axios from 'axios';
 import moment from 'moment';
 
-import { Drawer, Alert } from 'antd';
+import { Drawer, Alert, message } from 'antd';
 
 import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
@@ -34,20 +34,30 @@ class Root extends Component {
     adminError: null,
     checkoutSession: null,
     errorMessage: null,
+
+    // UI
     fetching: false,
+
+    // Catalog UI
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
-    fullCourseIds: [],
+    // fullCourseIds: [],
+
+    // Admin
     guardians: [],
     programs: [],
     showLogin: false,
     registrationEvent: false,
     showSideNav: false,
-    students: [],
+
+    // user
+    guardianWaitlist: [],
     user: null,
     userId: null,
     username: null,
-    userType: null,
+    // Catalog UI
+    guardianStudents: [],
+    // Navbar/Admin page UI
     userToken: null,
   };
 
@@ -55,6 +65,11 @@ class Root extends Component {
     this.setState({ alertMessage: '', alertVisible: false });
   };
 
+  getTokenFromLocalStorage = () => {
+    const userToken = localStorage.getItem('userToken');
+    const username = localStorage.getItem('username');
+    this.setState({ userToken, username });
+  };
   // UI
   hideLogin = () => {
     this.setState({ showLogin: false });
@@ -100,7 +115,10 @@ class Root extends Component {
   };
 
   login = async ({ email, password }) => {
-    const { data } = await axios.post(`${URI_STUB}/login`, {
+    const {
+      data,
+      data: { user },
+    } = await axios.post(`${URI_STUB}/login`, {
       email,
       password,
     });
@@ -113,8 +131,6 @@ class Root extends Component {
       return;
     }
 
-    const user = data.user;
-
     // change guardian name props to match other user types
     user.firstName = user.firstName ? user.firstName : user.guardianFirstName;
     user.lastName = user.lastName ? user.lastName : user.guardianLastName;
@@ -125,13 +141,16 @@ class Root extends Component {
     localStorage.setItem('password', password);
 
     this.setState({
-      email,
+      // email,
       userToken: data.token,
       user,
+      // //UI
       registrationEvent: false,
       redirectToCatalog: false,
       showLogin: false,
     });
+    console.log('logging in from page: ');
+    console.log(this.props.history.location);
     if (this.props.history.location === 'guardian-registration') {
       this.props.history.push('/catalog');
     }
@@ -151,41 +170,47 @@ class Root extends Component {
     });
   };
 
-  addToWaitlist = async courseId => {
+  // update guardian waitlist in state and
+  addGuardianToProgramWaitlist = async (courseId, userId) => {
+    // used by guardian to add their id to course waitlist
+    // also add course id to guardian waitlist to notify user on catalog page that they've been added to the waitlist
     // get program
-    const program = await axios.get(`${URI_STUB}/api/programs/${courseId}`);
+    const config = setAuthHeader(this.state.userToken);
+
+    const program = await axios.get(
+      `${URI_STUB}/api/programs/${courseId}`,
+      config
+    );
     console.log(program.data);
     // get user
-    const user = await axios.get(
-      `${URI_STUB}/api/guardians/${this.state.user.customerId}`
-    );
+    const user = await axios.get(`${URI_STUB}/api/guardians/${userId}`);
 
-    // // check if user is on waitlist
-    // if (program.data.waitlist.includes(user.data.id)) {
-    //   message.info("It looks like you're already on the waitlist");
-    //   return;
-    // }
-
-    // add mongo user id to program waitlist
     const updatedProgram = await axios.put(
       `${URI_STUB}/api/programs/${courseId}`,
       {
-        waitlist: program.data.waitlist.concat(user.data.id),
-      }
+        waitlistedGuardians: program.data.waitlistedGuardians.concat(
+          user.data.id
+        ),
+      },
+      config
     );
 
-    console.log(updatedProgram);
+    // format date
+    updatedProgram.data.dateBegin = formatMongoDate(
+      updatedProgram.data.dateBegin
+    );
+    updatedProgram.data.dateEnd = formatMongoDate(updatedProgram.data.dateEnd);
+
     // add program id to user waitlist
     const updatedUser = await axios.put(
       `${URI_STUB}/api/guardians/${user.data.id}`,
       {
-        waitlist: user.data.waitlist.concat(program.data.id),
-      }
+        onWaitlists: user.data.onWaitlists.concat(program.data.id),
+      },
+      config
     );
 
-    const updatedGuardians = this.state.guardians.map(guardian => {
-      return guardian.id === updatedUser.data.id ? updatedUser.data : guardian;
-    });
+    console.log('updated user', updatedUser);
 
     const updatedPrograms = this.state.programs.map(program => {
       return program.id === updatedProgram.data.id
@@ -196,7 +221,7 @@ class Root extends Component {
     this.setState({
       ...this.state,
       programs: updatedPrograms,
-      guardians: updatedGuardians,
+      user: updatedUser.data,
     });
   };
 
@@ -307,6 +332,8 @@ class Root extends Component {
     const day = this.formatMongoDate(result.data.dateBegin, 'day');
     console.log(dateBegin, dateEnd, day);
     console.log(result.data);
+
+    message.success('Program added');
     this.setState(prevState => ({
       programs: prevState.programs.concat({
         ...result.data,
@@ -372,7 +399,6 @@ class Root extends Component {
         this.setState({ [type]: filterState.concat(data) });
       });
   };
-
   // getLoggedInUserPrograms = () => {
   //   const { programs } = this.state.guardians.find(
   //     guardian => this.state.loggedInUserCustomerId == guardian.customerId
@@ -382,7 +408,7 @@ class Root extends Component {
   // };
 
   componentDidMount = async () => {
-    // load programs and users
+    // load programs
     try {
       const results = await axios.get(`${URI_STUB}/api/programs`);
       // map formatted dates onto program
@@ -401,8 +427,9 @@ class Root extends Component {
     }
 
     const userToken = localStorage.getItem('userToken');
+    const username = localStorage.getItem('username');
 
-    this.setState({ userToken });
+    this.setState({ userToken, username });
   };
 
   render() {
@@ -444,12 +471,7 @@ class Root extends Component {
             exact
             path="/"
             render={routeProps => (
-              <Home
-                {...this.state}
-                {...routeProps}
-                login={this.login}
-                user={this.state.user}
-              />
+              <Home {...routeProps} login={this.login} user={this.state.user} />
             )}
           />
           <Route
@@ -458,13 +480,19 @@ class Root extends Component {
             render={routeProps => (
               <Catalog
                 {...routeProps}
+                addToWaitlist={this.addGuardianToProgramWaitlist}
+                login={this.login}
                 stripe={this.props.stripe}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
                 user={this.state.user}
+                userId={this.state.userId}
                 fetching={this.state.fetching}
-                addToWaitlist={this.addToWaitlist}
-                login={this.login}
+                userType={this.state.userType}
+                getTokenFromLocalStorage={this.getTokenFromLocalStorage}
+                guardianStudents={this.state.guardianStudents}
+                guardianWaitlist={this.state.onWaitlists}
+                guardianCoursesPurchased={this.state.guardianCoursesPurchased}
               />
             )}
           />
@@ -476,6 +504,7 @@ class Root extends Component {
                 {...routeProps}
                 login={this.login}
                 user={this.state.user}
+                getTokenFromLocalStorage={this.getTokenFromLocalStorage}
               />
             )}
           />
@@ -523,15 +552,15 @@ class Root extends Component {
                 {...routeProps}
                 addAdmin={this.addAdmin}
                 addGuardian={this.register}
+                addProgram={this.addProgram}
+                toggleStatus={this.toggleStatus}
+                remove={this.remove}
+                login={this.login}
                 guardians={this.state.guardians}
                 programs={this.state.programs}
                 students={this.state.students}
                 admins={this.state.admins}
-                addProgram={this.addProgram}
-                toggleStatus={this.toggleStatus}
-                remove={this.remove}
                 user={this.state.user}
-                login={this.login}
                 userToken={this.state.userToken}
               />
             )}

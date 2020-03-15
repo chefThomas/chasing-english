@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
 import { Layout } from 'antd';
-import '../stylesheets/css/main.css';
+
 import Footer from '../components/Footer';
 
-import getCredentialFromLocalStorage from '../utilities/getCredentialsFromLocalStorage.js';
-
+import '../stylesheets/css/main.css';
 import text from '../text/paragraph';
 
+import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 const { Content } = Layout;
 
 class About extends Component {
   componentDidMount() {
-    const credentials = getCredentialFromLocalStorage();
-    if (credentials) {
+    // relogin on refresh
+    const { user } = this.props;
+    const credentials = getCredentials();
+    console.log(user, credentials);
+    if (!user && credentials) {
       this.props.login(credentials);
     }
   }
+
   render() {
     return (
       <>

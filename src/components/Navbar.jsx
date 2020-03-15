@@ -133,7 +133,8 @@ class Navbar extends Component {
           {this.props.user ? (
             <>
               <span className="welcome-user">
-                {`Welcome, ${this.props.user.firstName}!`}
+                {`Welcome, ${this.props.user.firstName ||
+                  this.props.user.guardianFirstName}!`}
               </span>
             </>
           ) : (

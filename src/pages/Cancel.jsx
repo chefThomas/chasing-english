@@ -5,14 +5,24 @@ import { Layout, Typography } from 'antd';
 
 import NavButton from '../components/NavButton';
 
-import '../stylesheets/css/main.css';
+import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 
+import '../stylesheets/css/main.css';
 import cancel from '../static/undraw_empty_cart_co35.svg';
 
 const { Content } = Layout;
 const { Title } = Typography;
 
 class CancelPage extends Component {
+  componentDidMount() {
+    // relogin on refresh
+    const { user } = this.props;
+    const credentials = getCredentials();
+    console.log(user, credentials);
+    if (!user && credentials) {
+      this.props.login(credentials);
+    }
+  }
   render() {
     return (
       <Layout className="CancelPage">
