@@ -21,7 +21,7 @@ import {
   Typography,
 } from 'antd';
 
-import checkCourseAvailability from '../utilities/checkCourseAvailability';
+import checkCourseAvailability from '../utilities/checkCourseAvailability.js';
 
 import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 import purchase from '../utilities/purchase';
@@ -54,13 +54,17 @@ class Catalog extends Component {
     buttonLoading: false,
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
+    fullCourses: [],
+  };
+
+  handleCartWaitlist = () => {
+    this.props.cartWaitlist(this.state.fullCourses);
   };
 
   displayFullCourseMessage = fullCourses => {
     const fullCourseDialogMessages = fullCourses.map(({ data }) => {
       return `${data.title} is no longer available and has been removed from the cart`;
     });
-
     this.setState({ fullCourseDialogMessages, fullCourseDialogVisible: true });
   };
 
@@ -95,10 +99,17 @@ class Catalog extends Component {
     });
   };
 
-  handleAddToWaitlist = (courseId, userId) => {
-    console.log('handleWaitlist ', courseId, userId);
+  handleCartWaitlist = courseId => {
+    if (typeof courseId === 'string') {
+      this.props.addGuardianToWaitlist(courseId, this.props.user.id);
+    } else {
+      this.props.addGuardianToArrayOfPrograms(
+        this.state.fullCourses,
+        this.props.user.id
+      );
+    }
 
-    this.props.addToWaitlist(courseId, userId);
+    // this.props.add;
   };
 
   showModal = () => {
@@ -116,12 +127,12 @@ class Catalog extends Component {
       this.state.cart,
       this.props.userToken
     );
-
     // show user which courses in cart are full
     if (fullCoursesArr.length) {
       this.displayFullCourseMessage(fullCoursesArr);
-      // removes loading icon in checkout button
-      this.setState({ buttonLoading: false });
+      // stop loading icon in button and set full course state
+      const fullCourses = fullCoursesArr.map(course => course.data);
+      this.setState({ buttonLoading: false, fullCourses });
       // extract ids of full courses
       const fullCourseIds = fullCoursesArr.map(({ data: { id } }) => {
         return id;
@@ -204,15 +215,8 @@ class Catalog extends Component {
       );
     }
 
-    const {
-      onWaitlists,
-      coursesPurchased,
-      userType,
-      id: userId,
-      students,
-    } = this.props.user;
+    const { onWaitlists, coursesPurchased, userType } = this.props.user;
 
-    console.log(students);
     if (userType !== 'guardian' || !userType) {
       return (
         <Button
@@ -246,7 +250,7 @@ class Catalog extends Component {
       return (
         <Tooltip
           placement="topLeft"
-          title="We'll let you know ASAP if a spot opens up :)"
+          title="We'll let you know ASAP if a spot opens up"
         >
           <Tag color="volcano">On waitlist</Tag>
         </Tooltip>
@@ -254,7 +258,7 @@ class Catalog extends Component {
     }
     if (courseIsFull && !userIsWaitlisted) {
       return (
-        <Button onClick={() => this.handleAddToWaitlist(record.id, userId)}>
+        <Button onClick={() => this.handleCartWaitlist(record.id)}>
           Add to waitlist
         </Button>
       );
@@ -624,14 +628,15 @@ class Catalog extends Component {
             ))}
             <br></br>
             <div>
-              Would you like to be added to the waitlist? If not, go ahead and
-              finish checking out if you have other programs in your cart.
+              Click the waitlist button below if you woul like to be added to
+              the course not, go ahead and finish checking out if you have other
+              programs in your cart.
             </div>
             <br></br>
             <div>
               <Button
                 style={{ marginRight: '1.5rem' }}
-                onClick={this.handleAddToWaitlist}
+                onClick={() => this.handleCartWaitlist(this.state.waitlist)}
                 type="primary"
               >
                 Waitlist

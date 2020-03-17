@@ -41,7 +41,7 @@ class Root extends Component {
     // Catalog UI
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
-    // fullCourseIds: [],
+    catalogMessage: null,
 
     // Admin
     guardians: [],
@@ -149,8 +149,7 @@ class Root extends Component {
       redirectToCatalog: false,
       showLogin: false,
     });
-    console.log('logging in from page: ');
-    console.log(this.props.history.location);
+    console.log('logging in from page: ', this.props.history.location);
     if (this.props.history.location === 'guardian-registration') {
       this.props.history.push('/catalog');
     }
@@ -168,6 +167,70 @@ class Root extends Component {
     await stripe.redirectToCheckout({
       sessionId: checkout.data.id,
     });
+  };
+
+  addGuardianToArrayOfPrograms = async (courseIds, userId) => {
+    console.log(courseIds, userId);
+    // loop through
+    const config = setAuthHeader(this.state.userToken);
+
+    // make program id array
+    const programIds = courseIds.map(course => course.id);
+
+    // update user's waitlist
+    const { data } = await axios.get(
+      `${URI_STUB}/api/guardians/${userId}`,
+      config
+    );
+
+    const updatedWaitlist = data.onWaitlists.concat(programIds);
+
+    const { data: user } = await axios.put(
+      `${URI_STUB}/api/guardians/${userId}`,
+      {
+        onWaitlists: updatedWaitlist,
+      },
+      config
+    );
+
+    // add userId to programs waitlists
+    // get programs
+    const getProgramsAsync = courseIds.map(
+      async course =>
+        await axios.get(`${URI_STUB}/api/programs/${course.id}`, config)
+    );
+
+    const getProgramsResolve = await Promise.all(getProgramsAsync);
+
+    // add userId to program waitlist
+    const updatedPrograms = getProgramsResolve.map(({ data }) => {
+      const dateBegin = formatMongoDate(data.dateBegin);
+      const dateEnd = formatMongoDate(data.dateEnd);
+      return {
+        ...data,
+        dateBegin,
+        dateEnd,
+        waitlistedGuardians: [...data.waitlistedGuardians, userId],
+      };
+    });
+
+    console.log(updatedPrograms);
+
+    // create array of of updated program ids
+    const updatedProgramIdArr = updatedPrograms.map(program => program.id);
+
+    // update programs in state
+    const updatedStatePrograms = this.state.programs.map(program => {
+      if (updatedProgramIdArr.includes(program.id)) {
+        return updatedPrograms.find(
+          updatedProgram => updatedProgram.id === program.id
+        );
+      } else {
+        return program;
+      }
+    });
+    // update state
+    this.setState({ user, programs: updatedStatePrograms });
   };
 
   // update guardian waitlist in state and
@@ -273,38 +336,6 @@ class Root extends Component {
     // PUT guardian/id
   };
 
-  // checkForFullCourses = async items => {
-  //   // fetching icon in checkout button
-  //   this.setState({ fetching: true });
-
-  //   // retrieve purchased programs from db
-  //   const programsArr = items.map(
-  //     async program => await axios.get(`${URI_STUB}/api/programs/${program.id}`)
-  //   );
-
-  //   const programs = await Promise.all(programsArr);
-
-  //   // array of full programs where number enrolled >= capacity
-  //   const fullCourses = programs.filter(({ data }) => {
-  //     return data.enrolled >= data.capacity;
-  //   });
-
-  //   console.log(fullCourses);
-
-  //   if (fullCourses.length) {
-  //     this.setState({ fetching: false });
-  //     const fullCourseIds = fullCourses.map(course => course.data.id);
-
-  //     this.setState({ fullCourseIds });
-
-  //     let fullCourseDialogMessages = fullCourses.map(course => {
-  //       return `${course.data.title} is no longer available and has been removed from the cart`;
-  //     });
-  //     this.setState({ fullCourseDialogMessages });
-  //     this.setState({ fullCourseDialogVisible: true });
-  //   }
-  // };
-
   // generate Stripe Checkout
   checkout = async lineItems => {
     console.log(lineItems);
@@ -331,7 +362,7 @@ class Root extends Component {
     const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
     const day = this.formatMongoDate(result.data.dateBegin, 'day');
     console.log(dateBegin, dateEnd, day);
-    console.log(result.data);
+    console.log('result.data from POST /programs', result.data);
 
     message.success('Program added');
     this.setState(prevState => ({
@@ -480,19 +511,13 @@ class Root extends Component {
             render={routeProps => (
               <Catalog
                 {...routeProps}
-                addToWaitlist={this.addGuardianToProgramWaitlist}
+                addGuardianToWaitlist={this.addGuardianToProgramWaitlist}
+                addGuardianToArrayOfPrograms={this.addGuardianToArrayOfPrograms}
                 login={this.login}
                 stripe={this.props.stripe}
                 programs={this.state.programs}
                 userToken={this.state.userToken}
                 user={this.state.user}
-                userId={this.state.userId}
-                fetching={this.state.fetching}
-                userType={this.state.userType}
-                getTokenFromLocalStorage={this.getTokenFromLocalStorage}
-                guardianStudents={this.state.guardianStudents}
-                guardianWaitlist={this.state.onWaitlists}
-                guardianCoursesPurchased={this.state.guardianCoursesPurchased}
               />
             )}
           />
