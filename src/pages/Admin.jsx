@@ -19,7 +19,7 @@ import setAuthHeader from '../utilities/setAuthHeader';
 
 import ProgramForm from '../components/ProgramForm';
 import UserForm from '../components/UserForm';
-// import Roster from '../components/Roster';
+import Roster from '../components/Roster';
 import '../stylesheets/css/main.css';
 
 const { TabPane } = Tabs;
@@ -38,6 +38,9 @@ class Admin extends Component {
     students: null,
     guardians: null,
     admins: null,
+    roster: [],
+    rosterCourseTitle: null,
+    showRoster: false,
   };
 
   programCols = [
@@ -290,6 +293,7 @@ class Admin extends Component {
   };
 
   handleRosterViewClick = id => {
+    console.log('click!');
     const { roster, title } = this.props.programs.find(
       program => program.id == id
     );
@@ -522,12 +526,12 @@ class Admin extends Component {
   render() {
     return (
       <>
-        {/* <Roster
+        <Roster
           roster={this.state.roster}
           showRoster={this.state.showRoster}
           closeRoster={this.closeRoster}
           rosterCourseTitle={this.state.rosterCourseTitle}
-        /> */}
+        />
         {this.props.user && this.props.user.userType === 'admin' ? (
           <div>
             <Tabs type="card">
