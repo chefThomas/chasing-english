@@ -20,6 +20,7 @@ import setAuthHeader from '../utilities/setAuthHeader';
 import ProgramForm from '../components/ProgramForm';
 import UserForm from '../components/UserForm';
 import Roster from '../components/Roster';
+import AdminMessageList from '../components/AdminMessageList';
 import '../stylesheets/css/main.css';
 
 const { TabPane } = Tabs;
@@ -615,7 +616,9 @@ class Admin extends Component {
                   </Panel>
                 </Collapse>
               </TabPane>
-              <TabPane tab="Messages" key="4"></TabPane>
+              <TabPane tab="Messages" key="4">
+                <AdminMessageList adminMessages={this.props.adminMessages} />
+              </TabPane>
             </Tabs>
             <Modal
               title="Create Program"
