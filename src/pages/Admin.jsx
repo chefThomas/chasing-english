@@ -12,6 +12,7 @@ import {
   Table,
   Tabs,
   Tooltip,
+  message,
 } from 'antd';
 
 import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
@@ -38,7 +39,7 @@ class Admin extends Component {
     rosterVisible: false,
     students: null,
     guardians: null,
-    admins: null,
+    admins: [],
     roster: [],
     rosterCourseTitle: null,
     showRoster: false,
@@ -101,7 +102,7 @@ class Admin extends Component {
             <Icon type="team" onClick={() => this.handleRosterViewClick(id)} />
           </Tooltip>
 
-          <Tooltip title={status === 'active' ? 'archive' : 'activate'}>
+          <Tooltip title={status === 'active' ? 'archive' : 'active'}>
             <Icon
               type="file-sync"
               onClick={() => this.props.toggleStatus(id, 'programs', status)}
@@ -287,7 +288,7 @@ class Admin extends Component {
   };
 
   confirmDelete = (id, type) => {
-    this.props.remove(id, type);
+    this.remove(id, type);
   };
 
   closeRoster = () => {
@@ -323,6 +324,39 @@ class Admin extends Component {
 
   handleProgramFormHide = () => {
     this.setState({ programFormVisible: false });
+  };
+
+  addAdmin = async adminData => {
+    const config = setAuthHeader(this.props.userToken);
+    console.log('add admin: ', adminData);
+
+    try {
+      const admin = { ...adminData, status: 'active' };
+
+      const newAdmin = await axios.post(
+        `${URI_STUB}/api/admins`,
+        admin,
+        config
+      );
+      this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
+    } catch (err) {
+      console.log('add user err: ', err.message);
+    }
+  };
+
+  remove = async (id, type) => {
+    const config = setAuthHeader(this.props.userToken);
+    const result = await axios.delete(`${URI_STUB}/api/${type}s/${id}`, config);
+
+    console.log(result.status);
+
+    if (result.status >= 200 && result.status <= 300) {
+      const filtered = this.state[`${type}s`].filter(el => el.id !== id);
+
+      console.log(filtered);
+      this.setState({ [`${type}s`]: filtered });
+      message.success(`${type} deleted`);
+    }
   };
 
   // getAdminData = () => {
@@ -638,7 +672,7 @@ class Admin extends Component {
               onCancel={this.toggleUserFormVisibility}
             >
               <UserForm
-                addAdmin={this.props.addAdmin}
+                addAdmin={this.addAdmin}
                 addGuardian={this.props.addGuardian}
                 addStudent={this.props.addStudent}
                 guardians={this.props.guardians}

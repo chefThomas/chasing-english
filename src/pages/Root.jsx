@@ -55,6 +55,7 @@ class Root extends Component {
     user: null,
     userId: null,
     username: null,
+    admins: [],
     // Catalog UI
     guardianStudents: [],
     // Navbar/Admin page UI
@@ -309,18 +310,23 @@ class Root extends Component {
     return;
   };
 
-  addAdmin = async adminData => {
-    console.log('add admin: ', adminData);
+  // addAdmin = async adminData => {
+  //   const config = setAuthHeader(this.state.userToken);
+  //   console.log('add admin: ', adminData);
 
-    try {
-      const admin = { ...adminData, status: 'active' };
+  //   try {
+  //     const admin = { ...adminData, status: 'active' };
 
-      const newAdmin = await axios.post(`${URI_STUB}/api/admins`, admin);
-      this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
-    } catch (err) {
-      console.log('add user err: ', err.message);
-    }
-  };
+  //     const newAdmin = await axios.post(
+  //       `${URI_STUB}/api/admins`,
+  //       admin,
+  //       config
+  //     );
+  //     this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
+  //   } catch (err) {
+  //     console.log('add user err: ', err.message);
+  //   }
+  // };
 
   fullCourseDialogClose = () => {
     this.setState({
@@ -374,9 +380,6 @@ class Root extends Component {
     }));
   };
 
-  handleMessage = msg => {
-    console.log(msg);
-  };
   remove = async (id, type) => {
     const config = setAuthHeader(this.state.userToken);
     const result = await axios.delete(`${URI_STUB}/api/${type}/${id}`, config);
@@ -386,7 +389,6 @@ class Root extends Component {
     if (result.status === 200) {
       const filtered = this.state[`${type}`].filter(el => el.id !== id);
       this.setState({ [type]: filtered });
-      this.handleMessage('program deleted');
     }
   };
 
@@ -403,17 +405,24 @@ class Root extends Component {
   };
 
   toggleStatus = (recordId, type, status) => {
+    const config = setAuthHeader(this.state.userToken);
+
     const record = this.state[type].find(record => record.id === recordId);
+    console.log(record.id);
 
     const updatedStatus = status === 'active' ? 'archive' : 'active';
 
     console.log({ ...record, status: updatedStatus });
 
     axios
-      .put(`${URI_STUB}/api/${type}/${recordId}`, {
-        ...record,
-        status: updatedStatus,
-      })
+      .put(
+        `${URI_STUB}/api/${type}/${recordId}`,
+        {
+          ...record,
+          status: updatedStatus,
+        },
+        config
+      )
       .then(({ data }) => {
         console.log(data);
         if (type === 'programs') {
@@ -575,7 +584,7 @@ class Root extends Component {
             render={routeProps => (
               <Admin
                 {...routeProps}
-                addAdmin={this.addAdmin}
+                // addAdmin={this.addAdmin}
                 addGuardian={this.register}
                 addProgram={this.addProgram}
                 toggleStatus={this.toggleStatus}
