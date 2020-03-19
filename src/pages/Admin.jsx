@@ -42,6 +42,7 @@ class Admin extends Component {
     roster: [],
     rosterCourseTitle: null,
     showRoster: false,
+    messages: [],
   };
 
   programCols = [
@@ -516,11 +517,13 @@ class Admin extends Component {
     const students = await axios.get(`${URI_STUB}/api/students`, config);
     const guardians = await axios.get(`${URI_STUB}/api/guardians`, config);
     const admins = await axios.get(`${URI_STUB}/api/admins`, config);
+    const messages = await axios.get(`${URI_STUB}/api/admin-messages`, config);
 
     this.setState({
       students: students.data,
       guardians: guardians.data,
       admins: admins.data,
+      messages: messages.data,
     });
   }
 
@@ -617,7 +620,7 @@ class Admin extends Component {
                 </Collapse>
               </TabPane>
               <TabPane tab="Messages" key="4">
-                <AdminMessageList adminMessages={this.props.adminMessages} />
+                <AdminMessageList messages={this.state.messages} />
               </TabPane>
             </Tabs>
             <Modal

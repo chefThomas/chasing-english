@@ -1,28 +1,8 @@
 import React, { Component } from 'react';
-import { List, Card } from 'antd';
+import { List, Card, Icon, Divider } from 'antd';
+import moment from 'moment';
 
 class AdminMessageList extends Component {
-  data = [
-    {
-      title: 'Title 1',
-    },
-    {
-      title: 'Title 2',
-    },
-    {
-      title: 'Title 3',
-    },
-    {
-      title: 'Title 4',
-    },
-    {
-      title: 'Title 5',
-    },
-    {
-      title: 'Title 6',
-    },
-  ];
-
   render() {
     return (
       <List
@@ -36,12 +16,25 @@ class AdminMessageList extends Component {
           //   xl: 6,
           //   xxl: 3,
         }}
-        dataSource={this.data}
-        renderItem={item => (
-          <List.Item>
-            <Card title={item.title}>Card content</Card>
-          </List.Item>
-        )}
+        dataSource={this.props.messages}
+        renderItem={item => {
+          const date = moment(item.date).format('MM/DD/YYYY');
+          return (
+            <List.Item>
+              <Card hoverable title={item.title}>
+                {item.type === 'purchase' ? (
+                  <Icon
+                    style={{ fontSize: '24px', color: '#08c' }}
+                    type="dollar"
+                  />
+                ) : null}
+                {date}
+                <Divider />
+                {item.body}
+              </Card>
+            </List.Item>
+          );
+        }}
       />
     );
   }
