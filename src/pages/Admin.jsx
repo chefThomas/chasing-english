@@ -346,15 +346,26 @@ class Admin extends Component {
 
   remove = async (id, type) => {
     const config = setAuthHeader(this.props.userToken);
-    const result = await axios.delete(`${URI_STUB}/api/${type}s/${id}`, config);
+
+    const result = await axios.delete(`${URI_STUB}/api/${type}/${id}`, config);
 
     console.log(result.status);
 
+    if (type === 'admin-messages') {
+      type = 'messages';
+    }
+    console.log(type);
+
     if (result.status >= 200 && result.status < 300) {
-      const filtered = this.state[`${type}s`].filter(el => el.id !== id);
+      const filtered = this.state[`${type}`].filter(el => el.id !== id);
 
       console.log(filtered);
-      this.setState({ [`${type}s`]: filtered });
+
+      if (type === 'admin-messages') {
+        type = 'messages';
+      }
+
+      this.setState({ [`${type}`]: filtered });
       message.success(`${type} deleted`);
     }
   };
@@ -549,9 +560,6 @@ class Admin extends Component {
       config
     );
 
-    console.log(result);
-    console.log(typeof Id);
-    console.log(read);
     if (result.status !== 200) {
       // handle UI error
     } else {
@@ -689,6 +697,7 @@ class Admin extends Component {
                 <AdminMessageList
                   messages={this.state.messages}
                   changeMessageReadStatus={this.changeMessageReadStatus}
+                  remove={this.remove}
                 />
               </TabPane>
             </Tabs>

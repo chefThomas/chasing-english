@@ -10,7 +10,7 @@ class AdminMessageList extends Component {
 
   handleDelete = id => {
     console.log(id);
-    this.props.deleteMessage(id);
+    this.props.remove(id, 'admin-messages');
   };
 
   getMessageHeader = (messageType, id) => {
