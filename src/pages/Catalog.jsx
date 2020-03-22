@@ -103,7 +103,7 @@ class Catalog extends Component {
     if (typeof courseId === 'string') {
       this.props.addGuardianToWaitlist(courseId, this.props.user.id);
     } else {
-      this.props.addGuardianToArrayOfPrograms(
+      this.props.addGuardianToArrayOfProgramWaitlists(
         this.state.fullCourses,
         this.props.user.id
       );

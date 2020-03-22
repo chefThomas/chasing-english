@@ -35,6 +35,47 @@ body {
   width: 100%;
   bottom: 0; }
 
+div.message-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+div.ant-card-head {
+  padding: 0;
+  font-size: 1rem; }
+
+div.ant-card-head-title {
+  padding: 5px 10px; }
+
+div.ant-card-head-wrapper {
+  width: 100%; }
+
+div.ant-card-head {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+div.ant-card-body {
+  padding: 5px 10px; }
+
+div.ant-card-meta-description {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px; }
+
+div.message-body {
+  margin-bottom: 20px; }
+
+div.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+[aria-label='icon: close'] {
+  color: rgba(0, 0, 0, 0.85); }
+
 .AntLogin button {
   font-family: 'Lato', sans-serif;
   font-size: 1rem;

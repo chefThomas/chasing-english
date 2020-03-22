@@ -1,27 +1,47 @@
 import React, { Component } from 'react';
-import { List, Card } from 'antd';
+import { List, Card, Icon } from 'antd';
+import '../stylesheets/css/main.css';
 
 class AdminMessageList extends Component {
-  data = [
-    {
-      title: 'Title 1',
-    },
-    {
-      title: 'Title 2',
-    },
-    {
-      title: 'Title 3',
-    },
-    {
-      title: 'Title 4',
-    },
-    {
-      title: 'Title 5',
-    },
-    {
-      title: 'Title 6',
-    },
-  ];
+  handleReadStatus = (id, read) => {
+    console.log(read);
+    this.props.changeMessageReadStatus(id, read);
+  };
+
+  handleDelete = id => {
+    console.log(id);
+    this.props.remove(id, 'admin-messages');
+  };
+
+  getMessageHeader = (messageType, id) => {
+    switch (messageType) {
+      case 'purchase':
+        return (
+          <div className="message-header">
+            <span>ENROLLMENT</span>
+            <Icon
+              type="close"
+              color="red"
+              onClick={() => this.handleDelete(id)}
+            />
+          </div>
+        );
+      case 'waitlist':
+        return (
+          <div className="message-header">
+            <span>User Waitlisted</span>
+            <Icon type="close" onClick={() => this.handleDelete(id)} />
+          </div>
+        );
+      case 'register':
+        return (
+          <div className="message-header">
+            <span>User Waitlisted</span>
+            <Icon type="close" onClick={() => this.handleDelete(id)} />
+          </div>
+        );
+    }
+  };
 
   render() {
     return (
@@ -32,16 +52,29 @@ class AdminMessageList extends Component {
           xs: 1,
           sm: 2,
           md: 3,
-          lg: 4,
-          //   xl: 6,
-          //   xxl: 3,
         }}
-        dataSource={this.data}
-        renderItem={item => (
-          <List.Item>
-            <Card title={item.title}>Card content</Card>
-          </List.Item>
-        )}
+        dataSource={this.props.messages}
+        renderItem={item => {
+          return (
+            <List.Item>
+              <Card
+                onClick={() => this.handleReadStatus(item.id, item.status)}
+                title={this.getMessageHeader(item.type, item.id)}
+                hoverable
+              >
+                <div className="message-body">{item.body}</div>
+                <div className="message-footer">
+                  <span>{item.date}</span>
+                  <span className="message-read-status">
+                    <a onClick={() => this.handleReadStatus(item.id)}>
+                      {item.status === 'unread' ? 'unread' : 'read'}
+                    </a>
+                  </span>
+                </div>
+              </Card>
+            </List.Item>
+          );
+        }}
       />
     );
   }
