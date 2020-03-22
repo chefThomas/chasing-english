@@ -298,7 +298,7 @@ class Admin extends Component {
   handleRosterViewClick = id => {
     console.log('click!');
     const { roster, title } = this.props.programs.find(
-      program => program.id == id
+      program => program.id === id
     );
     this.setState({ roster, rosterCourseTitle: title });
     this.setState({ showRoster: true });
@@ -350,7 +350,7 @@ class Admin extends Component {
 
     console.log(result.status);
 
-    if (result.status >= 200 && result.status <= 300) {
+    if (result.status >= 200 && result.status < 300) {
       const filtered = this.state[`${type}s`].filter(el => el.id !== id);
 
       console.log(filtered);
@@ -538,6 +538,38 @@ class Admin extends Component {
   //   ).length;
   // };
 
+  changeMessageReadStatus = async (Id, read) => {
+    const config = setAuthHeader(localStorage.getItem('userToken'));
+    const status = read === 'read' ? 'unread' : 'read';
+    const result = await axios.put(
+      `${URI_STUB}/api/admin-messages/${Id}`,
+      {
+        status,
+      },
+      config
+    );
+
+    console.log(result);
+    console.log(typeof Id);
+    console.log(read);
+    if (result.status !== 200) {
+      // handle UI error
+    } else {
+      // update state
+      console.log(read);
+      console.log(status);
+      const { messages } = this.state;
+
+      const updatedMessages = messages.map(el =>
+        el.id === Id ? { ...el, status } : el
+      );
+
+      console.log(updatedMessages);
+
+      this.setState({ messages: updatedMessages });
+    }
+  };
+
   async componentDidMount() {
     // relogin on refresh
     const { user } = this.props;
@@ -654,7 +686,10 @@ class Admin extends Component {
                 </Collapse>
               </TabPane>
               <TabPane tab="Messages" key="4">
-                <AdminMessageList messages={this.state.messages} />
+                <AdminMessageList
+                  messages={this.state.messages}
+                  changeMessageReadStatus={this.changeMessageReadStatus}
+                />
               </TabPane>
             </Tabs>
             <Modal

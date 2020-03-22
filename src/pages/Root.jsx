@@ -20,6 +20,7 @@ import Cancel from './Cancel';
 
 import formatMongoDate from '../utilities/formatMongoDate';
 import setAuthHeader from '../utilities/setAuthHeader';
+import makeTimestampString from '../utilities/makeTimestampString';
 
 import '../stylesheets/css/main.css';
 import GuardianRegistration from './GuardianRegistration';
@@ -170,7 +171,7 @@ class Root extends Component {
     });
   };
 
-  addGuardianToArrayOfPrograms = async (courseIds, userId) => {
+  addGuardianToArrayOfProgramWaitlists = async (courseIds, userId) => {
     console.log(courseIds, userId);
     // loop through
     const config = setAuthHeader(this.state.userToken);
@@ -217,7 +218,7 @@ class Root extends Component {
 
     console.log(updatedPrograms);
 
-    // create array of of updated program ids
+    // create array of updated program ids
     const updatedProgramIdArr = updatedPrograms.map(program => program.id);
 
     // update programs in state
@@ -231,7 +232,18 @@ class Root extends Component {
       }
     });
     // update state
+
     this.setState({ user, programs: updatedStatePrograms });
+
+    // post to admin messages
+    updatedProgramIdArr.map(async program => {
+      const date = makeTimestampString();
+      await axios.post(`${URI_STUB}/api/admin-messages/`, {
+        type: 'waitlist',
+        body: `${user.guardianFirstName} was added to  ${program.title} waitlist`,
+        date,
+      });
+    });
   };
 
   // update guardian waitlist in state and
@@ -287,6 +299,14 @@ class Root extends Component {
       programs: updatedPrograms,
       user: updatedUser.data,
     });
+
+    const date = makeTimestampString();
+
+    await axios.post(`${URI_STUB}/api/admin-messages/`, {
+      type: 'waitlist',
+      body: `${updatedUser.data.guardianFirstName} ${updatedUser.data.guardianLastName} was added to  ${program.data.title} waitlist`,
+      date,
+    });
   };
 
   register = async guardianData => {
@@ -296,6 +316,14 @@ class Root extends Component {
     );
 
     console.log(data);
+    //TODO post to admin-messages here with guardian name and student name, type: registration
+
+    const message = await axios.post(`${URI_STUB}/api/admin-messages`, {
+      type: 'registration',
+      body: `A new guardian, ${data.guardianFirstName} ${data.guardianLastName}, has registered`,
+    });
+
+    console.log(message.data);
 
     if (data.error) {
       // display error message on admin page
@@ -309,24 +337,6 @@ class Root extends Component {
     console.log(status);
     return;
   };
-
-  // addAdmin = async adminData => {
-  //   const config = setAuthHeader(this.state.userToken);
-  //   console.log('add admin: ', adminData);
-
-  //   try {
-  //     const admin = { ...adminData, status: 'active' };
-
-  //     const newAdmin = await axios.post(
-  //       `${URI_STUB}/api/admins`,
-  //       admin,
-  //       config
-  //     );
-  //     this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
-  //   } catch (err) {
-  //     console.log('add user err: ', err.message);
-  //   }
-  // };
 
   fullCourseDialogClose = () => {
     this.setState({
@@ -521,7 +531,9 @@ class Root extends Component {
               <Catalog
                 {...routeProps}
                 addGuardianToWaitlist={this.addGuardianToProgramWaitlist}
-                addGuardianToArrayOfPrograms={this.addGuardianToArrayOfPrograms}
+                addGuardianToArrayOfProgramWaitlists={
+                  this.addGuardianToArrayOfProgramWaitlists
+                }
                 login={this.login}
                 stripe={this.props.stripe}
                 programs={this.state.programs}
