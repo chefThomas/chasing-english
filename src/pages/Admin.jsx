@@ -20,6 +20,7 @@ import setAuthHeader from '../utilities/setAuthHeader';
 
 import ProgramForm from '../components/ProgramForm';
 import UserForm from '../components/UserForm';
+import PurchaseRecord from '../components/PurchaseRecord';
 import Roster from '../components/Roster';
 import AdminMessageList from '../components/AdminMessageList';
 import '../stylesheets/css/main.css';
@@ -38,12 +39,14 @@ class Admin extends Component {
     userFormVisible: false,
     rosterVisible: false,
     students: null,
-    guardians: null,
+    guardians: [],
+    guardianPurchaseHistory: [],
     admins: [],
     roster: [],
     rosterCourseTitle: null,
     showRoster: false,
     messages: [],
+    showGuardianPurchases: false,
   };
 
   programCols = [
@@ -293,6 +296,21 @@ class Admin extends Component {
 
   closeRoster = () => {
     this.setState({ showRoster: false });
+  };
+
+  // TODO  display courses purchased
+  handlePurchasesViewClick = id => {
+    const { guardians } = this.state;
+
+    console.log(guardians, id);
+    // find guardian from state
+    const { coursesPurchased } = guardians.find(el => el.id === id);
+    console.log(coursesPurchased);
+
+    this.setState({
+      guardianPurchaseHistory: coursesPurchased,
+      showGuardianPurchases: true,
+    });
   };
 
   handleRosterViewClick = id => {
@@ -604,6 +622,13 @@ class Admin extends Component {
   render() {
     return (
       <>
+        <PurchaseRecord
+          roster={this.state.roster}
+          showGuardianPurchases={this.state.showGuardianPurchases}
+          closeRoster={() => this.setState({ showGuardianPurchases: false })}
+          // guardians={this.state.guardians}
+          guardianPurchaseHistory={this.state.guardianPurchaseHistory}
+        />
         <Roster
           roster={this.state.roster}
           showRoster={this.state.showRoster}
