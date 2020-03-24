@@ -428,7 +428,6 @@ class Root extends Component {
       .put(
         `${URI_STUB}/api/${type}/${recordId}`,
         {
-          ...record,
           status: updatedStatus,
         },
         config
@@ -447,15 +446,9 @@ class Root extends Component {
         );
 
         this.setState({ [type]: filterState.concat(data) });
-      });
+      })
+      .catch(err => console.log(err));
   };
-  // getLoggedInUserPrograms = () => {
-  //   const { programs } = this.state.guardians.find(
-  //     guardian => this.state.loggedInUserCustomerId == guardian.customerId
-  //   );
-
-  //   return programs;
-  // };
 
   componentDidMount = async () => {
     // load programs
