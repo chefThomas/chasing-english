@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { Modal, Table } from 'antd';
+import '../stylesheets/css/main.css';
 
-class PurchaseRecord extends Component {
+class StudentRecord extends Component {
   cols = [
     {
-      title: 'Program title',
+      title: 'Title',
       dataIndex: 'title',
+      key: 'id',
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
       key: 'id',
     },
     {
@@ -30,16 +36,17 @@ class PurchaseRecord extends Component {
     return dateObj.toLocaleDateString('en-US');
   };
 
-  getGuardianPurchaseData = () => {
-    const { guardianPurchaseHistory } = this.props;
+  getStudentRecordData = () => {
+    const { studentRecord } = this.props;
 
-    return guardianPurchaseHistory.map(el => {
+    return studentRecord.map(el => {
       const dateBegin = this.formatDate(el.dateBegin);
       const dateEnd = this.formatDate(el.dateEnd);
 
       return {
         key: el.id,
         title: el.title,
+        type: el.type,
         dateBegin,
         dateEnd,
         status: el.status,
@@ -50,14 +57,15 @@ class PurchaseRecord extends Component {
   render() {
     return (
       <Modal
-        title="Purchase Record"
-        visible={this.props.showGuardianPurchases}
-        onOk={this.props.closeGuardianPurchases}
-        onCancel={this.props.closeGuardianPurchases}
+        title="Student Record"
+        visible={this.props.showStudentRecord}
+        onOk={this.props.closeStudentRecord}
+        onCancel={this.props.closeStudentRecord}
+        className="StudentRecord"
       >
         <Table
           bordered
-          dataSource={this.getGuardianPurchaseData()}
+          dataSource={this.getStudentRecordData()}
           columns={this.cols}
         />
       </Modal>
@@ -65,4 +73,4 @@ class PurchaseRecord extends Component {
   }
 }
 
-export default PurchaseRecord;
+export default StudentRecord;

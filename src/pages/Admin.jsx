@@ -18,11 +18,13 @@ import {
 import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 import setAuthHeader from '../utilities/setAuthHeader';
 
+import AdminMessageList from '../components/AdminMessageList';
 import ProgramForm from '../components/ProgramForm';
-import UserForm from '../components/UserForm';
 import PurchaseRecord from '../components/PurchaseRecord';
 import Roster from '../components/Roster';
-import AdminMessageList from '../components/AdminMessageList';
+import StudentRecord from '../components/StudentRecord';
+import UserForm from '../components/UserForm';
+
 import '../stylesheets/css/main.css';
 
 const { TabPane } = Tabs;
@@ -47,6 +49,8 @@ class Admin extends Component {
     showRoster: false,
     messages: [],
     showGuardianPurchases: false,
+    showStudentRecord: false,
+    studentRecord: [],
   };
 
   programCols = [
@@ -249,7 +253,7 @@ class Admin extends Component {
       key: 'guardian',
     },
     {
-      title: 'Actions',
+      title: 'Enrollment Record',
       key: 'action',
       render: (text, { id }) => (
         <div
@@ -260,21 +264,11 @@ class Admin extends Component {
           }}
         >
           <Tooltip title="course history">
-            <Icon type="read"></Icon>
+            <Icon
+              type="read"
+              onClick={() => this.handleStudentRecordClick(id)}
+            ></Icon>
           </Tooltip>
-          {/* <Popconfirm
-            title="Are you sure?"
-            onConfirm={() => this.confirmDelete(id, 'admin')}
-            onCancel={() => null}
-            okText="Yes"
-            cancelText="Cancel"
-            placement="left"
-            icon={<Icon size="large" type="question-circle-o" />}
-          >
-            <Tooltip title="delete">
-              <Icon type="delete" style={{ color: 'red' }} />
-            </Tooltip> */}
-          {/* </Popconfirm> */}
         </div>
       ),
     },
@@ -342,6 +336,14 @@ class Admin extends Component {
 
   handleProgramFormHide = () => {
     this.setState({ programFormVisible: false });
+  };
+
+  handleStudentRecordClick = id => {
+    console.log(id);
+    const { courses } = this.state.students.find(el => el.id === id);
+
+    console.log(courses);
+    this.setState({ studentRecord: courses, showStudentRecord: true });
   };
 
   addAdmin = async adminData => {
@@ -623,17 +625,25 @@ class Admin extends Component {
     return (
       <>
         <PurchaseRecord
-          roster={this.state.roster}
           showGuardianPurchases={this.state.showGuardianPurchases}
-          closeRoster={() => this.setState({ showGuardianPurchases: false })}
+          closeGuardianPurchases={() =>
+            this.setState({ showGuardianPurchases: false })
+          }
           // guardians={this.state.guardians}
           guardianPurchaseHistory={this.state.guardianPurchaseHistory}
+        />
+        <StudentRecord
+          showStudentRecord={this.state.showStudentRecord}
+          closeStudentRecord={() => this.setState({ showStudentRecord: false })}
+          studentRecord={this.state.studentRecord}
+          className="StudentRecord"
         />
         <Roster
           roster={this.state.roster}
           showRoster={this.state.showRoster}
           closeRoster={this.closeRoster}
           rosterCourseTitle={this.state.rosterCourseTitle}
+          className="StudentRecord"
         />
         {this.props.user && this.props.user.userType === 'admin' ? (
           <div>

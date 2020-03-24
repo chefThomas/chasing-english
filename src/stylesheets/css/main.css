@@ -911,6 +911,9 @@ input:focus {
 .offscreen {
   transform: translate3d(-200%, 0, 0); }
 
+div.ant-modal.StudentRecord {
+  width: 600px !important; }
+
 .Testimonial {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   border: 1px solid #efefef;
