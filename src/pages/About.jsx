@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Card, Row, Col, Layout } from 'antd';
+import { Card, Row, Col } from 'antd';
 
 import Footer from '../components/Footer';
 
@@ -10,7 +10,6 @@ import text from '../text/paragraph';
 import self from '../static/Kendra.jpg';
 
 import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
-const { Content } = Layout;
 const { Meta } = Card;
 
 class About extends Component {
