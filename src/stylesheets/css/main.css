@@ -30,10 +30,12 @@ body {
   font-family: "Lato", sans-serif;
   font-size: 1rem; }
 
-.About-footer {
-  position: absolute;
-  width: 100%;
-  bottom: 0; }
+div.ant-card-meta-title {
+  padding-top: 5px; }
+
+div.ant-card-meta-description {
+  padding-left: 0 !important;
+  padding-top: 0 !important; }
 
 div.message-header {
   width: 100%;

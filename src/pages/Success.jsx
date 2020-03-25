@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import NavButton from '../components/NavButton';
+
 import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 
 import { Result } from 'antd';
@@ -14,13 +16,23 @@ class Success extends Component {
       this.props.login(credentials);
     }
   }
+
   render() {
+    const center = { marginLeft: 'auto', marginRight: 'auto' };
     return (
-      <Result
-        status="success"
-        title="Enrollment was successful"
-        subTitle={'You will receive an email shortly...'}
-      />
+      <>
+        <Result
+          status="success"
+          title="Enrollment was successful"
+          subTitle={'You will receive an email shortly...'}
+        />
+        <NavButton
+          class="top-margin-lg NavButton dark-on-light center-inline"
+          to="/catalog"
+          label="Go to catalog"
+          styleMod={center}
+        />
+      </>
     );
   }
 }

@@ -10,7 +10,11 @@ class NavButton extends Component {
 
   render() {
     return (
-      <button className={this.props.class} onClick={this.onClick}>
+      <button
+        style={this.props.styleMod}
+        className={this.props.class}
+        onClick={this.onClick}
+      >
         {this.props.label}
       </button>
     );

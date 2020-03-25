@@ -292,7 +292,6 @@ class Admin extends Component {
     this.setState({ showRoster: false });
   };
 
-  // TODO  display courses purchased
   handlePurchasesViewClick = id => {
     const { guardians } = this.state;
 
@@ -308,11 +307,22 @@ class Admin extends Component {
   };
 
   handleRosterViewClick = id => {
-    console.log('click!');
     const { roster, title } = this.props.programs.find(
       program => program.id === id
     );
-    this.setState({ roster, rosterCourseTitle: title });
+
+    // add guardian name and email to each student in roster
+    const updatedRoster = roster.map(student => {
+      const guardian = this.state.guardians.find(el => {
+        console.log(el.students);
+        return el.students.includes(student.id);
+      });
+      console.log('#### guardian ####', guardian);
+
+      return guardian ? { ...student, guardian } : student;
+    });
+
+    this.setState({ roster: updatedRoster, rosterCourseTitle: title });
     this.setState({ showRoster: true });
   };
 
