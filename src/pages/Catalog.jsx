@@ -175,7 +175,7 @@ class Catalog extends Component {
     // check if course already in cart to prevent double purchase
     const course = this.state.cart.find(course => courseId === course.id);
     if (course) {
-      this.handleMessage('This course is already in your cart');
+      this.handleMessage('This may already be in your cart');
       return;
     }
     // find course in Root state
@@ -195,6 +195,7 @@ class Catalog extends Component {
     const program = { type, id, key: id, price, title };
 
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
+    this.handleMessage('Added to cart!');
   };
 
   handleOk = e => {

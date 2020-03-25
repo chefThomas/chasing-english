@@ -44,6 +44,7 @@ class Admin extends Component {
     guardians: [],
     guardianPurchaseHistory: [],
     admins: [],
+    loadingMessage: false,
     roster: [],
     rosterCourseTitle: null,
     showRoster: false,
@@ -580,6 +581,7 @@ class Admin extends Component {
   // };
 
   changeMessageReadStatus = async (Id, read) => {
+    this.setState({ loadingMessage: true });
     const config = setAuthHeader(localStorage.getItem('userToken'));
     const status = read === 'read' ? 'unread' : 'read';
     const result = await axios.put(
@@ -604,7 +606,7 @@ class Admin extends Component {
 
       console.log(updatedMessages);
 
-      this.setState({ messages: updatedMessages });
+      this.setState({ messages: updatedMessages, loadingMessage: false });
     }
   };
 
@@ -743,6 +745,7 @@ class Admin extends Component {
                   messages={this.state.messages}
                   changeMessageReadStatus={this.changeMessageReadStatus}
                   remove={this.remove}
+                  loadingMessage={this.state.loadingMessage}
                 />
               </TabPane>
             </Tabs>
