@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Card, Icon } from 'antd';
+import { List, Card, Icon, Spin } from 'antd';
 import '../stylesheets/css/main.css';
 
 class AdminMessageList extends Component {
@@ -68,7 +68,13 @@ class AdminMessageList extends Component {
                   <span>{item.date}</span>
                   <span className="message-read-status">
                     <a onClick={() => this.handleReadStatus(item.id)}>
-                      {item.status === 'unread' ? 'unread' : 'read'}
+                      {this.props.loadingMessage ? (
+                        <Spin size="small" />
+                      ) : item.status === 'unread' ? (
+                        'unread'
+                      ) : (
+                        'read'
+                      )}
                     </a>
                   </span>
                 </div>
