@@ -37,11 +37,11 @@ const text = {
   indCoachp3:
     '*In order for this style of coaching to be successful, consistency is paramount. It is encouraged to sign a student up for a    four- week block of coaching time in order to see results.',
   groupp1:
-    'Whether meeting online to write, discuss literature, share work or gain feedback, group programs bring students together from a wide-range of backgrounds and interests to learn from one another and develop critical thinking and communication skills.',
+    'Whether meeting online to write, discuss literature, share work, or gain feedback, group programs bring students together from a wide-range of backgrounds and interests to learn from one another and develop critical thinking and communication skills.',
   groupp2:
-    'Students meet collectively with Kendra once a week on the Google Classroom platform. This secure and private space allows students to engage in collaborative reading and writing exercises via video chats and documents hosted in the cloud.',
+    'Students meet collectively with Kendra once a week online. This secure and private space allows students to engage in collaborative exercises via video chats and documents hosted in the cloud.',
   groupp3:
-    'Families can expect to receive a weekly email that details what was covered the week prior as well as insight into what the following week will encompass.',
+    'Families can expect to receive a weekly email detailing what was covered the week prior as well as insight into what the following week will encompass.',
   workshopp1:
     'Interested in gaining support but don’t have the time to commit to an individual coaching schedule or group programs? If so, single-day workshops may be of interest. These two-hour intensives will be offered periodically throughout a season. Students can expect to meet through an online platform with other students to cover such things as writing refreshers; grammar intensives; high school essay development; and reading comprehension pointers.',
   workshopp2:
