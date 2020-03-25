@@ -13,12 +13,13 @@ class AdminMessageList extends Component {
     this.props.remove(id, 'admin-messages');
   };
 
-  getMessageHeader = (messageType, id) => {
+  getMessageHeader = (messageType, id, date) => {
+    console.log(messageType, date);
     switch (messageType) {
       case 'purchase':
         return (
           <div className="message-header">
-            <span>ENROLLMENT</span>
+            <span>Enrollment</span>
             <Icon
               type="close"
               color="red"
@@ -29,14 +30,14 @@ class AdminMessageList extends Component {
       case 'waitlist':
         return (
           <div className="message-header">
-            <span>User Waitlisted</span>
+            <span>User waitlisted</span>
             <Icon type="close" onClick={() => this.handleDelete(id)} />
           </div>
         );
-      case 'register':
+      case 'registration':
         return (
           <div className="message-header">
-            <span>User Waitlisted</span>
+            <span>New registrant</span>
             <Icon type="close" onClick={() => this.handleDelete(id)} />
           </div>
         );
@@ -59,7 +60,7 @@ class AdminMessageList extends Component {
             <List.Item>
               <Card
                 onClick={() => this.handleReadStatus(item.id, item.status)}
-                title={this.getMessageHeader(item.type, item.id)}
+                title={this.getMessageHeader(item.type, item.id, item.date)}
                 hoverable
               >
                 <div className="message-body">{item.body}</div>

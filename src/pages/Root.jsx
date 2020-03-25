@@ -315,12 +315,14 @@ class Root extends Component {
       guardianData
     );
 
+    const date = makeTimestampString();
     console.log(data);
     //TODO post to admin-messages here with guardian name and student name, type: registration
 
     const message = await axios.post(`${URI_STUB}/api/admin-messages`, {
       type: 'registration',
       body: `A new guardian, ${data.guardianFirstName} ${data.guardianLastName}, has registered`,
+      date,
     });
 
     console.log(message.data);
