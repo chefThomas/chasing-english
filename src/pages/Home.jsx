@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { Typography } from 'antd';
+import { Typography, AutoComplete } from 'antd';
 
 import NavButton from '../components/NavButton';
 import Image from '../components/Image';
@@ -84,7 +84,8 @@ class Home extends Component {
               </div>
             </div>
             <button
-              class="NavButton light-on-light fixed-width center"
+              style={{ marginLeft: 'auto', marginRight: 'auto' }}
+              class="top-margin-lg NavButton dark-on-light center-inline"
               label="Find Out More"
               to="/catalog"
             >
@@ -99,7 +100,8 @@ class Home extends Component {
             gridItems={this.testimonials}
           />
           <NavButton
-            class="NavButton light-on-light fixed-width center"
+            styleMod={{ marginLeft: 'auto', marginRight: 'auto' }}
+            class="top-margin-lg NavButton dark-on-light "
             label="Learn More"
             to="/catalog"
           />
@@ -136,8 +138,9 @@ class Home extends Component {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <NavButton
-              className="NavButton light-on-light fixed-width center"
-              label="Learn More"
+              styleMod={{ marginLeft: 'auto', marginRight: 'auto' }}
+              class="top-margin-lg NavButton dark-on-light "
+              label="View Programs"
               to="/catalog"
             />
           </div>
