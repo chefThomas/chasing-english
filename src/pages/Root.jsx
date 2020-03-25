@@ -117,6 +117,7 @@ class Root extends Component {
   };
 
   login = async ({ email, password }) => {
+    email = email.toLowerCase();
     const {
       data,
       data: { user },
@@ -310,6 +311,10 @@ class Root extends Component {
   };
 
   register = async guardianData => {
+    console.log(guardianData);
+
+    guardianData.guardianEmail = guardianData.guardianEmail.toLowerCase();
+
     const { data, status } = await axios.post(
       `${URI_STUB}/api/guardians`,
       guardianData
@@ -317,7 +322,6 @@ class Root extends Component {
 
     const date = makeTimestampString();
     console.log(data);
-    //TODO post to admin-messages here with guardian name and student name, type: registration
 
     const message = await axios.post(`${URI_STUB}/api/admin-messages`, {
       type: 'registration',
