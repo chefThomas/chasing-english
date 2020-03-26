@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { message } from 'antd';
 import GuardianRegistrationForm from '../components/GuardianRegistrationForm';
 import { notification, Result } from 'antd';
@@ -19,7 +19,7 @@ class GuardianRegistration extends Component {
 
   checkRegistration = () => {
     if (this.props.registrationSuccess) {
-      this.setState({ showRegistrationForm: false });
+      this.setState({ showRegistrationForm: false, postLoginRedirect: true });
     }
   };
 
@@ -52,8 +52,12 @@ class GuardianRegistration extends Component {
             <AntLogin login={this.props.login} />
           </div>
         ) : (
-          <GuardianRegistrationForm register={this.props.register} />
+          <GuardianRegistrationForm
+            register={this.props.register}
+            redirectToCatalog={this.redirectToCatalog}
+          />
         )}
+        {this.props.user ? <Redirect to="/catalog" /> : null}
       </div>
     );
   }
