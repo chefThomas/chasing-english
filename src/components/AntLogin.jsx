@@ -10,6 +10,7 @@ class NormalLoginForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      console.log(values);
       if (!err) {
         this.props.login(values);
       }
@@ -18,18 +19,21 @@ class NormalLoginForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const localEmail = localStorage.getItem('email');
+    const localPassword = localStorage.getItem('password');
     return (
       <Form
-        initialValues={{
-          email: localStorage.getItem('email'),
-          password: localStorage.getItem('password'),
-        }}
+        // initialValues={{
+        //   email: localStorage.getItem('email'),
+        //   password: localStorage.getItem('password'),
+        // }}
         onSubmit={this.handleSubmit}
         className="AntLogin login-form"
       >
         <Form.Item>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: 'Please input your email' }],
+            initialValue: localEmail ? localEmail : '',
           })(
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -40,6 +44,7 @@ class NormalLoginForm extends Component {
         <Form.Item>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your password' }],
+            initialValue: localPassword ? localPassword : '',
           })(
             <Input
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
