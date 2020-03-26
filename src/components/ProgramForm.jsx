@@ -125,6 +125,7 @@ class ProgramForm extends Component {
       duration,
       status: 'active',
     });
+    this.props.closeForm();
     this.setState(this.initialState);
   };
 

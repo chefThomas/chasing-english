@@ -335,7 +335,6 @@ class Admin extends Component {
   toggleProgramFormVisibility = e => {
     this.setState({
       programFormVisible: !this.state.programFormVisible,
-      formType: 'individual',
     });
   };
 
@@ -755,7 +754,10 @@ class Admin extends Component {
               onOk={this.toggleProgramFormVisibility}
               onCancel={this.toggleProgramFormVisibility}
             >
-              <ProgramForm addProgram={this.props.addProgram} />
+              <ProgramForm
+                addProgram={this.props.addProgram}
+                closeForm={this.toggleProgramFormVisibility}
+              />
             </Modal>
             <Modal
               title="Create User"
