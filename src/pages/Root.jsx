@@ -112,8 +112,6 @@ class Root extends Component {
     localStorage.removeItem('email');
     localStorage.removeItem('password');
     localStorage.removeItem('username');
-    // localStorage.removeItem('username');
-    // localStorage.removeItem('userType');
   };
 
   login = async ({ email, password }) => {
@@ -513,9 +511,9 @@ class Root extends Component {
           logout={this.logout}
         />
         <Switch>
-          {this.state.redirectToCatalog ? (
+          {/* {this.state.redirectToCatalog ? (
             <Redirect from="/guardian-registration" to="/catalog" />
-          ) : null}
+          ) : null} */}
           <Route
             exact
             path="/"

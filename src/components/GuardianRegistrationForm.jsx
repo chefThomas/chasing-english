@@ -41,6 +41,8 @@ class RegistrationForm extends Component {
         console.log('Received values of form: ', values);
         this.props.register(values);
         //clear form
+        localStorage.setItem('email', values.guardianEmail);
+        localStorage.setItem('password', values.confirmPassword);
       }
     });
   };
@@ -310,7 +312,7 @@ class RegistrationForm extends Component {
                 >
                   <Option key="group">Group</Option>
                   <Option key="intensive">One-day Intensive</Option>
-                  <Option key="individual">Indivudal Coaching</Option>
+                  <Option key="individual">Individual Coaching</Option>
                 </Select>
               </Form.Item>
             )}
