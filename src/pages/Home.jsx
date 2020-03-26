@@ -83,14 +83,16 @@ class Home extends Component {
                 </div>
               </div>
             </div>
-            <button
-              style={{ marginLeft: 'auto', marginRight: 'auto' }}
-              class="top-margin-lg NavButton dark-on-light center-inline"
-              label="Find Out More"
-              to="/catalog"
-            >
-              Find Out More
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <NavButton
+                style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                class="top-margin-lg NavButton dark-on-light"
+                label="Find Out More"
+                to="/catalog"
+              >
+                Find Out More
+              </NavButton>
+            </div>
           </div>
         </section>
         <section id="testimonials-section" className="testimonials">
