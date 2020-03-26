@@ -218,7 +218,7 @@ class RegistrationForm extends Component {
                 style={{ paddingLeft: '0', width: '40%' }}
               >
                 <Option value="email">Email</Option>
-                <Option value="voice">Voice</Option>
+                <Option value="voice">Phone</Option>
                 <Option value="text">Text</Option>
               </Select>
             )}
