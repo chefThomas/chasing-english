@@ -159,7 +159,9 @@ class Root extends Component {
         this.props.history.push('/catalog');
       }
     } catch (err) {
-      if (err.response.status === 401) {
+      console.log({ ...err });
+      console.log(err.response);
+      if (err.response && err.response.status === 401) {
         this.setState({
           alertVisible: true,
           alertMessage: 'The email or password is incorrect',
