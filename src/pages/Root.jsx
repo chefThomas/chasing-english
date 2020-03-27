@@ -123,7 +123,6 @@ class Root extends Component {
         password,
       });
 
-      console.log(data);
       if (!data) {
         this.setState({
           alertVisible: true,

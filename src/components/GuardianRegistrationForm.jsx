@@ -49,7 +49,6 @@ class RegistrationForm extends Component {
 
   handleProgramChange = selectedPrograms => {
     this.setState({ selectedPrograms });
-    console.log(this.state.selectedPrograms);
   };
   handleConfirmBlur = e => {
     const { value } = e.target;
