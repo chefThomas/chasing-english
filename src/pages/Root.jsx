@@ -116,43 +116,61 @@ class Root extends Component {
 
   login = async ({ email, password }) => {
     email = email.toLowerCase();
-    const {
-      data,
-      data: { user },
-    } = await axios.post(`${URI_STUB}/login`, {
-      email,
-      password,
-    });
 
-    if (!data) {
-      this.setState({
-        alertVisible: true,
-        alertMessage: 'Unsuccessful login',
+    try {
+      const { data } = await axios.post(`${URI_STUB}/login`, {
+        email,
+        password,
       });
-      return;
-    }
 
-    // change guardian name props to match other user types
-    user.firstName = user.firstName ? user.firstName : user.guardianFirstName;
-    user.lastName = user.lastName ? user.lastName : user.guardianLastName;
+      console.log(data);
+      if (!data) {
+        this.setState({
+          alertVisible: true,
+          alertMessage: 'Unsuccessful login',
+        });
+        return;
+      }
 
-    localStorage.setItem('userToken', data.token);
-    localStorage.setItem('username', user.firstName);
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password);
+      // change guardian name props to match other user types
+      data.user.firstName = data.user.firstName
+        ? data.user.firstName
+        : data.user.guardianFirstName;
+      data.user.lastName = data.user.lastName
+        ? data.user.lastName
+        : data.user.guardianLastName;
 
-    this.setState({
-      // email,
-      userToken: data.token,
-      user,
-      // //UI
-      registrationEvent: false,
-      redirectToCatalog: false,
-      showLogin: false,
-    });
-    console.log('logging in from page: ', this.props.history.location);
-    if (this.props.history.location === 'guardian-registration') {
-      this.props.history.push('/catalog');
+      localStorage.setItem('userToken', data.token);
+      localStorage.setItem('username', data.user.firstName);
+      localStorage.setItem('email', email);
+      localStorage.setItem('password', password);
+
+      this.setState({
+        // email,
+        userToken: data.token,
+        user: data.user,
+        // //UI
+        registrationEvent: false,
+        redirectToCatalog: false,
+        showLogin: false,
+      });
+      console.log('logging in from page: ', this.props.history.location);
+      if (this.props.history.location === 'guardian-registration') {
+        this.props.history.push('/catalog');
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        this.setState({
+          alertVisible: true,
+          alertMessage: 'The email or password is incorrect',
+        });
+        return;
+      } else {
+        this.setState({
+          alertVisible: true,
+          alertMessage: 'Login unsuccessful',
+        });
+      }
     }
   };
 
