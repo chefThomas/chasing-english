@@ -148,10 +148,7 @@ class ProgramForm extends Component {
             <Radio.Button value="intensive">Single-day Workshop</Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item
-          style={this.state.type === 'individual' ? { display: 'none' } : null}
-          label="Title"
-        >
+        <Form.Item label="Title">
           <Input
             style={{ width: '40%' }}
             label="Title"
@@ -162,10 +159,7 @@ class ProgramForm extends Component {
             value={this.state.title}
           />
         </Form.Item>
-        <Form.Item
-          style={this.state.type === 'individual' ? { display: 'none' } : null}
-          label="Description"
-        >
+        <Form.Item label="Description">
           <TextArea
             onChange={this.handleDescriptionChange}
             value={this.state.description}
@@ -207,26 +201,25 @@ class ProgramForm extends Component {
             onChange={this.handleDurationChange}
           />
         </Form.Item>
-        {this.state.type !== 'intensive' ? (
-          <Form.Item label="Meeting Day(s)">
-            <Select
-              mode="multiple"
-              style={{ width: '40%' }}
-              placeholder="Please select"
-              onChange={this.handleDayChange}
-              value={this.state.meetingDay}
-            >
-              <Option key="Mon ">Mon</Option>
-              <Option key="Tue ">Tue</Option>
-              <Option key="Wed ">Wed</Option>
-              <Option key="Thu ">Thu</Option>
-              <Option key="Fri ">Fri</Option>
-              <Option key="Sat ">Sat</Option>
-              <Option key="Sun ">Sun</Option>
-            </Select>
-          </Form.Item>
-        ) : null}
-        {this.state.type === 'group' ? (
+
+        <Form.Item label="Meeting Day(s)">
+          <Select
+            mode="multiple"
+            style={{ width: '40%' }}
+            placeholder="Please select"
+            onChange={this.handleDayChange}
+            value={this.state.meetingDay}
+          >
+            <Option key="Mon ">Mon</Option>
+            <Option key="Tue ">Tue</Option>
+            <Option key="Wed ">Wed</Option>
+            <Option key="Thu ">Thu</Option>
+            <Option key="Fri ">Fri</Option>
+            <Option key="Sat ">Sat</Option>
+            <Option key="Sun ">Sun</Option>
+          </Select>
+        </Form.Item>
+        {this.state.type === 'group' || this.state.type === 'intensive' ? (
           <Form.Item label="Seats">
             <InputNumber
               min={0}
