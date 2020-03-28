@@ -26,7 +26,7 @@ const { Title } = Typography;
 class Home extends Component {
   testimonials = [
     <Testimonial name="Ann M." body={text.am} type="Parent" />,
-    <Testimonial name="Sarah B." body={text.sb} type="Student" />,
+    <Testimonial name="Rhiana B." body={text.rb} type="Student" />,
     <Testimonial name="Janet K." body={text.jk} type="Parent" />,
     <Testimonial name="Ann G." body={text.ag} type="Student" />,
     <Testimonial name="Bob C." body={text.bc} type="Head of School" />,

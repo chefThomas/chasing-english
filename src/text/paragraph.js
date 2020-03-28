@@ -10,7 +10,7 @@ const text = {
   personal:
     'One-on-one courses are tailored to fit the individual needs and goals of the student. Offered in repeated weekly sessions that families sign up for in monthly blocks, these courses are designed to help students reach their fullest potential and keep families updated on the progress that is being made along the way.',
   cf:
-    '"I have been wanting to write this for awhile nownd just could not find the right words to express the heartfelt appreciation and respect I have for who Kendra is and all that she does. She is an inspiration, and I am deeply grateful that she was a part of our son’s middle school years when he was first finding his written voice."',
+    '"I have been wanting to write this for awhile now, but just could not find the right words to express the heartfelt appreciation and respect I have for who Kendra is and all that she does. She is an inspiration, and I am deeply grateful that she was a part of our son’s middle school years when he was first finding his written voice."',
 
   am:
     "Thank you so much for such a positive writing experience for our son. He was engaged in the story and activities long after the online sessions ended, enjoyed the book, and interacting with the group. He also enjoyed the Google platform of viewing the video during front loading activities and of posting comments then conversing with online video. As a parent, I think what a great opportunity to utilize online skills in a fun, academic interaction. Kendra, you've synthesized technology and learning so beautifully.",
@@ -24,8 +24,8 @@ const text = {
   ag:
     'Kendra has made an unquantifiable impact on my life. More than just a teacher, she has always been a supportive and caring mentor to me. To put it simply, Kendra is an incredible teacher. Not only are her lessons interesting, engaging, and informative, but she truly cares about each of her students, both academically and personally, and makes that very clear to everyone.  The writing I completed during my time with her is some of the most meaningful I have ever done.',
 
-  sb:
-    'I always liked to write, but I never really had an extremely passionate and inspirational English teacher that gave me a desire to write and express myself in that way outside of the classroom.  You have instilled in me a passion to write creatively and I feel so comfortable in your class (and outside of it) doing so.  I will continue to take your classes as long as you teach them! Thank you, Kendra :)',
+  rb:
+    'Kendra encouraged the fire within me to learn how to write. Kendra was always there for me to encourage, teach, and help me with every single assignment we ever had. By the time I left her class at the end of my middle school writing journey I felt confident in myself that she had given me all the tools I needed to be successful in high school.',
   bc:
     'Kendra is a great teacher-- period. It is also obvious - and can be seen on a daily basis when she is with her students - how much Kendra loves literature and writing – it is contagious. Her standards are always high and she expects students to do their best work. This combination of respect from students and their desire to do well, in my experience, is the quality that only the best teachers have. Students know that she has their back and that she expects them to bring their “A” game when they attend her class.',
   jw:
