@@ -8,7 +8,7 @@ const text = {
   group:
     'Achievement is often bolstered in cooperative learning environments. These courses offer engaging reading assignments and creative writing opportunities enriched by extended viewership, peer-editing and social interaction.',
   personal:
-    'One-on-one courses are tailored to fit the individual needs and goals of the student. Offered in repeated sessions, or single-day workshops, and covering everything from the fundamentals of writing to advanced composition, these courses are designed to help students reach their fullest potential.',
+    'One-on-one courses are tailored to fit the individual needs and goals of the student. Offered in repeated weekly sessions that families sign up for in monthly blocks, these courses are designed to help students reach their fullest potential and keep families updated on the progress that is being made along the way.',
   cf:
     '"I have been wanting to write this for awhile nownd just could not find the right words to express the heartfelt appreciation and respect I have for who Kendra is and all that she does. She is an inspiration, and I am deeply grateful that she was a part of our son’s middle school years when he was first finding his written voice."',
 
