@@ -96,6 +96,11 @@ class Admin extends Component {
       key: 'enrolled',
     },
     {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
       title: 'Actions',
       key: 'action',
       render: (text, { id, status }) => (
@@ -542,6 +547,7 @@ class Admin extends Component {
             status: program.status,
             type: program.type,
             roster: program.roster,
+            price: program.price,
           };
         });
     } else {
@@ -561,6 +567,7 @@ class Admin extends Component {
           status: program.status,
           type: program.type,
           duration: program.duration,
+          price: program.price,
         }));
     }
   };

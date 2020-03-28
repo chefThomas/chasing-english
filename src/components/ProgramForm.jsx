@@ -30,6 +30,7 @@ class ProgramForm extends Component {
     type: null,
     status: 'active',
     duration: 0,
+    price: 0,
   };
 
   initialState = {
@@ -46,6 +47,7 @@ class ProgramForm extends Component {
     type: null,
     status: 'active',
     duration: 0,
+    price: 0,
   };
 
   handleTypeChange = e => {
@@ -95,6 +97,11 @@ class ProgramForm extends Component {
     this.setState({ duration: value });
   };
 
+  handlePriceChange = value => {
+    console.log(value);
+    this.setState({ price: value });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const {
@@ -107,6 +114,7 @@ class ProgramForm extends Component {
       enrolled,
       type,
       duration,
+      price,
     } = this.state;
 
     const dateEnd =
@@ -123,6 +131,7 @@ class ProgramForm extends Component {
       enrolled,
       type,
       duration,
+      price,
       status: 'active',
     });
     this.props.closeForm();
@@ -226,6 +235,13 @@ class ProgramForm extends Component {
             />
           </Form.Item>
         ) : null}
+        <Form.Item label="Price">
+          <InputNumber
+            min={0}
+            onChange={this.handlePriceChange}
+            value={this.state.price}
+          />
+        </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Submit
