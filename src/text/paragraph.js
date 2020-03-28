@@ -39,7 +39,7 @@ const text = {
   groupp1:
     'Whether meeting online to write, discuss literature, share work, or gain feedback, group programs bring students together from a wide-range of backgrounds and interests to learn from one another and develop critical thinking and communication skills.',
   groupp2:
-    'Students meet collectively with Kendra once a week online. This secure and private space allows students to engage in collaborative exercises via video chats and documents hosted in the cloud.',
+    'Students meet collectively with Kendra once or twice a week online. This secure and private space allows students to engage in collaborative exercises via video chats and documents hosted in the cloud.',
   groupp3:
     'Families can expect to receive a weekly email detailing what was covered the week prior as well as insight into what the following week will encompass.',
   workshopp1:
