@@ -38,11 +38,11 @@ import workshop from '../static/undraw_researching_22gp.png';
 const { Title } = Typography;
 const { Content } = Layout;
 
-const prices = {
-  individual: 125,
-  group: 395,
-  intensive: 125,
-};
+// const prices = {
+//   individual: 125,
+//   group: 395,
+//   intensive: 125,
+// };
 
 class Catalog extends Component {
   state = {
@@ -179,11 +179,11 @@ class Catalog extends Component {
       return;
     }
     // find course in Root state
-    let { type, id, title } = this.props.programs.find(
+    let { type, id, title, price } = this.props.programs.find(
       program => program.id === courseId
     );
 
-    const price = this.formatPrice(prices[type]);
+    const formattedPrice = this.formatPrice(price);
 
     type =
       type === 'intensive'
@@ -192,7 +192,7 @@ class Catalog extends Component {
         ? 'Individual Coaching'
         : 'Group';
 
-    const program = { type, id, key: id, price, title };
+    const program = { type, id, key: id, price: formattedPrice, title };
 
     this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
     this.handleMessage('Added to cart!');
@@ -308,6 +308,11 @@ class Catalog extends Component {
       dataIndex: 'duration',
       key: 'duration',
     },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
 
     {
       title: '',
@@ -357,6 +362,11 @@ class Catalog extends Component {
       key: 'duration',
     },
     {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
       title: '',
       key: 'action',
       render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
@@ -397,6 +407,11 @@ class Catalog extends Component {
       title: 'Duration (hrs)',
       dataIndex: 'duration',
       key: 'duration',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
       title: '',
@@ -471,6 +486,7 @@ class Catalog extends Component {
         duration: program.duration,
         waitlistedGuardians: program.waitlistedGuardians,
         roster: program.roster,
+        price: program.price,
       };
     });
   };
@@ -494,6 +510,7 @@ class Catalog extends Component {
         duration: program.duration,
         waitlistedGuardians: program.waitlistedGuardians,
         roster: program.roster,
+        price: program.price,
       };
     });
   };
@@ -528,6 +545,7 @@ class Catalog extends Component {
         enrolled: program.enrolled,
         waitlistedGuardians: program.waitlist,
         roster: program.roster,
+        price: program.price,
       };
     });
   };
