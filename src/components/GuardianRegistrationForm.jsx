@@ -310,7 +310,7 @@ class RegistrationForm extends Component {
                   // value={this.state.selectedPrograms}
                 >
                   <Option key="group">Group</Option>
-                  <Option key="intensive">One-day Intensive</Option>
+                  <Option key="intensive">Single-day Workshop</Option>
                   <Option key="individual">Individual Coaching</Option>
                 </Select>
               </Form.Item>
