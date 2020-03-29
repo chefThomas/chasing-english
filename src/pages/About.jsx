@@ -39,7 +39,10 @@ class About extends Component {
               }}
               cover={<img alt="example" src={self} />}
             >
-              <Meta title="Kendra Dixon" description="English and Literature" />
+              <Meta
+                title="Kendra Dixon"
+                description="BA, MA in English; IB Language & Literature Certification; Trained in both the Jane Schaffer and Lucy Calkins Writing Methods"
+              />
             </Card>
           </Col>
           <Col m={24} md={10}>
