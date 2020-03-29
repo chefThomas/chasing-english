@@ -3,18 +3,8 @@
   margin-bottom: 3rem;
 }
 
-.ant-table-column-title {
-  font-size: 1.2rem;
-}
-
-td {
-  font-size: 1.1rem;
-}
-
 .Cart {
-  // border: 1px solid green;
   position: fixed;
-  // border: none;
   z-index: 3000;
   right: 2.2rem;
   font-size: 2rem;
@@ -25,19 +15,11 @@ td {
 sup.ant-scroll-number {
   position: absolute;
   top: 0.2rem;
-
-  //   // z-index: 3000;
-  //   // right: 2.3rem;
-  //   // top: 7.3rem;
 }
 
 #shopping-cart {
-  // position: fixed;
   border: none;
-  // z-index: 3000;
-  // right: 2rem;
   font-size: 2.1rem;
-  //   top: 0.8rem;
   background: none;
   color: rgba(255, 255, 255, 0.7);
 
