@@ -14,6 +14,7 @@ import {
   Layout,
   message,
   Modal,
+  Pagination,
   Row,
   Table,
   Tag,
@@ -478,7 +479,7 @@ class Catalog extends Component {
         duration: program.duration,
         waitlistedGuardians: program.waitlistedGuardians,
         roster: program.roster,
-        price: program.price,
+        price: `$${program.price}`,
       };
     });
   };
@@ -502,7 +503,7 @@ class Catalog extends Component {
         duration: program.duration,
         waitlistedGuardians: program.waitlistedGuardians,
         roster: program.roster,
-        price: program.price,
+        price: `$${program.price}`,
       };
     });
   };
@@ -537,7 +538,7 @@ class Catalog extends Component {
         enrolled: program.enrolled,
         waitlistedGuardians: program.waitlist,
         roster: program.roster,
-        price: program.price,
+        price: `$${program.price}`,
       };
     });
   };
@@ -614,6 +615,7 @@ class Catalog extends Component {
                   {this.state.buttonLoading ? '' : 'Checkout'}
                 </Button>
               </div>
+              <p></p>
             </>
           ) : (
             <Alert
@@ -639,7 +641,7 @@ class Catalog extends Component {
             ))}
             <br></br>
             <div>
-              Click the waitlist button below if you woul like to be added to
+              Click the waitlist button below if you would like to be added to
               the course not, go ahead and finish checking out if you have other
               programs in your cart.
             </div>
@@ -696,13 +698,13 @@ class Catalog extends Component {
               <img src={laptop} alt="laptop on desk" style={{ width: '85%' }} />
             </Col>
           </Row>
-
           <Table
             className="Catalog-program-table"
             dataSource={this.getIndividualSessionData()}
             columns={this.individualProgramsCols}
-            pagination={false}
+            pagination={{ pageSize: 4 }}
           />
+
           <Row>
             <Col
               sm={24}
@@ -729,7 +731,7 @@ class Catalog extends Component {
             className="Catalog-program-table"
             dataSource={this.getGroupSessionData()}
             columns={this.groupProgramsCols}
-            pagination={false}
+            pagination={{ pageSize: 4 }}
           />
           <Row>
             <Col sm={24} md={12}>
@@ -762,7 +764,7 @@ class Catalog extends Component {
             className="Catalog-program-table"
             dataSource={this.getIntensivesData()}
             columns={this.intensiveCols}
-            pagination={false}
+            pagination={{ pageSize: 4 }}
           />
         </Content>
         <Footer />
