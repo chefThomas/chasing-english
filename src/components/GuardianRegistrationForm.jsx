@@ -252,7 +252,7 @@ class RegistrationForm extends Component {
             label={
               <span>
                 Student Gmail&nbsp;
-                <Tooltip title="A private Gmail account is needed to access Google Classroom">
+                <Tooltip title="Students will need a personal Gmail account (separate from their school email address) to access Google Classroom">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>
