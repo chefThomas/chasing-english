@@ -6,7 +6,7 @@ const text = {
   about3:
     'As a lifelong learner, Kendra seeks out professional development with the Washington Language Arts Council, the National Council of Teachers of English, Hugo House, and other local organizations to continue honing her teaching and writing skills so she can bring her best to the students with which she has the opportunity to work.',
   group:
-    'Achievement is often bolstered in cooperative learning environments. These courses offer engaging reading assignments and creative writing opportunities enriched by extended viewership, peer-editing and social interaction.',
+    'Achievement is often bolstered in cooperative learning environments. These courses offer an assortment of learning opportunities covering everything from sharing insight into literature, developing grammar and writing skills, to high school and college admission preparation. Learning is enriched by extended viewership, peer-editing, and group discourse.',
   personal:
     'One-on-one courses are tailored to fit the individual needs and goals of the student. Offered in repeated weekly sessions that families sign up for in monthly blocks, these courses are designed to help students reach their fullest potential and keep families updated on the progress that is being made along the way.',
   cf:

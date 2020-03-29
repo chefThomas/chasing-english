@@ -62,14 +62,14 @@ class Home extends Component {
             <div className="text-and-image-container">
               <div className="text-container">
                 <Title>Mission Statement</Title>
-                <p>
+                <p className="mission-statement-body">
                   The central mission of Chasing English is to encourage, guide,
                   and support students as they navigate the writing process,
                   hone their critical thinking skills, and develop competence
                   and therefore confidence through an engaging digital platform
                   that can be accessed anywhere.
                 </p>
-                <p>
+                <p className="mission-statement-body">
                   In support of this mission, Chasing English fosters the
                   individual through personalized writing coaching;
                   community-based group courses; and single-day workshops, all

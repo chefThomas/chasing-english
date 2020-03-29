@@ -38,12 +38,6 @@ import workshop from '../static/undraw_researching_22gp.png';
 const { Title } = Typography;
 const { Content } = Layout;
 
-// const prices = {
-//   individual: 125,
-//   group: 395,
-//   intensive: 125,
-// };
-
 class Catalog extends Component {
   state = {
     cart: [],

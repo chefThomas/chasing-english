@@ -64,7 +64,7 @@
     }
 
     .post-it {
-      font-family: "Nothing You Could Do", cursive, Arial, Helvetica, sans-serif;
+      font-family: 'Nothing You Could Do', cursive, Arial, Helvetica, sans-serif;
       font-size: 1.2rem;
       z-index: 0;
       display: flex;
@@ -94,7 +94,7 @@
       position: absolute;
       width: 50%;
       height: 10px;
-      content: " ";
+      content: ' ';
       bottom: 5px;
       left: 1px;
       background: transparent;
@@ -122,7 +122,7 @@
 
   .ServiceCard-main-content {
     .Service-body {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
 
     .Service-header {
