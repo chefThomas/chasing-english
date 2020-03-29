@@ -7,6 +7,7 @@ import {
   Alert,
   Badge,
   Button,
+  Card,
   Col,
   Divider,
   Drawer,
@@ -30,6 +31,7 @@ import purchase from '../utilities/purchase';
 import '../stylesheets/css/main.css';
 
 import Footer from '../components/Footer';
+import RefundPolicy from '../components/RefundPolicy';
 
 import text from '../text/paragraph';
 import laptop from '../static/undraw_youtube_tutorial_2gn3.png';
@@ -50,6 +52,7 @@ class Catalog extends Component {
     fullCourseDialogMessages: [],
     fullCourseDialogVisible: false,
     fullCourses: [],
+    showPolicyModal: false,
   };
 
   handleCartWaitlist = () => {
@@ -610,11 +613,25 @@ class Catalog extends Component {
                   loading={this.state.buttonLoading}
                   disabled={this.state.cart.length === 0}
                   onClick={this.handleCheckout}
-                  style={{ marginLeft: 'auto', width: '6rem' }}
+                  style={{
+                    marginLeft: 'auto',
+                    marginBottom: '1rem',
+                    width: '6rem',
+                  }}
                 >
                   {this.state.buttonLoading ? '' : 'Checkout'}
                 </Button>
               </div>
+              {/* <div style={{ display: 'flex' }}>
+                <Button
+                  type="link"
+                  onClick={() => this.setState({ showPolicyModal: true })}
+                  style={{ marginLeft: 'auto' }}
+                >
+                  Refund Policy
+                </Button>
+              </div> */}
+              <RefundPolicy />
               <p></p>
             </>
           ) : (
