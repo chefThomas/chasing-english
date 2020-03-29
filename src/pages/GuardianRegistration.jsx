@@ -47,7 +47,7 @@ class GuardianRegistration extends Component {
               }}
               status="success"
               title="Welcome to Chasing English!"
-              subTitle="You are now registered and ready to enroll your student. Please login and visit the catalog."
+              subTitle="You are now registered. Please login below."
             />
             <AntLogin login={this.props.login} />
           </div>

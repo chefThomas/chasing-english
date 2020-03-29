@@ -225,7 +225,7 @@ class RegistrationForm extends Component {
             )}
           </Form.Item>
           <PageHeader title="Student" />
-          <Form.Item label={<span>Student Name&nbsp;</span>}>
+          <Form.Item label={<span>Name&nbsp;</span>}>
             {getFieldDecorator('studentFirstName', {
               rules: [
                 {
@@ -251,7 +251,7 @@ class RegistrationForm extends Component {
             hasFeedback
             label={
               <span>
-                Student Gmail&nbsp;
+                Gmail&nbsp;
                 <Tooltip title="Students will need a personal Gmail account (separate from their school email address) to access Google Classroom">
                   <Icon type="question-circle-o" />
                 </Tooltip>
@@ -292,7 +292,7 @@ class RegistrationForm extends Component {
             )}
           </Form.Item>
           <PageHeader title="Programs" />
-          <Form.Item label="Programs">
+          <Form.Item label="Which program type(s) are you interested in?">
             {getFieldDecorator('programsOfInterest', {
               rules: [
                 {

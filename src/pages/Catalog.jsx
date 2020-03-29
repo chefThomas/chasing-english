@@ -324,7 +324,6 @@ class Catalog extends Component {
   groupProgramsCols = [
     {
       title: 'Title',
-      // dataIndex: 'title',
       key: 'title',
       render: (text, record) => (
         <Button
@@ -376,7 +375,6 @@ class Catalog extends Component {
   intensiveCols = [
     {
       title: 'Title',
-      // dataIndex: 'title',
       key: 'title',
       render: (text, record) => (
         <Button

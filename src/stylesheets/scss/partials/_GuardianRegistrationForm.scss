@@ -9,6 +9,12 @@
     box-shadow: none;
   }
 
+  .ant-col-sm-8 {
+    @media (min-width: 576px) {
+      width: 100% !important;
+    }
+  }
+
   span.ant-input-group-addon {
     background-color: #fff;
   }

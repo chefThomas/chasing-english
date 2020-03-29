@@ -22,14 +22,7 @@ class NormalLoginForm extends Component {
     const localEmail = localStorage.getItem('email');
     const localPassword = localStorage.getItem('password');
     return (
-      <Form
-        // initialValues={{
-        //   email: localStorage.getItem('email'),
-        //   password: localStorage.getItem('password'),
-        // }}
-        onSubmit={this.handleSubmit}
-        className="AntLogin login-form"
-      >
+      <Form onSubmit={this.handleSubmit} className="AntLogin login-form">
         <Form.Item>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: 'Please input your email' }],
@@ -60,7 +53,7 @@ class NormalLoginForm extends Component {
             label="Log in"
             onClick={this.handleSubmit}
           >
-            Submit
+            Log In
           </button>
         </Link>
       </Form>
