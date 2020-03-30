@@ -24,7 +24,9 @@ class Success extends Component {
         <Result
           status="success"
           title="Enrollment was successful"
-          subTitle={'You will receive an email shortly...'}
+          subTitle={
+            'Thank you for enrolling! Please be on the lookout for an email with details on the course(s) your student is now enrolled in.'
+          }
         />
         <NavButton
           class="top-margin-lg NavButton dark-on-light center-inline"
