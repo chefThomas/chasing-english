@@ -17,10 +17,10 @@
 
 .dark-on-light {
   display: block;
-  border: 2px solid rgba(0, 0, 0, 0.87);
+  border: 2px solid rgba(0, 0, 0, 0.65);
   background-color: #fff; }
   .dark-on-light:hover {
-    background-color: rgba(0, 0, 0, 0.87);
+    background-color: rgba(0, 0, 0, 0.65);
     color: rgba(255, 255, 255, 0.9); }
 
 body {
@@ -210,7 +210,7 @@ sup.ant-scroll-number {
   font-size: 2.25rem;
   font-family: 'Lato', sans-serif;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.65);
   margin: 0 0 3rem 1em; }
 
 .Home section,
@@ -227,7 +227,7 @@ sup.ant-scroll-number {
 .Home section.light,
 .shift-left section.light {
   background-color: #fff;
-  color: rgba(0, 0, 0, 0.87); }
+  color: rgba(0, 0, 0, 0.65); }
 
 .Home .Home-top-segment,
 .shift-left .Home-top-segment {
@@ -512,10 +512,10 @@ sup.ant-scroll-number {
     margin-right: auto; }
   .LoginForm .dark-on-light {
     display: block;
-    border: 2px solid rgba(0, 0, 0, 0.87);
+    border: 2px solid rgba(0, 0, 0, 0.65);
     background-color: #fff; }
     .LoginForm .dark-on-light:hover {
-      background-color: rgba(0, 0, 0, 0.87);
+      background-color: rgba(0, 0, 0, 0.65);
       color: rgba(255, 255, 255, 0.9); }
 
 input:focus {
@@ -659,7 +659,7 @@ input:focus {
   color: rgba(0, 0, 0, 0.6); }
   .light-on-light:hover {
     background-color: #cacbcd;
-    color: rgba(0, 0, 0, 0.87); }
+    color: rgba(0, 0, 0, 0.65); }
 
 .fixed-width {
   width: 10rem; }
@@ -836,7 +836,7 @@ input:focus {
 
 .SideNav,
 .offscreen-sidenav {
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.65);
   font-size: 1.75rem;
   display: flex;
   flex-direction: column;
@@ -894,11 +894,11 @@ input:focus {
   .SignupForm .dark-on-light,
   .offscreen .dark-on-light {
     margin-left: 20%;
-    border: 2px solid rgba(0, 0, 0, 0.87);
+    border: 2px solid rgba(0, 0, 0, 0.65);
     background-color: #fff; }
     .SignupForm .dark-on-light:hover,
     .offscreen .dark-on-light:hover {
-      background-color: rgba(0, 0, 0, 0.87);
+      background-color: rgba(0, 0, 0, 0.65);
       color: rgba(255, 255, 255, 0.9); }
 
 .SignupForm {
@@ -938,7 +938,7 @@ div.ant-modal.StudentRecord {
     font-size: 1.1rem; }
   .Testimonial-type {
     display: block;
-    color: rgba(0, 0, 0, 0.87);
+    color: rgba(0, 0, 0, 0.65);
     margin-left: auto;
     font-weight: bold;
     text-align: right;
@@ -946,7 +946,7 @@ div.ant-modal.StudentRecord {
     font-size: 1.2rem; }
 
 .TextBlock {
-  color: rgba(0, 0, 0, 0.87);
+  color: rgba(0, 0, 0, 0.65);
   padding: 0 1rem; }
   .TextBlock-header {
     font-size: 2.25rem;
