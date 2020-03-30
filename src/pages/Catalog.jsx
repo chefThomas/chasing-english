@@ -581,53 +581,57 @@ class Catalog extends Component {
     this.setState({ cart });
   };
 
-  getGroupSessionData = () => {
-    const groupPrograms = this.props.programs.filter(program => {
-      return program.type === 'group' && program.status === 'active';
-    });
-
-    return groupPrograms.map(program => {
-      return {
-        key: program.id,
-        id: program.id,
-        type: program.type,
-        title: program.title,
-        dateBegin: program.dateBegin,
-        dateEnd: program.dateEnd,
-        meetingTime: program.meetingTime,
-        meetingDay: program.meetingDay,
-        capacity: program.capacity,
-        enrolled: program.enrolled,
-        duration: program.duration,
-        waitlistedGuardians: program.waitlistedGuardians,
-        roster: program.roster,
-        price: `$${program.price}`,
-      };
-    });
-  };
-
   getIndividualSessionData = () => {
     const indyPrograms = this.props.programs.filter(program => {
       return program.type === 'individual' && program.status === 'active';
     });
 
-    return indyPrograms.map(program => {
-      return {
-        key: program.id,
-        id: program.id,
-        type: program.type,
-        dateBegin: program.dateBegin,
-        dateEnd: program.dateEnd,
-        meetingTime: program.meetingTime,
-        meetingDay: program.meetingDay,
-        capacity: program.capacity,
-        enrolled: program.enrolled,
-        duration: program.duration,
-        waitlistedGuardians: program.waitlistedGuardians,
-        roster: program.roster,
-        price: `$${program.price}`,
-      };
+    return indyPrograms
+      .map(program => {
+        return {
+          key: program.id,
+          id: program.id,
+          type: program.type,
+          dateBegin: program.dateBegin,
+          dateEnd: program.dateEnd,
+          meetingTime: program.meetingTime,
+          meetingDay: program.meetingDay,
+          capacity: program.capacity,
+          enrolled: program.enrolled,
+          duration: program.duration,
+          waitlistedGuardians: program.waitlistedGuardians,
+          roster: program.roster,
+          price: `$${program.price}`,
+        };
+      })
+      .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
+  };
+
+  getGroupSessionData = () => {
+    const groupPrograms = this.props.programs.filter(program => {
+      return program.type === 'group' && program.status === 'active';
     });
+
+    return groupPrograms
+      .map(program => {
+        return {
+          key: program.id,
+          id: program.id,
+          type: program.type,
+          title: program.title,
+          dateBegin: program.dateBegin,
+          dateEnd: program.dateEnd,
+          meetingTime: program.meetingTime,
+          meetingDay: program.meetingDay,
+          capacity: program.capacity,
+          enrolled: program.enrolled,
+          duration: program.duration,
+          waitlistedGuardians: program.waitlistedGuardians,
+          roster: program.roster,
+          price: `$${program.price}`,
+        };
+      })
+      .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
   };
 
   formatMongoDate = date => {
@@ -644,25 +648,27 @@ class Catalog extends Component {
       return program.type === 'intensive' && program.status === 'active';
     });
     if (this.props.user) {
-      return intensivePrograms.map(program => {
-        const meetingDay = this.formatMongoDate(program.dateBegin);
-        return {
-          key: program.id,
-          title: program.title,
-          description: program.description,
-          id: program.id,
-          type: program.type,
-          duration: program.duration,
-          dateBegin: program.dateBegin,
-          meetingTime: program.meetingTime,
-          meetingDay,
-          capacity: program.capacity,
-          enrolled: program.enrolled,
-          waitlistedGuardians: program.waitlist,
-          roster: program.roster,
-          price: `$${program.price}`,
-        };
-      });
+      return intensivePrograms
+        .map(program => {
+          const meetingDay = this.formatMongoDate(program.dateBegin);
+          return {
+            key: program.id,
+            title: program.title,
+            description: program.description,
+            id: program.id,
+            type: program.type,
+            duration: program.duration,
+            dateBegin: program.dateBegin,
+            meetingTime: program.meetingTime,
+            meetingDay,
+            capacity: program.capacity,
+            enrolled: program.enrolled,
+            waitlistedGuardians: program.waitlist,
+            roster: program.roster,
+            price: `$${program.price}`,
+          };
+        })
+        .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
     }
     return intensivePrograms.map(program => {
       const meetingDay = this.formatMongoDate(program.dateBegin);
