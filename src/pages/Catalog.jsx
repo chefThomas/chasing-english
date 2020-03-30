@@ -280,7 +280,7 @@ class Catalog extends Component {
     this.setState({ cart: cartItems });
   };
 
-  individualProgramsCols = [
+  individualProgramsColsUser = [
     {
       title: 'Start',
       dataIndex: 'dateBegin',
@@ -311,7 +311,90 @@ class Catalog extends Component {
       dataIndex: 'price',
       key: 'price',
     },
+    {
+      title: '',
+      key: 'action',
+      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
+    },
+  ];
 
+  individualProgramsCols = [
+    {
+      title: 'Start',
+      dataIndex: 'dateBegin',
+      key: 'dateBegin',
+    },
+    {
+      title: 'End',
+      dataIndex: 'dateEnd',
+      key: 'dateEnd',
+    },
+    {
+      title: 'Day',
+      dataIndex: 'meetingDay',
+      key: 'meetingDay',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
+    },
+    {
+      title: 'Duration (hrs)',
+      dataIndex: 'duration',
+      key: 'duration',
+    },
+    {
+      title: '',
+      key: 'action',
+      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
+    },
+  ];
+
+  groupProgramsColsUser = [
+    {
+      title: 'Title',
+      key: 'title',
+      render: (text, record) => (
+        <Button
+          courseid={record.id}
+          onClick={this.handleDisplayCourseDescription}
+          type="link"
+        >
+          {record.title}
+        </Button>
+      ),
+    },
+    {
+      title: 'Start',
+      dataIndex: 'dateBegin',
+      key: 'dateBegin',
+    },
+    {
+      title: 'End',
+      dataIndex: 'dateEnd',
+      key: 'dateEnd',
+    },
+    {
+      title: 'Day',
+      dataIndex: 'meetingDay',
+      key: 'meetingDay',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
+    },
+    {
+      title: 'Duration (hrs)',
+      dataIndex: 'duration',
+      key: 'duration',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
     {
       title: '',
       key: 'action',
@@ -342,6 +425,47 @@ class Catalog extends Component {
       title: 'End',
       dataIndex: 'dateEnd',
       key: 'dateEnd',
+    },
+    {
+      title: 'Day',
+      dataIndex: 'meetingDay',
+      key: 'meetingDay',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'meetingTime',
+      key: 'meetingTime',
+    },
+    {
+      title: 'Duration (hrs)',
+      dataIndex: 'duration',
+      key: 'duration',
+    },
+    {
+      title: '',
+      key: 'action',
+      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
+    },
+  ];
+
+  intensiveColsUser = [
+    {
+      title: 'Title',
+      key: 'title',
+      render: (text, record) => (
+        <Button
+          courseid={record.id}
+          onClick={this.handleDisplayCourseDescription}
+          type="link"
+        >
+          {record.title}
+        </Button>
+      ),
+    },
+    {
+      title: 'Date',
+      dataIndex: 'dateBegin',
+      key: 'dateBegin',
     },
     {
       title: 'Day',
@@ -403,11 +527,6 @@ class Catalog extends Component {
       title: 'Duration (hrs)',
       dataIndex: 'duration',
       key: 'duration',
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
     },
     {
       title: '',
@@ -524,7 +643,27 @@ class Catalog extends Component {
     const intensivePrograms = this.props.programs.filter(program => {
       return program.type === 'intensive' && program.status === 'active';
     });
-
+    if (this.props.user) {
+      return intensivePrograms.map(program => {
+        const meetingDay = this.formatMongoDate(program.dateBegin);
+        return {
+          key: program.id,
+          title: program.title,
+          description: program.description,
+          id: program.id,
+          type: program.type,
+          duration: program.duration,
+          dateBegin: program.dateBegin,
+          meetingTime: program.meetingTime,
+          meetingDay,
+          capacity: program.capacity,
+          enrolled: program.enrolled,
+          waitlistedGuardians: program.waitlist,
+          roster: program.roster,
+          price: `$${program.price}`,
+        };
+      });
+    }
     return intensivePrograms.map(program => {
       const meetingDay = this.formatMongoDate(program.dateBegin);
       return {
@@ -541,7 +680,6 @@ class Catalog extends Component {
         enrolled: program.enrolled,
         waitlistedGuardians: program.waitlist,
         roster: program.roster,
-        price: `$${program.price}`,
       };
     });
   };
@@ -718,7 +856,11 @@ class Catalog extends Component {
           <Table
             className="Catalog-program-table"
             dataSource={this.getIndividualSessionData()}
-            columns={this.individualProgramsCols}
+            columns={
+              this.props.user
+                ? this.individualProgramsColsUser
+                : this.individualProgramsCols
+            }
             pagination={{ pageSize: 4 }}
           />
 
@@ -747,7 +889,11 @@ class Catalog extends Component {
           <Table
             className="Catalog-program-table"
             dataSource={this.getGroupSessionData()}
-            columns={this.groupProgramsCols}
+            columns={
+              this.props.user
+                ? this.groupProgramsColsUser
+                : this.groupProgramsCols
+            }
             pagination={{ pageSize: 4 }}
           />
           <Row>
@@ -780,7 +926,9 @@ class Catalog extends Component {
           <Table
             className="Catalog-program-table"
             dataSource={this.getIntensivesData()}
-            columns={this.intensiveCols}
+            columns={
+              this.props.user ? this.intensiveColsUser : this.intensiveCols
+            }
             pagination={{ pageSize: 4 }}
           />
         </Content>
