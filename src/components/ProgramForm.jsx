@@ -159,13 +159,15 @@ class ProgramForm extends Component {
             value={this.state.title}
           />
         </Form.Item>
-        <Form.Item label="Description">
-          <TextArea
-            onChange={this.handleDescriptionChange}
-            value={this.state.description}
-            rows={4}
-          />
-        </Form.Item>
+        {this.state.type === 'group' || this.state.type === 'intensive' ? (
+          <Form.Item label="Description">
+            <TextArea
+              onChange={this.handleDescriptionChange}
+              value={this.state.description}
+              rows={4}
+            />
+          </Form.Item>
+        ) : null}
         <Form.Item
           label={this.state.type === 'intensive' ? 'Date' : 'Date Range'}
         >
