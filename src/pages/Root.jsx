@@ -612,7 +612,6 @@ class Root extends Component {
             render={routeProps => (
               <Admin
                 {...routeProps}
-                // addAdmin={this.addAdmin}
                 addGuardian={this.register}
                 addProgram={this.addProgram}
                 toggleStatus={this.toggleStatus}
