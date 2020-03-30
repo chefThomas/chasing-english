@@ -33,9 +33,7 @@ const text = {
   indCoachp1:
     'Through a personalized, online program, individual coaching sessions seek to support academic growth and confidence-building opportunities based on the needs of the student and best practices. Whether the desire is to become a stronger writer, develop critical thinking skills, or hone reading comprehension, this personalized program will be created with a student’s best interest at the center.',
   indCoachp2:
-    'Families can expect a dedicated hour time slot once a week, periodic check-ins as a student completes necessary tasks, and a weekly breakdown to highlight what was covered as well as tangible student progression shared through an online platform',
-  indCoachp3:
-    '*In order for this style of coaching to be successful, consistency is paramount. It is encouraged to sign a student up for a    four- week block of coaching time in order to see results.',
+    'Families can expect a tailored program; dedicated, repeated hour time-slots once a week for a monthly block of time, periodic check-ins throughout each week as a student completes necessary tasks; and a weekly breakdown to highlight what was covered as well as tangible student progression shared through an online platform.',
   groupp1:
     'Whether meeting online to write, discuss literature, share work, or gain feedback, group programs bring students together from a wide-range of backgrounds and interests to learn from one another and develop critical thinking and communication skills.',
   groupp2:
