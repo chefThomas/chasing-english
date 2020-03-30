@@ -150,7 +150,7 @@ class Catalog extends Component {
 
       console.log(id);
       const stripe = await loadStripe(
-        'pk_test_GYVlMxH8rzVT5dlqAo3bjCUm00mcVGw6pl'
+        'pk_live_llGvTLf3V1DL20DVCLFm9o0G00Q6juyUss'
       );
       await stripe
         .redirectToCheckout({
