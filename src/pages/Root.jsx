@@ -27,7 +27,7 @@ import GuardianRegistration from './GuardianRegistration';
 const URI_STUB =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000'
-    : 'https://chasingenglish.com';
+    : 'https://www.chasingenglish.com';
 
 class Root extends Component {
   state = {
@@ -479,6 +479,7 @@ class Root extends Component {
     // load programs
     try {
       const results = await axios.get(`${URI_STUB}/api/programs`);
+      console.log(results);
       // map formatted dates onto program
       const programs = results.data.map(program => {
         const dateBegin = formatMongoDate(program.dateBegin);

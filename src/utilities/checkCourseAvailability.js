@@ -4,7 +4,7 @@ import setAuthHeader from './setAuthHeader';
 const URI_STUB =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000'
-    : 'https://chasingenglish.com';
+    : 'https://www.chasingenglish.com';
 
 const checkCourseAvailability = async (items, token) => {
   const config = setAuthHeader(token);

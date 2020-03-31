@@ -33,7 +33,7 @@ const { Panel } = Collapse;
 const URI_STUB =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000'
-    : 'https://blooming-beach-67877.herokuapp.com';
+    : 'https://www.chasingenglish.com';
 
 class Admin extends Component {
   state = {
