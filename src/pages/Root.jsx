@@ -27,7 +27,7 @@ import GuardianRegistration from './GuardianRegistration';
 const URI_STUB =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000'
-    : 'https://blooming-beach-67877.herokuapp.com';
+    : 'https://chasingenglish.com';
 
 class Root extends Component {
   state = {
