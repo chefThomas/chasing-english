@@ -148,7 +148,9 @@ class Catalog extends Component {
       } = await purchase(this.props.user.customerId, this.state.cart);
 
       console.log(id);
-      const stripe = await loadStripe(process.env.STRIPE_PUBLIC_KEY);
+      const stripe = await loadStripe(
+        'pk_live_llGvTLf3V1DL20DVCLFm9o0G00Q6juyUss'
+      );
       await stripe
         .redirectToCheckout({
           sessionId: id,
