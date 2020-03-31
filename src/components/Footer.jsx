@@ -40,6 +40,13 @@ const Footer = props => {
               Bio
             </Link>
           </div>
+          <div className="about-page-map footer-col">
+            <span className="site-map-link head">Contact</span>
+            <span className="site-map-link">
+              chasingenglishtutoring@gmail.com
+            </span>
+            <span className="site-map-link">(208) 805-0519</span>
+          </div>
         </div>
         <div className="social-media">
           <div>© Chasing English 2020</div>
