@@ -42,13 +42,13 @@ const Footer = props => {
           </div>
         </div>
         <div className="social-media">
-          <div>©Chasing English 2020</div>
-          <div className="social-icons">
+          <div>© Chasing English 2020</div>
+          {/* <div className="social-icons">
             <h4 className="social-media-header">Follow Us</h4>
             <i className="fab fa-twitter-square" />
             <i className="fab fa-linkedin" />
             <i className="fab fa-instagram" />
-          </div>
+          </div> */}
         </div>
       </footer>
     </section>
