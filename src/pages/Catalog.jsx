@@ -151,14 +151,20 @@ class Catalog extends Component {
       const stripe = await loadStripe(
         'pk_live_llGvTLf3V1DL20DVCLFm9o0G00Q6juyUss'
       );
-      await stripe
-        .redirectToCheckout({
-          sessionId: id,
-        })
-        .then(res => {
-          console.log('redirect to checkout successful');
-          this.setState({ buttonLoading: false });
-        });
+
+      try {
+        console.log(id);
+        await stripe
+          .redirectToCheckout({
+            sessionId: id,
+          })
+          .then(res => {
+            console.log('redirect to checkout successful');
+            this.setState({ buttonLoading: false });
+          });
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

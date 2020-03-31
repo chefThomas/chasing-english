@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 // import '@stripe/stripe-js';
 
 import { injectStripe } from 'react-stripe-elements';
@@ -183,10 +183,13 @@ class Root extends Component {
 
     // make Stripe object available from Window (see App.js)
     const stripe = this.props.stripe;
-
-    await stripe.redirectToCheckout({
-      sessionId: checkout.data.id,
-    });
+    try {
+      await stripe.redirectToCheckout({
+        sessionId: checkout.data.id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   addGuardianToArrayOfProgramWaitlists = async (courseIds, userId) => {
