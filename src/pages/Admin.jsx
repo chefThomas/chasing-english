@@ -280,10 +280,6 @@ class Admin extends Component {
     },
   ];
 
-  // displayMessage = () => {
-  //   message.success(`${type} deleted`);
-  // };
-
   // event handlers
   setDeleteId = e => {
     const { id } = e.target;

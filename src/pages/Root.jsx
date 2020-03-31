@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
-// import '@stripe/stripe-js';
 
 import { injectStripe } from 'react-stripe-elements';
 
