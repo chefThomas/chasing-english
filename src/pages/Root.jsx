@@ -486,7 +486,7 @@ class Root extends Component {
         const dateEnd = formatMongoDate(program.dateEnd);
         return { ...program, dateBegin, dateEnd };
       });
-      console.log('##### PROGRAMS #####', programs);
+      // console.log('##### PROGRAMS #####', programs);
       this.setState({ programs });
     } catch (err) {
       console.log(
