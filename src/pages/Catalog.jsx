@@ -675,24 +675,26 @@ class Catalog extends Component {
         })
         .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
     }
-    return intensivePrograms.map(program => {
-      const meetingDay = this.formatMongoDate(program.dateBegin);
-      return {
-        key: program.id,
-        title: program.title,
-        description: program.description,
-        id: program.id,
-        type: program.type,
-        duration: program.duration,
-        dateBegin: program.dateBegin,
-        meetingTime: program.meetingTime,
-        meetingDay,
-        capacity: program.capacity,
-        enrolled: program.enrolled,
-        waitlistedGuardians: program.waitlist,
-        roster: program.roster,
-      };
-    });
+    return intensivePrograms
+      .map(program => {
+        const meetingDay = this.formatMongoDate(program.dateBegin);
+        return {
+          key: program.id,
+          title: program.title,
+          description: program.description,
+          id: program.id,
+          type: program.type,
+          duration: program.duration,
+          dateBegin: program.dateBegin,
+          meetingTime: program.meetingTime,
+          meetingDay,
+          capacity: program.capacity,
+          enrolled: program.enrolled,
+          waitlistedGuardians: program.waitlist,
+          roster: program.roster,
+        };
+      })
+      .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
   };
 
   async componentDidMount() {
