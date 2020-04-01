@@ -297,10 +297,8 @@ class Admin extends Component {
   handlePurchasesViewClick = id => {
     const { guardians } = this.state;
 
-    console.log(guardians, id);
     // find guardian from state
     const { coursesPurchased } = guardians.find(el => el.id === id);
-    console.log(coursesPurchased);
 
     this.setState({
       guardianPurchaseHistory: coursesPurchased,
@@ -316,10 +314,8 @@ class Admin extends Component {
     // add guardian name and email to each student in roster
     const updatedRoster = roster.map(student => {
       const guardian = this.state.guardians.find(el => {
-        console.log(el.students);
         return el.students.includes(student.id);
       });
-      console.log('#### guardian ####', guardian);
 
       return guardian ? { ...student, guardian } : student;
     });
@@ -329,7 +325,6 @@ class Admin extends Component {
   };
 
   handleArchiveClick = (id, type, status) => {
-    console.log('archive program id: ', id, 'type: ', type, 'status: ', status);
     this.props.modStatus(id, type, status);
   };
 
@@ -350,16 +345,13 @@ class Admin extends Component {
   };
 
   handleStudentRecordClick = id => {
-    console.log(id);
     const { courses } = this.state.students.find(el => el.id === id);
 
-    console.log(courses);
     this.setState({ studentRecord: courses, showStudentRecord: true });
   };
 
   addAdmin = async adminData => {
     const config = setAuthHeader(this.props.userToken);
-    console.log('add admin: ', adminData);
 
     try {
       const admin = { ...adminData, status: 'active' };
@@ -380,17 +372,12 @@ class Admin extends Component {
 
     const result = await axios.delete(`${URI_STUB}/api/${type}/${id}`, config);
 
-    console.log(result.status);
-
     if (type === 'admin-messages') {
       type = 'messages';
     }
-    console.log(type);
 
     if (result.status >= 200 && result.status < 300) {
       const filtered = this.state[`${type}`].filter(el => el.id !== id);
-
-      console.log(filtered);
 
       if (type === 'admin-messages') {
         type = 'messages';
@@ -568,20 +555,6 @@ class Admin extends Component {
     }
   };
 
-  // count = (arr, status, type) => {
-  //   if (type) {
-  //     return arr.filter(el =>
-  //       status === 'archive'
-  //         ? el.status === 'archive'
-  //         : el.status === status && el.type === type
-  //     ).length;
-  //   }
-
-  //   return arr.filter(el =>
-  //     status === 'archive' ? el.status === 'archive' : el.status === 'active'
-  //   ).length;
-  // };
-
   changeMessageReadStatus = async (Id, read) => {
     this.setState({ loadingMessage: true });
     const config = setAuthHeader(localStorage.getItem('userToken'));
@@ -598,15 +571,11 @@ class Admin extends Component {
       // handle UI error
     } else {
       // update state
-      console.log(read);
-      console.log(status);
       const { messages } = this.state;
 
       const updatedMessages = messages.map(el =>
         el.id === Id ? { ...el, status } : el
       );
-
-      console.log(updatedMessages);
 
       this.setState({ messages: updatedMessages, loadingMessage: false });
     }
@@ -616,7 +585,6 @@ class Admin extends Component {
     // relogin on refresh
     const { user } = this.props;
     const credentials = getCredentials();
-    console.log(user, credentials);
     if (!user && credentials) {
       this.props.login(credentials);
     }

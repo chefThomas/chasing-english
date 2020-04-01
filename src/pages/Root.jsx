@@ -192,8 +192,6 @@ class Root extends Component {
   };
 
   addGuardianToArrayOfProgramWaitlists = async (courseIds, userId) => {
-    console.log(courseIds, userId);
-    // loop through
     const config = setAuthHeader(this.state.userToken);
 
     // make program id array
@@ -236,8 +234,6 @@ class Root extends Component {
       };
     });
 
-    console.log(updatedPrograms);
-
     // create array of updated program ids
     const updatedProgramIdArr = updatedPrograms.map(program => program.id);
 
@@ -277,7 +273,6 @@ class Root extends Component {
       `${URI_STUB}/api/programs/${courseId}`,
       config
     );
-    console.log(program.data);
     // get user
     const user = await axios.get(`${URI_STUB}/api/guardians/${userId}`);
 
@@ -306,8 +301,6 @@ class Root extends Component {
       config
     );
 
-    console.log('updated user', updatedUser);
-
     const updatedPrograms = this.state.programs.map(program => {
       return program.id === updatedProgram.data.id
         ? updatedProgram.data
@@ -330,8 +323,6 @@ class Root extends Component {
   };
 
   register = async guardianData => {
-    console.log(guardianData);
-
     guardianData.guardianEmail = guardianData.guardianEmail.toLowerCase();
 
     const { data, status } = await axios.post(
@@ -340,15 +331,12 @@ class Root extends Component {
     );
 
     const date = makeTimestampString();
-    console.log(data);
 
     const message = await axios.post(`${URI_STUB}/api/admin-messages`, {
       type: 'registration',
       body: `A new guardian, ${data.guardianFirstName} ${data.guardianLastName}, has registered`,
       date,
     });
-
-    console.log(message.data);
 
     if (data.error) {
       // display error message on admin page
@@ -359,7 +347,6 @@ class Root extends Component {
     }
 
     this.setState({ registrationEvent: true });
-    console.log(status);
     return;
   };
 
@@ -373,14 +360,11 @@ class Root extends Component {
   addStudent = async studentData => {
     // create new student
     const student = await axios.post(`${URI_STUB}/api/programs`, studentData);
-    console.log(student);
     // PUT guardian/id
   };
 
-  // generate Stripe Checkout
+  // run Stripe Checkout
   checkout = async lineItems => {
-    console.log(lineItems);
-    // check enrollment for each course in cart.
     this.purchase(lineItems);
   };
 
@@ -389,9 +373,7 @@ class Root extends Component {
   };
 
   addProgram = async program => {
-    console.log(this.state.userToken);
     const config = setAuthHeader(this.state.userToken);
-    console.log(config);
 
     const result = await axios.post(
       `${URI_STUB}/api/programs`,
@@ -402,8 +384,6 @@ class Root extends Component {
     const dateBegin = this.formatMongoDate(result.data.dateBegin, 'date');
     const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
     const day = this.formatMongoDate(result.data.dateBegin, 'day');
-    console.log(dateBegin, dateEnd, day);
-    console.log('result.data from POST /programs', result.data);
 
     message.success('Program added');
     this.setState(prevState => ({
@@ -418,8 +398,6 @@ class Root extends Component {
   remove = async (id, type) => {
     const config = setAuthHeader(this.state.userToken);
     const result = await axios.delete(`${URI_STUB}/api/${type}/${id}`, config);
-
-    console.log(result.status);
 
     if (result.status === 200) {
       const filtered = this.state[`${type}`].filter(el => el.id !== id);
@@ -442,12 +420,7 @@ class Root extends Component {
   toggleStatus = (recordId, type, status) => {
     const config = setAuthHeader(this.state.userToken);
 
-    const record = this.state[type].find(record => record.id === recordId);
-    console.log(record.id);
-
     const updatedStatus = status === 'active' ? 'archive' : 'active';
-
-    console.log({ ...record, status: updatedStatus });
 
     axios
       .put(
@@ -462,9 +435,7 @@ class Root extends Component {
         if (type === 'programs') {
           const dateBegin = formatMongoDate(data.dateBegin);
           const dateEnd = formatMongoDate(data.dateEnd);
-          console.log(dateBegin, dateEnd);
           data = { ...data, dateBegin, dateEnd };
-          console.log(data);
         }
         const filterState = this.state[type].filter(
           record => record.id !== recordId
@@ -479,14 +450,12 @@ class Root extends Component {
     // load programs
     try {
       const results = await axios.get(`${URI_STUB}/api/programs`);
-      console.log(results);
       // map formatted dates onto program
       const programs = results.data.map(program => {
         const dateBegin = formatMongoDate(program.dateBegin);
         const dateEnd = formatMongoDate(program.dateEnd);
         return { ...program, dateBegin, dateEnd };
       });
-      // console.log('##### PROGRAMS #####', programs);
       this.setState({ programs });
     } catch (err) {
       console.log(
