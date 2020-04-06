@@ -3,7 +3,7 @@ import '../stylesheets/css/main.css';
 import AdminMessage from '../components/AdminMessage';
 
 class AdminMessageListV2 extends Component {
-  removeMessage = id => {
+  removeMessage = (id) => {
     console.log(id);
     this.props.remove(id, 'admin-messages');
   };
@@ -11,7 +11,7 @@ class AdminMessageListV2 extends Component {
   render() {
     return (
       <div>
-        {this.props.messages.map(message => (
+        {this.props.messages.map((message) => (
           <AdminMessage
             {...message}
             removeMessage={this.removeMessage}

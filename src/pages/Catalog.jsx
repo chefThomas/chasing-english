@@ -58,7 +58,7 @@ class Catalog extends Component {
     this.props.cartWaitlist(this.state.fullCourses);
   };
 
-  displayFullCourseMessage = fullCourses => {
+  displayFullCourseMessage = (fullCourses) => {
     const fullCourseDialogMessages = fullCourses.map(({ data }) => {
       return `${data.title} is no longer available and has been removed from the cart`;
     });
@@ -77,16 +77,16 @@ class Catalog extends Component {
     this.setState({ showAlert: false });
   };
 
-  handleCloseDescription = e => {
+  handleCloseDescription = (e) => {
     this.setState({
       descriptionModalVisible: false,
     });
   };
 
-  handleDisplayCourseDescription = e => {
+  handleDisplayCourseDescription = (e) => {
     const courseId = e.target.getAttribute('courseId');
     const { title, description } = this.props.programs.find(
-      program => program.id === courseId
+      (program) => program.id === courseId
     );
 
     this.setState({
@@ -96,7 +96,7 @@ class Catalog extends Component {
     });
   };
 
-  handleCartWaitlist = courseId => {
+  handleCartWaitlist = (courseId) => {
     if (typeof courseId === 'string') {
       this.props.addGuardianToWaitlist(courseId, this.props.user.id);
     } else {
@@ -128,14 +128,14 @@ class Catalog extends Component {
     if (fullCoursesArr.length) {
       this.displayFullCourseMessage(fullCoursesArr);
       // stop loading icon in button and set full course state
-      const fullCourses = fullCoursesArr.map(course => course.data);
+      const fullCourses = fullCoursesArr.map((course) => course.data);
       this.setState({ buttonLoading: false, fullCourses });
       // extract ids of full courses
       const fullCourseIds = fullCoursesArr.map(({ data: { id } }) => {
         return id;
       });
       // filter out full courses
-      const coursesRemainingInCart = this.state.cart.filter(item => {
+      const coursesRemainingInCart = this.state.cart.filter((item) => {
         return !fullCourseIds.includes(item.id);
       });
 
@@ -158,7 +158,7 @@ class Catalog extends Component {
           .redirectToCheckout({
             sessionId: id,
           })
-          .then(res => {
+          .then((res) => {
             console.log('redirect to checkout successful');
             this.setState({ buttonLoading: false });
           });
@@ -168,7 +168,7 @@ class Catalog extends Component {
     }
   };
 
-  handleEnroll = courseId => {
+  handleEnroll = (courseId) => {
     //check if user logged in
     if (!this.props.userToken) {
       this.handleMessage('You must be logged-in to enroll');
@@ -176,14 +176,14 @@ class Catalog extends Component {
     }
 
     // check if course already in cart to prevent double purchase
-    const course = this.state.cart.find(course => courseId === course.id);
+    const course = this.state.cart.find((course) => courseId === course.id);
     if (course) {
       this.handleMessage('This may already be in your cart');
       return;
     }
     // find course in Root state
     let { type, id, title, price } = this.props.programs.find(
-      program => program.id === courseId
+      (program) => program.id === courseId
     );
 
     const formattedPrice = this.formatPrice(price);
@@ -197,17 +197,29 @@ class Catalog extends Component {
 
     const program = { type, id, key: id, price: formattedPrice, title };
 
-    this.setState(prevState => ({ cart: prevState.cart.concat(program) }));
+    this.setState((prevState) => ({ cart: prevState.cart.concat(program) }));
     this.handleMessage('Added to cart!');
   };
 
-  handleOk = e => {
+  handleOk = (e) => {
     this.setState({
       descriptionModalVisible: false,
     });
   };
 
-  makeProgramButton = record => {
+  makeProgramButton = (record) => {
+    if (!this.props.user && record.enrolled >= record.capacity) {
+      return (
+        <Button
+          onClick={() =>
+            message.error('Only logged in guardians can be added to waitlists')
+          }
+        >
+          Add to Waitlist
+        </Button>
+      );
+    }
+
     if (!this.props.user) {
       return (
         <Button
@@ -221,7 +233,7 @@ class Catalog extends Component {
 
     const { onWaitlists, coursesPurchased, userType } = this.props.user;
 
-    if (userType !== 'guardian' || !userType) {
+    if (userType !== 'guardian') {
       return (
         <Button
           onClick={() => message.error('Only logged in guardians can enroll')}
@@ -275,13 +287,13 @@ class Catalog extends Component {
     );
   };
 
-  handleMessage = msg => {
+  handleMessage = (msg) => {
     message.info(msg);
   };
 
-  handleRemoveFromCart = e => {
+  handleRemoveFromCart = (e) => {
     const courseId = e.target.getAttribute('courseId');
-    const cartItems = this.state.cart.filter(item => courseId !== item.id);
+    const cartItems = this.state.cart.filter((item) => courseId !== item.id);
     this.setState({ cart: cartItems });
   };
 
@@ -568,14 +580,14 @@ class Catalog extends Component {
     },
   ];
 
-  formatPrice = num => num.toFixed(2);
+  formatPrice = (num) => num.toFixed(2);
 
   getTotal = () =>
     this.state.cart.reduce((total, item) => total + Number(item.price), 0);
 
   getCartData = () => {
     console.log('get cart data');
-    const cart = this.state.cart.map(item => {
+    const cart = this.state.cart.map((item) => {
       const price = this.formatPrice(item.price);
       return {
         name: item.type,
@@ -587,12 +599,12 @@ class Catalog extends Component {
   };
 
   getIndividualSessionData = () => {
-    const indyPrograms = this.props.programs.filter(program => {
+    const indyPrograms = this.props.programs.filter((program) => {
       return program.type === 'individual' && program.status === 'active';
     });
 
     return indyPrograms
-      .map(program => {
+      .map((program) => {
         return {
           key: program.id,
           id: program.id,
@@ -613,12 +625,12 @@ class Catalog extends Component {
   };
 
   getGroupSessionData = () => {
-    const groupPrograms = this.props.programs.filter(program => {
+    const groupPrograms = this.props.programs.filter((program) => {
       return program.type === 'group' && program.status === 'active';
     });
 
     return groupPrograms
-      .map(program => {
+      .map((program) => {
         return {
           key: program.id,
           id: program.id,
@@ -639,22 +651,20 @@ class Catalog extends Component {
       .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
   };
 
-  formatMongoDate = date => {
+  formatMongoDate = (date) => {
     const dateMoment = moment(date);
     const dayNumber = dateMoment.weekday();
-    const day = moment()
-      .day(dayNumber)
-      .format('ddd');
+    const day = moment().day(dayNumber).format('ddd');
     return day;
   };
 
   getIntensivesData = () => {
-    const intensivePrograms = this.props.programs.filter(program => {
+    const intensivePrograms = this.props.programs.filter((program) => {
       return program.type === 'intensive' && program.status === 'active';
     });
     if (this.props.user) {
       return intensivePrograms
-        .map(program => {
+        .map((program) => {
           const meetingDay = this.formatMongoDate(program.dateBegin);
           return {
             key: program.id,
@@ -676,7 +686,7 @@ class Catalog extends Component {
         .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
     }
     return intensivePrograms
-      .map(program => {
+      .map((program) => {
         const meetingDay = this.formatMongoDate(program.dateBegin);
         return {
           key: program.id,
@@ -799,7 +809,7 @@ class Catalog extends Component {
             className="FullClassAlert"
           >
             <Divider />
-            {this.state.fullCourseDialogMessages.map(msg => (
+            {this.state.fullCourseDialogMessages.map((msg) => (
               <Alert
                 style={{ marginBottom: '0.5rem' }}
                 message={msg}
