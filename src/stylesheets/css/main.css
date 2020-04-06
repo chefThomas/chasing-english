@@ -73,7 +73,8 @@ div.message-body {
 div.message-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center; }
+  align-items: center;
+  height: 1rem; }
 
 [aria-label='icon: close'] {
   color: rgba(0, 0, 0, 0.85); }

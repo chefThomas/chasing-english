@@ -18,7 +18,7 @@ import {
 import getCredentials from '../utilities/getCredentialsFromLocalStorage.js';
 import setAuthHeader from '../utilities/setAuthHeader';
 
-import AdminMessageList from '../components/AdminMessageList';
+import AdminMessageListV2 from '../components/AdminMessageListV2';
 import ProgramForm from '../components/ProgramForm';
 import PurchaseRecord from '../components/PurchaseRecord';
 import Roster from '../components/Roster';
@@ -281,7 +281,7 @@ class Admin extends Component {
   ];
 
   // event handlers
-  setDeleteId = e => {
+  setDeleteId = (e) => {
     const { id } = e.target;
     this.setState({ deleteId: id });
   };
@@ -294,11 +294,11 @@ class Admin extends Component {
     this.setState({ showRoster: false });
   };
 
-  handlePurchasesViewClick = id => {
+  handlePurchasesViewClick = (id) => {
     const { guardians } = this.state;
 
     // find guardian from state
-    const { coursesPurchased } = guardians.find(el => el.id === id);
+    const { coursesPurchased } = guardians.find((el) => el.id === id);
 
     this.setState({
       guardianPurchaseHistory: coursesPurchased,
@@ -306,14 +306,14 @@ class Admin extends Component {
     });
   };
 
-  handleRosterViewClick = id => {
+  handleRosterViewClick = (id) => {
     const { roster, title } = this.props.programs.find(
-      program => program.id === id
+      (program) => program.id === id
     );
 
     // add guardian name and email to each student in roster
-    const updatedRoster = roster.map(student => {
-      const guardian = this.state.guardians.find(el => {
+    const updatedRoster = roster.map((student) => {
+      const guardian = this.state.guardians.find((el) => {
         return el.students.includes(student.id);
       });
 
@@ -328,7 +328,7 @@ class Admin extends Component {
     this.props.modStatus(id, type, status);
   };
 
-  toggleProgramFormVisibility = e => {
+  toggleProgramFormVisibility = (e) => {
     this.setState({
       programFormVisible: !this.state.programFormVisible,
     });
@@ -344,13 +344,13 @@ class Admin extends Component {
     this.setState({ programFormVisible: false });
   };
 
-  handleStudentRecordClick = id => {
-    const { courses } = this.state.students.find(el => el.id === id);
+  handleStudentRecordClick = (id) => {
+    const { courses } = this.state.students.find((el) => el.id === id);
 
     this.setState({ studentRecord: courses, showStudentRecord: true });
   };
 
-  addAdmin = async adminData => {
+  addAdmin = async (adminData) => {
     const config = setAuthHeader(this.props.userToken);
 
     try {
@@ -361,7 +361,9 @@ class Admin extends Component {
         admin,
         config
       );
-      this.setState(st => ({ admins: st.admins.concat({ ...newAdmin.data }) }));
+      this.setState((st) => ({
+        admins: st.admins.concat({ ...newAdmin.data }),
+      }));
     } catch (err) {
       console.log('add user err: ', err.message);
     }
@@ -377,7 +379,7 @@ class Admin extends Component {
     }
 
     if (result.status >= 200 && result.status < 300) {
-      const filtered = this.state[`${type}`].filter(el => el.id !== id);
+      const filtered = this.state[`${type}`].filter((el) => el.id !== id);
 
       if (type === 'admin-messages') {
         type = 'messages';
@@ -387,52 +389,6 @@ class Admin extends Component {
       message.success(`${type} deleted`);
     }
   };
-
-  // getAdminData = () => {
-  //   return this.props.admins.map(admin => {
-  //     return {
-  //       key: admin.id,
-  //       id: admin.id,
-  //       name: admin.firstName + admin.lastName,
-  //       email: admin.email,
-  //     };
-  //   });
-  // };
-
-  // getStudentListFromGuardian = students => {
-  //   if (students) {
-  //     return students.length > 0
-  //       ? students.map(student => `${student.firstName} ${student.lastName}`)
-  //       : [];
-  //   } else {
-  //     return [];
-  //   }
-  // };
-
-  // getGuardianData = () => {
-  //   if (this.props.guardians.length > 0) {
-  //     return this.props.guardians.map(g => {
-  //       const students = g['students'].reduce((acc, student) => {
-  //         return acc + `${student.firstName} ${student.lastName} `;
-  //       }, '');
-  //       return {
-  //         key: g.id,
-  //         id: g.id,
-  //         name: `${g.guardianFirstName} ${g.guardianLastName}`,
-  //         email: g.guardianEmail,
-  //         phone: g.phone,
-  //         students,
-  //         gmail: g.gmail,
-  //         status: g.status,
-  //         grade: g.grade,
-  //         contactMethod: g.contactMethod,
-  //         programsOfInterest: g.programsOfInterest,
-  //       };
-  //     });
-  //   } else {
-  //     return null;
-  //   }
-  // };
 
   getAdmins = () => {
     if (this.state.admins) {
@@ -497,20 +453,18 @@ class Admin extends Component {
     return;
   };
 
-  formatMongoDate = date => {
+  formatMongoDate = (date) => {
     const dateMoment = moment(date);
     const dayNumber = dateMoment.weekday();
-    const day = moment()
-      .day(dayNumber)
-      .format('ddd');
+    const day = moment().day(dayNumber).format('ddd');
     return day;
   };
 
   getProgramData = (type, status) => {
     if (status === 'active') {
       return this.props.programs
-        .filter(program => program.type === type && program.status === status)
-        .map(program => {
+        .filter((program) => program.type === type && program.status === status)
+        .map((program) => {
           const meetingDay =
             program.type === 'intensive'
               ? this.formatMongoDate(program.dateBegin)
@@ -535,8 +489,8 @@ class Admin extends Component {
         });
     } else {
       return this.props.programs
-        .filter(program => program.status === 'archive')
-        .map(program => ({
+        .filter((program) => program.status === 'archive')
+        .map((program) => ({
           key: program.id,
           id: program.id,
           title: program.title,
@@ -556,7 +510,13 @@ class Admin extends Component {
   };
 
   changeMessageReadStatus = async (Id, read) => {
-    this.setState({ loadingMessage: true });
+    // find message in state and set loading prop to true
+    const updatedLoadingStatus = this.state.messages.map((el) => {
+      return el.id === Id ? { ...el, loading: true } : el;
+    });
+
+    this.setState({ messages: updatedLoadingStatus });
+
     const config = setAuthHeader(localStorage.getItem('userToken'));
     const status = read === 'read' ? 'unread' : 'read';
     const result = await axios.put(
@@ -573,11 +533,11 @@ class Admin extends Component {
       // update state
       const { messages } = this.state;
 
-      const updatedMessages = messages.map(el =>
-        el.id === Id ? { ...el, status } : el
+      const updatedMessages = messages.map((el) =>
+        el.id === Id ? { ...el, status, loading: false } : el
       );
 
-      this.setState({ messages: updatedMessages, loadingMessage: false });
+      this.setState({ messages: updatedMessages });
     }
   };
 
@@ -711,11 +671,10 @@ class Admin extends Component {
                 </Collapse>
               </TabPane>
               <TabPane tab="Messages" key="4">
-                <AdminMessageList
+                <AdminMessageListV2
                   messages={this.state.messages}
                   changeMessageReadStatus={this.changeMessageReadStatus}
                   remove={this.remove}
-                  loadingMessage={this.state.loadingMessage}
                 />
               </TabPane>
             </Tabs>

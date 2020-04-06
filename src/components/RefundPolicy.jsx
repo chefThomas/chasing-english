@@ -43,7 +43,11 @@ class RefundPolicy extends Component {
             depending on the bank or card issuer.
             <p>
               The non-refundable processing fee is charged by{' '}
-              <a href="https://stripe.com/pricing" target="_blank">
+              <a
+                href="https://stripe.com/pricing"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Stripe
               </a>
               , the secure online payment service we use, at a rate of 2.9%,
