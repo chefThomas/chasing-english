@@ -37,6 +37,27 @@ div.ant-card-meta-description {
   padding-left: 0 !important;
   padding-top: 0 !important; }
 
+.AdminMessage-container {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  margin-left: auto;
+  margin-bottom: 0.5rem; }
+  .AdminMessage-container:hover {
+    border-color: rgba(0, 0, 0, 0.09);
+    background: #e6f7ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09); }
+  .AdminMessage-container-read {
+    color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    margin-left: auto;
+    margin-bottom: 0.5rem; }
+
+svg[data-icon='delete'] {
+  font-size: 18px; }
+  svg[data-icon='delete']:hover {
+    color: red; }
+
 div.message-header {
   width: 100%;
   display: flex;

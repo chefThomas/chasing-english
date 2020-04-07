@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Icon, Spin, Tag } from 'antd';
+import { Button, Checkbox, Icon, Spin, Tag } from 'antd';
+import '../stylesheets/css/main.css';
 
 class AdminMessage extends Component {
-  getMessageHeader = (messageType, id, date) => {
-    console.log(messageType, id, date);
+  getMessageHeader = (messageType, id, status) => {
     const header =
       messageType === 'purchase'
         ? 'Enrollment'
@@ -15,7 +15,7 @@ class AdminMessage extends Component {
         ? 'green'
         : messageType === 'waitlist'
         ? 'red'
-        : 'blue';
+        : 'orange';
 
     return (
       <div
@@ -28,9 +28,13 @@ class AdminMessage extends Component {
         }}
       >
         <span>
-          <Tag color={color}>{header}</Tag>
+          <Tag color={status === 'read' ? '#ededed' : color}>{header}</Tag>
         </span>
-        <Icon type="close" onClick={() => this.props.removeMessage(id)} />
+        <Icon
+          className="close-icon"
+          type="delete"
+          onClick={() => this.props.removeMessage(id)}
+        />
       </div>
     );
   };
@@ -40,11 +44,15 @@ class AdminMessage extends Component {
   };
   render() {
     console.log(this.props);
-    const { id, type, body, date, status, loading } = this.props;
+    const { id, type, body, date, status } = this.props;
     return (
       <>
         <div
-          className="AdminMessage-container"
+          className={
+            status === 'unread'
+              ? 'AdminMessage-container'
+              : 'AdminMessage-container-read'
+          }
           style={{
             maxWidth: '600px',
             border: '1px, solid',
@@ -54,7 +62,7 @@ class AdminMessage extends Component {
           }}
         >
           <div className="AdminMessage-header">
-            {this.getMessageHeader(type, id, date)}
+            {this.getMessageHeader(type, id, status)}
           </div>
           <div className="AdminMessage-body" style={{ marginBottom: '0.5rem' }}>
             {body}
@@ -69,16 +77,10 @@ class AdminMessage extends Component {
           >
             <span>{date}</span>
             <span>
-              {loading ? (
-                <Spin size="small" />
-              ) : (
-                <Button
-                  type="link"
-                  onClick={() => this.handleToggleStatus(id, status)}
-                >
-                  {status}
-                </Button>
-              )}
+              <Checkbox
+                checked={status === 'read'}
+                onChange={() => this.handleToggleStatus(id, status)}
+              />
             </span>
           </div>
         </div>

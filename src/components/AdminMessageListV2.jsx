@@ -11,14 +11,21 @@ class AdminMessageListV2 extends Component {
   render() {
     return (
       <div>
-        {this.props.messages.map((message) => (
-          <AdminMessage
-            {...message}
-            removeMessage={this.removeMessage}
-            changeMessageReadStatus={this.props.changeMessageReadStatus}
-            status={message.status}
-          />
-        ))}
+        {this.props.messages
+          .sort((a, b) => {
+            const aDate = new Date(a.date);
+            const bDate = new Date(b.date);
+            return bDate - aDate;
+          })
+          .map((message) => (
+            <AdminMessage
+              {...message}
+              removeMessage={this.removeMessage}
+              changeMessageReadStatus={this.props.changeMessageReadStatus}
+              status={message.status}
+              key={message.id}
+            />
+          ))}
       </div>
     );
   }

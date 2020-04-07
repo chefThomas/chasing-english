@@ -1,0 +1,26 @@
+.AdminMessage-container {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  margin-left: auto;
+  margin-bottom: 0.5rem;
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.09);
+    background: #e6f7ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  }
+
+  &-read {
+    color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    margin-left: auto;
+    margin-bottom: 0.5rem;
+  }
+}
+
+svg[data-icon='delete'] {
+  font-size: 18px;
+  &:hover {
+    color: red;
+  }
+}
