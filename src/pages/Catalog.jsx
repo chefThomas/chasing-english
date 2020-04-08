@@ -7,7 +7,6 @@ import {
   Alert,
   Badge,
   Button,
-  Card,
   Col,
   Divider,
   Drawer,

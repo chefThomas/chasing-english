@@ -15,39 +15,11 @@ import {
 const { TextArea } = Input;
 const { Option } = Select;
 
-class ProgramForm extends Component {
+class UpdateProgramForm extends Component {
   state = {
-    title: '',
-    description: '',
-    startDate: null,
-    dateBegin: '',
-    endDate: null,
-    dateEnd: '',
-    meetingTime: moment('00:00:00', 'HH:mm'),
-    meetingDay: [],
-    capacity: 1,
-    enrolled: 0,
-    type: null,
-    status: 'active',
-    duration: 0,
-    price: 0,
-  };
-
-  initialState = {
-    title: '',
-    description: '',
-    startDate: null,
-    dateBegin: '',
-    endDate: null,
-    dateEnd: '',
-    meetingTime: moment('00:00:00', 'HH:mm'),
-    meetingDay: [],
-    capacity: 1,
-    enrolled: 0,
-    type: null,
-    status: 'active',
-    duration: 0,
-    price: 0,
+    ...this.props.programToUpdate,
+    startDate: moment(this.props.programToUpdate.dateBegin),
+    endDate: moment(this.props.programToUpdate.dateEnd),
   };
 
   handleTypeChange = (e) => {
@@ -59,6 +31,7 @@ class ProgramForm extends Component {
 
     this.setState({ type: value, title });
   };
+
   handleSizeChange = (value) => {
     console.log(value);
     this.setState({ capacity: value });
@@ -83,61 +56,27 @@ class ProgramForm extends Component {
   };
 
   handleGroupTimeChange = (time, timeString) => {
-    console.log('timeString: ', timeString);
     this.setState({ meetingTime: timeString });
   };
 
   handleDayChange = (value) => {
-    console.log(value);
     this.setState({ meetingDay: value });
   };
 
   handleDurationChange = (value) => {
-    console.log(value);
     this.setState({ duration: value });
   };
 
   handlePriceChange = (value) => {
-    console.log(value);
     this.setState({ price: value });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {
-      title,
-      description,
-      dateBegin,
-      meetingTime,
-      meetingDay,
-      capacity,
-      enrolled,
-      type,
-      duration,
-      price,
-    } = this.state;
-
-    console.log(this.props.programFormMode);
-
-    const dateEnd =
-      this.state.type === 'intensive' ? dateBegin : this.state.dateEnd;
-
-    this.props.addProgram({
-      title,
-      description,
-      dateBegin,
-      dateEnd,
-      meetingTime,
-      meetingDay,
-      capacity,
-      enrolled,
-      type,
-      duration,
-      price,
-      status: 'active',
-    });
-    this.props.closeForm();
-    this.setState(this.initialState);
+    console.log(this.state);
+    this.props.updateProgram(this.state.id, this.state);
+    // this.props.closeUpdateForm();
+    // this.setState(this.initialState);
     return;
   };
 
@@ -195,8 +134,9 @@ class ProgramForm extends Component {
           <TimePicker
             format="h:mm a"
             use12Hours
-            defaultOpenValue={moment('00:00:00', 'HH:mm')}
+            // defaultOpenValue={moment('00:00:00', 'HH:mm')}
             onChange={this.handleGroupTimeChange}
+            value={moment(this.state.meetingTime, 'HH:mm a')}
           />
         </Form.Item>
         <Form.Item label="Duration (hours)">
@@ -250,4 +190,4 @@ class ProgramForm extends Component {
   }
 }
 
-export default ProgramForm;
+export default UpdateProgramForm;

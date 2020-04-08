@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { Typography, AutoComplete } from 'antd';
+import { Typography } from 'antd';
 
 import NavButton from '../components/NavButton';
 import Image from '../components/Image';
