@@ -20,6 +20,7 @@ import setAuthHeader from '../utilities/setAuthHeader';
 
 import AdminMessageListV2 from '../components/AdminMessageListV2';
 import ProgramForm from '../components/ProgramForm';
+import UpdateProgramForm from '../components/UpdateProgramForm';
 import PurchaseRecord from '../components/PurchaseRecord';
 import Roster from '../components/Roster';
 import StudentRecord from '../components/StudentRecord';
@@ -37,18 +38,20 @@ const URI_STUB =
 
 class Admin extends Component {
   state = {
+    admins: [],
     programFormVisible: false,
+    updateProgramFormVisible: false,
     userFormVisible: false,
     rosterVisible: false,
     students: null,
     guardians: [],
     guardianPurchaseHistory: [],
-    admins: [],
     loadingMessage: false,
     roster: [],
     rosterCourseTitle: null,
     showRoster: false,
     messages: [],
+    programToUpdate: null,
     showGuardianPurchases: false,
     showStudentRecord: false,
     studentRecord: [],
@@ -120,6 +123,9 @@ class Admin extends Component {
               type="file-sync"
               onClick={() => this.props.toggleStatus(id, 'programs', status)}
             />
+          </Tooltip>
+          <Tooltip title={'edit program'}>
+            <Icon type="edit" onClick={() => this.updateProgram(id)} />
           </Tooltip>
 
           <Popconfirm
@@ -294,6 +300,22 @@ class Admin extends Component {
     this.setState({ showRoster: false });
   };
 
+  updateProgram = (programId) => {
+    console.log(programId);
+    const programToUpdate = this.props.programs.find(
+      (el) => el.id === programId
+    );
+
+    console.log(programToUpdate);
+
+    this.setState({
+      programToUpdate,
+    });
+
+    this.setState({ updateProgramFormVisible: true });
+    // display create program form prefilled with program data
+  };
+
   handlePurchasesViewClick = (id) => {
     const { guardians } = this.state;
 
@@ -331,6 +353,7 @@ class Admin extends Component {
   toggleProgramFormVisibility = (e) => {
     this.setState({
       programFormVisible: !this.state.programFormVisible,
+      programToUpdate: null,
     });
   };
 
@@ -541,6 +564,15 @@ class Admin extends Component {
     }
   };
 
+  generateUpdateForm = () => {
+    return (
+      <UpdateProgramForm
+        updateProgram={this.props.updateProgram}
+        programToUpdate={this.state.programToUpdate}
+      />
+    );
+  };
+
   async componentDidMount() {
     // relogin on refresh
     const { user } = this.props;
@@ -571,7 +603,6 @@ class Admin extends Component {
           closeGuardianPurchases={() =>
             this.setState({ showGuardianPurchases: false })
           }
-          // guardians={this.state.guardians}
           guardianPurchaseHistory={this.state.guardianPurchaseHistory}
         />
         <StudentRecord
@@ -681,13 +712,29 @@ class Admin extends Component {
             <Modal
               title="Create Program"
               visible={this.state.programFormVisible}
-              onOk={this.toggleProgramFormVisibility}
               onCancel={this.toggleProgramFormVisibility}
             >
               <ProgramForm
                 addProgram={this.props.addProgram}
                 closeForm={this.toggleProgramFormVisibility}
+                updateProgram={this.props.updateProgram}
               />
+            </Modal>
+            <Modal
+              title="Update Program"
+              visible={this.state.updateProgramFormVisible}
+              onCancel={() =>
+                this.setState({
+                  updateProgramFormVisible: false,
+                  programToUpdate: null,
+                })
+              }
+            >
+              {this.state.programToUpdate ? this.generateUpdateForm() : null}
+              {/* <UpdateProgramForm
+                updateProgram={this.props.updateProgram}
+                programToUpdate={this.state.programToUpdate}
+              /> */}
             </Modal>
             <Modal
               title="Create User"

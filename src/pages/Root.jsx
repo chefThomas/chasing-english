@@ -78,7 +78,7 @@ class Root extends Component {
 
   handleCloseCart = () => {};
 
-  handleFullCourseDialog = message => {
+  handleFullCourseDialog = (message) => {
     // displays dialog on Catalog page when customer tries to checkout courses that were filled after they logged in
     this.setState({
       fullCourseDialogVisible: true,
@@ -92,9 +92,7 @@ class Root extends Component {
       return dateMoment.format('MM-DD-YYYY');
     } else {
       const dayNumber = dateMoment.weekday();
-      const day = moment()
-        .day(dayNumber)
-        .format('ddd');
+      const day = moment().day(dayNumber).format('ddd');
       return day;
     }
   };
@@ -174,7 +172,7 @@ class Root extends Component {
     }
   };
 
-  purchase = async courses => {
+  purchase = async (courses) => {
     const checkout = await axios.post(`${URI_STUB}/shop`, {
       customer: this.state.user.customerId,
       lineItems: courses,
@@ -195,7 +193,7 @@ class Root extends Component {
     const config = setAuthHeader(this.state.userToken);
 
     // make program id array
-    const programIds = courseIds.map(course => course.id);
+    const programIds = courseIds.map((course) => course.id);
 
     // update user's waitlist
     const { data } = await axios.get(
@@ -216,7 +214,7 @@ class Root extends Component {
     // add userId to programs waitlists
     // get programs
     const getProgramsAsync = courseIds.map(
-      async course =>
+      async (course) =>
         await axios.get(`${URI_STUB}/api/programs/${course.id}`, config)
     );
 
@@ -235,13 +233,13 @@ class Root extends Component {
     });
 
     // create array of updated program ids
-    const updatedProgramIdArr = updatedPrograms.map(program => program.id);
+    const updatedProgramIdArr = updatedPrograms.map((program) => program.id);
 
     // update programs in state
-    const updatedStatePrograms = this.state.programs.map(program => {
+    const updatedStatePrograms = this.state.programs.map((program) => {
       if (updatedProgramIdArr.includes(program.id)) {
         return updatedPrograms.find(
-          updatedProgram => updatedProgram.id === program.id
+          (updatedProgram) => updatedProgram.id === program.id
         );
       } else {
         return program;
@@ -252,7 +250,7 @@ class Root extends Component {
     this.setState({ user, programs: updatedStatePrograms });
 
     // post to admin messages
-    updatedProgramIdArr.map(async program => {
+    updatedProgramIdArr.map(async (program) => {
       const date = makeTimestampString();
       await axios.post(`${URI_STUB}/api/admin-messages/`, {
         type: 'waitlist',
@@ -301,7 +299,7 @@ class Root extends Component {
       config
     );
 
-    const updatedPrograms = this.state.programs.map(program => {
+    const updatedPrograms = this.state.programs.map((program) => {
       return program.id === updatedProgram.data.id
         ? updatedProgram.data
         : program;
@@ -322,17 +320,17 @@ class Root extends Component {
     });
   };
 
-  register = async guardianData => {
+  register = async (guardianData) => {
     guardianData.guardianEmail = guardianData.guardianEmail.toLowerCase();
 
-    const { data, status } = await axios.post(
+    const { data } = await axios.post(
       `${URI_STUB}/api/guardians`,
       guardianData
     );
 
     const date = makeTimestampString();
 
-    const message = await axios.post(`${URI_STUB}/api/admin-messages`, {
+    await axios.post(`${URI_STUB}/api/admin-messages`, {
       type: 'registration',
       body: `A new guardian, ${data.guardianFirstName} ${data.guardianLastName}, has registered`,
       date,
@@ -357,14 +355,14 @@ class Root extends Component {
     });
   };
 
-  addStudent = async studentData => {
+  addStudent = async (studentData) => {
     // create new student
-    const student = await axios.post(`${URI_STUB}/api/programs`, studentData);
+    await axios.post(`${URI_STUB}/api/programs`, studentData);
     // PUT guardian/id
   };
 
   // run Stripe Checkout
-  checkout = async lineItems => {
+  checkout = async (lineItems) => {
     this.purchase(lineItems);
   };
 
@@ -372,7 +370,7 @@ class Root extends Component {
     this.setState({ fullCourseIds: [] });
   };
 
-  addProgram = async program => {
+  addProgram = async (program) => {
     const config = setAuthHeader(this.state.userToken);
 
     const result = await axios.post(
@@ -383,10 +381,9 @@ class Root extends Component {
 
     const dateBegin = this.formatMongoDate(result.data.dateBegin, 'date');
     const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
-    const day = this.formatMongoDate(result.data.dateBegin, 'day');
 
     message.success('Program added');
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       programs: prevState.programs.concat({
         ...result.data,
         dateBegin,
@@ -395,12 +392,38 @@ class Root extends Component {
     }));
   };
 
+  updateProgram = async (programId, programData) => {
+    const config = setAuthHeader(this.state.userToken);
+    const result = await axios.put(
+      `${URI_STUB}/api/programs/${programId}`,
+      programData,
+      config
+    );
+
+    console.log(result);
+    // result.data will contain updated program
+
+    if (result.status >= 200 && result.status <= 299)
+      message.success('Program updated');
+    // format dates and time
+    const dateBegin = this.formatMongoDate(result.data.dateBegin, 'date');
+    const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
+    const meetingTime = result.data.meetingTime;
+    console.log(meetingTime);
+    const updatedPrograms = this.state.programs.map((el) =>
+      el.id === programId
+        ? { ...result.data, dateBegin, dateEnd, meetingTime }
+        : el
+    );
+    this.setState({ programs: updatedPrograms });
+  };
+
   remove = async (id, type) => {
     const config = setAuthHeader(this.state.userToken);
     const result = await axios.delete(`${URI_STUB}/api/${type}/${id}`, config);
 
     if (result.status === 200) {
-      const filtered = this.state[`${type}`].filter(el => el.id !== id);
+      const filtered = this.state[`${type}`].filter((el) => el.id !== id);
       this.setState({ [type]: filtered });
     }
   };
@@ -438,12 +461,12 @@ class Root extends Component {
           data = { ...data, dateBegin, dateEnd };
         }
         const filterState = this.state[type].filter(
-          record => record.id !== recordId
+          (record) => record.id !== recordId
         );
 
         this.setState({ [type]: filterState.concat(data) });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   componentDidMount = async () => {
@@ -451,7 +474,7 @@ class Root extends Component {
     try {
       const results = await axios.get(`${URI_STUB}/api/programs`);
       // map formatted dates onto program
-      const programs = results.data.map(program => {
+      const programs = results.data.map((program) => {
         const dateBegin = formatMongoDate(program.dateBegin);
         const dateEnd = formatMongoDate(program.dateEnd);
         return { ...program, dateBegin, dateEnd };
@@ -508,14 +531,14 @@ class Root extends Component {
           <Route
             exact
             path="/"
-            render={routeProps => (
+            render={(routeProps) => (
               <Home {...routeProps} login={this.login} user={this.state.user} />
             )}
           />
           <Route
             exact
             path="/catalog"
-            render={routeProps => (
+            render={(routeProps) => (
               <Catalog
                 {...routeProps}
                 addGuardianToWaitlist={this.addGuardianToProgramWaitlist}
@@ -533,7 +556,7 @@ class Root extends Component {
           <Route
             exact
             path="/about"
-            render={routeProps => (
+            render={(routeProps) => (
               <About
                 {...routeProps}
                 login={this.login}
@@ -545,7 +568,7 @@ class Root extends Component {
           <Route
             exact
             path="/success"
-            render={routeProps => (
+            render={(routeProps) => (
               <Success
                 {...routeProps}
                 login={this.login}
@@ -556,7 +579,7 @@ class Root extends Component {
           <Route
             exact
             path="/cancel"
-            render={routeProps => (
+            render={(routeProps) => (
               <Cancel
                 {...routeProps}
                 login={this.login}
@@ -567,7 +590,7 @@ class Root extends Component {
           <Route
             exact
             path="/guardian-registration"
-            render={routeProps => (
+            render={(routeProps) => (
               <GuardianRegistration
                 {...routeProps}
                 register={this.register}
@@ -581,7 +604,7 @@ class Root extends Component {
           <Route
             exact
             path="/admin"
-            render={routeProps => (
+            render={(routeProps) => (
               <Admin
                 {...routeProps}
                 addGuardian={this.register}
@@ -595,6 +618,7 @@ class Root extends Component {
                 admins={this.state.admins}
                 user={this.state.user}
                 userToken={this.state.userToken}
+                updateProgram={this.updateProgram}
               />
             )}
           />
