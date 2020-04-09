@@ -75,8 +75,8 @@ class UpdateProgramForm extends Component {
     e.preventDefault();
     console.log(this.state);
     this.props.updateProgram(this.state.id, this.state);
-    // this.props.closeUpdateForm();
-    // this.setState(this.initialState);
+    this.props.closeUpdateForm();
+    this.props.clearUpdateProgram();
     return;
   };
 
@@ -115,7 +115,7 @@ class UpdateProgramForm extends Component {
         >
           <DatePicker
             style={{ marginBottom: '5px' }}
-            format="MM-DD-YYYY"
+            format="YYYY-MM-DD"
             placeholder="Start"
             onChange={this.handleGroupStartChange}
             value={this.state.startDate}
@@ -123,7 +123,7 @@ class UpdateProgramForm extends Component {
           <br></br>
           {this.state.type !== 'intensive' ? (
             <DatePicker
-              format="MM-DD-YYYY"
+              format="YYYY-MM-DD"
               placeholder="End"
               onChange={this.handleGroupEndChange}
               value={this.state.endDate}

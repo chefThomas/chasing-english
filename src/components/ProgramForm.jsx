@@ -176,7 +176,7 @@ class ProgramForm extends Component {
         >
           <DatePicker
             style={{ marginBottom: '5px' }}
-            format="MM-DD-YYYY"
+            format="YYYY-MM-DD"
             placeholder="Start"
             onChange={this.handleGroupStartChange}
             value={this.state.startDate}
@@ -184,7 +184,7 @@ class ProgramForm extends Component {
           <br></br>
           {this.state.type !== 'intensive' ? (
             <DatePicker
-              format="MM-DD-YYYY"
+              format="YYYY-MM-DD"
               placeholder="End"
               onChange={this.handleGroupEndChange}
               value={this.state.endDate}

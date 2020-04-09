@@ -301,19 +301,15 @@ class Admin extends Component {
   };
 
   updateProgram = (programId) => {
-    console.log(programId);
     const programToUpdate = this.props.programs.find(
       (el) => el.id === programId
     );
-
-    console.log(programToUpdate);
 
     this.setState({
       programToUpdate,
     });
 
     this.setState({ updateProgramFormVisible: true });
-    // display create program form prefilled with program data
   };
 
   handlePurchasesViewClick = (id) => {
@@ -564,11 +560,14 @@ class Admin extends Component {
     }
   };
 
+  closeUpdateForm = () => this.setState({ updateProgram: null });
+
   generateUpdateForm = () => {
     return (
       <UpdateProgramForm
         updateProgram={this.props.updateProgram}
         programToUpdate={this.state.programToUpdate}
+        clearUpdateProgram={this.clearUpdateProgram}
       />
     );
   };
@@ -731,10 +730,6 @@ class Admin extends Component {
               }
             >
               {this.state.programToUpdate ? this.generateUpdateForm() : null}
-              {/* <UpdateProgramForm
-                updateProgram={this.props.updateProgram}
-                programToUpdate={this.state.programToUpdate}
-              /> */}
             </Modal>
             <Modal
               title="Create User"
