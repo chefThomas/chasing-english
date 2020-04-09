@@ -560,14 +560,13 @@ class Admin extends Component {
     }
   };
 
-  closeUpdateForm = () => this.setState({ updateProgram: null });
+  clearUpdateProgram = () => this.setState({ updateProgram: null });
 
   generateUpdateForm = () => {
     return (
       <UpdateProgramForm
         updateProgram={this.props.updateProgram}
         programToUpdate={this.state.programToUpdate}
-        clearUpdateProgram={this.clearUpdateProgram}
       />
     );
   };

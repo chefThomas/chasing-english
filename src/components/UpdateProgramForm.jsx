@@ -75,8 +75,6 @@ class UpdateProgramForm extends Component {
     e.preventDefault();
     console.log(this.state);
     this.props.updateProgram(this.state.id, this.state);
-    this.props.closeUpdateForm();
-    this.props.clearUpdateProgram();
     return;
   };
 
