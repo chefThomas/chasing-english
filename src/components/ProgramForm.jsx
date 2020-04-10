@@ -117,8 +117,6 @@ class ProgramForm extends Component {
       price,
     } = this.state;
 
-    console.log(this.props.programFormMode);
-
     const dateEnd =
       this.state.type === 'intensive' ? dateBegin : this.state.dateEnd;
 

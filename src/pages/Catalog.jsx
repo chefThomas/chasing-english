@@ -664,7 +664,6 @@ class Catalog extends Component {
     if (this.props.user) {
       return intensivePrograms
         .map((program) => {
-          const meetingDay = this.formatMongoDate(program.dateBegin);
           return {
             key: program.id,
             title: program.title,
@@ -674,7 +673,7 @@ class Catalog extends Component {
             duration: program.duration,
             dateBegin: program.dateBegin,
             meetingTime: program.meetingTime,
-            meetingDay,
+            meetingDay: program.meetingDay,
             capacity: program.capacity,
             enrolled: program.enrolled,
             waitlistedGuardians: program.waitlist,
@@ -686,7 +685,6 @@ class Catalog extends Component {
     }
     return intensivePrograms
       .map((program) => {
-        const meetingDay = this.formatMongoDate(program.dateBegin);
         return {
           key: program.id,
           title: program.title,
@@ -696,7 +694,7 @@ class Catalog extends Component {
           duration: program.duration,
           dateBegin: program.dateBegin,
           meetingTime: program.meetingTime,
-          meetingDay,
+          meetingDay: program.meetingDay,
           capacity: program.capacity,
           enrolled: program.enrolled,
           waitlistedGuardians: program.waitlist,

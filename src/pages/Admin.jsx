@@ -484,10 +484,6 @@ class Admin extends Component {
       return this.props.programs
         .filter((program) => program.type === type && program.status === status)
         .map((program) => {
-          const meetingDay =
-            program.type === 'intensive'
-              ? this.formatMongoDate(program.dateBegin)
-              : program.meetingDay;
           return {
             key: program.id,
             id: program.id,
@@ -497,7 +493,7 @@ class Admin extends Component {
             startDate: program.dateBegin,
             endDate: program.dateEnd,
             meetingTime: program.meetingTime,
-            meetingDay,
+            meetingDay: program.meetingDay,
             capacity: program.capacity,
             enrolled: program.enrolled,
             status: program.status,

@@ -4,7 +4,6 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { injectStripe } from 'react-stripe-elements';
 
 import axios from 'axios';
-import moment from 'moment';
 
 import { Drawer, Alert, message } from 'antd';
 
@@ -86,16 +85,16 @@ class Root extends Component {
   };
 
   // MISC
-  formatMongoDate = (date, type) => {
-    const dateMoment = moment(date);
-    if (type === 'date') {
-      return dateMoment.format('MM-DD-YYYY');
-    } else {
-      const dayNumber = dateMoment.weekday();
-      const day = moment().day(dayNumber).format('ddd');
-      return day;
-    }
-  };
+  // formatMongoDate = (date, type) => {
+  //   const dateMoment = moment(date);
+  //   if (type === 'date') {
+  //     return dateMoment.format('YYYY-MM-DD');
+  //   } else {
+  //     const dayNumber = dateMoment.weekday();
+  //     const day = moment().day(dayNumber).format('ddd');
+  //     return day;
+  //   }
+  // };
 
   logout = () => {
     this.setState({
@@ -373,14 +372,20 @@ class Root extends Component {
   addProgram = async (program) => {
     const config = setAuthHeader(this.state.userToken);
 
+    console.log(program);
+
     const result = await axios.post(
       `${URI_STUB}/api/programs`,
       program,
       config
     );
 
-    const dateBegin = this.formatMongoDate(result.data.dateBegin, 'date');
-    const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
+    console.log(result);
+
+    const dateBegin = formatMongoDate(result.data.dateBegin);
+    const dateEnd = formatMongoDate(result.data.dateEnd);
+
+    console.log(dateBegin, dateEnd);
 
     message.success('Program added');
     this.setState((prevState) => ({
@@ -406,10 +411,11 @@ class Root extends Component {
     if (result.status >= 200 && result.status <= 299)
       message.success('Program updated');
     // format dates and time
-    const dateBegin = this.formatMongoDate(result.data.dateBegin, 'date');
-    const dateEnd = this.formatMongoDate(result.data.dateEnd, 'date');
+    const dateBegin = formatMongoDate(result.data.dateBegin);
+    const dateEnd = formatMongoDate(result.data.dateEnd);
     const meetingTime = result.data.meetingTime;
     console.log(meetingTime);
+    console.log(dateBegin, dateEnd);
     const updatedPrograms = this.state.programs.map((el) =>
       el.id === programId
         ? { ...result.data, dateBegin, dateEnd, meetingTime }

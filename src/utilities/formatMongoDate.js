@@ -1,5 +1,7 @@
 import moment from 'moment';
 
-const formatMongoDate = (mongoDate) => moment(mongoDate).format('YYYY-MM-DD');
+const formatMongoDate = (mongoDate) => {
+  return moment.utc(mongoDate).format('YYYY-MM-DD');
+};
 
 export default formatMongoDate;
