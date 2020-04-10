@@ -501,7 +501,8 @@ class Admin extends Component {
             roster: program.roster,
             price: program.price,
           };
-        });
+        })
+        .sort((a, b) => new Date(a.startDate) - new Date(b.endDate));
     } else {
       return this.props.programs
         .filter((program) => program.status === 'archive')
@@ -520,7 +521,8 @@ class Admin extends Component {
           type: program.type,
           duration: program.duration,
           price: program.price,
-        }));
+        }))
+        .sort((a, b) => new Date(a.startDate) - new Date(b.endDate));
     }
   };
 
