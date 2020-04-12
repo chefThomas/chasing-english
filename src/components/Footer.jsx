@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import '../stylesheets/css/main.css';
 
-const Footer = props => {
+const Footer = (props) => {
   return (
     <section id="footer-section" className={`footer-section Home ${props.mod}`}>
       <footer className="footer">
@@ -45,7 +45,6 @@ const Footer = props => {
             <span className="site-map-link">
               chasingenglishtutoring@gmail.com
             </span>
-            <span className="site-map-link">(208) 805-0519</span>
           </div>
         </div>
         <div className="social-media">
