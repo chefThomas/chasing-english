@@ -1,6 +1,29 @@
 .Catalog-program-table {
   margin-top: 3rem;
   margin-bottom: 3rem;
+
+  & * {
+    @media screen and (max-width: 1000px) {
+      font-size: 0.6rem;
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: 0.5rem;
+    }
+  }
+
+  & button.ant-btn.ant-btn-primary {
+    @media (min-width: 1000px) {
+      padding: 0 12px;
+      height: 28px;
+    }
+
+    @media (max-width: 600px) {
+      font-size: 0.45rem;
+      padding: 0 7px;
+      height: 23px;
+    }
+  }
 }
 
 .Cart {

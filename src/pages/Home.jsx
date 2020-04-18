@@ -61,7 +61,7 @@ class Home extends Component {
           <div className="what-we-do-container">
             <div className="text-and-image-container">
               <div className="text-container">
-                <Title>Mission Statement</Title>
+                <h2>Mission Statement</h2>
                 <p className="mission-statement-body">
                   The central mission of Chasing English is to encourage, guide,
                   and support students as they navigate the writing process,
@@ -96,7 +96,7 @@ class Home extends Component {
           </div>
         </section>
         <section id="testimonials-section" className="testimonials">
-          <Title style={{ marginLeft: '3rem' }}>Testimonials</Title>
+          <h2 style={{ marginLeft: '3rem' }}>Testimonials</h2>
           <Grid
             class="testimonials-grid-container"
             gridItems={this.testimonials}

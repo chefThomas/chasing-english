@@ -8,10 +8,9 @@
 
   .Testimonial-body {
     margin-top: 0;
-    font-size: 1.1rem;
+    // font-size: 1.1rem;
     text-align: justify;
     height: 78%;
-    // overflow-y: hidden;
     padding-right: 0.2rem;
     margin-bottom: 1.7rem;
   }
@@ -23,7 +22,7 @@
     display: block;
     margin-left: auto;
     text-align: right;
-    font-size: 1.1rem;
+    // font-size: 1.1rem;
   }
 
   &-type {
@@ -34,6 +33,6 @@
     font-weight: bold;
     text-align: right;
     font-style: italic;
-    font-size: 1.2rem;
+    // font-size: 1.2rem;
   }
 }

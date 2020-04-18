@@ -849,14 +849,12 @@ class Catalog extends Component {
           </Badge>
         </div>
 
-        <Content style={{ padding: '0 2rem' }}>
-          <Title style={{ marginBottom: '3rem', marginTop: '3rem' }} level={2}>
-            Programs
-          </Title>
+        <Content>
+          <h1>Programs</h1>
           <Row>
             <Col sm={24} md={12}>
               <div className="ImageWithTextOverlay-text-block">
-                <Title level={3}>Individual Coaching</Title>
+                <h2>Individual Coaching</h2>
                 <p>{text.indCoachp1}</p>
                 <p>{text.indCoachp2}</p>
               </div>
@@ -899,7 +897,7 @@ class Catalog extends Component {
             </Col>
             <Col sm={24} md={12}>
               <div className="ImageWithTextOverlay-text-block">
-                <Title level={3}>Group</Title>
+                <h2>Group</h2>
                 <p>{text.groupp1}</p>
                 <p>{text.groupp2}</p>
                 <p>{text.groupp3}</p>
@@ -919,7 +917,7 @@ class Catalog extends Component {
           <Row>
             <Col sm={24} md={12}>
               <div className="ImageWithTextOverlay-text-block">
-                <Title level={3}>Single-day Workshop</Title>
+                <h2>Single-day Workshop</h2>
                 <p>{text.workshopp1}</p>
                 <p>{text.workshopp2}</p>
               </div>

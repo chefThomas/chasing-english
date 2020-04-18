@@ -15,7 +15,7 @@
 
 .ant-layout-content {
   color: rgba(0, 0, 0, 0.65);
-  padding: 2rem 2rem;
+  padding: 1rem 1rem;
   background-color: #fff;
 }
 
@@ -42,7 +42,24 @@ body {
 body {
   font-family: $font-lato;
   font-size: 1rem;
-  // text-align: justify;
+
+  @media screen and (max-width: 1000px) {
+    font-size: 0.8rem;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 0.7rem;
+  }
+}
+
+h3.ant-typography {
+  @media screen and (max-width: 1000px) {
+    font-size: 19px;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+  }
 }
 
 // headings

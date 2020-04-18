@@ -12,7 +12,7 @@
 
 .ant-layout-content {
   color: rgba(0, 0, 0, 0.65);
-  padding: 2rem 2rem;
+  padding: 1rem 1rem;
   background-color: #fff; }
 
 .dark-on-light {
@@ -29,6 +29,20 @@ body {
 body {
   font-family: "Lato", sans-serif;
   font-size: 1rem; }
+  @media screen and (max-width: 1000px) {
+    body {
+      font-size: 0.8rem; } }
+  @media screen and (max-width: 600px) {
+    body {
+      font-size: 0.7rem; } }
+
+@media screen and (max-width: 1000px) {
+  h3.ant-typography {
+    font-size: 19px; } }
+
+@media screen and (max-width: 600px) {
+  h3.ant-typography {
+    font-size: 14px; } }
 
 div.ant-card-meta-title {
   padding-top: 5px; }
@@ -130,6 +144,21 @@ div.message-footer {
 .Catalog-program-table {
   margin-top: 3rem;
   margin-bottom: 3rem; }
+  @media screen and (max-width: 1000px) {
+    .Catalog-program-table * {
+      font-size: 0.6rem; } }
+  @media screen and (max-width: 600px) {
+    .Catalog-program-table * {
+      font-size: 0.5rem; } }
+  @media (min-width: 1000px) {
+    .Catalog-program-table button.ant-btn.ant-btn-primary {
+      padding: 0 12px;
+      height: 28px; } }
+  @media (max-width: 600px) {
+    .Catalog-program-table button.ant-btn.ant-btn-primary {
+      font-size: 0.45rem;
+      padding: 0 7px;
+      height: 23px; } }
 
 .Cart {
   position: fixed;
@@ -321,9 +350,6 @@ sup.ant-scroll-number {
       flex-direction: column;
       justify-content: center;
       grid-column: 1/7; }
-      .Home .Home-mid-segment .what-we-do-container .text-and-image-container .text-container .mission-statement-body,
-      .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container .text-container .mission-statement-body {
-        font-size: 1.2rem; }
     .Home .Home-mid-segment .what-we-do-container .text-and-image-container .img-container,
     .shift-left .Home-mid-segment .what-we-do-container .text-and-image-container .img-container {
       display: flex;
@@ -947,7 +973,6 @@ div.ant-modal.StudentRecord {
   margin-bottom: 1rem; }
   .Testimonial .Testimonial-body {
     margin-top: 0;
-    font-size: 1.1rem;
     text-align: justify;
     height: 78%;
     padding-right: 0.2rem;
@@ -956,16 +981,14 @@ div.ant-modal.StudentRecord {
     width: 10rem;
     display: block;
     margin-left: auto;
-    text-align: right;
-    font-size: 1.1rem; }
+    text-align: right; }
   .Testimonial-type {
     display: block;
     color: rgba(0, 0, 0, 0.65);
     margin-left: auto;
     font-weight: bold;
     text-align: right;
-    font-style: italic;
-    font-size: 1.2rem; }
+    font-style: italic; }
 
 .TextBlock {
   color: rgba(0, 0, 0, 0.65);
