@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import clip from "../static/clip2.png";
-import "../stylesheets/css/main.css";
-// import icon from "../static/logo.svg";
+import clip from '../static/clip2.png';
+import '../stylesheets/css/main.css';
 
 export default function ServiceCard(props) {
   return (

@@ -102,7 +102,7 @@
 }
 
 .Navbutton-container {
-  width: 400px;
+  width: 225;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -111,7 +111,7 @@
   transition: 0.3s ease-in-out;
 
   &.nav-item-shift-left {
-    transform: translateX(-3.4rem);
+    transform: translateX(-2.5rem);
   }
 
   .welcome-user {
@@ -131,6 +131,6 @@
     color: #f8f8f0;
     margin-right: 2rem;
     font-size: 1.1rem;
-    transform: translateY(-3rem);
+    transform: translateY(-4rem);
   }
 }

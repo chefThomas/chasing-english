@@ -109,9 +109,9 @@ class Home extends Component {
           />
         </section>
         <section id="services-section" className="services">
-          <Title name="services" style={{ marginLeft: '3rem' }}>
+          <h2 name="services" style={{ marginLeft: '3rem' }}>
             Programs
-          </Title>
+          </h2>
           <div className="service-card-container">
             <ServiceCard
               mainHeader="Group"

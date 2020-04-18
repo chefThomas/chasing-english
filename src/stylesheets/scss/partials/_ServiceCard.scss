@@ -18,7 +18,7 @@
     top: 0;
     margin-top: 0;
     margin-bottom: 4rem;
-    font-size: 1.5rem;
+    // font-size: 1rem;
     @media screen and (max-width: 505px) {
       width: 50%;
     }
@@ -121,9 +121,9 @@
   }
 
   .ServiceCard-main-content {
-    .Service-body {
-      font-size: 1.2rem;
-    }
+    // .Service-body {
+    //   font-size: 1.2rem;
+    // }
 
     .Service-header {
       margin-bottom: 0.5rem;
