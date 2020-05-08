@@ -12,26 +12,26 @@ const Footer = (props) => {
             <span className="site-map-link head" to="/">
               Home
             </span>
-            <a className="site-map-link" href="#mission-section">
+            <a className="site-map-link" href="/#mission-section">
               Mission
             </a>
-            <a className="site-map-link" href="#testimonials-section">
+            <a className="site-map-link" href="/#testimonials-section">
               Testimonials
             </a>
           </div>
-          <div className="services-page-map footer-col">
+          {/* <div className="services-page-map footer-col">
             <span className="site-map-link head">Programs</span>
-            <a className="site-map-link" href="#services-section">
+            <a className="site-map-link" href="/#services-section">
               Group
             </a>
-            <a className="site-map-link" href="#services-section">
+            <a className="site-map-link" href="/#services-section">
               Individual
             </a>
-          </div>
+          </div> */}
           <div className="book-page-map footer-col">
-            <span className="site-map-link head">Catalog</span>
+            <span className="site-map-link head">Course Catalog</span>
             <Link className="site-map-link" to="/catalog">
-              Programs
+              Schedule
             </Link>
           </div>
           <div className="about-page-map footer-col">
