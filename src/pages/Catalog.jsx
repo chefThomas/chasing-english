@@ -209,11 +209,7 @@ class Catalog extends Component {
   makeProgramButton = (record) => {
     if (!this.props.user && record.enrolled >= record.capacity) {
       return (
-        <Button
-          onClick={() =>
-            message.error('Only logged in guardians can be added to waitlists')
-          }
-        >
+        <Button onClick={() => message.error('Please log in first')}>
           Add to Waitlist
         </Button>
       );
@@ -222,7 +218,7 @@ class Catalog extends Component {
     if (!this.props.user) {
       return (
         <Button
-          onClick={() => message.error('Only logged in guardians can enroll')}
+          onClick={() => message.error('Please log in first')}
           type="primary"
         >
           Enroll
@@ -235,7 +231,7 @@ class Catalog extends Component {
     if (userType !== 'guardian') {
       return (
         <Button
-          onClick={() => message.error('Only logged in guardians can enroll')}
+          onClick={() => message.error('Please log in first')}
           type="primary"
         >
           Enroll
