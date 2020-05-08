@@ -49,12 +49,16 @@ const Footer = (props) => {
         </div>
         <div className="social-media">
           <div>© Chasing English 2020</div>
-          {/* <div className="social-icons">
-            <h4 className="social-media-header">Follow Us</h4>
-            <i className="fab fa-twitter-square" />
-            <i className="fab fa-linkedin" />
-            <i className="fab fa-instagram" />
-          </div> */}
+          <div className="social-icons">
+            <h4 className="social-media-header">Connect</h4>
+            {/* <i className="fab fa-twitter-square" /> */}
+            <a href="https://www.instagram.com/chasing_english/">
+              <i className="fab fa-instagram" />
+            </a>
+            <a href="https://www.linkedin.com/in/kendra-dixon-2791b076/">
+              <i className="fab fa-linkedin" />
+            </a>
+          </div>
         </div>
       </footer>
     </section>

@@ -29,12 +29,9 @@ body {
 body {
   font-family: "Lato", sans-serif;
   font-size: 1rem; }
-  @media screen and (max-width: 1000px) {
-    body {
-      font-size: 0.9rem; } }
   @media screen and (max-width: 600px) {
     body {
-      font-size: 0.7rem; } }
+      font-size: 0.9rem; } }
 
 @media screen and (max-width: 1000px) {
   h3.ant-typography {
@@ -47,9 +44,13 @@ body {
 div.ant-card-meta-title {
   padding-top: 5px; }
 
-div.ant-card-meta-description {
+.ant-card-meta-description {
   padding-left: 0 !important;
   padding-top: 0 !important; }
+
+.ant-card.ant-card-bordered.ant-card-hoverable {
+  margin-left: auto;
+  margin-right: auto; }
 
 .AdminMessage-container {
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -268,6 +269,10 @@ sup.ant-scroll-number {
 .shift-left section {
   padding-bottom: 7rem;
   width: 100%; }
+  @media screen and (max-width: 600px) {
+    .Home section,
+    .shift-left section {
+      padding-bottom: 4rem; } }
 
 .Home section.dark,
 .shift-left section.dark {
@@ -281,12 +286,16 @@ sup.ant-scroll-number {
 
 .Home .Home-top-segment,
 .shift-left .Home-top-segment {
-  min-height: 700px;
+  min-height: 600px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 3rem; }
+  @media screen and (max-width: 600px) {
+    .Home .Home-top-segment,
+    .shift-left .Home-top-segment {
+      min-height: 350px; } }
   .Home .Home-top-segment .icon-container,
   .shift-left .Home-top-segment .icon-container {
     display: flex;
@@ -299,6 +308,10 @@ sup.ant-scroll-number {
       width: 10rem;
       height: auto;
       display: block; }
+      @media screen and (max-width: 600px) {
+        .Home .Home-top-segment .icon-container .icon-full,
+        .shift-left .Home-top-segment .icon-container .icon-full {
+          width: 5rem; } }
     .Home .Home-top-segment .icon-container .motto,
     .shift-left .Home-top-segment .icon-container .motto {
       color: rgba(255, 255, 255, 0.9);
@@ -313,11 +326,20 @@ sup.ant-scroll-number {
       .shift-left .Home-top-segment .icon-container .motto .line1 {
         font-weight: 600;
         font-size: 4rem; }
+        @media screen and (max-width: 600px) {
+          .Home .Home-top-segment .icon-container .motto .line1,
+          .shift-left .Home-top-segment .icon-container .motto .line1 {
+            font-size: 2rem; } }
       .Home .Home-top-segment .icon-container .motto .line2,
       .shift-left .Home-top-segment .icon-container .motto .line2 {
         font-weight: 600;
         font-size: 4.5rem;
         margin-bottom: 0.7rem; }
+        @media screen and (max-width: 600px) {
+          .Home .Home-top-segment .icon-container .motto .line2,
+          .shift-left .Home-top-segment .icon-container .motto .line2 {
+            font-size: 2.25rem;
+            margin-bottom: 0.4rem; } }
       .Home .Home-top-segment .icon-container .motto .line3,
       .shift-left .Home-top-segment .icon-container .motto .line3 {
         font-size: 1rem;

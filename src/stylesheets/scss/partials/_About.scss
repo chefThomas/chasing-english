@@ -2,7 +2,12 @@ div.ant-card-meta-title {
   padding-top: 5px;
 }
 
-div.ant-card-meta-description {
+.ant-card-meta-description {
   padding-left: 0 !important;
   padding-top: 0 !important;
+}
+
+.ant-card.ant-card-bordered.ant-card-hoverable {
+  margin-left: auto;
+  margin-right: auto;
 }

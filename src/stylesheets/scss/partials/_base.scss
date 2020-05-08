@@ -43,12 +43,12 @@ body {
   font-family: $font-lato;
   font-size: 1rem;
 
-  @media screen and (max-width: 1000px) {
-    font-size: 0.9rem;
-  }
+  // @media screen and (max-width: 1000px) {
+  //   font-size: 0.9rem;
+  // }
 
   @media screen and (max-width: 600px) {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
   }
 }
 

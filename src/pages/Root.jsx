@@ -531,9 +531,6 @@ class Root extends Component {
           logout={this.logout}
         />
         <Switch>
-          {/* {this.state.redirectToCatalog ? (
-            <Redirect from="/guardian-registration" to="/catalog" />
-          ) : null} */}
           <Route
             exact
             path="/"
