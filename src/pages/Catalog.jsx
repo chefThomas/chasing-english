@@ -18,7 +18,6 @@ import {
   Table,
   Tag,
   Tooltip,
-  Typography,
 } from 'antd';
 
 import checkCourseAvailability from '../utilities/checkCourseAvailability.js';
@@ -36,7 +35,6 @@ import laptop from '../static/undraw_youtube_tutorial_2gn3.png';
 import group from '../static/undraw_Group_chat_unwm.png';
 import workshop from '../static/undraw_researching_22gp.png';
 
-const { Title } = Typography;
 const { Content } = Layout;
 
 class Catalog extends Component {

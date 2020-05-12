@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { Typography } from 'antd';
+import { notification } from 'antd';
 
 import NavButton from '../components/NavButton';
 import Image from '../components/Image';
@@ -21,8 +21,6 @@ import text from '../text/paragraph';
 
 import '../stylesheets/css/main.css';
 
-const { Title } = Typography;
-
 class Home extends Component {
   testimonials = [
     <Testimonial name="Ann M." body={text.am} type="Parent" />,
@@ -37,11 +35,22 @@ class Home extends Component {
     showForm: false,
   };
 
+  deadlineNotification = () => {
+    notification.open({
+      message: 'Enrollment Deadline',
+      description: 'Enrollment for summer courses ends May 31',
+    });
+  };
+
   componentDidMount() {
     const credentials = getCredentialFromLocalStorage();
     if (credentials) {
       this.props.login(credentials);
     }
+    notification.open({
+      message: 'Enrollment Deadline',
+      description: 'Enrollment for summer courses ends May 31',
+    });
   }
 
   render() {
