@@ -35,21 +35,16 @@ class Home extends Component {
     showForm: false,
   };
 
-  deadlineNotification = () => {
-    notification.open({
-      message: 'Enrollment Deadline',
-      description: 'Enrollment for summer courses ends May 31',
-    });
-  };
-
   componentDidMount() {
     const credentials = getCredentialFromLocalStorage();
     if (credentials) {
       this.props.login(credentials);
     }
     notification.open({
-      message: 'Enrollment Deadline',
-      description: 'Enrollment for summer courses ends May 31',
+      duration: 0,
+      message: 'Summer enrollment is now closed.',
+      description:
+        'Interested in Fall courses? Email kendra@chasingenglish.com to be added to the fall mailing list.',
     });
   }
 
