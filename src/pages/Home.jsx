@@ -41,7 +41,6 @@ class Home extends Component {
       this.props.login(credentials);
     }
     notification.open({
-      duration: 0,
       message: 'Summer enrollment is now closed.',
       description:
         'Interested in Fall courses? Email kendra@chasingenglish.com to be added to the fall mailing list.',
