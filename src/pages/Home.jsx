@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { notification } from 'antd';
+// import { notification } from 'antd';
 
 import NavButton from '../components/NavButton';
 import Image from '../components/Image';
@@ -40,11 +40,11 @@ class Home extends Component {
     if (credentials) {
       this.props.login(credentials);
     }
-    notification.open({
-      message: 'Summer enrollment is now closed.',
-      description:
-        'Interested in Fall courses? Email kendra@chasingenglish.com to be added to the fall mailing list.',
-    });
+    // notification.open({
+    //   message: 'Summer enrollment is now closed.',
+    //   description:
+    //     'Interested in Fall courses? Email kendra@chasingenglish.com to be added to the fall mailing list.',
+    // });
   }
 
   render() {
