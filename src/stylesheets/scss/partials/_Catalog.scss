@@ -1,5 +1,5 @@
 .Catalog-program-table {
-  margin-top: 3rem;
+  margin-top: 0.25rem;
   margin-bottom: 3rem;
 
   & * {
@@ -49,4 +49,16 @@ sup.ant-scroll-number {
   &:hover {
     color: #fffff6;
   }
+}
+
+.Catalog-banner.flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+.table-title {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
 }
