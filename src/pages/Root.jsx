@@ -11,6 +11,7 @@ import Navbar from '../components/Navbar';
 import AntLogin from '../components/AntLogin';
 import Home from './Home';
 import Catalog from './Catalog';
+import OneOnOne from './OneOnOne';
 import About from './About';
 import Admin from './Admin';
 import Success from './Success';
@@ -486,6 +487,7 @@ class Root extends Component {
         return { ...program, dateBegin, dateEnd };
       });
       this.setState({ programs });
+      console.log(this.state.programs);
     } catch (err) {
       console.log(
         'there was an error retrieving programs while mounting Root',
@@ -543,6 +545,24 @@ class Root extends Component {
             path="/catalog"
             render={(routeProps) => (
               <Catalog
+                {...routeProps}
+                addGuardianToWaitlist={this.addGuardianToProgramWaitlist}
+                addGuardianToArrayOfProgramWaitlists={
+                  this.addGuardianToArrayOfProgramWaitlists
+                }
+                login={this.login}
+                stripe={this.props.stripe}
+                programs={this.state.programs}
+                userToken={this.state.userToken}
+                user={this.state.user}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/one-on-one"
+            render={(routeProps) => (
+              <OneOnOne
                 {...routeProps}
                 addGuardianToWaitlist={this.addGuardianToProgramWaitlist}
                 addGuardianToArrayOfProgramWaitlists={

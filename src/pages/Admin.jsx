@@ -55,6 +55,8 @@ class Admin extends Component {
     showGuardianPurchases: false,
     showStudentRecord: false,
     studentRecord: [],
+    studentEmails: '',
+    guardianEmails: '',
   };
 
   programCols = [
@@ -116,6 +118,13 @@ class Admin extends Component {
         >
           <Tooltip title={'view roster'}>
             <Icon type="team" onClick={() => this.handleRosterViewClick(id)} />
+          </Tooltip>
+          <Tooltip title={'view student & guardian email lists'}>
+            <Icon
+              type="mail"
+              size="small"
+              onClick={() => this.handleEmailViewClick(id)}
+            />
           </Tooltip>
 
           <Tooltip title={status === 'active' ? 'archive' : 'active'}>
@@ -340,6 +349,22 @@ class Admin extends Component {
 
     this.setState({ roster: updatedRoster, rosterCourseTitle: title });
     this.setState({ showRoster: true });
+  };
+
+  handleEmailViewClick = (id) => {
+    const { roster, guardiansPurchased } = this.props.programs.find(
+      (program) => program.id === id
+    );
+
+    console.log(roster, guardiansPurchased);
+
+    // create student email list
+    const studentEmails = roster.map((cur) => cur.email).join(', ');
+    const guardianEmails = guardiansPurchased
+      .map((cur) => cur.guardianEmail)
+      .join(', ');
+    this.setState({ studentEmails, guardianEmails });
+    this.setState({ showEmails: true });
   };
 
   handleArchiveClick = (id, type, status) => {
@@ -591,6 +616,31 @@ class Admin extends Component {
     });
   }
 
+  notify(text) {
+    console.log(text + ' emails copied to clipboard');
+  }
+
+  writeToClipboard(value, type) {
+    navigator.clipboard.writeText(value);
+    this.notify(type);
+  }
+
+  copyEmails = (type) => {
+    switch (type) {
+      case 'all':
+        const text = `${this.state.studentEmails}, ${this.state.guardianEmails}`;
+        this.writeToClipboard(text, 'Student and guardian');
+        break;
+      case 'guardians':
+        this.writeToClipboard(this.state.guardianEmails, 'Guardian');
+        break;
+      case 'students':
+        this.writeToClipboard(this.state.studentEmails, 'Student');
+      default:
+        break;
+    }
+  };
+
   render() {
     return (
       <>
@@ -614,6 +664,35 @@ class Admin extends Component {
           rosterCourseTitle={this.state.rosterCourseTitle}
           className="StudentRecord"
         />
+        <Modal
+          title={
+            <h3>
+              {' '}
+              Course Email Lists{' '}
+              <Tooltip title={'Copy all course emails'}>
+                <Icon type="copy" onClick={() => this.copyEmails('all')} />
+              </Tooltip>
+            </h3>
+          }
+          visible={this.state.showEmails}
+          onOk={() => this.setState({ showEmails: false })}
+          onCancel={() => this.setState({ showEmails: false })}
+        >
+          <h4>
+            Students{' '}
+            <Tooltip title={'Copy student emails'}>
+              <Icon type="copy" onClick={() => this.copyEmails('students')} />{' '}
+            </Tooltip>
+          </h4>
+          <p>{this.state.studentEmails}</p>
+          <h4>
+            Guardians{' '}
+            <Tooltip title={'Copy guardian emails'}>
+              <Icon type="copy" onClick={() => this.copyEmails('guardians')} />{' '}
+            </Tooltip>
+          </h4>
+          <p>{this.state.guardianEmails}</p>
+        </Modal>
         {this.props.user && this.props.user.userType === 'admin' ? (
           <div>
             <Tabs type="card">

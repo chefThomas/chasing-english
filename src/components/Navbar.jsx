@@ -9,20 +9,20 @@ class Navbar extends Component {
   state = {
     showLogin: false,
   };
-  handleClick = e => {
+  handleClick = (e) => {
     console.log('click burger');
     // display mobile nav
   };
 
-  showLogin = e => {
+  showLogin = (e) => {
     this.setState({ showLogin: true });
   };
 
-  hideLogin = e => {
+  hideLogin = (e) => {
     this.setState({ showLogin: false });
   };
 
-  handleLogout = e => {
+  handleLogout = (e) => {
     this.props.logout();
   };
 
@@ -59,7 +59,16 @@ class Navbar extends Component {
                 activeClassName="side-nav-link-active"
                 to="/catalog"
               >
-                Catalog
+                {' '}
+                Group
+              </NavLink>
+              <NavLink
+                exact
+                className="side-nav-link"
+                activeClassName="side-nav-link-active"
+                to="/one-on-one"
+              >
+                Individual
               </NavLink>
               <NavLink
                 exact
@@ -97,7 +106,15 @@ class Navbar extends Component {
             activeClassName="NavLink-active"
             to="/catalog"
           >
-            Catalog
+            Group
+          </NavLink>
+          <NavLink
+            exact
+            className="Navbar-link"
+            activeClassName="side-nav-link-active"
+            to="/one-on-one"
+          >
+            Individual
           </NavLink>
           <NavLink
             exact
@@ -133,8 +150,9 @@ class Navbar extends Component {
           {this.props.user ? (
             <>
               <span className="welcome-user">
-                {`Welcome, ${this.props.user.firstName ||
-                  this.props.user.guardianFirstName}!`}
+                {`Welcome, ${
+                  this.props.user.firstName || this.props.user.guardianFirstName
+                }!`}
               </span>
             </>
           ) : (

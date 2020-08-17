@@ -143,7 +143,7 @@ div.message-footer {
     align-items: center; }
 
 .Catalog-program-table {
-  margin-top: 3rem;
+  margin-top: 0.25rem;
   margin-bottom: 3rem; }
   @media screen and (max-width: 1000px) {
     .Catalog-program-table * {
@@ -180,6 +180,17 @@ sup.ant-scroll-number {
   color: rgba(255, 255, 255, 0.7); }
   #shopping-cart:hover {
     color: #fffff6; }
+
+.Catalog-banner.flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 4rem; }
+
+.table-title {
+  display: flex;
+  justify-content: center;
+  align-items: baseline; }
 
 .ContactForm {
   display: flex;
@@ -679,7 +690,7 @@ input:focus {
   justify-content: flex-end;
   align-items: center;
   margin-left: auto;
-  padding-right: 1rem;
+  padding-right: 3rem;
   transition: 0.3s ease-in-out; }
   .Navbutton-container.nav-item-shift-left {
     transform: translateX(-2.5rem); }

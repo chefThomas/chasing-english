@@ -32,13 +32,10 @@ import RefundPolicy from '../components/RefundPolicy';
 
 import text from '../text/paragraph';
 import laptop from '../static/undraw_youtube_tutorial_2gn3.png';
-import group from '../static/undraw_Group_chat_unwm.png';
-import workshop from '../static/undraw_researching_22gp.png';
-import { getDefaultFormatCodeSettings } from 'typescript';
 
 const { Content } = Layout;
 
-class Catalog extends Component {
+class OneOnOne extends Component {
   state = {
     cart: [],
     cartVisible: false,
@@ -145,12 +142,10 @@ class Catalog extends Component {
         data: { id },
       } = await purchase(this.props.user.customerId, this.state.cart);
 
-      const stripePublicKey =
-        process.env.NODE_ENV === 'development'
-          ? 'pk_test_GYVlMxH8rzVT5dlqAo3bjCUm00mcVGw6pl'
-          : 'pk_live_llGvTLf3V1DL20DVCLFm9o0G00Q6juyUss';
       console.log(id);
-      const stripe = await loadStripe(stripePublicKey);
+      const stripe = await loadStripe(
+        'pk_live_llGvTLf3V1DL20DVCLFm9o0G00Q6juyUss'
+      );
 
       try {
         console.log(id);
@@ -364,190 +359,6 @@ class Catalog extends Component {
     },
   ];
 
-  groupProgramsColsUser = [
-    {
-      title: 'Title',
-      key: 'title',
-      render: (text, record) => (
-        <Button
-          courseid={record.id}
-          onClick={this.handleDisplayCourseDescription}
-          type="link"
-        >
-          {record.title}
-        </Button>
-      ),
-    },
-    {
-      title: 'Start',
-      dataIndex: 'dateBegin',
-      key: 'dateBegin',
-    },
-    {
-      title: 'End',
-      dataIndex: 'dateEnd',
-      key: 'dateEnd',
-    },
-    {
-      title: 'Day',
-      dataIndex: 'meetingDay',
-      key: 'meetingDay',
-    },
-    {
-      title: 'Time',
-      dataIndex: 'meetingTime',
-      key: 'meetingTime',
-    },
-    {
-      title: 'Duration (hrs)',
-      dataIndex: 'duration',
-      key: 'duration',
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
-    },
-  ];
-
-  groupProgramsCols = [
-    {
-      title: 'Title',
-      key: 'title',
-      render: (text, record) => (
-        <Button
-          courseid={record.id}
-          onClick={this.handleDisplayCourseDescription}
-          type="link"
-        >
-          {record.title}
-        </Button>
-      ),
-    },
-    {
-      title: 'Start',
-      dataIndex: 'dateBegin',
-      key: 'dateBegin',
-    },
-    {
-      title: 'End',
-      dataIndex: 'dateEnd',
-      key: 'dateEnd',
-    },
-    {
-      title: 'Day',
-      dataIndex: 'meetingDay',
-      key: 'meetingDay',
-    },
-    {
-      title: 'Time',
-      dataIndex: 'meetingTime',
-      key: 'meetingTime',
-    },
-    {
-      title: 'Duration (hrs)',
-      dataIndex: 'duration',
-      key: 'duration',
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
-    },
-  ];
-
-  intensiveColsUser = [
-    {
-      title: 'Title',
-      key: 'title',
-      render: (text, record) => (
-        <Button
-          courseid={record.id}
-          onClick={this.handleDisplayCourseDescription}
-          type="link"
-        >
-          {record.title}
-        </Button>
-      ),
-    },
-    {
-      title: 'Date',
-      dataIndex: 'dateBegin',
-      key: 'dateBegin',
-    },
-    {
-      title: 'Day',
-      dataIndex: 'meetingDay',
-      key: 'meetingDay',
-    },
-    {
-      title: 'Time',
-      dataIndex: 'meetingTime',
-      key: 'meetingTime',
-    },
-    {
-      title: 'Duration (hrs)',
-      dataIndex: 'duration',
-      key: 'duration',
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
-    },
-  ];
-
-  intensiveCols = [
-    {
-      title: 'Title',
-      key: 'title',
-      render: (text, record) => (
-        <Button
-          courseid={record.id}
-          onClick={this.handleDisplayCourseDescription}
-          type="link"
-        >
-          {record.title}
-        </Button>
-      ),
-    },
-    {
-      title: 'Date',
-      dataIndex: 'dateBegin',
-      key: 'dateBegin',
-    },
-    {
-      title: 'Day',
-      dataIndex: 'meetingDay',
-      key: 'meetingDay',
-    },
-    {
-      title: 'Time',
-      dataIndex: 'meetingTime',
-      key: 'meetingTime',
-    },
-    {
-      title: 'Duration (hrs)',
-      dataIndex: 'duration',
-      key: 'duration',
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (text, record) => <span>{this.makeProgramButton(record)}</span>,
-    },
-  ];
-
   cartCols = [
     {
       title: 'Program',
@@ -594,14 +405,12 @@ class Catalog extends Component {
     this.setState({ cart });
   };
 
-  getGroupSessionData = (season) => {
-    let groupPrograms = this.props.programs.filter((program) => {
-      // filter active group
-      return program.type === 'group' && program.status === 'active';
+  getIndividualSessionData = (season) => {
+    const indyPrograms = this.props.programs.filter((program) => {
+      return program.type === 'individual' && program.status === 'active';
     });
 
-    // filter  by season
-    const result = groupPrograms.filter((program) => {
+    const result = indyPrograms.filter((program) => {
       const startMonth = moment(program.dateBegin).month() + 1;
       const startDate = moment(program.dateBegin).date();
       const endMonth = moment(program.dateEnd).month() + 1;
@@ -632,7 +441,6 @@ class Catalog extends Component {
           key: program.id,
           id: program.id,
           type: program.type,
-          title: program.title,
           dateBegin: program.dateBegin,
           dateEnd: program.dateEnd,
           meetingTime: program.meetingTime,
@@ -655,53 +463,6 @@ class Catalog extends Component {
     return day;
   };
 
-  // getIntensivesData = () => {
-  //   const intensivePrograms = this.props.programs.filter((program) => {
-  //     return program.type === 'intensive' && program.status === 'active';
-  //   });
-  //   if (this.props.user) {
-  //     return intensivePrograms
-  //       .map((program) => {
-  //         return {
-  //           key: program.id,
-  //           title: program.title,
-  //           description: program.description,
-  //           id: program.id,
-  //           type: program.type,
-  //           duration: program.duration,
-  //           dateBegin: program.dateBegin,
-  //           meetingTime: program.meetingTime,
-  //           meetingDay: program.meetingDay,
-  //           capacity: program.capacity,
-  //           enrolled: program.enrolled,
-  //           waitlistedGuardians: program.waitlist,
-  //           roster: program.roster,
-  //           price: `$${program.price}`,
-  //         };
-  //       })
-  //       .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
-  //   }
-  //   return intensivePrograms
-  //     .map((program) => {
-  //       return {
-  //         key: program.id,
-  //         title: program.title,
-  //         description: program.description,
-  //         id: program.id,
-  //         type: program.type,
-  //         duration: program.duration,
-  //         dateBegin: program.dateBegin,
-  //         meetingTime: program.meetingTime,
-  //         meetingDay: program.meetingDay,
-  //         capacity: program.capacity,
-  //         enrolled: program.enrolled,
-  //         waitlistedGuardians: program.waitlist,
-  //         roster: program.roster,
-  //       };
-  //     })
-  //     .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
-  // };
-
   async componentDidMount() {
     const { user } = this.props;
     const credentials = getCredentials();
@@ -709,10 +470,6 @@ class Catalog extends Component {
     if (!user && credentials) {
       this.props.login(credentials);
     }
-
-    // // this.getIndividualSessionData();
-    // this.getGroupSessionData();
-    // // this.getIntensivesData();
   }
 
   render() {
@@ -725,11 +482,11 @@ class Catalog extends Component {
       <>
         <Modal
           visible={descriptionModalVisible}
-          title={courseTitle}
+          title={'Subscription details'}
           onCancel={this.handleCloseDescription}
           // onOk={this.handleOk}
         >
-          {courseDescriptionBody}
+          {text.subscriptionPaymentDetails}
         </Modal>
         <Drawer
           title="Shopping Cart"
@@ -778,15 +535,6 @@ class Catalog extends Component {
                   {this.state.buttonLoading ? '' : 'Checkout'}
                 </Button>
               </div>
-              {/* <div style={{ display: 'flex' }}>
-                <Button
-                  type="link"
-                  onClick={() => this.setState({ showPolicyModal: true })}
-                  style={{ marginLeft: 'auto' }}
-                >
-                  Refund Policy
-                </Button>
-              </div> */}
               <RefundPolicy />
               <p></p>
             </>
@@ -848,25 +596,31 @@ class Catalog extends Component {
         </div>
 
         <Content>
-          <h1>Group Programs</h1>
+          <h1>Individual Programs</h1>
           <Row className="Catalog-banner flex">
+            <Col sm={24} md={12}>
+              <div className="ImageWithTextOverlay-text-block">
+                <p>{text.indCoachp1}</p>
+                <p>{text.indCoachp2}</p>
+                <a
+                  onClick={() =>
+                    this.setState({ descriptionModalVisible: true })
+                  }
+                >
+                  See subscription details
+                </a>
+              </div>
+            </Col>
             <Col
               sm={24}
               md={12}
               style={{
-                height: '100%',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-              <img src={group} alt="reading group" style={{ width: '85%' }} />
-            </Col>
-            <Col sm={24} md={12}>
-              <div className="ImageWithTextOverlay-text-block">
-                <p>{text.groupp1}</p>
-                <p>{text.groupp2}</p>
-              </div>
+              <img src={laptop} alt="laptop on desk" style={{ width: '85%' }} />
             </Col>
           </Row>
           <div className="table-title">
@@ -875,14 +629,13 @@ class Catalog extends Component {
             </h2>
             9/14/20 through 10/16/20
           </div>
-
           <Table
             className="Catalog-program-table"
-            dataSource={this.getGroupSessionData('earlyFall')}
+            dataSource={this.getIndividualSessionData('earlyFall')}
             columns={
               this.props.user
-                ? this.groupProgramsColsUser
-                : this.groupProgramsCols
+                ? this.individualProgramsColsUser
+                : this.individualProgramsCols
             }
             pagination={{ pageSize: 4 }}
           />
@@ -894,11 +647,11 @@ class Catalog extends Component {
           </div>
           <Table
             className="Catalog-program-table"
-            dataSource={this.getGroupSessionData('lateFall')}
+            dataSource={this.getIndividualSessionData('lateFall')}
             columns={
               this.props.user
-                ? this.groupProgramsColsUser
-                : this.groupProgramsCols
+                ? this.individualProgramsColsUser
+                : this.individualProgramsCols
             }
             pagination={{ pageSize: 4 }}
           />
@@ -910,49 +663,14 @@ class Catalog extends Component {
           </div>
           <Table
             className="Catalog-program-table"
-            dataSource={this.getGroupSessionData('earlyWinter')}
+            dataSource={this.getIndividualSessionData('earlyWinter')}
             columns={
               this.props.user
-                ? this.groupProgramsColsUser
-                : this.groupProgramsCols
+                ? this.individualProgramsColsUser
+                : this.individualProgramsCols
             }
             pagination={{ pageSize: 4 }}
           />
-          {/* <Row>
-            <Col sm={24} md={12}>
-              <div className="ImageWithTextOverlay-text-block">
-                <h2>Single-day Workshop</h2>
-                <p>{text.workshopp1}</p>
-                <p>{text.workshopp2}</p>
-              </div>
-            </Col>
-            <Col
-              className="imageDisplay"
-              sm={24}
-              md={12}
-              style={{
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <img
-                src={workshop}
-                alt="reading group"
-                style={{ width: '85%' }}
-              />
-            </Col>
-          </Row>
-
-          <Table
-            className="Catalog-program-table"
-            dataSource={this.getIntensivesData()}
-            columns={
-              this.props.user ? this.intensiveColsUser : this.intensiveCols
-            }
-            pagination={{ pageSize: 4 }}
-          /> */}
         </Content>
         <Footer />
       </>
@@ -960,4 +678,4 @@ class Catalog extends Component {
   }
 }
 
-export default withRouter(Catalog);
+export default withRouter(OneOnOne);

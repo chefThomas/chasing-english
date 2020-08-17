@@ -43,7 +43,6 @@ class AdminMessage extends Component {
     this.props.changeMessageReadStatus(id, status);
   };
   render() {
-    console.log(this.props);
     const { id, type, body, date, status } = this.props;
     return (
       <>
