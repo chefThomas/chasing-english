@@ -150,7 +150,6 @@ class Root extends Component {
         redirectToCatalog: false,
         showLogin: false,
       });
-      console.log('logging in from page: ', this.props.history.location);
       if (this.props.history.location === 'guardian-registration') {
         this.props.history.push('/catalog');
       }
@@ -487,7 +486,6 @@ class Root extends Component {
         return { ...program, dateBegin, dateEnd };
       });
       this.setState({ programs });
-      console.log(this.state.programs);
     } catch (err) {
       console.log(
         'there was an error retrieving programs while mounting Root',
