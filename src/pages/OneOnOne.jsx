@@ -411,27 +411,26 @@ class OneOnOne extends Component {
     });
 
     const result = indyPrograms.filter((program) => {
-      const startMonth = moment(program.dateBegin).month() + 1;
-      const startDate = moment(program.dateBegin).date();
-      const endMonth = moment(program.dateEnd).month() + 1;
-      const endDate = moment(program.dateEnd).date();
+      const earlyFallStart = new Date('2020-09-14');
+      // const earlyFallEnd = new Date('2020-10-16')
+      const lateFallStart = new Date('2020-10-19');
+      // const lateFallEnd = new Date('2020-11-20')
+      const earlyWinterStart = new Date('2020-11-30');
+      // const earlyWinterEnd = new Date('2020-12-18')
+
+      const dateBegin = new Date(program.dateBegin);
+      // const dateEnd = new Date(program.dateEnd);
 
       if (season === 'earlyFall') {
-        return (
-          startMonth >= 9 && startDate >= 14 && endMonth <= 10 && endDate <= 16
-        );
+        return dateBegin >= earlyFallStart && dateBegin < lateFallStart;
       }
 
       if (season === 'lateFall') {
-        return (
-          startMonth >= 10 && startDate >= 19 && endMonth <= 11 && endDate <= 20
-        );
+        return dateBegin >= lateFallStart && dateBegin < earlyWinterStart;
       }
 
       if (season === 'earlyWinter') {
-        return (
-          startMonth >= 11 && startDate >= 30 && endMonth <= 12 && endDate <= 18
-        );
+        return dateBegin >= earlyWinterStart;
       }
     });
 
