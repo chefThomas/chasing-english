@@ -602,27 +602,26 @@ class Catalog extends Component {
 
     // filter  by season
     const result = groupPrograms.filter((program) => {
-      const startMonth = moment(program.dateBegin).month() + 1;
-      const startDate = moment(program.dateBegin).date();
-      const endMonth = moment(program.dateEnd).month() + 1;
-      const endDate = moment(program.dateEnd).date();
+      const earlyFallStart = new Date('2020-09-14');
+      // const earlyFallEnd = new Date('2020-10-16')
+      const lateFallStart = new Date('2020-10-19');
+      // const lateFallEnd = new Date('2020-11-20')
+      const earlyWinterStart = new Date('2020-11-30');
+      // const earlyWinterEnd = new Date('2020-12-18')
+
+      const dateBegin = new Date(program.dateBegin);
+      // const dateEnd = new Date(program.dateEnd);
 
       if (season === 'earlyFall') {
-        return (
-          startMonth >= 9 && startDate >= 14 && endMonth <= 10 && endDate <= 16
-        );
+        return dateBegin >= earlyFallStart && dateBegin < lateFallStart;
       }
 
       if (season === 'lateFall') {
-        return (
-          startMonth >= 10 && startDate >= 19 && endMonth <= 11 && endDate <= 20
-        );
+        return dateBegin >= lateFallStart && dateBegin < earlyWinterStart;
       }
 
       if (season === 'earlyWinter') {
-        return (
-          startMonth >= 11 && startDate >= 30 && endMonth <= 12 && endDate <= 18
-        );
+        return dateBegin >= earlyWinterStart;
       }
     });
 
@@ -655,53 +654,6 @@ class Catalog extends Component {
     return day;
   };
 
-  // getIntensivesData = () => {
-  //   const intensivePrograms = this.props.programs.filter((program) => {
-  //     return program.type === 'intensive' && program.status === 'active';
-  //   });
-  //   if (this.props.user) {
-  //     return intensivePrograms
-  //       .map((program) => {
-  //         return {
-  //           key: program.id,
-  //           title: program.title,
-  //           description: program.description,
-  //           id: program.id,
-  //           type: program.type,
-  //           duration: program.duration,
-  //           dateBegin: program.dateBegin,
-  //           meetingTime: program.meetingTime,
-  //           meetingDay: program.meetingDay,
-  //           capacity: program.capacity,
-  //           enrolled: program.enrolled,
-  //           waitlistedGuardians: program.waitlist,
-  //           roster: program.roster,
-  //           price: `$${program.price}`,
-  //         };
-  //       })
-  //       .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
-  //   }
-  //   return intensivePrograms
-  //     .map((program) => {
-  //       return {
-  //         key: program.id,
-  //         title: program.title,
-  //         description: program.description,
-  //         id: program.id,
-  //         type: program.type,
-  //         duration: program.duration,
-  //         dateBegin: program.dateBegin,
-  //         meetingTime: program.meetingTime,
-  //         meetingDay: program.meetingDay,
-  //         capacity: program.capacity,
-  //         enrolled: program.enrolled,
-  //         waitlistedGuardians: program.waitlist,
-  //         roster: program.roster,
-  //       };
-  //     })
-  //     .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
-  // };
-
   async componentDidMount() {
     const { user } = this.props;
     const credentials = getCredentials();
@@ -709,10 +661,6 @@ class Catalog extends Component {
     if (!user && credentials) {
       this.props.login(credentials);
     }
-
-    // // this.getIndividualSessionData();
-    // this.getGroupSessionData();
-    // // this.getIntensivesData();
   }
 
   render() {
@@ -918,41 +866,6 @@ class Catalog extends Component {
             }
             pagination={{ pageSize: 4 }}
           />
-          {/* <Row>
-            <Col sm={24} md={12}>
-              <div className="ImageWithTextOverlay-text-block">
-                <h2>Single-day Workshop</h2>
-                <p>{text.workshopp1}</p>
-                <p>{text.workshopp2}</p>
-              </div>
-            </Col>
-            <Col
-              className="imageDisplay"
-              sm={24}
-              md={12}
-              style={{
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <img
-                src={workshop}
-                alt="reading group"
-                style={{ width: '85%' }}
-              />
-            </Col>
-          </Row>
-
-          <Table
-            className="Catalog-program-table"
-            dataSource={this.getIntensivesData()}
-            columns={
-              this.props.user ? this.intensiveColsUser : this.intensiveCols
-            }
-            pagination={{ pageSize: 4 }}
-          /> */}
         </Content>
         <Footer />
       </>
