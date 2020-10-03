@@ -32,6 +32,7 @@ import RefundPolicy from '../components/RefundPolicy';
 
 import text from '../text/paragraph';
 import laptop from '../static/undraw_youtube_tutorial_2gn3.png';
+import IndividualWaitlistForm from '../components/IndividualWaitlistForm.jsx';
 
 const { Content } = Layout;
 
@@ -47,6 +48,7 @@ class OneOnOne extends Component {
     fullCourseDialogVisible: false,
     fullCourses: [],
     showPolicyModal: false,
+    individualWaitlist: true,
   };
 
   handleCartWaitlist = () => {
@@ -75,6 +77,12 @@ class OneOnOne extends Component {
   handleCloseDescription = (e) => {
     this.setState({
       descriptionModalVisible: false,
+    });
+  };
+
+  handleCloseWaitlist = (e) => {
+    this.setState({
+      individualWaitlist: false,
     });
   };
 
@@ -455,6 +463,16 @@ class OneOnOne extends Component {
       .sort((a, b) => new Date(a.dateBegin) - new Date(b.dateBegin));
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      console.log(values);
+      if (!err) {
+        this.props.login(values);
+      }
+    });
+  };
+
   formatMongoDate = (date) => {
     const dateMoment = moment(date);
     const dayNumber = dateMoment.weekday();
@@ -465,18 +483,23 @@ class OneOnOne extends Component {
   async componentDidMount() {
     const { user } = this.props;
     const credentials = getCredentials();
-    console.log(user, credentials);
     if (!user && credentials) {
       this.props.login(credentials);
     }
   }
 
+  onFinish(values) {
+    console.log(values);
+  }
+
   render() {
     const {
-      courseDescriptionBody,
-      courseTitle,
+      // courseDescriptionBody,
+      // courseTitle,
       descriptionModalVisible,
+      individualWaitlist,
     } = this.state;
+
     return (
       <>
         <Modal
@@ -486,6 +509,64 @@ class OneOnOne extends Component {
           // onOk={this.handleOk}
         >
           {text.subscriptionPaymentDetails}
+        </Modal>
+        <Modal
+          visible={individualWaitlist}
+          title={'Waitlist'}
+          onCancel={this.handleCloseWaitlist}
+          // onOk={this.handleOk}
+        >
+          {text.individualWaitlistText}
+          <IndividualWaitlistForm
+            addToIndividualWaitlist={this.props.addToIndividualWaitlist}
+          />
+          {/* <Form
+            {...layout}
+            onSubmit={this.handleSubmit} 
+            // initialValues={{ remember: true }}
+            // onFinish={this.onFinishForm}
+            onChange={this.handleFormChange}
+          >
+            <Form.Item
+              label="Name"
+              name="parentName"
+              colon={false}
+              rules={[{ required: true, message: 'Please input your name' }]}
+              value={this.state.waitlistForm.parentName}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              colon={false}
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Please input your email' }]}
+              // onChange={this.handleFormChange}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Student's Name"
+              name="studentName"
+              colon={false}
+              rules={[
+                { required: true, message: "Please input the student's name" },
+              ]}
+              // onChange={this.handleFormChange}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item {...tailLayout}>
+              <Button
+                onClick={this.handleFormSubmit}
+                type="primary"
+                htmlType="submit"
+              >
+                Submit
+              </Button>
+            </Form.Item>
+          </Form> */}
         </Modal>
         <Drawer
           title="Shopping Cart"
@@ -622,7 +703,7 @@ class OneOnOne extends Component {
               <img src={laptop} alt="laptop on desk" style={{ width: '85%' }} />
             </Col>
           </Row>
-          <div className="table-title">
+          {/* <div className="table-title">
             <h2 style={{ display: 'inline-block', marginRight: '1rem' }}>
               Early Fall
             </h2>
@@ -637,8 +718,8 @@ class OneOnOne extends Component {
                 : this.individualProgramsCols
             }
             pagination={{ pageSize: 4 }}
-          />
-          <div className="table-title">
+          /> */}
+          {/* <div className="table-title">
             <h2 style={{ display: 'inline-block', marginRight: '1rem' }}>
               Late Fall
             </h2>
@@ -659,8 +740,8 @@ class OneOnOne extends Component {
               Early Winter
             </h2>
             11/30/20 through 12/18/20
-          </div>
-          <Table
+          </div> */}
+          {/* <Table
             className="Catalog-program-table"
             dataSource={this.getIndividualSessionData('earlyWinter')}
             columns={
@@ -669,7 +750,7 @@ class OneOnOne extends Component {
                 : this.individualProgramsCols
             }
             pagination={{ pageSize: 4 }}
-          />
+          /> */}
         </Content>
         <Footer />
       </>

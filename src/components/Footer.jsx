@@ -42,9 +42,7 @@ const Footer = (props) => {
           </div>
           <div className="about-page-map footer-col">
             <span className="site-map-link head">Contact</span>
-            <span className="site-map-link">
-              chasingenglishtutoring@gmail.com
-            </span>
+            <span className="site-map-link">kendra@chasingenglish.com</span>
           </div>
         </div>
         <div className="social-media">

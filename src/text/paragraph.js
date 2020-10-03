@@ -8,6 +8,13 @@ const text = {
     'As a lifelong learner, Kendra seeks out professional development with the Washington Language Arts Council, the National Council of Teachers of English, Hugo House, and other local organizations to continue honing her teaching and writing skills so she can bring her best to the students with which she has the opportunity to work.',
   group:
     'Achievement is often bolstered in cooperative learning environments. These courses offer an assortment of learning opportunities covering everything from sharing insight into literature, developing grammar and writing skills, to high school and college admission preparation. Learning is enriched by extended viewership, peer-editing, and group discourse.',
+  individualWaitlistText: (
+    <p>
+      Thank you for your interest in 1:1 sessions. At this time, all spots are
+      full. If you would like to be placed on a waiting list to be notified when
+      an opening becomes available, please fill out the form below.
+    </p>
+  ),
   subscriptionPaymentDetails: (
     <>
       <p>
@@ -34,7 +41,7 @@ const text = {
       </p>
 
       <p>
-        Reach out to Kendra at chasingenglishtutoring@gmail.com if you have any
+        Reach out to Kendra at kendra@chasingenglish.com if you have any
         questions and thank you!
       </p>
     </>

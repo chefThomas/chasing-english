@@ -259,6 +259,17 @@ class Root extends Component {
     });
   };
 
+  addToIndividualWaitlist = async (values) => {
+    const date = makeTimestampString();
+
+    const { guardianName, email, studentName } = values;
+    await axios.post(`${URI_STUB}/api/admin-messages/`, {
+      type: 'waitlist',
+      body: `${guardianName} wants to add ${studentName} to the waitlist for one-to-one. You can reach them at ${email} `,
+      date,
+    });
+  };
+
   // update guardian waitlist in state and
   addGuardianToProgramWaitlist = async (courseId, userId) => {
     // used by guardian to add their id to course waitlist
@@ -571,6 +582,7 @@ class Root extends Component {
                 programs={this.state.programs}
                 userToken={this.state.userToken}
                 user={this.state.user}
+                addToIndividualWaitlist={this.addToIndividualWaitlist}
               />
             )}
           />
