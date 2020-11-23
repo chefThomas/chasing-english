@@ -608,6 +608,7 @@ class Catalog extends Component {
       // const lateFallEnd = new Date('2020-11-20')
       const earlyWinterStart = new Date('2020-11-30');
       // const earlyWinterEnd = new Date('2020-12-18')
+      const lateWinterStart = new Date('2021-01-05');
 
       const dateBegin = new Date(program.dateBegin);
       // const dateEnd = new Date(program.dateEnd);
@@ -621,7 +622,11 @@ class Catalog extends Component {
       }
 
       if (season === 'earlyWinter') {
-        return dateBegin >= earlyWinterStart;
+        return dateBegin >= earlyWinterStart && dateBegin < lateWinterStart;
+      }
+
+      if (season === 'lateWinter') {
+        return dateBegin >= lateWinterStart;
       }
     });
 
@@ -834,7 +839,7 @@ class Catalog extends Component {
             }
             pagination={{ pageSize: 4 }}
           /> */}
-          <div className="table-title">
+          {/* <div className="table-title">
             <h2 style={{ display: 'inline-block', marginRight: '1rem' }}>
               Late Fall
             </h2>
@@ -849,7 +854,7 @@ class Catalog extends Component {
                 : this.groupProgramsCols
             }
             pagination={{ pageSize: 4 }}
-          />
+          /> */}
           <div className="table-title">
             <h2 style={{ display: 'inline-block', marginRight: '1rem' }}>
               Early Winter
@@ -859,6 +864,22 @@ class Catalog extends Component {
           <Table
             className="Catalog-program-table"
             dataSource={this.getGroupSessionData('earlyWinter')}
+            columns={
+              this.props.user
+                ? this.groupProgramsColsUser
+                : this.groupProgramsCols
+            }
+            pagination={{ pageSize: 4 }}
+          />
+          <div className="table-title">
+            <h2 style={{ display: 'inline-block', marginRight: '1rem' }}>
+              Late Winter
+            </h2>
+            1/5/21 through 3/20/21
+          </div>
+          <Table
+            className="Catalog-program-table"
+            dataSource={this.getGroupSessionData('lateWinter')}
             columns={
               this.props.user
                 ? this.groupProgramsColsUser
