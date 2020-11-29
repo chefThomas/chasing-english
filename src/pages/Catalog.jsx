@@ -855,7 +855,7 @@ class Catalog extends Component {
             }
             pagination={{ pageSize: 4 }}
           /> */}
-          <div className="table-title">
+          {/* <div className="table-title">
             <h2 style={{ display: 'inline-block', marginRight: '1rem' }}>
               Early Winter
             </h2>
@@ -870,7 +870,7 @@ class Catalog extends Component {
                 : this.groupProgramsCols
             }
             pagination={{ pageSize: 4 }}
-          />
+          /> */}
           <div className="table-title">
             <h2 style={{ display: 'inline-block', marginRight: '1rem' }}>
               Late Winter
